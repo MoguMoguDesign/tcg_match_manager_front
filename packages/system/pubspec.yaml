@@ -1,0 +1,33 @@
+name: system
+description: system用 Dart パッケージ
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: ^3.9.0
+resolution: workspace
+
+dependencies:
+  connectivity_plus: ^6.1.4
+  dio: ^5.8.0+1
+  freezed_annotation: ^3.0.0
+  shared_preferences: ^2.5.3
+  util:
+    path: ../util
+
+dev_dependencies:
+  altive_lints: ^1.22.0
+  build_runner: ^2.4.15
+  collection: ^1.18.0
+  custom_lint: ^0.7.6
+  # Flutter SDK 依存パッケージを利用するために test ではなく flutter_test を利用する。
+  flutter_test:
+    sdk: flutter
+  freezed: ^3.0.4
+  mockito: ^5.4.6
+
+# flutter_test 実行時、他パッケージとの設定を合わせる必要があるために明記しておく。
+flutter:
+  uses-material-design: true
+
+

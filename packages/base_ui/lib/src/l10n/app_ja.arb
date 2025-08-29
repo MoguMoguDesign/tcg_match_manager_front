@@ -1,0 +1,23 @@
+{
+  "@@locale": "ja",
+  "appBarLogin": "ログイン",
+  "buttonLogin": "ログイン",
+  "labelCancel": "キャンセル",
+  "labelErrorCode": "エラーコード：",
+  "labelGuest": "ゲスト",
+  "labelHome": "ホーム",
+  "labelInfo": "インフォ",
+  "labelOkay": "OK",
+  "labelPassword": "パスワード",
+  "labelRefresh": "更新",
+  "labelSearch": "検索",
+  "labelServer": "サーバー",
+  "labelSettings": "設定",
+  "labelUserName": "ユーザー名",
+  "messageEmpty": "未入力です。",
+  "messageNoConnectionError": "ネットワーク接続を確認してください。",
+  "messageOtherError": "エラーが発生しました。運営へお問い合わせください。",
+  "messageServerUrlNotFoundError": "サーバー URL が正しいかご確認ください。",
+  "messageInvalidTextInput": "入力欄に誤りがあります。",
+  "titleLoginFailed": "ログインに失敗しました"
+}

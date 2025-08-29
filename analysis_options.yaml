@@ -1,0 +1,26 @@
+# https://github.com/altive/altive_lints/blob/main/packages/altive_lints/lib/altive_lints.yaml
+include: package:altive_lints/altive_lints.yaml
+analyzer:
+  errors:
+    # MEMO(masaki): Mockito にて不要な `ignore: must_be_immutable` 警告が生成されてしまうため無視する。
+    # https://github.com/dart-lang/mockito/issues/795
+    duplicate_ignore: ignore
+
+  plugins:
+    - custom_lint
+
+  # altive_lints のものを上書きするためにデフォルトの設定を明示しておく。
+formatter:
+  trailing_commas: automate
+
+linter:
+  # 調整したいルールには理由を明示した上で有効化/無効化する。
+  rules:
+    # static メンバーのみのクラスは概念をまとめる目的で利用し、`abstract final` 修飾子をつけることでインスタンス生成出来ないようにする。
+    avoid_classes_with_only_static_members: false
+    # Riverpod の Notifier 系クラスにおいて、Freezed を用いていない state 値の更新は setter を用いずにメソッドで行うこととする。
+    # それ以外の場面でのプロパティ更新には適宜 setter を利用する。
+    use_setters_to_change_properties: false
+    # 以下 issue にあるように Dart 3.7 以降では実質動いていないようだが、明示的に無効にしておく。
+    # https://github.com/dart-lang/sdk/issues/60119
+    require_trailing_commas: false

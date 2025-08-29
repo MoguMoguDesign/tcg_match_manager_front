@@ -1,0 +1,127 @@
+name: flutter_monorepo_sample
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+workspace:
+  - packages/app
+  - packages/base_ui
+  - packages/domain
+  - packages/injection  
+  - packages/repository
+  - packages/system
+  - packages/util
+
+dependencies:
+
+dev_dependencies:
+  altive_lints: ^1.22.0
+  # パッケージテンプレート作成用リポジトリ
+  bootstrap_package:
+    git:
+      url: https://github.com/masa-tokyo/flutter_toolkit.git
+      path: scripts/bootstrap_package
+      ref: bootstrap_package/v1.1.2
+  custom_lint: ^0.7.6
+  melos: ^7.0.0-dev.9
+
+dependency_overrides:
+
+flutter:
+  uses-material-design: true
+
+melos:
+  sdkPath: .fvm/flutter_sdk
+
+  # MEMO(masaki): コマンドは必要に応じて適宜調整
+  command:
+    clean:
+      hooks:
+        post: melos exec --flutter -- "flutter clean"
+    bootstrap:
+      environment:
+        sdk: ^3.9.0
+      dependencies:
+        clock: ^1.1.2
+        flutter_hooks: ^0.21.2
+        freezed_annotation: ^3.0.0
+        gap: ^3.0.1
+        hooks_riverpod: ^2.6.1
+        intl: any # flutter_localizations に固定されたバージョンを利用する
+        json_annotation: ^4.9.0
+        riverpod: ^2.6.1
+        riverpod_annotation: ^2.6.1
+      dev_dependencies:
+        altive_lints: ^1.22.0
+        build_runner: ^2.4.15
+        custom_lint: ^0.7.6
+        json_serializable: ^6.9.4
+        mockito: ^5.4.6
+        riverpod_generator: ^2.6.5
+        riverpod_lint: ^2.6.5
+        freezed: ^3.0.4
+
+  scripts:
+    test:
+      description: "パッケージ種類ごとのテストコマンドを全て実行する。"
+      run: |
+        melos run test:flutter
+        melos run test:flutter-with-coverage
+        melos run test:dart-with-coverage
+    test:flutter:
+      description: "Flutter SDK に依存するパッケージ（環境変数が設定されている場合はそのパッケージのみ）のテストを実行する。"
+      run: |
+        CMD="flutter test"
+        if test -n "${PACKAGE-}"; then
+          melos exec --scope="$PACKAGE" -- "$CMD"
+        else
+          melos exec --flutter -- "$CMD"
+        fi
+    # TODO(masaki): --ignore が不要になったタイミングで削除する。 
+    test:flutter-with-coverage:
+      description: "flutter_test に依存する Dart パッケージ（環境変数が設定されている場合はそのパッケージのみ）のテストを実行する。
+      自動生成ファイルを除外した上でカバレッジのレポートを HTML 形式で生成する。"
+      run: |
+        CMD="flutter test --no-test-assets --coverage && lcov --ignore-errors unused --remove coverage/lcov.info '*.g.dart' -o coverage/lcov_filtered.info && genhtml coverage/lcov_filtered.info -o coverage/html"
+        if test -n "${PACKAGE-}"; then
+          melos exec --scope="$PACKAGE" -- "$CMD"
+        else
+          melos exec --no-flutter --depends-on="flutter_test" -- "$CMD"
+        fi
+    test:dart-with-coverage:
+      description: "Dart パッケージ（環境変数が設定されている場合はそのパッケージのみ）のテストを実行する。自動生成ファイルを除外した上でカバレッジのレポートを HTML 形式で生成する。"
+      run: |
+        CMD="dart test --coverage=coverage/ && dart run coverage:format_coverage --report-on=lib --lcov --base-directory=. -i coverage/ -o coverage/lcov.info && lcov --ignore-errors unused --remove coverage/lcov.info '*.g.dart' -o coverage/lcov_filtered.info && genhtml coverage/lcov_filtered.info -o coverage/html"
+        if test -n "${PACKAGE-}"; then
+          melos exec --scope="$PACKAGE" -- "$CMD"
+        else
+          melos exec --depends-on="test" -- "$CMD"
+        fi
+    outdated: melos exec "dart pub outdated"
+    upgrade: melos exec "dart pub upgrade --major-versions"
+    analyze:
+      # 低スペックな GitHub Actions では並列度を上げるとクラッシュする懸念があるので 1 に固定している。
+      run: |
+        melos exec -c 1 -- \
+          dart analyze . --fatal-infos --no-use-aot-snapshot
+    custom_lint: dart run custom_lint
+    format: dart format .
+    fix: melos exec "dart fix --apply"
+    build_runner:build:
+      run: melos exec -- "dart run build_runner build -d"
+      packageFilters:
+        dependsOn: build_runner
+    build_runner:watch:
+      run: melos exec -- "dart run build_runner watch -d"
+      packageFilters:
+        dependsOn: build_runner
+    translate:
+      description: "grinder へ定義した arb_translate コマンドにより翻訳処理を行う。"
+      run: melos exec -- "grind translate"
+      packageFilters:
+        dependsOn:
+          - intl
+          - arb_translate
+          - grinder
