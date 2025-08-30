@@ -62,3 +62,6 @@ packages/*/coverage/
 
 # arb_translate の API キー。
 .arb_translate_api_key
+
+# ルートのドキュメントサブモジュールは追跡しない。
+/docs/
