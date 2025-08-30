@@ -224,3 +224,47 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
 
 `L10n.of(context).labelFoo` のようにすることで、各デバイスの言語設定に応じた文字列が取得出来ます。
 
+
+
+## ドキュメント（docs サブモジュール）
+
+本リポジトリのルート直下に、設計ドキュメント群を格納したサブモジュール `docs/` を追加しています。
+
+- リポジトリ: `https://github.com/MoguMoguDesign/tcg_match_manager_docs`
+- 配置先: ルート直下の `docs/`
+- 親リポジトリ側の設定: `.gitmodules` に `ignore = dirty` を設定済み、`.gitignore` に `/docs/` を追加済み。
+
+### 初回セットアップ（クローン直後）
+
+```shell
+git submodule update --init --recursive
+```
+
+### ドキュメント（サブモジュール）の更新取得
+
+```shell
+# サブモジュールの最新を取得
+git submodule update --remote --merge docs
+
+# 取得したコミットを親リポジトリに反映（必要な場合）
+git add docs
+git commit -m "chore: bump docs submodule"
+```
+
+### ドキュメントを編集・反映する場合
+
+```shell
+# サブモジュール側で編集・コミット・プッシュ
+cd docs
+git checkout -b feat/update-spec
+# （編集）
+git add . && git commit -m "docs: update specifications"
+git push origin feat/update-spec
+
+# レビュー・マージ後、親側でサブモジュール参照を更新
+cd ..
+git submodule update --remote --merge docs
+git add docs && git commit -m "chore: bump docs submodule"
+```
+
+補足: 親リポジトリでは `.gitmodules` の `ignore = dirty` により、`docs/` 内の未コミット変更はステータス上無視されます。サブモジュールの変更を親に反映したい場合は、`docs` 内でコミット・プッシュを行い、その後に親でサブモジュール参照を更新してください。
