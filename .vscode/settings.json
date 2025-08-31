@@ -1,12 +1,11 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/stable",
+  "dart.flutterSdkPath": ".fvm/versions/3.35.2",
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": true
   },
   "specstory.autoSave.enabled": true,
   "specstory.helpUsImprove": false,
-  // Flutter Coverage の設定。
   "flutter-coverage.sufficientCoverageThreshold": 100,
   "flutter-coverage.coverageFileNames": [
     "lcov_filtered.info"
