@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/Users/kimsukhong/Git/tcg_match_manager_front/**)",
+      "Read(/Users/kimsukhong/Git/tcg_match_manager_front/docs/**)",
+      "Read(/Users/kimsukhong/Git/tcg_match_manager_front/.cursor/rules/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

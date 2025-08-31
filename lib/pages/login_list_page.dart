@@ -1,0 +1,152 @@
+import 'package:flutter/material.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
+import '../widgets/common/app_button.dart';
+import '../widgets/common/app_text_field.dart';
+import '../widgets/common/tournament_info_card.dart';
+import '../models/mock_data.dart';
+
+class LoginListPage extends StatefulWidget {
+  const LoginListPage({super.key});
+
+  @override
+  State<LoginListPage> createState() => _LoginListPageState();
+}
+
+class _LoginListPageState extends State<LoginListPage> {
+  String? selectedPlayer;
+
+  void _showPlayerList() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.textBlack,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'ニックネームを選択',
+                style: AppTextStyles.labelMedium,
+              ),
+              const SizedBox(height: 16),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: MockData.players.length,
+                  itemBuilder: (context, index) {
+                    final player = MockData.players[index];
+                    return ListTile(
+                      title: Text(
+                        player.name,
+                        style: AppTextStyles.bodyMedium,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          selectedPlayer = player.name;
+                        });
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFB4EF03),
+              AppColors.textBlack,
+              AppColors.adminPrimary,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                const SizedBox(height: 135),
+                // ロゴ
+                Container(
+                  height: 28,
+                  width: 139,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'マチサポ',
+                    style: AppTextStyles.headlineLarge.copyWith(
+                      color: AppColors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 59),
+                // トーナメント情報カード
+                TournamentInfoCard(
+                  title: MockData.tournament.title,
+                  date: MockData.tournament.date,
+                  participantCount: MockData.tournament.participantCount,
+                ),
+                const SizedBox(height: 32),
+                // 選択フォーム
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '参加者リストからあなたの\nニックネームを選んでください',
+                      style: AppTextStyles.labelMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'ニックネーム',
+                      style: AppTextStyles.labelMedium,
+                    ),
+                    const SizedBox(height: 9),
+                    AppDropdownField(
+                      hintText: selectedPlayer ?? 'リストから選択',
+                      onTap: _showPlayerList,
+                    ),
+                    const SizedBox(height: 16),
+                    AppButton(
+                      text: 'トーナメントに復帰する',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/matching-table');
+                      },
+                      isEnabled: selectedPlayer != null,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+                // 登録に戻る
+                SmallButton(
+                  text: '参加登録に戻る',
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
