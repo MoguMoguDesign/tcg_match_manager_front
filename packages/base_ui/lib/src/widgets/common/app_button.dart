@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 
+/// アプリケーション全体で使用する標準ボタンウィジェット。
+///
+/// プライマリーとセカンダリーの2つのスタイルをサポートし、
+/// 無効状態やホバーエフェクトにも対応する。
 class AppButton extends StatelessWidget {
+  /// [AppButton]のコンストラクタ。
+  ///
+  /// [text]と[onPressed]は必須パラメータ。
+  /// [isPrimary]はデフォルトでtrue、[isEnabled]はデフォルトでtrue。
   const AppButton({
     super.key,
     required this.text,
@@ -11,9 +19,16 @@ class AppButton extends StatelessWidget {
     this.isEnabled = true,
   });
 
+  /// ボタンに表示されるテキスト。
   final String text;
+  
+  /// ボタンタップ時のコールバック関数。
   final VoidCallback onPressed;
+  
+  /// プライマリースタイルかどうか。
   final bool isPrimary;
+  
+  /// ボタンが有効かどうか。
   final bool isEnabled;
 
   @override
@@ -30,9 +45,8 @@ class AppButton extends StatelessWidget {
         boxShadow: isPrimary && isEnabled
             ? [
                 BoxShadow(
-                  color: const Color(0xFFD8FF62).withOpacity(0.5),
+                  color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
                   blurRadius: 20,
-                  offset: const Offset(0, 0),
                 ),
               ]
             : null,
@@ -56,7 +70,15 @@ class AppButton extends StatelessWidget {
   }
 }
 
+/// 小さなボタンウィジェット。
+///
+/// コンパクトなレイアウトのために最適化された小さなボタンで、
+/// 副アクションや補助的な操作に使用される。
 class SmallButton extends StatelessWidget {
+  /// [SmallButton]のコンストラクタ。
+  ///
+  /// [text]と[onPressed]は必須パラメータ。
+  /// [isEnabled]はデフォルトでtrue。
   const SmallButton({
     super.key,
     required this.text,
@@ -64,8 +86,13 @@ class SmallButton extends StatelessWidget {
     this.isEnabled = true,
   });
 
+  /// ボタンに表示されるテキスト。
   final String text;
+  
+  /// ボタンタップ時のコールバック関数。
   final VoidCallback onPressed;
+  
+  /// ボタンが有効かどうか。
   final bool isEnabled;
 
   @override

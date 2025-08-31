@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 import '../../models/mock_data.dart';
 
+/// マッチ情報を表示するカードウィジェット。
+///
+/// テーブル番号、プレイヤー情報、対戦状況を表示し、
+/// 結果入力のタップイベントをサポートする。
 class MatchCard extends StatelessWidget {
+  /// [MatchCard]のコンストラクタ。
+  ///
+  /// [match]は表示するマッチ情報で必須パラメータ。
+  /// [onResultTap]は結果入力時のコールバック。
   const MatchCard({
     super.key,
     required this.match,
     this.onResultTap,
   });
 
+  /// 表示するマッチの情報。
   final Match match;
+  
+  /// 結果入力ボタンタップ時のコールバック。
   final VoidCallback? onResultTap;
 
   @override
@@ -104,7 +116,15 @@ class MatchCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPlayerCard(Player player, bool isWinner, {required bool isLeft}) {
+  /// プレイヤー情報を表示するカードを構築する。
+  ///
+  /// [player]はプレイヤー情報、[isWinner]は勝者かどうか、
+  /// [isLeft]は左側配置かどうかを指定する。
+  Widget _buildPlayerCard(
+    Player player, 
+    bool isWinner, {
+    required bool isLeft,
+  }) {
     Color backgroundColor;
     String? resultText;
 
@@ -181,3 +201,5 @@ class MatchCard extends StatelessWidget {
     );
   }
 }
+
+
