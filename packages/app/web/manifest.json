@@ -1,6 +1,6 @@
 {
-    "name": "app",
-    "short_name": "app",
+    "name": "flutter_monorepo_sample",
+    "short_name": "flutter_monorepo_sample",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
