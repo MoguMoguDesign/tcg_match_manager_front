@@ -15,7 +15,7 @@ class AppTextStyles {
     fontFamily: fontFamily,
     fontWeight: FontWeight.bold,
     fontSize: 20,
-    height: 1.0,
+    height: 1,
     color: AppColors.primary,
     letterSpacing: -0.28,
   );
@@ -36,7 +36,7 @@ class AppTextStyles {
     fontFamily: fontFamily,
     fontWeight: FontWeight.bold,
     fontSize: 14,
-    height: 1.0,
+    height: 1,
     color: AppColors.white,
     letterSpacing: -0.28,
   );
@@ -47,7 +47,7 @@ class AppTextStyles {
     fontFamily: fontFamily,
     fontWeight: FontWeight.bold,
     fontSize: 10,
-    height: 1.0,
+    height: 1,
     color: AppColors.primary,
     letterSpacing: -0.28,
   );
@@ -58,7 +58,7 @@ class AppTextStyles {
     fontFamily: fontFamily,
     fontWeight: FontWeight.normal,
     fontSize: 16,
-    height: 1.0,
+    height: 1,
     color: AppColors.white,
     letterSpacing: -0.28,
   );
@@ -69,7 +69,7 @@ class AppTextStyles {
     fontFamily: fontFamily,
     fontWeight: FontWeight.normal,
     fontSize: 12,
-    height: 1.0,
+    height: 1,
     color: AppColors.white,
     letterSpacing: -0.28,
   );
