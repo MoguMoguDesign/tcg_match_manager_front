@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
+import 'package:flutter/material.dart';
 
+/// 参加者リストからログインする画面を表示する。
 class LoginListPage extends StatefulWidget {
-  /// [LoginListPage]のコンストラクタ。
+  /// [LoginListPage] のコンストラクタ。
   const LoginListPage({super.key});
 
   @override
@@ -56,10 +57,8 @@ class _LoginListPageState extends State<LoginListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.adminPrimary, // Scaffoldの背景色を設定
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
+      backgroundColor: AppColors.adminPrimary,
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -135,8 +134,11 @@ class _LoginListPageState extends State<LoginListPage> {
                         const SizedBox(height: 16),
                         AppButton(
                           text: 'トーナメントに復帰する',
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/matching-table');
+                          onPressed: () async {
+                            await Navigator.pushNamed(
+                              context,
+                              '/matching-table',
+                            );
                           },
                           isEnabled: selectedPlayer != null,
                         ),
@@ -146,7 +148,7 @@ class _LoginListPageState extends State<LoginListPage> {
                     // 登録に戻る
                     SmallButton(
                       text: '参加登録に戻る',
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.pop(context);
                       },
                     ),
