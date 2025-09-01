@@ -1,13 +1,9 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
-import '../widgets/common/app_button.dart';
-import '../widgets/common/ranking_card.dart';
-import '../widgets/common/tournament_info_card.dart';
-import '../models/mock_data.dart';
-import '../models/ranking.dart';
 
+/// 最終順位を表示するページ。
 class FinalRankingPage extends StatefulWidget {
+  /// [FinalRankingPage]のコンストラクタ。
   const FinalRankingPage({super.key});
 
   @override
@@ -17,13 +13,29 @@ class FinalRankingPage extends StatefulWidget {
 class _FinalRankingPageState extends State<FinalRankingPage> {
   @override
   Widget build(BuildContext context) {
-    final currentPlayer = MockRankingData.finalRanking
+    final currentPlayer = MockData.finalRanking
         .firstWhere((player) => player.isCurrentPlayer);
     
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
+      backgroundColor: AppColors.adminPrimary, // Scaffoldの背景色を設定
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 0.3, 1.0],
+            colors: [
+              AppColors.gradientGreen,
+              AppColors.textBlack,
+              AppColors.adminPrimary,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          bottom: false, // 下部のSafeAreaを無効にして背景を底まで表示
+          child: Column(
           children: [
             // ヘッダー
             Container(
@@ -36,15 +48,16 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
               child: Row(
                 children: [
                   // ロゴ
-                  Container(
-                    height: 14,
-                    width: 69,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'マチサポ',
-                      style: AppTextStyles.labelMedium.copyWith(
-                        color: AppColors.textBlack,
-                        fontSize: 12,
+                  SizedBox(
+                    height: 28.121,
+                    width: 139,
+                    child: Center(
+                      child: Text(
+                        'マチサポ',
+                        style: AppTextStyles.headlineLarge.copyWith(
+                          color: AppColors.white,
+                          fontSize: 20, // Figmaに準拠
+                        ),
                       ),
                     ),
                   ),
@@ -59,7 +72,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: AppColors.textBlack),
+                        border: Border.all(color: AppColors.white),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -67,12 +80,12 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                           const Icon(
                             Icons.keyboard_arrow_left,
                             size: 24,
-                            color: AppColors.textBlack,
+                            color: AppColors.white,
                           ),
                           Text(
                             '前のラウンドへ',
                             style: AppTextStyles.labelMedium.copyWith(
-                              color: AppColors.textBlack,
+                              color: AppColors.white,
                               fontSize: 14,
                             ),
                           ),
@@ -102,15 +115,14 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                       style: AppTextStyles.headlineLarge.copyWith(
                         color: AppColors.white,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
                     // 自分の順位セクション
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             '自分の順位',
                             style: AppTextStyles.labelMedium,
@@ -126,8 +138,8 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
                               '対戦結果',
                               style: AppTextStyles.labelMedium,
@@ -136,14 +148,16 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                           const SizedBox(height: 16),
                           Expanded(
                             child: ListView.separated(
-                              itemCount: MockRankingData.finalRanking.length,
-                              separatorBuilder: (context, index) => Container(
+                              itemCount: MockData.finalRanking.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
                                 height: 1,
-                                color: AppColors.whiteAlpha,
-                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                child: ColoredBox(
+                                  color: AppColors.whiteAlpha,
+                                ),
                               ),
                               itemBuilder: (context, index) {
-                                final player = MockRankingData.finalRanking[index];
+                                final player = MockData.finalRanking[index];
                                 return RankingCard(player: player);
                               },
                             ),
@@ -158,8 +172,9 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
           ],
         ),
       ),
+      ),
       // フローティングボタン
-      floatingActionButton: Container(
+      floatingActionButton: SizedBox(
         width: 342,
         child: AppButton(
           text: 'ラウンドごとの戦績を見る',

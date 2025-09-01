@@ -26,7 +26,7 @@ class AppTextStyles {
     fontFamily: fontFamily,
     fontWeight: FontWeight.bold,
     fontSize: 16,
-    height: 2.25, // 36px / 16px
+    height: 1.5, // 24px / 16px
     color: AppColors.textBlack,
   );
   

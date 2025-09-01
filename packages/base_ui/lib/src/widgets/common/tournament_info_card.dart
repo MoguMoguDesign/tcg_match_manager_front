@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 
+/// トーナメント情報を表示するカードウィジェット。
+///
+/// タイトル、開催日、参加者数を美しくレイアウトして表示し、
+/// グラデーション背景とグロー効果を持つ。
 class TournamentInfoCard extends StatelessWidget {
+  /// [TournamentInfoCard]のコンストラクタ。
+  ///
+  /// [title]、[date]、[participantCount]はすべて必須パラメータ。
   const TournamentInfoCard({
     super.key,
     required this.title,
@@ -10,8 +17,13 @@ class TournamentInfoCard extends StatelessWidget {
     required this.participantCount,
   });
 
+  /// トーナメントのタイトル。
   final String title;
+  
+  /// 開催日の文字列表現。
   final String date;
+  
+  /// 参加者数。
   final int participantCount;
 
   @override
@@ -25,19 +37,18 @@ class TournamentInfoCard extends StatelessWidget {
         border: Border.all(color: AppColors.whiteAlpha),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFD8FF62).withOpacity(0.5),
+            color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
             blurRadius: 20,
-            offset: const Offset(0, 0),
           ),
         ],
       ),
       child: Stack(
         children: [
           // 背景装飾
-          Positioned.fill(
-            child: Container(
+          const Positioned.fill(
+            child: DecoratedBox(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

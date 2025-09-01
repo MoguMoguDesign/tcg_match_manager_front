@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
-import '../widgets/common/app_button.dart';
 
+import 'package:base_ui/base_ui.dart';
+
+/// 勝敗登録画面。
+/// 
+/// プレイヤーが自分の勝利または引き分けを登録する画面。
+/// 結果を選択すると確認ダイアログが表示され、
+/// 確定後に前の画面に戻る。
 class ResultEntryPage extends StatefulWidget {
+  /// [ResultEntryPage]のコンストラクタ。
   const ResultEntryPage({super.key});
 
   @override
@@ -14,14 +19,13 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFB4EF03),
+              AppColors.gradientGreen,
               AppColors.textBlack,
               AppColors.adminPrimary,
             ],
@@ -57,7 +61,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      const Spacer(flex: 1),
+                      const Spacer(),
                       // タイトル
                       Text(
                         '勝敗登録',
@@ -65,7 +69,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                           color: AppColors.white,
                           fontSize: 20,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 48),
                       // 説明テキスト
@@ -76,18 +79,16 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                             style: AppTextStyles.labelMedium.copyWith(
                               fontSize: 14,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                           Text(
                             '※ 勝者が入力してください',
                             style: AppTextStyles.labelMedium.copyWith(
                               fontSize: 14,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
-                      const Spacer(flex: 2),
+                      const Spacer(),
                       // ボタン群
                       Column(
                         children: [
@@ -95,10 +96,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                             width: 342,
                             child: AppButton(
                               text: '勝利',
-                              onPressed: () {
-                                _showConfirmDialog('勝利');
-                              },
-                              isPrimary: true,
+                              onPressed: () => _showConfirmDialog('勝利'),
                             ),
                           ),
                           const SizedBox(height: 24),
@@ -106,15 +104,13 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                             width: 342,
                             child: AppButton(
                               text: '引き分け(両者敗北)',
-                              onPressed: () {
-                                _showConfirmDialog('引き分け');
-                              },
+                              onPressed: () => _showConfirmDialog('引き分け'),
                               isPrimary: false,
                             ),
                           ),
                         ],
                       ),
-                      const Spacer(flex: 1),
+                      const Spacer(),
                     ],
                   ),
                 ),
@@ -126,8 +122,8 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
     );
   }
 
-  void _showConfirmDialog(String result) {
-    showDialog(
+  Future<void> _showConfirmDialog(String result) async {
+    await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.textBlack,
@@ -139,12 +135,10 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
           style: AppTextStyles.headlineLarge.copyWith(
             color: AppColors.primary,
           ),
-          textAlign: TextAlign.center,
         ),
         content: Text(
           '$resultで登録しますか？',
           style: AppTextStyles.bodyMedium,
-          textAlign: TextAlign.center,
         ),
         actions: [
           Row(

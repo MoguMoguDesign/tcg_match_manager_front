@@ -1,9 +1,5 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
-import '../widgets/common/tournament_info_card.dart';
-import '../widgets/common/match_card.dart';
-import '../models/mock_data.dart';
 
 class MatchingTablePage extends StatefulWidget {
   const MatchingTablePage({super.key});
@@ -32,9 +28,16 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
   }
 
   void _nextRound() {
+    // 4ラウンド終了後は最終順位表に遷移
+    if (currentRound >= MockData.currentTournament.totalRounds) {
+      Navigator.pushReplacementNamed(context, '/final-ranking');
+      return;
+    }
+
     setState(() {
       currentRound++;
       matches = MockData.getRoundMatches(currentRound);
+      MockData.nextRound();
     });
   }
 
@@ -48,11 +51,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
             // ヘッダー
             Container(
               height: 89,
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 57,
-              ),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 57),
               child: Row(
                 children: [
                   // ロゴ
@@ -127,7 +126,10 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                             decoration: BoxDecoration(
                               color: AppColors.textBlack,
                               borderRadius: BorderRadius.circular(28),
-                              border: Border.all(color: AppColors.white, width: 2),
+                              border: Border.all(
+                                color: AppColors.white,
+                                width: 2,
+                              ),
                             ),
                             child: GestureDetector(
                               onTap: currentRound > 1 ? _previousRound : null,
@@ -160,7 +162,10 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                           decoration: BoxDecoration(
                             color: AppColors.textBlack,
                             borderRadius: BorderRadius.circular(28),
-                            border: Border.all(color: AppColors.white, width: 2),
+                            border: Border.all(
+                              color: AppColors.white,
+                              width: 2,
+                            ),
                           ),
                           child: GestureDetector(
                             onTap: _nextRound,
@@ -168,7 +173,10 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  '次のラウンド',
+                                  currentRound >=
+                                          MockData.currentTournament.totalRounds
+                                      ? '最終順位表'
+                                      : '次のラウンド',
                                   style: AppTextStyles.labelMedium.copyWith(
                                     fontSize: 14,
                                   ),
@@ -220,10 +228,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                               ),
                               child: Row(
                                 children: [
-                                  Text(
-                                    '対戦表',
-                                    style: AppTextStyles.labelMedium,
-                                  ),
+                                  Text('対戦表', style: AppTextStyles.labelMedium),
                                   const Spacer(),
                                   Text(
                                     '最大6ラウンド',
@@ -241,12 +246,13 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                         itemCount: matches.length,
                                         separatorBuilder: (context, index) =>
                                             Container(
-                                          height: 1,
-                                          color: AppColors.whiteAlpha,
-                                          margin: const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                          ),
-                                        ),
+                                              height: 1,
+                                              color: AppColors.whiteAlpha,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 8,
+                                                  ),
+                                            ),
                                         itemBuilder: (context, index) {
                                           return MatchCard(
                                             match: matches[index],

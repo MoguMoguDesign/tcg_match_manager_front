@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
-import '../../models/ranking.dart';
+import '../../models/mock_data.dart';
 
 class RankingCard extends StatelessWidget {
   const RankingCard({

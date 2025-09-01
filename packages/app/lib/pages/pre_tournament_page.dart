@@ -1,10 +1,12 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
-import '../widgets/common/tournament_info_card.dart';
-import '../models/mock_data.dart';
 
+/// 大会開始前の待機画面。
+/// 
+/// トーナメント開始を待つプレイヤーに表示される画面で、
+/// ローディングアニメーションと参加者数を表示する。
 class PreTournamentPage extends StatefulWidget {
+  /// [PreTournamentPage]のコンストラクタ。
   const PreTournamentPage({super.key});
 
   @override
@@ -55,7 +57,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFB4EF03),
+              AppColors.gradientGreen,
               AppColors.textBlack,
               AppColors.adminPrimary,
             ],
@@ -67,16 +69,17 @@ class _PreTournamentPageState extends State<PreTournamentPage>
             child: Column(
               children: [
                 const SizedBox(height: 135),
-                // ロゴ
-                Container(
-                  height: 28,
+                // ロゴコンテナ - Figma完全準拠
+                SizedBox(
+                  height: 28.121,
                   width: 139,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'マチサポ',
-                    style: AppTextStyles.headlineLarge.copyWith(
-                      color: AppColors.white,
-                      fontSize: 24,
+                  child: Center(
+                    child: Text(
+                      'マチサポ',
+                      style: AppTextStyles.headlineLarge.copyWith(
+                        color: AppColors.white,
+                        fontSize: 20, // Figmaに準拠
+                      ),
                     ),
                   ),
                 ),
@@ -117,7 +120,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.primary.withOpacity(0.3),
+                              color: AppColors.primary.withValues(alpha: 0.3),
                               width: 4,
                             ),
                           ),
@@ -152,7 +155,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.textBlack.withOpacity(0.5),
+                        color: AppColors.textBlack.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: AppColors.whiteAlpha,

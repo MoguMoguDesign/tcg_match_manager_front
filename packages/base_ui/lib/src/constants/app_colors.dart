@@ -43,4 +43,8 @@ class AppColors {
   /// 白色の透明度版（透明度50%）。
   /// 半透明の背景やオーバーレイとして使用される。
   static const Color whiteAlpha = Color(0x80FFFFFF);
+  
+  /// グラデーション用の明るい緑色。
+  /// 背景グラデーションの開始点として使用される。
+  static const Color gradientGreen = Color(0xFFB4EF03);
 }
