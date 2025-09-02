@@ -6,6 +6,9 @@ import '../widgets/common/app_text_field.dart';
 import '../widgets/common/tournament_info_card.dart';
 import '../models/mock_data.dart';
 
+/// ログインリストページを表示する。
+///
+/// 参加者のニックネームを選択し、トーナメントに復帰する導線を提供する。
 class LoginListPage extends StatefulWidget {
   const LoginListPage({super.key});
 
@@ -17,7 +20,7 @@ class _LoginListPageState extends State<LoginListPage> {
   String? selectedPlayer;
 
   void _showPlayerList() {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.textBlack,
       shape: const RoundedRectangleBorder(
@@ -30,10 +33,7 @@ class _LoginListPageState extends State<LoginListPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'ニックネームを選択',
-                style: AppTextStyles.labelMedium,
-              ),
+              Text('ニックネームを選択', style: AppTextStyles.labelMedium),
               const SizedBox(height: 16),
               Flexible(
                 child: ListView.builder(
@@ -42,10 +42,7 @@ class _LoginListPageState extends State<LoginListPage> {
                   itemBuilder: (context, index) {
                     final player = MockData.players[index];
                     return ListTile(
-                      title: Text(
-                        player.name,
-                        style: AppTextStyles.bodyMedium,
-                      ),
+                      title: Text(player.name, style: AppTextStyles.bodyMedium),
                       onTap: () {
                         setState(() {
                           selectedPlayer = player.name;
@@ -79,71 +76,84 @@ class _LoginListPageState extends State<LoginListPage> {
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                const SizedBox(height: 135),
-                // ロゴ
-                Container(
-                  height: 28,
-                  width: 139,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'マチサポ',
-                    style: AppTextStyles.headlineLarge.copyWith(
-                      color: AppColors.white,
-                      fontSize: 24,
-                    ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          const SizedBox(height: 135),
+                          // ロゴ
+                          Container(
+                            height: 28,
+                            width: 139,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'マチサポ',
+                              style: AppTextStyles.headlineLarge.copyWith(
+                                color: AppColors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 59),
+                          // トーナメント情報カード
+                          TournamentInfoCard(
+                            title: MockData.tournament.title,
+                            date: MockData.tournament.date,
+                            participantCount:
+                                MockData.tournament.participantCount,
+                          ),
+                          const SizedBox(height: 32),
+                          // 選択フォーム
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '参加者リストからあなたの\nニックネームを選んでください',
+                                style: AppTextStyles.labelMedium,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 16),
+                              Text('ニックネーム', style: AppTextStyles.labelMedium),
+                              const SizedBox(height: 9),
+                              AppDropdownField(
+                                hintText: selectedPlayer ?? 'リストから選択',
+                                onTap: _showPlayerList,
+                              ),
+                              const SizedBox(height: 16),
+                              AppButton(
+                                text: 'トーナメントに復帰する',
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/matching-table',
+                                  );
+                                },
+                                isEnabled: selectedPlayer != null,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 40),
+                        ],
+                      ),
+                      // 登録に戻る（画面下に配置）
+                      SmallButton(
+                        text: '参加登録に戻る',
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 59),
-                // トーナメント情報カード
-                TournamentInfoCard(
-                  title: MockData.tournament.title,
-                  date: MockData.tournament.date,
-                  participantCount: MockData.tournament.participantCount,
-                ),
-                const SizedBox(height: 32),
-                // 選択フォーム
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '参加者リストからあなたの\nニックネームを選んでください',
-                      style: AppTextStyles.labelMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'ニックネーム',
-                      style: AppTextStyles.labelMedium,
-                    ),
-                    const SizedBox(height: 9),
-                    AppDropdownField(
-                      hintText: selectedPlayer ?? 'リストから選択',
-                      onTap: _showPlayerList,
-                    ),
-                    const SizedBox(height: 16),
-                    AppButton(
-                      text: 'トーナメントに復帰する',
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/matching-table');
-                      },
-                      isEnabled: selectedPlayer != null,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 40),
-                // 登録に戻る
-                SmallButton(
-                  text: '参加登録に戻る',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
