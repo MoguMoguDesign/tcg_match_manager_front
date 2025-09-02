@@ -1,12 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
+import '../models/mock_data.dart';
 import '../widgets/common/app_button.dart';
 import '../widgets/common/app_text_field.dart';
 import '../widgets/common/tournament_info_card.dart';
-import '../models/mock_data.dart';
 
+/// 参加者登録ページを表示する。
+///
+/// ニックネームの入力とトーナメントへの参加登録を行う。
 class RegistrationPage extends StatefulWidget {
+  /// [RegistrationPage] のコンストラクタ。
   const RegistrationPage({super.key});
 
   @override
@@ -25,7 +32,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -68,13 +75,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '大会で表示するニックネームを入力してください',
                       style: AppTextStyles.labelMedium,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
-                    Text(
+                    const Text(
                       'ニックネーム',
                       style: AppTextStyles.labelMedium,
                     ),
@@ -90,7 +97,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       text: '参加に進む',
                       onPressed: () {
                         // 画面遷移処理
-                        Navigator.pushNamed(context, '/pre-tournament');
+                        unawaited(Navigator.pushNamed(context, '/pre-tournament'));
                       },
                       isEnabled: _nicknameController.text.isNotEmpty,
                     ),
@@ -111,7 +118,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     SmallButton(
                       text: 'トーナメントに復帰する',
                       onPressed: () {
-                        Navigator.pushNamed(context, '/login-list');
+                        unawaited(Navigator.pushNamed(context, '/login-list'));
                       },
                     ),
                   ],

@@ -3,12 +3,19 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 import '../../models/mock_data.dart';
 
+/// ランキング表示用のカードウィジェット。
+///
+/// プレイヤーの順位、名前、得点、OMW パーセンテージを表示する。
 class RankingCard extends StatelessWidget {
+  /// [RankingCard] のコンストラクタ。
+  ///
+  /// [player] は表示するランキングプレイヤー情報。
   const RankingCard({
     super.key,
     required this.player,
   });
 
+  /// 表示するランキングプレイヤー情報。
   final RankingPlayer player;
 
   @override

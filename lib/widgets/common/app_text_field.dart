@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 
+/// アプリケーション共通のテキストフィールドウィジェット。
+///
+/// カスタマイズされたスタイルを持つテキスト入力フィールドを提供する。
 class AppTextField extends StatelessWidget {
+  /// [AppTextField] のコンストラクタ。
+  ///
+  /// [hintText] は必須パラメータ。
+  /// その他のパラメータはオプション。
   const AppTextField({
     super.key,
     required this.hintText,
@@ -12,10 +19,19 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
   });
 
+  /// プレースホルダーテキスト。
   final String hintText;
+  
+  /// テキスト変更時のコールバック。
   final ValueChanged<String>? onChanged;
+  
+  /// タップ時のコールバック。
   final VoidCallback? onTap;
+  
+  /// 読み取り専用かどうか。
   final bool readOnly;
+  
+  /// サフィックスアイコン。
   final Widget? suffixIcon;
 
   @override
@@ -47,14 +63,23 @@ class AppTextField extends StatelessWidget {
   }
 }
 
+/// ドロップダウン選択用のフィールドウィジェット。
+///
+/// タップするとモーダルやメニューを表示する選択フィールドを提供する。
 class AppDropdownField extends StatelessWidget {
+  /// [AppDropdownField] のコンストラクタ。
+  ///
+  /// [hintText] と [onTap] は必須パラメータ。
   const AppDropdownField({
     super.key,
     required this.hintText,
     required this.onTap,
   });
 
+  /// プレースホルダーテキスト。
   final String hintText;
+  
+  /// タップ時のコールバック。
   final VoidCallback onTap;
 
   @override

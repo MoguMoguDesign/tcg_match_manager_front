@@ -3,7 +3,9 @@ import 'app_colors.dart';
 
 /// 背景グラデーションテーマを提供する。
 ///
-/// 画面背景に使用するグラデーションを Theme 拡張として管理する。局所的な Theme で上書きすることで、特定画面のみ配色を変更する運用に適している。
+/// 画面背景に使用するグラデーションを Theme 拡張として管理する。
+///
+/// 局所的な Theme で上書きすることで、特定画面のみ配色を変更する運用に適している。
 @immutable
 class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
   /// 指定の [scaffoldGradient] を持つテーマを作成する。
@@ -24,10 +26,12 @@ class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
     covariant ThemeExtension<BackgroundGradientTheme>? other,
     double t,
   ) {
-    if (other is! BackgroundGradientTheme) return this;
+    if (other is! BackgroundGradientTheme) {
+      return this;
+    }
     // begin/end は固定し、色のみ線形補間する。
-    final List<Color> a = scaffoldGradient.colors;
-    final List<Color> b = other.scaffoldGradient.colors;
+    final a = scaffoldGradient.colors;
+    final b = other.scaffoldGradient.colors;
     return BackgroundGradientTheme(
       scaffoldGradient: LinearGradient(
         begin: scaffoldGradient.begin,
@@ -36,7 +40,7 @@ class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
           3,
           (int i) => Color.lerp(a[i % a.length], b[i % b.length], t)!,
         ),
-        stops: const <double>[0.0, 0.5, 1.0],
+        stops: const <double>[0, 0.5, 1],
       ),
     );
   }
@@ -53,6 +57,6 @@ const BackgroundGradientTheme kDefaultBackgroundGradient =
           AppColors.textBlack,
           AppColors.adminPrimary,
         ],
-        stops: <double>[0.0, 0.5, 1.0],
+        stops: <double>[0, 0.5, 1],
       ),
     );

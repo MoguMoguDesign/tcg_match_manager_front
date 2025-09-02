@@ -234,15 +234,11 @@ class MockData {
       title: '第1回TCGトーナメント',
       date: '2024-01-15',
       participantCount: 16,
-      currentRound: 1,
-      totalRounds: 4,
     ),
     Tournament(
       title: '第2回TCGトーナメント', 
       date: '2024-02-20',
       participantCount: 16,
-      currentRound: 3,
-      totalRounds: 4,
     ),
   ];
   
@@ -252,7 +248,6 @@ class MockData {
     date: '2025/08/31',
     participantCount: 16,
     currentRound: 5, // 4ラウンド終了後（5ラウンド目 = 最終順位表表示）
-    totalRounds: 4,
   );
   
   /// 現在のトーナメント状況を管理する変数。
@@ -299,17 +294,17 @@ class MockData {
 
   /// 最終順位用にソートされたランキングプレイヤーリストを取得する。
   static List<RankingPlayer> get finalRanking {
-    final sortedPlayers = List<Player>.from(players);
-    // スコア降順でソート（同点の場合は名前順）
-    sortedPlayers.sort((Player a, Player b) {
+    final sortedPlayers = List<Player>.from(players)
+      // スコア降順でソート（同点の場合は名前順）
+      ..sort((a, b) {
       final scoreCompare = b.score.compareTo(a.score);
-      return scoreCompare != 0 ? scoreCompare : a.name.compareTo(b.name);
-    });
+        return scoreCompare != 0 ? scoreCompare : a.name.compareTo(b.name);
+      });
     
     // ランクを付けてRankingPlayerに変換
     return sortedPlayers.asMap().entries.map((entry) {
       final index = entry.key;
-      final Player player = entry.value;
+      final player = entry.value;
       return RankingPlayer(
         rank: index + 1,
         name: player.name,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -32,14 +34,14 @@ class _PreTournamentPageState extends State<PreTournamentPage>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    _animationController.repeat(reverse: true);
+    unawaited(_animationController.repeat(reverse: true));
     
     // 5秒後に自動でマッチング表画面に遷移（モック用）
-    Future.delayed(const Duration(seconds: 5), () {
+    unawaited(Future.delayed(const Duration(seconds: 5), () async {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/matching-table');
+        await Navigator.pushReplacementNamed(context, '/matching-table');
       }
-    });
+    }));
   }
 
   @override
@@ -51,7 +53,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -130,12 +132,13 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                                 child: CircularProgressIndicator(
                                   value: _animation.value,
                                   strokeWidth: 4,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
                                     AppColors.primary,
                                   ),
                                 ),
                               ),
-                              Center(
+                              const Center(
                                 child: Icon(
                                   Icons.schedule,
                                   color: AppColors.primary,
@@ -164,7 +167,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.people,
                             color: AppColors.primary,
                             size: 16,

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
+import '../models/mock_data.dart';
+import '../models/ranking.dart';
 import '../widgets/common/app_button.dart';
 import '../widgets/common/ranking_card.dart';
 import '../widgets/common/tournament_info_card.dart';
-import '../models/mock_data.dart';
-import '../models/ranking.dart';
 
+/// 最終ランキングページを表示する。
+///
+/// トーナメント終了後の最終順位と各プレイヤーの戦績を表示する。
 class FinalRankingPage extends StatefulWidget {
+  /// [FinalRankingPage] のコンストラクタ。
   const FinalRankingPage({super.key});
 
   @override
@@ -109,8 +114,8 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             '自分の順位',
                             style: AppTextStyles.labelMedium,
@@ -126,8 +131,8 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
                               '対戦結果',
                               style: AppTextStyles.labelMedium,
@@ -137,13 +142,11 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                           Expanded(
                             child: ListView.separated(
                               itemCount: MockRankingData.finalRanking.length,
-                              separatorBuilder: (context, index) => Container(
-                                height: 1,
-                                color: AppColors.whiteAlpha,
-                                margin: const EdgeInsets.symmetric(vertical: 8),
-                              ),
+                              separatorBuilder: (context, index) => 
+                                  const SizedBox(height: 16),
                               itemBuilder: (context, index) {
-                                final player = MockRankingData.finalRanking[index];
+                                final player = 
+                                    MockRankingData.finalRanking[index];
                                 return RankingCard(player: player);
                               },
                             ),
@@ -159,7 +162,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
         ),
       ),
       // フローティングボタン
-      floatingActionButton: Container(
+      floatingActionButton: SizedBox(
         width: 342,
         child: AppButton(
           text: 'ラウンドごとの戦績を見る',

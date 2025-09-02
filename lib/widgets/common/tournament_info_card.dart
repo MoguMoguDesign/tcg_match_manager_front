@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 
+/// トーナメント情報を表示するカードウィジェット。
+///
+/// トーナメントのタイトル、開催日、参加者数を表示する。
 class TournamentInfoCard extends StatelessWidget {
+  /// [TournamentInfoCard] のコンストラクタ。
+  ///
+  /// [title]、[date]、[participantCount] はすべて必須パラメータ。
   const TournamentInfoCard({
     super.key,
     required this.title,
@@ -10,47 +16,53 @@ class TournamentInfoCard extends StatelessWidget {
     required this.participantCount,
   });
 
+  /// トーナメントのタイトル。
   final String title;
+  
+  /// トーナメントの開催日。
   final String date;
+  
+  /// トーナメントの参加者数。
   final int participantCount;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+    return DecoratedBox(
+      decoration: const BoxDecoration(
         color: AppColors.textBlack,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.whiteAlpha),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        border: Border.fromBorderSide(BorderSide(color: AppColors.whiteAlpha)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFD8FF62).withOpacity(0.5),
+            color: Color(0x80D8FF62),
             blurRadius: 20,
-            offset: const Offset(0, 0),
           ),
         ],
       ),
-      child: Stack(
-        children: [
-          // 背景装飾
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.primaryAlpha,
-                    Colors.transparent,
-                  ],
+      child: SizedBox(
+        height: 100,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Stack(
+            children: [
+              // 背景装飾
+              const Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        AppColors.primaryAlpha,
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          // コンテンツ
-          Column(
+              // コンテンツ
+              Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -59,9 +71,9 @@ class TournamentInfoCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              Container(
-                height: 1,
-                color: AppColors.primary,
+              const DecoratedBox(
+                decoration: BoxDecoration(color: AppColors.primary),
+                child: SizedBox(height: 1, width: double.infinity),
               ),
               const SizedBox(height: 8),
               Row(
@@ -83,8 +95,8 @@ class TournamentInfoCard extends StatelessWidget {
                   Container(
                     width: 1,
                     height: 16,
-                    color: AppColors.primary,
                     margin: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: const BoxDecoration(color: AppColors.primary),
                   ),
                   const Icon(
                     Icons.person,
@@ -103,7 +115,9 @@ class TournamentInfoCard extends StatelessWidget {
               ),
             ],
           ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

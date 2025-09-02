@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 
+/// マッチング表ページを表示するウィジェット。
 class MatchingTablePage extends StatefulWidget {
+  /// [MatchingTablePage] のコンストラクタ。
   const MatchingTablePage({super.key});
 
   @override
@@ -27,10 +31,10 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
     }
   }
 
-  void _nextRound() {
+  Future<void> _nextRound() async {
     // 4ラウンド終了後は最終順位表に遷移
     if (currentRound >= MockData.currentTournament.totalRounds) {
-      Navigator.pushReplacementNamed(context, '/final-ranking');
+      await Navigator.pushReplacementNamed(context, '/final-ranking');
       return;
     }
 
@@ -195,7 +199,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                     const SizedBox(height: 16),
                     // ラウンド情報
                     Expanded(
-                      child: Container(
+                      child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: AppColors.textBlack,
                           borderRadius: BorderRadius.circular(16),
@@ -206,9 +210,9 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: AppColors.primaryAlpha,
-                                borderRadius: const BorderRadius.only(
+                                borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(8),
                                   topRight: Radius.circular(8),
                                 ),
@@ -221,15 +225,18 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                               ),
                             ),
                             // ラウンド詳細
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 8,
                               ),
                               child: Row(
                                 children: [
-                                  Text('対戦表', style: AppTextStyles.labelMedium),
-                                  const Spacer(),
+                                  Text(
+                                    '対戦表',
+                                    style: AppTextStyles.labelMedium,
+                                  ),
+                                  Spacer(),
                                   Text(
                                     '最大6ラウンド',
                                     style: AppTextStyles.bodySmall,
@@ -250,22 +257,22 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                               color: AppColors.whiteAlpha,
                                               margin:
                                                   const EdgeInsets.symmetric(
-                                                    vertical: 8,
+                                                      vertical: 8,
                                                   ),
                                             ),
                                         itemBuilder: (context, index) {
                                           return MatchCard(
                                             match: matches[index],
                                             onResultTap: () {
-                                              Navigator.pushNamed(
+                                              unawaited(Navigator.pushNamed(
                                                 context,
                                                 '/result-entry',
-                                              );
+                                              ));
                                             },
                                           );
                                         },
                                       )
-                                    : Center(
+                                    : const Center(
                                         child: Text(
                                           'このラウンドの対戦はありません',
                                           style: AppTextStyles.bodyMedium,
@@ -286,7 +293,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/result-entry');
+          unawaited(Navigator.pushNamed(context, '/result-entry'));
         },
         backgroundColor: AppColors.primary,
         shape: const CircleBorder(),
@@ -298,7 +305,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
               style: AppTextStyles.labelLarge.copyWith(
                 color: AppColors.textBlack,
                 fontSize: 16,
-                height: 1.0,
+                height: 1,
               ),
             ),
             Text(
@@ -306,7 +313,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
               style: AppTextStyles.labelLarge.copyWith(
                 color: AppColors.textBlack,
                 fontSize: 16,
-                height: 1.0,
+                height: 1,
               ),
             ),
           ],

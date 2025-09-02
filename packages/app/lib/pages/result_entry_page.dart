@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:base_ui/base_ui.dart';
+import 'package:flutter/material.dart';
 
 /// 勝敗登録画面。
 /// 

@@ -1,15 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
+import '../models/mock_data.dart';
 import '../widgets/common/app_button.dart';
 import '../widgets/common/app_text_field.dart';
 import '../widgets/common/tournament_info_card.dart';
-import '../models/mock_data.dart';
 
 /// ログインリストページを表示する。
 ///
 /// 参加者のニックネームを選択し、トーナメントに復帰する導線を提供する。
 class LoginListPage extends StatefulWidget {
+  /// [LoginListPage] のコンストラクタ。
   const LoginListPage({super.key});
 
   @override
@@ -20,7 +24,7 @@ class _LoginListPageState extends State<LoginListPage> {
   String? selectedPlayer;
 
   void _showPlayerList() {
-    showModalBottomSheet<void>(
+    unawaited(showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.textBlack,
       shape: const RoundedRectangleBorder(
@@ -33,7 +37,7 @@ class _LoginListPageState extends State<LoginListPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('ニックネームを選択', style: AppTextStyles.labelMedium),
+              const Text('ニックネームを選択', style: AppTextStyles.labelMedium),
               const SizedBox(height: 16),
               Flexible(
                 child: ListView.builder(
@@ -57,13 +61,13 @@ class _LoginListPageState extends State<LoginListPage> {
           ),
         );
       },
-    );
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -114,13 +118,16 @@ class _LoginListPageState extends State<LoginListPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 '参加者リストからあなたの\nニックネームを選んでください',
                                 style: AppTextStyles.labelMedium,
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 16),
-                              Text('ニックネーム', style: AppTextStyles.labelMedium),
+                              const Text(
+                                'ニックネーム',
+                                style: AppTextStyles.labelMedium,
+                              ),
                               const SizedBox(height: 9),
                               AppDropdownField(
                                 hintText: selectedPlayer ?? 'リストから選択',
@@ -130,10 +137,10 @@ class _LoginListPageState extends State<LoginListPage> {
                               AppButton(
                                 text: 'トーナメントに復帰する',
                                 onPressed: () {
-                                  Navigator.pushNamed(
+                                  unawaited(Navigator.pushNamed(
                                     context,
                                     '/matching-table',
-                                  );
+                                  ));
                                 },
                                 isEnabled: selectedPlayer != null,
                               ),

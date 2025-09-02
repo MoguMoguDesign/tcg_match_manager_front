@@ -1,10 +1,12 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
-import '../widgets/common/tournament_info_card.dart';
-import '../widgets/common/match_card.dart';
 import '../models/mock_data.dart';
+import '../widgets/common/match_card.dart';
+import '../widgets/common/tournament_info_card.dart';
 
 // 背景グラデーション仕様（result_entry_page と同一）。
 const double _backgroundGradientAngleDeg = 0; // 回転なし。
@@ -15,11 +17,13 @@ const List<Color> _backgroundGradientColors = <Color>[
   AppColors.adminPrimary,
 ];
 
+/// 背景グラデーションを構築する。
 LinearGradient _buildBackgroundGradient() {
-  return LinearGradient(
+  return const LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    transform: GradientRotation(_backgroundGradientAngleDeg * math.pi / 180),
+    transform: GradientRotation(
+        _backgroundGradientAngleDeg * math.pi / 180),
     colors: _backgroundGradientColors,
     stops: _backgroundGradientStops,
   );
@@ -29,6 +33,7 @@ LinearGradient _buildBackgroundGradient() {
 ///
 /// 現在のラウンドの対戦表やラウンド移動の操作を提供する。
 class MatchingTablePage extends StatefulWidget {
+  /// [MatchingTablePage] のコンストラクタ。
   const MatchingTablePage({super.key});
 
   @override
@@ -54,7 +59,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
     }
   }
 
-  void _nextRound() {
+  Future<void> _nextRound() async {
     setState(() {
       currentRound++;
       matches = MockData.getRoundMatches(currentRound);
@@ -187,7 +192,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                       const SizedBox(height: 16),
                       // ラウンド情報
                       Expanded(
-                        child: Container(
+                        child: DecoratedBox(
                           decoration: BoxDecoration(
                             color: AppColors.textBlack,
                             borderRadius: BorderRadius.circular(16),
@@ -200,9 +205,9 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8,
                                 ),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: AppColors.primaryAlpha,
-                                  borderRadius: const BorderRadius.only(
+                                  borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(8),
                                     topRight: Radius.circular(8),
                                   ),
@@ -215,8 +220,8 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                 ),
                               ),
                               // ラウンド詳細
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 8,
                                 ),
@@ -226,7 +231,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                       '対戦表',
                                       style: AppTextStyles.labelMedium,
                                     ),
-                                    const Spacer(),
+                                    Spacer(),
                                     Text(
                                       '最大6ラウンド',
                                       style: AppTextStyles.bodySmall,
@@ -253,8 +258,8 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                           itemBuilder: (context, index) {
                                             return MatchCard(
                                               match: matches[index],
-                                              onResultTap: () {
-                                                Navigator.pushNamed(
+                                              onResultTap: () async {
+                                                await Navigator.pushNamed(
                                                   context,
                                                   '/result-entry',
                                                 );
@@ -262,7 +267,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                             );
                                           },
                                         )
-                                      : Center(
+                                      : const Center(
                                           child: Text(
                                             'このラウンドの対戦はありません',
                                             style: AppTextStyles.bodyMedium,

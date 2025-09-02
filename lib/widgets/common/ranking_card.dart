@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 import '../../models/ranking.dart';
 
+/// ランキング表示用のカードウィジェット。
+///
+/// プレイヤーの順位、名前、得点、OMW パーセンテージを表示する。
 class RankingCard extends StatelessWidget {
-  const RankingCard({
-    super.key,
-    required this.player,
-  });
+  /// [RankingCard] のコンストラクタ。
+  ///
+  /// [player] は表示するランキングプレイヤー情報。
+  const RankingCard({super.key, required this.player});
 
+  /// 表示するランキングプレイヤー情報。
   final RankingPlayer player;
 
   @override
@@ -21,33 +26,24 @@ class RankingCard extends StatelessWidget {
           Container(
             width: 40,
             alignment: Alignment.centerLeft,
-            child: Text(
-              '${player.rank}位',
-              style: AppTextStyles.labelMedium,
-            ),
+            child: Text('${player.rank}位', style: AppTextStyles.labelMedium),
           ),
           // グラデーション装飾
-          Container(
-            width: 20,
-            height: 57,
-            decoration: const BoxDecoration(
+          const DecoratedBox(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.primary,
-                  AppColors.adminPrimary,
-                ],
+                colors: [AppColors.primary, AppColors.adminPrimary],
               ),
             ),
+            child: SizedBox(width: 20, height: 57),
           ),
           // プレイヤー情報
           Expanded(
-            child: Container(
-              height: 57,
-              padding: const EdgeInsets.all(8),
+            child: DecoratedBox(
               decoration: BoxDecoration(
-                color: player.isCurrentPlayer 
+                color: player.isCurrentPlayer
                     ? AppColors.adminPrimary
                     : AppColors.textBlack,
                 borderRadius: const BorderRadius.only(
@@ -55,39 +51,47 @@ class RankingCard extends StatelessWidget {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    player.name,
-                    style: AppTextStyles.labelMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
+              child: SizedBox(
+                height: 57,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '累計得点 ${player.score}点',
-                        style: AppTextStyles.bodySmall,
+                        player.name,
+                        style: AppTextStyles.labelMedium,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Container(
-                        width: 1,
-                        height: 16,
-                        color: AppColors.white,
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                      Text(
-                        'OMW% ${player.omwPercentage.toInt()}%',
-                        style: AppTextStyles.bodySmall,
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Text(
+                            '累計得点 ${player.score}点',
+                            style: AppTextStyles.bodySmall,
+                          ),
+                          Container(
+                            width: 1,
+                            height: 16,
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: const BoxDecoration(
+                              color: AppColors.white,
+                            ),
+                          ),
+                          Text(
+                            'OMW% ${player.omwPercentage.toInt()}%',
+                            style: AppTextStyles.bodySmall,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ), // Expanded 終了
+        ], // Row の children 終了
+      ), // Row 終了
     );
   }
 }

@@ -13,8 +13,8 @@ class LoginListPage extends StatefulWidget {
 class _LoginListPageState extends State<LoginListPage> {
   String? selectedPlayer;
 
-  void _showPlayerList() {
-    showModalBottomSheet<void>(
+  Future<void> _showPlayerList() async {
+    await showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.textBlack,
       shape: const RoundedRectangleBorder(
@@ -27,7 +27,7 @@ class _LoginListPageState extends State<LoginListPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('ニックネームを選択', style: AppTextStyles.labelMedium),
+              const Text('ニックネームを選択', style: AppTextStyles.labelMedium),
               const SizedBox(height: 16),
               Flexible(
                 child: ListView.builder(

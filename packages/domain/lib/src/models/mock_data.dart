@@ -2,15 +2,6 @@
 /// 
 /// トーナメントのタイトル、開催日、参加者数の情報を保持する。
 class Tournament {
-  /// トーナメントのタイトル。
-  final String title;
-  
-  /// トーナメントの開催日（YYYY/MM/DD形式）。
-  final String date;
-  
-  /// トーナメントの参加者数。
-  final int participantCount;
-  
   /// [Tournament]のコンストラクタ。
   /// 
   /// [title]、[date]、[participantCount]はすべて必須パラメータ。
@@ -19,21 +10,21 @@ class Tournament {
     required this.date,
     required this.participantCount,
   });
+
+  /// トーナメントのタイトル。
+  final String title;
+  
+  /// トーナメントの開催日（YYYY/MM/DD形式）。
+  final String date;
+  
+  /// トーナメントの参加者数。
+  final int participantCount;
 }
 
 /// プレイヤー情報を表すデータクラス。
 /// 
 /// プレイヤーの名前、現在のスコア、現在のユーザーかどうかの情報を保持する。
 class Player {
-  /// プレイヤーの名前。
-  final String name;
-  
-  /// プレイヤーの現在のスコア。
-  final int score;
-  
-  /// このプレイヤーが現在のユーザーかどうか。
-  final bool isCurrentPlayer;
-  
   /// [Player]のコンストラクタ。
   /// 
   /// [name]と[score]は必須パラメータ。
@@ -43,12 +34,33 @@ class Player {
     required this.score,
     this.isCurrentPlayer = false,
   });
+
+  /// プレイヤーの名前。
+  final String name;
+  
+  /// プレイヤーの現在のスコア。
+  final int score;
+  
+  /// このプレイヤーが現在のユーザーかどうか。
+  final bool isCurrentPlayer;
 }
 
 /// 対戦情報を表すデータクラス。
 /// 
 /// テーブル番号、対戦する2人のプレイヤー、試合状況、勝者の情報を保持する。
 class Match {
+  /// [Match]のコンストラクタ。
+  /// 
+  /// [tableNumber]、[player1]、[player2]、[status]は必須パラメータ。
+  /// [winner]はオプションで、試合完了時にのみ設定される。
+  const Match({
+    required this.tableNumber,
+    required this.player1,
+    required this.player2,
+    required this.status,
+    this.winner,
+  });
+
   /// 対戦が行われるテーブル番号。
   final int tableNumber;
   
@@ -63,18 +75,6 @@ class Match {
   
   /// 対戦の勝者（試合が完了している場合のみ）。
   final Player? winner;
-  
-  /// [Match]のコンストラクタ。
-  /// 
-  /// [tableNumber]、[player1]、[player2]、[status]は必須パラメータ。
-  /// [winner]はオプションで、試合完了時にのみ設定される。
-  const Match({
-    required this.tableNumber,
-    required this.player1,
-    required this.player2,
-    required this.status,
-    this.winner,
-  });
 }
 
 /// 対戦の状況を表す列挙型。

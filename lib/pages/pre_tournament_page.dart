@@ -1,10 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
-import '../widgets/common/tournament_info_card.dart';
 import '../models/mock_data.dart';
+import '../widgets/common/tournament_info_card.dart';
 
+/// トーナメント開始前の待機ページを表示する。
+///
+/// トーナメント開始のカウントダウンと参加者情報を表示する。
 class PreTournamentPage extends StatefulWidget {
+  /// [PreTournamentPage] のコンストラクタ。
   const PreTournamentPage({super.key});
 
   @override
@@ -30,14 +37,14 @@ class _PreTournamentPageState extends State<PreTournamentPage>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    _animationController.repeat(reverse: true);
+    unawaited(_animationController.repeat(reverse: true));
     
     // 5秒後に自動でマッチング表画面に遷移（モック用）
-    Future.delayed(const Duration(seconds: 5), () {
+    unawaited(Future.delayed(const Duration(seconds: 5), () async {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/matching-table');
+        await Navigator.pushReplacementNamed(context, '/matching-table');
       }
-    });
+    }));
   }
 
   @override
@@ -49,7 +56,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -117,7 +124,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.primary.withOpacity(0.3),
+                              color: AppColors.primary.withValues(alpha: 0.3),
                               width: 4,
                             ),
                           ),
@@ -127,12 +134,13 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                                 child: CircularProgressIndicator(
                                   value: _animation.value,
                                   strokeWidth: 4,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
                                     AppColors.primary,
                                   ),
                                 ),
                               ),
-                              Center(
+                              const Center(
                                 child: Icon(
                                   Icons.schedule,
                                   color: AppColors.primary,
@@ -152,7 +160,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.textBlack.withOpacity(0.5),
+                        color: AppColors.textBlack.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: AppColors.whiteAlpha,
@@ -161,7 +169,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.people,
                             color: AppColors.primary,
                             size: 16,

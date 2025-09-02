@@ -1,10 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
+import '../constants/app_gradients.dart';
 import '../constants/app_text_styles.dart';
 import '../widgets/common/app_button.dart';
-import '../constants/app_gradients.dart';
 
+/// 試合結果入力ページを表示する。
+///
+/// 対戦の勝敗を入力し、次のラウンドへ進む操作を提供する。
 class ResultEntryPage extends StatefulWidget {
+  /// [ResultEntryPage] のコンストラクタ。
   const ResultEntryPage({super.key});
 
   @override
@@ -51,7 +58,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       children: [
-                        const Spacer(flex: 1),
+                        const Spacer(),
                         // タイトル
                         Text(
                           '勝敗登録',
@@ -59,7 +66,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                             color: AppColors.white,
                             fontSize: 20,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 48),
                         // 説明テキスト
@@ -70,14 +76,12 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                               style: AppTextStyles.labelMedium.copyWith(
                                 fontSize: 14,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                             Text(
                               '※ 勝者が入力してください',
                               style: AppTextStyles.labelMedium.copyWith(
                                 fontSize: 14,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
@@ -92,7 +96,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                                 onPressed: () {
                                   _showConfirmDialog('勝利');
                                 },
-                                isPrimary: true,
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -108,7 +111,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                             ),
                           ],
                         ),
-                        const Spacer(flex: 1),
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -122,20 +125,20 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
   }
 
   void _showConfirmDialog(String result) {
-    showDialog<void>(
+    unawaited(showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
         title: Text(
           '結果確認',
           style: AppTextStyles.headlineLarge.copyWith(color: AppColors.primary),
-          textAlign: TextAlign.center,
         ),
         content: Text(
           '$resultで登録しますか？',
           style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textBlack),
-          textAlign: TextAlign.center,
         ),
         actions: [
           Row(
@@ -155,8 +158,8 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                   ),
                   onPressed: () {
@@ -166,9 +169,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                       SnackBar(
                         content: Text(
                           '$resultが登録されました',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.textBlack,
-                          ),
                         ),
                         backgroundColor: AppColors.primary,
                       ),
@@ -186,6 +186,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

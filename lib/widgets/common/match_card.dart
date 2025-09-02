@@ -3,10 +3,20 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 import '../../models/mock_data.dart';
 
+/// 対戦カードを表示するウィジェット。
+///
+/// 対戦の詳細情報、プレイヤー情報、試合結果を表示する。
 class MatchCard extends StatelessWidget {
+  /// [MatchCard] のコンストラクタ。
+  ///
+  /// [match] は表示する対戦情報。
+  /// [onResultTap] は結果タップ時のコールバック（オプション）。
   const MatchCard({super.key, required this.match, this.onResultTap});
 
+  /// 表示する対戦情報。
   final Match match;
+  
+  /// 結果がタップされた時のコールバック。
   final VoidCallback? onResultTap;
 
   @override
@@ -60,7 +70,7 @@ class MatchCard extends StatelessWidget {
                   height: 57,
                   child: Transform.rotate(
                     angle: -0.78539816339, // -45 度。
-                    child: Container(
+                    child: DecoratedBox(
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
