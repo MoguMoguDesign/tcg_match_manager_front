@@ -6,13 +6,13 @@ import '../widgets/common/tournament_info_card.dart';
 import '../widgets/common/match_card.dart';
 import '../models/mock_data.dart';
 
-// 背景グラデーション仕様（Figma 準拠、上部を緑寄り・下部を紺にする）。
-const double _backgroundGradientAngleDeg = 90; // 上→下。
-const List<double> _backgroundGradientStops = [0.0, 0.55, 1.0];
-const List<Color> _backgroundGradientColors = [
-  Color(0xFFD8FF7A), // 明るい黄緑（薄め）。
-  Color(0xFF0B2106), // 深い緑。
-  Color(0xFF1219A9), // 紺。
+// 背景グラデーション仕様（result_entry_page と同一）。
+const double _backgroundGradientAngleDeg = 0; // 回転なし。
+const List<double> _backgroundGradientStops = [0.0, 0.5, 1.0];
+const List<Color> _backgroundGradientColors = <Color>[
+  AppColors.primary,
+  AppColors.textBlack,
+  AppColors.adminPrimary,
 ];
 
 LinearGradient _buildBackgroundGradient() {
