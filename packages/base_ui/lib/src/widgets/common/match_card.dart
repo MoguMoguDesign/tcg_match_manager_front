@@ -1,8 +1,8 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
-import '../../models/mock_data.dart';
 
 /// マッチ情報を表示するカードウィジェット。
 ///

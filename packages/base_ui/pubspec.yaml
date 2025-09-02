@@ -8,6 +8,8 @@ environment:
 resolution: workspace
 
 dependencies:
+  domain:
+    path: ../domain
   flutter:
     sdk: flutter
   flutter_hooks: ^0.21.2

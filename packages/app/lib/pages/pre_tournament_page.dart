@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
-/// 大会開始前の待機画面。
-/// 
-/// トーナメント開始を待つプレイヤーに表示される画面で、
-/// ローディングアニメーションと参加者数を表示する。
+/// トーナメント開始前の待機ページを表示する。
+///
+/// トーナメント開始のカウントダウンと参加者情報を表示する。
 class PreTournamentPage extends StatefulWidget {
-  /// [PreTournamentPage]のコンストラクタ。
+  /// [PreTournamentPage] のコンストラクタ。
   const PreTournamentPage({super.key});
 
   @override
@@ -59,7 +59,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.gradientGreen,
+              Color(0xFFB4EF03),
               AppColors.textBlack,
               AppColors.adminPrimary,
             ],
@@ -71,17 +71,16 @@ class _PreTournamentPageState extends State<PreTournamentPage>
             child: Column(
               children: [
                 const SizedBox(height: 135),
-                // ロゴコンテナ - Figma完全準拠
-                SizedBox(
-                  height: 28.121,
+                // ロゴ
+                Container(
+                  height: 28,
                   width: 139,
-                  child: Center(
-                    child: Text(
-                      'マチサポ',
-                      style: AppTextStyles.headlineLarge.copyWith(
-                        color: AppColors.white,
-                        fontSize: 20, // Figmaに準拠
-                      ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'マチサポ',
+                    style: AppTextStyles.headlineLarge.copyWith(
+                      color: AppColors.white,
+                      fontSize: 24,
                     ),
                   ),
                 ),
