@@ -4,11 +4,7 @@ import '../../constants/app_text_styles.dart';
 import '../../models/mock_data.dart';
 
 class MatchCard extends StatelessWidget {
-  const MatchCard({
-    super.key,
-    required this.match,
-    this.onResultTap,
-  });
+  const MatchCard({super.key, required this.match, this.onResultTap});
 
   final Match match;
   final VoidCallback? onResultTap;
@@ -22,16 +18,10 @@ class MatchCard extends StatelessWidget {
           // テーブル番号とステータス
           Column(
             children: [
-              Text(
-                '${match.tableNumber}卓',
-                style: AppTextStyles.labelMedium,
-              ),
+              Text('${match.tableNumber}卓', style: AppTextStyles.labelMedium),
               const SizedBox(height: 3),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 2,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
@@ -64,26 +54,31 @@ class MatchCard extends StatelessWidget {
                     isLeft: true,
                   ),
                 ),
-                // VS表示
-                Container(
+                // VS 表示（斜めデザイン）。
+                SizedBox(
                   width: 20,
                   height: 57,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        AppColors.primary,
-                        AppColors.adminPrimary,
-                      ],
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'vs',
-                      style: AppTextStyles.bodySmall.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                  child: Transform.rotate(
+                    angle: -0.78539816339, // -45 度。
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [AppColors.primary, AppColors.adminPrimary],
+                        ),
+                      ),
+                      child: Center(
+                        child: Transform.rotate(
+                          angle: 0.78539816339, // テキストを読みやすく戻す。
+                          child: Text(
+                            'vs',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -104,7 +99,11 @@ class MatchCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPlayerCard(Player player, bool isWinner, {required bool isLeft}) {
+  Widget _buildPlayerCard(
+    Player player,
+    bool isWinner, {
+    required bool isLeft,
+  }) {
     Color backgroundColor;
     String? resultText;
 
@@ -148,31 +147,22 @@ class MatchCard extends StatelessWidget {
             children: [
               Text(
                 player.name,
-                style: AppTextStyles.labelMedium.copyWith(
-                  fontSize: 14,
-                ),
+                style: AppTextStyles.labelMedium.copyWith(fontSize: 14),
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                '累計得点 ${player.score}点',
-                style: AppTextStyles.bodySmall,
-              ),
+              Text('累計得点 ${player.score}点', style: AppTextStyles.bodySmall),
             ],
           ),
           if (resultText != null)
             Positioned(
-              right: isLeft ? 0 : null,
-              left: isLeft ? null : 0,
-              top: 0,
-              bottom: 0,
-              child: Center(
-                child: Text(
-                  resultText,
-                  style: AppTextStyles.headlineLarge.copyWith(
-                    color: AppColors.whiteAlpha,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              right: 4,
+              bottom: 4,
+              child: Text(
+                resultText,
+                style: AppTextStyles.headlineLarge.copyWith(
+                  color: AppColors.whiteAlpha,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

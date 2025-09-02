@@ -33,11 +33,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
               // ヘッダー
               Container(
                 height: 89,
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 57,
-                ),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 57),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -127,23 +123,19 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
   }
 
   void _showConfirmDialog(String result) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.textBlack,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        backgroundColor: AppColors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           '結果確認',
-          style: AppTextStyles.headlineLarge.copyWith(
-            color: AppColors.primary,
-          ),
+          style: AppTextStyles.headlineLarge.copyWith(color: AppColors.primary),
           textAlign: TextAlign.center,
         ),
         content: Text(
           '$resultで登録しますか？',
-          style: AppTextStyles.bodyMedium,
+          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textBlack),
           textAlign: TextAlign.center,
         ),
         actions: [
@@ -155,7 +147,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                   child: Text(
                     'キャンセル',
                     style: AppTextStyles.labelLarge.copyWith(
-                      color: AppColors.white,
+                      color: AppColors.textBlack,
                     ),
                   ),
                 ),
