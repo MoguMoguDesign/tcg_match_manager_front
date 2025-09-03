@@ -56,7 +56,7 @@ class LoginPage extends HookConsumerWidget {
             Center(child: Text('Login', style: textTheme.titleLarge)),
             const Gap(12),
             Text(l10n.labelServer),
-            CommonTextFormField.withIcon(
+            CommonTextField.withIcon(
               key: serverUrlTextFieldKey,
               icon: Icons.cloud,
               controller: serverUrlController,
@@ -73,7 +73,7 @@ class LoginPage extends HookConsumerWidget {
             ),
             const Gap(12),
             Text(l10n.labelUserName),
-            CommonTextFormField.withIcon(
+            CommonTextField.withIcon(
               key: userNameTextFieldKey,
               icon: Icons.account_box_rounded,
               controller: userNameController,
@@ -82,7 +82,7 @@ class LoginPage extends HookConsumerWidget {
             ),
             const Gap(12),
             Text(l10n.labelPassword),
-            CommonTextFormField.withIcon(
+            CommonTextField.withIcon(
               key: passwordTextFieldKey,
               icon: Icons.lock_outline,
               controller: passwordController,
