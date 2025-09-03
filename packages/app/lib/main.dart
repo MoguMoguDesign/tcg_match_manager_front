@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injection/injection.dart';
 import 'package:util/util.dart';
 
-import 'pages/login_page.dart';
+import 'router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,19 +44,18 @@ void main() async {
 }
 
 /// [runApp] から直接呼び出される大元となるウィジェット。
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   /// [MainApp] を生成する。
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
       // base_ui パッケージに定義した多言語対応の設定を適用する。
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       localeListResolutionCallback: localeListResolutionCallback,
-      // MEMO(masaki):  画面遷移を調整する。
-      home: const LoginPage(),
+      routerConfig: appRouter,
       theme: CommonThemeData.lightTheme,
       darkTheme: CommonThemeData.darkTheme,
     );
