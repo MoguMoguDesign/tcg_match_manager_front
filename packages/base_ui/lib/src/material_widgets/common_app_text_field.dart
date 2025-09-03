@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 /// アプリケーション全体で使用する標準テキストフィールドウィジェット。
 ///
@@ -22,16 +22,16 @@ class AppTextField extends StatelessWidget {
 
   /// フィールドに表示されるヒントテキスト。
   final String hintText;
-  
+
   /// テキスト変更時のコールバック関数。
   final ValueChanged<String>? onChanged;
-  
+
   /// フィールドタップ時のコールバック関数。
   final VoidCallback? onTap;
-  
+
   /// 読み取り専用かどうか。
   final bool readOnly;
-  
+
   /// フィールドの末尾に表示されるアイコン。
   final Widget? suffixIcon;
 
@@ -80,7 +80,7 @@ class AppDropdownField extends StatelessWidget {
 
   /// フィールドに表示されるヒントテキスト。
   final String hintText;
-  
+
   /// フィールドタップ時のコールバック関数。
   final VoidCallback onTap;
 
@@ -103,13 +103,10 @@ class AppDropdownField extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    hintText,
-                    style: AppTextStyles.bodyMedium,
-                  ),
+                  child: Text(hintText, style: AppTextStyles.bodyMedium),
                 ),
                 Transform.rotate(
-                  angle: 1.5708, // 90度回転（下向き矢印）
+                  angle: 1.5708, // 90度回転（下向き矢印）。
                   child: const Icon(
                     Icons.keyboard_arrow_right,
                     color: AppColors.white,

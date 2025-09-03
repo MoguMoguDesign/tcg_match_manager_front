@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 /// アプリケーション全体で使用する標準ボタンウィジェット。
 ///
@@ -21,13 +21,13 @@ class AppButton extends StatelessWidget {
 
   /// ボタンに表示されるテキスト。
   final String text;
-  
+
   /// ボタンタップ時のコールバック関数。
   final VoidCallback onPressed;
-  
+
   /// プライマリースタイルかどうか。
   final bool isPrimary;
-  
+
   /// ボタンが有効かどうか。
   final bool isEnabled;
 
@@ -88,10 +88,10 @@ class SmallButton extends StatelessWidget {
 
   /// ボタンに表示されるテキスト。
   final String text;
-  
+
   /// ボタンタップ時のコールバック関数。
   final VoidCallback onPressed;
-  
+
   /// ボタンが有効かどうか。
   final bool isEnabled;
 
@@ -111,9 +111,7 @@ class SmallButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(28),
           child: Text(
             text,
-            style: AppTextStyles.labelLarge.copyWith(
-              color: AppColors.primary,
-            ),
+            style: AppTextStyles.labelLarge.copyWith(color: AppColors.primary),
           ),
         ),
       ),
