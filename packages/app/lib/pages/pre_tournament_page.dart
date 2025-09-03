@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
-/// 大会開始前の待機画面。
-/// 
-/// トーナメント開始を待つプレイヤーに表示される画面で、
-/// ローディングアニメーションと参加者数を表示する。
+/// トーナメント開始前の待機ページを表示する。
+///
+/// トーナメント開始のカウントダウンと参加者情報を表示する。
 class PreTournamentPage extends StatefulWidget {
-  /// [PreTournamentPage]のコンストラクタ。
+  /// [PreTournamentPage] のコンストラクタ。
   const PreTournamentPage({super.key});
 
   @override
@@ -32,14 +34,14 @@ class _PreTournamentPageState extends State<PreTournamentPage>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    _animationController.repeat(reverse: true);
+    unawaited(_animationController.repeat(reverse: true));
     
     // 5秒後に自動でマッチング表画面に遷移（モック用）
-    Future.delayed(const Duration(seconds: 5), () {
+    unawaited(Future.delayed(const Duration(seconds: 5), () async {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/matching-table');
+        await Navigator.pushReplacementNamed(context, '/matching-table');
       }
-    });
+    }));
   }
 
   @override
@@ -51,13 +53,13 @@ class _PreTournamentPageState extends State<PreTournamentPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.gradientGreen,
+              Color(0xFFB4EF03),
               AppColors.textBlack,
               AppColors.adminPrimary,
             ],
@@ -69,17 +71,16 @@ class _PreTournamentPageState extends State<PreTournamentPage>
             child: Column(
               children: [
                 const SizedBox(height: 135),
-                // ロゴコンテナ - Figma完全準拠
-                SizedBox(
-                  height: 28.121,
+                // ロゴ
+                Container(
+                  height: 28,
                   width: 139,
-                  child: Center(
-                    child: Text(
-                      'マチサポ',
-                      style: AppTextStyles.headlineLarge.copyWith(
-                        color: AppColors.white,
-                        fontSize: 20, // Figmaに準拠
-                      ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'マチサポ',
+                    style: AppTextStyles.headlineLarge.copyWith(
+                      color: AppColors.white,
+                      fontSize: 24,
                     ),
                   ),
                 ),
@@ -130,12 +131,13 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                                 child: CircularProgressIndicator(
                                   value: _animation.value,
                                   strokeWidth: 4,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
                                     AppColors.primary,
                                   ),
                                 ),
                               ),
-                              Center(
+                              const Center(
                                 child: Icon(
                                   Icons.schedule,
                                   color: AppColors.primary,
@@ -164,7 +166,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.people,
                             color: AppColors.primary,
                             size: 16,

@@ -1,6 +1,6 @@
 name: base_ui
 description: base_ui用Flutterパッケージ
-publish_to: 'none'
+publish_to: "none"
 version: 0.0.1
 
 environment:
@@ -8,6 +8,8 @@ environment:
 resolution: workspace
 
 dependencies:
+  domain:
+    path: ../domain
   flutter:
     sdk: flutter
   flutter_hooks: ^0.21.2
@@ -40,6 +42,8 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/images/
+    # MEMO: 現時点では images ディレクトリが空であり、解析時に警告となるため一時的に無効化する。
+    #       画像アセットを追加したタイミングでコメントアウトを解除すること。
+    # - assets/images/
     - assets/pdfs/
     - assets/sounds/

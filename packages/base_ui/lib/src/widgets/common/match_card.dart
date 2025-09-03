@@ -1,8 +1,8 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
-import '../../models/mock_data.dart';
 
 /// マッチ情報を表示するカードウィジェット。
 ///
@@ -13,15 +13,11 @@ class MatchCard extends StatelessWidget {
   ///
   /// [match]は表示するマッチ情報で必須パラメータ。
   /// [onResultTap]は結果入力時のコールバック。
-  const MatchCard({
-    super.key,
-    required this.match,
-    this.onResultTap,
-  });
+  const MatchCard({super.key, required this.match, this.onResultTap});
 
   /// 表示するマッチの情報。
   final Match match;
-  
+
   /// 結果入力ボタンタップ時のコールバック。
   final VoidCallback? onResultTap;
 
@@ -34,16 +30,10 @@ class MatchCard extends StatelessWidget {
           // テーブル番号とステータス
           Column(
             children: [
-              Text(
-                '${match.tableNumber}卓',
-                style: AppTextStyles.labelMedium,
-              ),
+              Text('${match.tableNumber}卓', style: AppTextStyles.labelMedium),
               const SizedBox(height: 3),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 2,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
@@ -84,10 +74,7 @@ class MatchCard extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                        AppColors.primary,
-                        AppColors.adminPrimary,
-                      ],
+                      colors: [AppColors.primary, AppColors.adminPrimary],
                     ),
                   ),
                   child: Center(
@@ -121,7 +108,7 @@ class MatchCard extends StatelessWidget {
   /// [player]はプレイヤー情報、[isWinner]は勝者かどうか、
   /// [isLeft]は左側配置かどうかを指定する。
   Widget _buildPlayerCard(
-    Player player, 
+    Player player,
     bool isWinner, {
     required bool isLeft,
   }) {
@@ -168,15 +155,10 @@ class MatchCard extends StatelessWidget {
             children: [
               Text(
                 player.name,
-                style: AppTextStyles.labelMedium.copyWith(
-                  fontSize: 14,
-                ),
+                style: AppTextStyles.labelMedium.copyWith(fontSize: 14),
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                '累計得点 ${player.score}点',
-                style: AppTextStyles.bodySmall,
-              ),
+              Text('累計得点 ${player.score}点', style: AppTextStyles.bodySmall),
             ],
           ),
           if (resultText != null)
@@ -201,5 +183,3 @@ class MatchCard extends StatelessWidget {
     );
   }
 }
-
-
