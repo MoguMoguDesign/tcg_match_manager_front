@@ -10,8 +10,8 @@ import 'pages/result_entry_page.dart';
 
 /// アプリケーション全体のルーティング設定を提供する。
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/login',
-  routes: [
+  initialLocation: '/registration',
+  routes: <RouteBase>[
     GoRoute(
       path: '/login',
       name: 'login',
