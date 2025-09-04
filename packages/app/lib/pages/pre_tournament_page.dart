@@ -121,7 +121,8 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.primary.withValues(alpha: 0.3),
+                              color: AppColors.userPrimary
+                                  .withValues(alpha: 0.3),
                               width: 4,
                             ),
                           ),
@@ -133,14 +134,14 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                                   strokeWidth: 4,
                                   valueColor:
                                       const AlwaysStoppedAnimation<Color>(
-                                    AppColors.primary,
+                                    AppColors.userPrimary,
                                   ),
                                 ),
                               ),
                               const Center(
                                 child: Icon(
                                   Icons.schedule,
-                                  color: AppColors.primary,
+                                  color: AppColors.userPrimary,
                                   size: 24,
                                 ),
                               ),
@@ -168,14 +169,14 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                         children: [
                           const Icon(
                             Icons.people,
-                            color: AppColors.primary,
+                            color: AppColors.userPrimary,
                             size: 16,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             '参加者: ${MockData.tournament.participantCount}名',
                             style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.primary,
+                              color: AppColors.userPrimary,
                               fontSize: 14,
                             ),
                           ),

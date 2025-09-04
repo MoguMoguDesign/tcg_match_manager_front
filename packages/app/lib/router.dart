@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import 'pages/component_test_page.dart';
 import 'pages/final_ranking_page.dart';
 import 'pages/login_list_page.dart';
 import 'pages/login_page.dart';
@@ -46,6 +47,11 @@ final GoRouter appRouter = GoRouter(
       path: '/final-ranking',
       name: 'final-ranking',
       builder: (context, state) => const FinalRankingPage(),
+    ),
+    GoRoute(
+      path: '/component-test',
+      name: 'component-test',
+      builder: (context, state) => const ComponentTestPage(),
     ),
   ],
 );

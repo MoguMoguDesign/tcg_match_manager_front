@@ -130,7 +130,9 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
         ),
         title: Text(
           '結果確認',
-          style: AppTextStyles.headlineLarge.copyWith(color: AppColors.primary),
+          style: AppTextStyles.headlineLarge.copyWith(
+            color: AppColors.userPrimary,
+          ),
         ),
         content: Text(
           '$resultで登録しますか？',
@@ -153,7 +155,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.userPrimary,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
@@ -166,7 +168,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                         content: Text(
                           '$resultが登録されました',
                         ),
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: AppColors.userPrimary,
                       ),
                     );
                   },

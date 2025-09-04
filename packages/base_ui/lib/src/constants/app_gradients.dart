@@ -53,7 +53,7 @@ const BackgroundGradientTheme kDefaultBackgroundGradient =
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: <Color>[
-          AppColors.primary,
+          AppColors.userPrimary,
           AppColors.textBlack,
           AppColors.adminPrimary,
         ],

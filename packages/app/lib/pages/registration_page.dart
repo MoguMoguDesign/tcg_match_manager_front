@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// 参加者登録ページを表示する。
 ///
@@ -44,7 +45,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                const SizedBox(height: 135),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        unawaited(context.push('/component-test'));
+                      },
+                      icon: const Icon(
+                        Icons.settings,
+                        color: AppColors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 95),
                 // ロゴ
                 Container(
                   height: 28,

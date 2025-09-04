@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 const double _backgroundGradientAngleDeg = 0; // 回転なし。
 const List<double> _backgroundGradientStops = [0.0, 0.5, 1.0];
 const List<Color> _backgroundGradientColors = <Color>[
-  AppColors.primary,
+  AppColors.userPrimary,
   AppColors.textBlack,
   AppColors.adminPrimary,
 ];
@@ -202,7 +202,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                   vertical: 8,
                                 ),
                                 decoration: const BoxDecoration(
-                                  color: AppColors.primaryAlpha,
+                                  color: AppColors.userPrimaryAlpha,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(8),
                                     topRight: Radius.circular(8),
@@ -287,7 +287,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         onPressed: () async {
           await Navigator.pushNamed(context, '/result-entry');
         },
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.userPrimary,
         shape: const CircleBorder(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

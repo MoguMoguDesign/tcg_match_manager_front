@@ -53,7 +53,7 @@ class TournamentInfoCard extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    AppColors.primaryAlpha,
+                    AppColors.userPrimaryAlpha,
                     Colors.transparent,
                   ],
                 ),
@@ -72,7 +72,7 @@ class TournamentInfoCard extends StatelessWidget {
               const SizedBox(height: 8),
               Container(
                 height: 1,
-                color: AppColors.primary,
+                color: AppColors.userPrimary,
               ),
               const SizedBox(height: 8),
               Row(
@@ -80,33 +80,33 @@ class TournamentInfoCard extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.access_time,
-                    color: AppColors.primary,
+                    color: AppColors.userPrimary,
                     size: 16,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     date,
                     style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.primary,
+                      color: AppColors.userPrimary,
                       fontSize: 14,
                     ),
                   ),
                   Container(
                     width: 1,
                     height: 16,
-                    color: AppColors.primary,
+                    color: AppColors.userPrimary,
                     margin: const EdgeInsets.symmetric(horizontal: 8),
                   ),
                   const Icon(
                     Icons.person,
-                    color: AppColors.primary,
+                    color: AppColors.userPrimary,
                     size: 16,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     participantCount.toString(),
                     style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.primary,
+                      color: AppColors.userPrimary,
                       fontSize: 14,
                     ),
                   ),

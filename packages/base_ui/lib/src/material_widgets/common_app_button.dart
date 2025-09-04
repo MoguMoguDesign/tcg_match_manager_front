@@ -37,11 +37,11 @@ class AppButton extends StatelessWidget {
       height: 56,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: isPrimary ? AppColors.primary : AppColors.textBlack,
+        color: isPrimary ? AppColors.userPrimary : AppColors.textBlack,
         borderRadius: BorderRadius.circular(40),
         border: isPrimary
             ? null
-            : Border.all(color: AppColors.primary, width: 2),
+            : Border.all(color: AppColors.userPrimary, width: 2),
         boxShadow: isPrimary && isEnabled
             ? [
                 BoxShadow(
@@ -60,7 +60,7 @@ class AppButton extends StatelessWidget {
             child: Text(
               text,
               style: AppTextStyles.labelLarge.copyWith(
-                color: isPrimary ? AppColors.textBlack : AppColors.primary,
+                color: isPrimary ? AppColors.textBlack : AppColors.userPrimary,
               ),
             ),
           ),
@@ -102,7 +102,7 @@ class SmallButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.textBlack,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: AppColors.primary, width: 2),
+        border: Border.all(color: AppColors.userPrimary, width: 2),
       ),
       child: Material(
         color: Colors.transparent,
@@ -111,7 +111,9 @@ class SmallButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(28),
           child: Text(
             text,
-            style: AppTextStyles.labelLarge.copyWith(color: AppColors.primary),
+            style: AppTextStyles.labelLarge.copyWith(
+              color: AppColors.userPrimary,
+            ),
           ),
         ),
       ),

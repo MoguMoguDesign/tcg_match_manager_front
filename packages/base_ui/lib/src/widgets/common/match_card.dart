@@ -38,7 +38,7 @@ class MatchCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
                     color: match.status == MatchStatus.ongoing
-                        ? AppColors.primary
+                        ? AppColors.userPrimary
                         : AppColors.whiteAlpha,
                   ),
                 ),
@@ -46,7 +46,7 @@ class MatchCard extends StatelessWidget {
                   match.status == MatchStatus.ongoing ? '対戦中' : '終了',
                   style: AppTextStyles.labelSmall.copyWith(
                     color: match.status == MatchStatus.ongoing
-                        ? AppColors.primary
+                        ? AppColors.userPrimary
                         : AppColors.white,
                   ),
                 ),
@@ -74,7 +74,7 @@ class MatchCard extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [AppColors.primary, AppColors.adminPrimary],
+                      colors: [AppColors.userPrimary, AppColors.adminPrimary],
                     ),
                   ),
                   child: Center(
@@ -118,13 +118,13 @@ class MatchCard extends StatelessWidget {
     if (match.status == MatchStatus.completed) {
       if (isWinner) {
         backgroundColor = player.isCurrentPlayer
-            ? AppColors.primaryAlpha
-            : AppColors.primaryAlpha;
+            ? AppColors.userPrimaryAlpha
+            : AppColors.userPrimaryAlpha;
         resultText = 'WIN';
       } else {
         backgroundColor = player.isCurrentPlayer
-            ? AppColors.adminAlpha
-            : AppColors.adminAlpha;
+            ? AppColors.adminPrimaryAlpha
+            : AppColors.adminPrimaryAlpha;
         resultText = 'LOSE';
       }
     } else {

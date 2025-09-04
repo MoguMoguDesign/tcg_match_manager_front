@@ -169,7 +169,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                     color: AppColors.textBlack,
                   ),
                 ),
-                backgroundColor: AppColors.primary,
+                backgroundColor: AppColors.userPrimary,
               ),
             );
           },

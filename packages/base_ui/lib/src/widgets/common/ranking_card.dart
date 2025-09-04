@@ -43,7 +43,7 @@ class RankingCard extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.primary,
+                  AppColors.userPrimary,
                   AppColors.adminPrimary,
                 ],
               ),
