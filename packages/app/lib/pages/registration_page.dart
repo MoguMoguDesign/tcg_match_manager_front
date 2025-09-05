@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
+import '../router.dart';
 
 /// 参加者登録ページを表示する。
 ///
@@ -50,7 +51,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        unawaited(context.push('/component-test'));
+                        unawaited(context.goToComponentTest());
                       },
                       icon: const Icon(
                         Icons.settings,
@@ -108,7 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       text: '参加に進む',
                       onPressed: () {
                         // 画面遷移処理
-                        unawaited(Navigator.pushNamed(context, '/pre-tournament'));
+                        unawaited(context.goToPreTournament());
                       },
                       isEnabled: _nicknameController.text.isNotEmpty,
                     ),
@@ -129,7 +130,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     SmallButton(
                       text: 'トーナメントに復帰する',
                       onPressed: () {
-                        unawaited(Navigator.pushNamed(context, '/login-list'));
+                        unawaited(context.goToLoginList());
                       },
                     ),
                   ],

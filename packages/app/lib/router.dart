@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'pages/component_test_page.dart';
@@ -15,43 +16,100 @@ final GoRouter appRouter = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/login',
-      name: 'login',
+      name: AppRoutes.login,
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
       path: '/registration',
-      name: 'registration',
+      name: AppRoutes.registration,
       builder: (context, state) => const RegistrationPage(),
     ),
     GoRoute(
       path: '/login-list',
-      name: 'login-list',
+      name: AppRoutes.loginList,
       builder: (context, state) => const LoginListPage(),
     ),
     GoRoute(
       path: '/pre-tournament',
-      name: 'pre-tournament',
+      name: AppRoutes.preTournament,
       builder: (context, state) => const PreTournamentPage(),
     ),
     GoRoute(
       path: '/matching-table',
-      name: 'matching-table',
+      name: AppRoutes.matchingTable,
       builder: (context, state) => const MatchingTablePage(),
     ),
     GoRoute(
       path: '/result-entry',
-      name: 'result-entry',
+      name: AppRoutes.resultEntry,
       builder: (context, state) => const ResultEntryPage(),
     ),
     GoRoute(
       path: '/final-ranking',
-      name: 'final-ranking',
+      name: AppRoutes.finalRanking,
       builder: (context, state) => const FinalRankingPage(),
     ),
     GoRoute(
       path: '/component-test',
-      name: 'component-test',
+      name: AppRoutes.componentTest,
       builder: (context, state) => const ComponentTestPage(),
     ),
   ],
 );
+
+/// ルート名の定数クラス。
+/// タイプセーフなナビゲーションのために使用する。
+class AppRoutes {
+  AppRoutes._();
+
+  /// ログインページ。
+  static const String login = 'login';
+
+  /// 登録ページ。
+  static const String registration = 'registration';
+
+  /// ログインリストページ。
+  static const String loginList = 'login-list';
+
+  /// トーナメント前ページ。
+  static const String preTournament = 'pre-tournament';
+
+  /// マッチングテーブルページ。
+  static const String matchingTable = 'matching-table';
+
+  /// 結果入力ページ。
+  static const String resultEntry = 'result-entry';
+
+  /// 最終ランキングページ。
+  static const String finalRanking = 'final-ranking';
+
+  /// コンポーネントテストページ。
+  static const String componentTest = 'component-test';
+}
+
+/// タイプセーフなナビゲーションのための拡張メソッド。
+extension AppNavigator on BuildContext {
+  /// ログインページに遷移する。
+  Future<void> goToLogin() => pushNamed(AppRoutes.login);
+
+  /// 登録ページに遷移する。
+  Future<void> goToRegistration() => pushNamed(AppRoutes.registration);
+
+  /// ログインリストページに遷移する。
+  Future<void> goToLoginList() => pushNamed(AppRoutes.loginList);
+
+  /// トーナメント前ページに遷移する。
+  Future<void> goToPreTournament() => pushNamed(AppRoutes.preTournament);
+
+  /// マッチングテーブルページに遷移する。
+  Future<void> goToMatchingTable() => pushNamed(AppRoutes.matchingTable);
+
+  /// 結果入力ページに遷移する。
+  Future<void> goToResultEntry() => pushNamed(AppRoutes.resultEntry);
+
+  /// 最終ランキングページに遷移する。
+  Future<void> goToFinalRanking() => pushNamed(AppRoutes.finalRanking);
+
+  /// コンポーネントテストページに遷移する。
+  Future<void> goToComponentTest() => pushNamed(AppRoutes.componentTest);
+}

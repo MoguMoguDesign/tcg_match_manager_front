@@ -28,9 +28,11 @@ dependencies:
 
 dev_dependencies:
   altive_lints: ^1.22.0
+  build_runner: ^2.4.15
   custom_lint: ^0.7.6
   flutter_test:
     sdk: flutter
+  go_router_builder: ^2.7.1
 
 flutter:
   uses-material-design: true

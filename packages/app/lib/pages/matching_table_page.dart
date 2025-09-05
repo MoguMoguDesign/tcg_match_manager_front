@@ -4,6 +4,8 @@ import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
+import '../router.dart';
+
 // 背景グラデーション仕様（result_entry_page と同一）。
 const double _backgroundGradientAngleDeg = 0; // 回転なし。
 const List<double> _backgroundGradientStops = [0.0, 0.5, 1.0];
@@ -255,10 +257,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                             return MatchCard(
                                               match: matches[index],
                                               onResultTap: () async {
-                                                await Navigator.pushNamed(
-                                                  context,
-                                                  '/result-entry',
-                                                );
+                                                await context.goToResultEntry();
                                               },
                                             );
                                           },
@@ -285,7 +284,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await Navigator.pushNamed(context, '/result-entry');
+          await context.goToResultEntry();
         },
         backgroundColor: AppColors.userPrimary,
         shape: const CircleBorder(),

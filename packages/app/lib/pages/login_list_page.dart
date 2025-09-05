@@ -4,6 +4,8 @@ import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
+import '../router.dart';
+
 /// ログインリストページを表示する。
 ///
 /// 参加者のニックネームを選択し、トーナメントに復帰する導線を提供する。
@@ -132,10 +134,7 @@ class _LoginListPageState extends State<LoginListPage> {
                               AppButton(
                                 text: 'トーナメントに復帰する',
                                 onPressed: () {
-                                  unawaited(Navigator.pushNamed(
-                                    context,
-                                    '/matching-table',
-                                  ));
+                                  unawaited(context.goToMatchingTable());
                                 },
                                 isEnabled: selectedPlayer != null,
                               ),
