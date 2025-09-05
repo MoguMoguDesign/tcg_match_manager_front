@@ -90,26 +90,26 @@ class AppRoutes {
 /// タイプセーフなナビゲーションのための拡張メソッド。
 extension AppNavigator on BuildContext {
   /// ログインページに遷移する。
-  Future<void> goToLogin() => pushNamed(AppRoutes.login);
+  void goToLogin() => goNamed(AppRoutes.login);
 
   /// 登録ページに遷移する。
-  Future<void> goToRegistration() => pushNamed(AppRoutes.registration);
+  void goToRegistration() => goNamed(AppRoutes.registration);
 
   /// ログインリストページに遷移する。
-  Future<void> goToLoginList() => pushNamed(AppRoutes.loginList);
+  void goToLoginList() => goNamed(AppRoutes.loginList);
 
   /// トーナメント前ページに遷移する。
-  Future<void> goToPreTournament() => pushNamed(AppRoutes.preTournament);
+  void goToPreTournament() => goNamed(AppRoutes.preTournament);
 
   /// マッチングテーブルページに遷移する。
-  Future<void> goToMatchingTable() => pushNamed(AppRoutes.matchingTable);
+  void goToMatchingTable() => goNamed(AppRoutes.matchingTable);
 
   /// 結果入力ページに遷移する。
-  Future<void> goToResultEntry() => pushNamed(AppRoutes.resultEntry);
+  void goToResultEntry() => goNamed(AppRoutes.resultEntry);
 
   /// 最終ランキングページに遷移する。
-  Future<void> goToFinalRanking() => pushNamed(AppRoutes.finalRanking);
+  void goToFinalRanking() => goNamed(AppRoutes.finalRanking);
 
   /// コンポーネントテストページに遷移する。
-  Future<void> goToComponentTest() => pushNamed(AppRoutes.componentTest);
+  void goToComponentTest() => goNamed(AppRoutes.componentTest);
 }

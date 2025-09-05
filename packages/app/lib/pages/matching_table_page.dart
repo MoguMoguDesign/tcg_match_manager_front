@@ -256,8 +256,8 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                           itemBuilder: (context, index) {
                                             return MatchCard(
                                               match: matches[index],
-                                              onResultTap: () async {
-                                                await context.goToResultEntry();
+                                              onResultTap: () {
+                                                context.goToResultEntry();
                                               },
                                             );
                                           },
@@ -283,8 +283,8 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await context.goToResultEntry();
+        onPressed: () {
+          context.goToResultEntry();
         },
         backgroundColor: AppColors.userPrimary,
         shape: const CircleBorder(),

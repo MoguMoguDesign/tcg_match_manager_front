@@ -134,7 +134,7 @@ class _LoginListPageState extends State<LoginListPage> {
                               AppButton(
                                 text: 'トーナメントに復帰する',
                                 onPressed: () {
-                                  unawaited(context.goToMatchingTable());
+                                  context.goToMatchingTable();
                                 },
                                 isEnabled: selectedPlayer != null,
                               ),

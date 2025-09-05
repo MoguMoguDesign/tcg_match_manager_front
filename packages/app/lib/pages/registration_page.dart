@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +49,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        unawaited(context.goToComponentTest());
+                        context.goToComponentTest();
                       },
                       icon: const Icon(
                         Icons.settings,
@@ -109,7 +107,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       text: '参加に進む',
                       onPressed: () {
                         // 画面遷移処理
-                        unawaited(context.goToPreTournament());
+                        context.goToPreTournament();
                       },
                       isEnabled: _nicknameController.text.isNotEmpty,
                     ),
@@ -130,7 +128,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     SmallButton(
                       text: 'トーナメントに復帰する',
                       onPressed: () {
-                        unawaited(context.goToLoginList());
+                        context.goToLoginList();
                       },
                     ),
                   ],
