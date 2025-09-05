@@ -34,15 +34,53 @@ class ComponentTestPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
-              // Figma デザインボタン (86-7620)
-              AppButton(
+              // Figma CommonConfirmButton (node-id: 86-7960)
+              const Text(
+                'CommonConfirmButton (Figma 86-7960)',
+                style: AppTextStyles.labelLarge,
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(height: 12),
+              // Default: userFilled
+              CommonConfirmButton(
                 text: '参加に進む',
+                style: ConfirmButtonStyle.userFilled,
                 onPressed: () {
-                  // テスト用のボタンアクション
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('参加に進むボタンがタップされました'),
-                    ),
+                    const SnackBar(content: Text('userFilled: 参加に進む')),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              // userOutlined
+              CommonConfirmButton(
+                text: '参加に進む',
+                style: ConfirmButtonStyle.userOutlined,
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('userOutlined: 参加に進む')),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              // adminFilled
+              CommonConfirmButton(
+                text: 'ログイン',
+                style: ConfirmButtonStyle.adminFilled,
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('adminFilled: ログイン')),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              // adminOutlined
+              CommonConfirmButton(
+                text: 'ログイン',
+                style: ConfirmButtonStyle.adminOutlined,
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('adminOutlined: ログイン')),
                   );
                 },
               ),
