@@ -45,7 +45,7 @@ class AppButton extends StatelessWidget {
         boxShadow: isPrimary && isEnabled
             ? [
                 BoxShadow(
-                  color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
+                  color: AppColors.userPrimary.withValues(alpha: 0.5),
                   blurRadius: 20,
                 ),
               ]
