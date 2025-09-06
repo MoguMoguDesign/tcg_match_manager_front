@@ -162,6 +162,36 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
+                // AdminConfirmButton のテスト
+                const Text(
+                  'AdminConfirmButton (admin)',
+                  style: AppTextStyles.labelLarge,
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                AdminConfirmButton(
+                  text: '管理者ボタン',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('AdminConfirmButton: アイコンなし'),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 12),
+                AdminConfirmButton.leadingIcon(
+                  text: '管理者ボタン',
+                  icon: const Icon(Icons.admin_panel_settings),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('AdminConfirmButton: 左アイコンあり'),
+                      ),
+                    );
+                  },
+                ),
+
                 // ConfirmDialog のテスト
                 const Text(
                   'ConfirmDialog (Figma 86-7764)',
