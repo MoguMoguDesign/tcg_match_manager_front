@@ -116,6 +116,7 @@ class CommonSmallButton extends StatelessWidget {
       style: AppTextStyles.labelSmall.copyWith(
         color: visual.textColor,
         fontSize: 12,
+        height: 1,
       ),
     );
 
@@ -143,6 +144,7 @@ class CommonSmallButton extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: children,
     );
   }
