@@ -5,14 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('CommonConfirmButton の基本動作。', () {
     testWidgets('ユーザー塗りつぶしスタイルでレンダリングされる。', (tester) async {
-      bool tapped = false;
+      var tapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: CommonConfirmButton(
               text: '参加に進む',
-              style: ConfirmButtonStyle.userFilled,
               onPressed: () => tapped = true,
             ),
           ),
@@ -44,4 +43,3 @@ void main() {
 }
 
 void _noop() {}
-

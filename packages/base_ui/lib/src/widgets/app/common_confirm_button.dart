@@ -12,6 +12,20 @@ class CommonConfirmButton extends StatelessWidget {
   ///
   /// ユーザー向けの塗りつぶし、ユーザー向けのアウトライン、
   /// 管理者向けの塗りつぶし、管理者向けのアウトラインの 4 種類を提供する。
+  /// [CommonConfirmButton] のコンストラクタ。
+  ///
+  /// [text] と [onPressed] は必須パラメータ。
+  /// [style] はデフォルトで [ConfirmButtonStyle.userFilled]。
+  /// [isEnabled] はデフォルトで true。
+  const CommonConfirmButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.style = ConfirmButtonStyle.userFilled,
+    this.isEnabled = true,
+    this.width,
+  });
+
   static const double _height = 56;
   static const double _radius = 40;
 
@@ -31,23 +45,9 @@ class CommonConfirmButton extends StatelessWidget {
   /// 指定しない場合は [double.infinity] で親幅いっぱいに広げる。
   final double? width;
 
-  /// [CommonConfirmButton] のコンストラクタ。
-  ///
-  /// [text] と [onPressed] は必須パラメータ。
-  /// [style] はデフォルトで [ConfirmButtonStyle.userFilled]。
-  /// [isEnabled] はデフォルトで true。
-  const CommonConfirmButton({
-    super.key,
-    required this.text,
-    required this.onPressed,
-    this.style = ConfirmButtonStyle.userFilled,
-    this.isEnabled = true,
-    this.width,
-  });
-
   @override
   Widget build(BuildContext context) {
-    final _VisualStyle visual = _resolveVisual(
+    final visual = _resolveVisual(
       style: style,
       isEnabled: isEnabled,
     );
@@ -143,6 +143,13 @@ enum ConfirmButtonStyle {
 
 /// 内部的に使用する見た目情報を保持するクラス。
 class _VisualStyle {
+  const _VisualStyle({
+    required this.backgroundColor,
+    required this.textColor,
+    this.border,
+    this.shadow,
+  });
+
   /// 背景色。
   final Color backgroundColor;
 
@@ -154,11 +161,4 @@ class _VisualStyle {
 
   /// 影定義。不要な場合は null。
   final List<BoxShadow>? shadow;
-
-  const _VisualStyle({
-    required this.backgroundColor,
-    required this.textColor,
-    this.border,
-    this.shadow,
-  });
 }

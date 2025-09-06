@@ -20,11 +20,42 @@ class CommonSmallButton extends StatelessWidget {
     this.style = SmallButtonStyle.primary,
     this.isEnabled = true,
     this.width,
-  });
+    Widget? leadingIcon,
+    Widget? trailingIcon,
+  }) : _leadingIcon = leadingIcon,
+       _trailingIcon = trailingIcon;
+
+  /// 左側にアイコンを表示するコンストラクタ。
+  ///
+  /// テキストの左側に [icon] を表示する。右側アイコンは使用しない。
+  const CommonSmallButton.leadingIcon({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required Widget icon,
+    this.style = SmallButtonStyle.primary,
+    this.isEnabled = true,
+    this.width,
+  }) : _leadingIcon = icon,
+       _trailingIcon = null;
+
+  /// 右側にアイコンを表示するコンストラクタ。
+  ///
+  /// テキストの右側に [icon] を表示する。左側アイコンは使用しない。
+  const CommonSmallButton.trailingIcon({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required Widget icon,
+    this.style = SmallButtonStyle.primary,
+    this.isEnabled = true,
+    this.width,
+  }) : _leadingIcon = null,
+       _trailingIcon = icon;
 
   /// ボタンの高さを定義する。
   static const double _height = 36;
-  
+
   /// ボタンの角丸半径を定義する。
   static const double _radius = 20;
 
@@ -44,12 +75,15 @@ class CommonSmallButton extends StatelessWidget {
   /// 指定しない場合は内容に応じたサイズになる。
   final double? width;
 
+  /// 左側に表示するアイコンウィジェット。
+  final Widget? _leadingIcon;
+
+  /// 右側に表示するアイコンウィジェット。
+  final Widget? _trailingIcon;
+
   @override
   Widget build(BuildContext context) {
-    final visual = _resolveVisual(
-      style: style,
-      isEnabled: isEnabled,
-    );
+    final visual = _resolveVisual(style: style, isEnabled: isEnabled);
 
     return Container(
       height: _height,
@@ -67,17 +101,49 @@ class CommonSmallButton extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                text,
-                style: AppTextStyles.labelSmall.copyWith(
-                  color: visual.textColor,
-                  fontSize: 12,
-                ),
-              ),
+              child: _buildContent(visual),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  /// テキストとアイコンの並びを構築する。
+  Widget _buildContent(_VisualStyle visual) {
+    final textWidget = Text(
+      text,
+      style: AppTextStyles.labelSmall.copyWith(
+        color: visual.textColor,
+        fontSize: 12,
+      ),
+    );
+
+    final leadingIcon = _leadingIcon;
+    final trailingIcon = _trailingIcon;
+    final hasLeading = leadingIcon != null;
+    final hasTrailing = trailingIcon != null;
+
+    if (!hasLeading && !hasTrailing) {
+      return textWidget;
+    }
+
+    final children = <Widget>[
+      if (hasLeading) ...[
+        _IconContainer(icon: leadingIcon),
+        const SizedBox(width: 8),
+      ],
+      textWidget,
+      if (hasTrailing) ...[
+        const SizedBox(width: 8),
+        _IconContainer(icon: trailingIcon),
+      ],
+    ];
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: children,
     );
   }
 
@@ -107,6 +173,20 @@ class CommonSmallButton extends StatelessWidget {
           textColor: AppColors.white,
         );
     }
+  }
+}
+
+/// アイコンのタップ領域や配置を統一するためのラッパーウィジェット。
+class _IconContainer extends StatelessWidget {
+  /// [_IconContainer] のコンストラクタ。
+  const _IconContainer({required this.icon});
+
+  /// 表示するアイコンウィジェット。
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: 16, width: 16, child: FittedBox(child: icon));
   }
 }
 
