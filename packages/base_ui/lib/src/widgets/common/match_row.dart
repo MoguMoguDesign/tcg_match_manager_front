@@ -19,10 +19,12 @@ class MatchRow extends StatelessWidget {
     required this.player1Name,
     required this.player2Name,
     required this.status,
-    this.player1Number,
-    this.player2Number,
-    this.player1IsWinner = false,
-    this.player2IsWinner = false,
+    this.player1Score = '累計得点 0点',
+    this.player2Score = '累計得点 0点',
+    this.player1State = PlayerState.progress,
+    this.player2State = PlayerState.progress,
+    this.player1IsCurrentUser = false,
+    this.player2IsCurrentUser = false,
     this.onTap,
     this.style = MatchRowStyle.primary,
   });
@@ -39,17 +41,23 @@ class MatchRow extends StatelessWidget {
   /// マッチステータス。
   final MatchStatus status;
 
-  /// プレイヤー1の番号（オプション）。
-  final int? player1Number;
+  /// プレイヤー1のスコア。
+  final String player1Score;
 
-  /// プレイヤー2の番号（オプション）。
-  final int? player2Number;
+  /// プレイヤー2のスコア。
+  final String player2Score;
 
-  /// プレイヤー1が勝者かどうか。
-  final bool player1IsWinner;
+  /// プレイヤー1の状態。
+  final PlayerState player1State;
 
-  /// プレイヤー2が勝者かどうか。
-  final bool player2IsWinner;
+  /// プレイヤー2の状態。
+  final PlayerState player2State;
+
+  /// プレイヤー1が現在のユーザーかどうか。
+  final bool player1IsCurrentUser;
+
+  /// プレイヤー2が現在のユーザーかどうか。
+  final bool player2IsCurrentUser;
 
   /// タップ時のコールバック。
   final VoidCallback? onTap;
@@ -81,11 +89,12 @@ class MatchRow extends StatelessWidget {
               child: PlayersContainer(
                 player1Name: player1Name,
                 player2Name: player2Name,
-                player1Number: player1Number,
-                player2Number: player2Number,
-                player1IsWinner: player1IsWinner,
-                player2IsWinner: player2IsWinner,
-                playerStyle: _getPlayerContainerStyle(style),
+                player1Score: player1Score,
+                player2Score: player2Score,
+                player1State: player1State,
+                player2State: player2State,
+                player1IsCurrentUser: player1IsCurrentUser,
+                player2IsCurrentUser: player2IsCurrentUser,
               ),
             ),
             const SizedBox(width: 16),
@@ -129,16 +138,6 @@ class MatchRow extends StatelessWidget {
     }
   }
 
-  PlayerContainerStyle _getPlayerContainerStyle(MatchRowStyle style) {
-    switch (style) {
-      case MatchRowStyle.primary:
-        return PlayerContainerStyle.primary;
-      case MatchRowStyle.secondary:
-        return PlayerContainerStyle.secondary;
-      case MatchRowStyle.admin:
-        return PlayerContainerStyle.secondary;
-    }
-  }
 }
 
 /// [MatchRow] のスタイルを表す列挙型。

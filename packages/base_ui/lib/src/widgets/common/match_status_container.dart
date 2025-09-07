@@ -28,79 +28,41 @@ class MatchStatusContainer extends StatelessWidget {
     final statusInfo = _getStatusInfo(status);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
         color: statusInfo.backgroundColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(4),
         border: showBorder ? Border.all(
           color: statusInfo.borderColor,
+          width: 1,
         ) : null,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (statusInfo.icon != null) ...[
-            Icon(
-              statusInfo.icon,
-              color: statusInfo.textColor,
-              size: 16,
-            ),
-            const SizedBox(width: 6),
-          ],
-          Text(
-            statusInfo.label,
-            style: AppTextStyles.labelSmall.copyWith(
-              color: statusInfo.textColor,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+      child: Text(
+        statusInfo.label,
+        style: AppTextStyles.labelSmall.copyWith(
+          color: statusInfo.textColor,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 
   _MatchStatusInfo _getStatusInfo(MatchStatus status) {
     switch (status) {
-      case MatchStatus.waiting:
-        return const _MatchStatusInfo(
-          label: '待機中',
-          backgroundColor: AppColors.gray,
-          textColor: AppColors.white,
-          borderColor: AppColors.grayDark,
-          icon: Icons.schedule,
-        );
       case MatchStatus.playing:
         return const _MatchStatusInfo(
-          label: '進行中',
-          backgroundColor: AppColors.userPrimary,
-          textColor: AppColors.textBlack,
+          label: '対戦中',
+          backgroundColor: Colors.transparent,
+          textColor: AppColors.userPrimary,
           borderColor: AppColors.userPrimary,
-          icon: Icons.play_arrow,
         );
       case MatchStatus.finished:
         return const _MatchStatusInfo(
           label: '終了',
-          backgroundColor: AppColors.adminPrimary,
+          backgroundColor: Colors.transparent,
           textColor: AppColors.white,
-          borderColor: AppColors.adminPrimary,
-          icon: Icons.check_circle,
-        );
-      case MatchStatus.cancelled:
-        return const _MatchStatusInfo(
-          label: 'キャンセル',
-          backgroundColor: Colors.red,
-          textColor: AppColors.white,
-          borderColor: Colors.redAccent,
-          icon: Icons.cancel,
-        );
-      case MatchStatus.paused:
-        return const _MatchStatusInfo(
-          label: '一時停止',
-          backgroundColor: Colors.orange,
-          textColor: AppColors.white,
-          borderColor: Colors.deepOrange,
-          icon: Icons.pause,
+          borderColor: AppColors.white,
         );
     }
   }
@@ -108,20 +70,11 @@ class MatchStatusContainer extends StatelessWidget {
 
 /// マッチステータスを表す列挙型。
 enum MatchStatus {
-  /// 待機中。
-  waiting,
-
   /// 進行中。
   playing,
 
   /// 終了。
   finished,
-
-  /// キャンセル。
-  cancelled,
-
-  /// 一時停止。
-  paused,
 }
 
 /// マッチステータス情報を保持するクラス。
@@ -131,7 +84,6 @@ class _MatchStatusInfo {
     required this.backgroundColor,
     required this.textColor,
     required this.borderColor,
-    this.icon,
   });
 
   /// ステータスラベル。
@@ -145,7 +97,4 @@ class _MatchStatusInfo {
 
   /// 境界線色。
   final Color borderColor;
-
-  /// アイコン（オプション）。
-  final IconData? icon;
 }
