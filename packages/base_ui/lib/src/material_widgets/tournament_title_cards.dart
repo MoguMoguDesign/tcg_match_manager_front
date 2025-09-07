@@ -38,7 +38,6 @@ class TournamentTitleCards extends StatelessWidget {
         border: style.border,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
@@ -62,7 +61,7 @@ class TournamentTitleCards extends StatelessWidget {
               ],
             ),
           ),
-          if (style.trailing != null) style.trailing!,
+          // 末尾要素は現状なし。
         ],
       ),
     );
@@ -87,14 +86,12 @@ class _ResolvedStyle {
     required this.titleColor,
     required this.subtitleColor,
     this.border,
-    this.trailing,
   });
 
   final Color backgroundColor;
   final Color titleColor;
   final Color subtitleColor;
   final BoxBorder? border;
-  final Widget? trailing;
 }
 
 _ResolvedStyle _resolveStyle(TournamentRoundType roundType) {

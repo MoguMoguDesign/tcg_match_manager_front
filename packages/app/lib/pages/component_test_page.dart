@@ -431,6 +431,25 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
+                // ResultRow のテスト
+                const Text(
+                  'ResultRow (Figma 255-3528)',
+                  style: AppTextStyles.labelLarge,
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                const ResultRow(
+                  leftLabel: 'あなた',
+                  rightValue: 'WIN',
+                  type: ResultRowType.currentUser,
+                ),
+                const SizedBox(height: 8),
+                const ResultRow(
+                  leftLabel: 'Player A',
+                  rightValue: 'LOSE',
+                  subtitle: 'Table 3',
+                ),
+
                 // TODO(component): 他のコンポーネントのテスト要素をここに追加
               ],
             ),
