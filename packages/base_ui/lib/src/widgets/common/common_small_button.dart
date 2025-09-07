@@ -143,6 +143,8 @@ class CommonSmallButton extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: children,
     );
   }
