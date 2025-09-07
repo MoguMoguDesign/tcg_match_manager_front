@@ -1,3 +1,6 @@
+// デザインシステムのカラー定義ファイルのため、ハードコーディングされた色の使用を許可
+// ignore_for_file: avoid_hardcoded_color
+
 import 'package:flutter/material.dart';
 
 /// アプリケーション全体で使用するカラーパレットを定義する。
@@ -51,5 +54,9 @@ class AppColors {
   /// 白色の透明度版（透明度50%）。
   /// 半透明の背景やオーバーレイとして使用される。
   static const Color whiteAlpha = Color(0x80FFFFFF);
+  
+  /// 敗北状態を示す薄紫色。
+  /// VS コンテナやプレイヤーコンテナの敗北状態で使用される。
+  static const Color loseNormal = Color(0xFFB0A3E3);
   
 }

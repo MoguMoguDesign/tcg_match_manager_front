@@ -74,9 +74,7 @@ class MatchRow extends StatelessWidget {
         decoration: BoxDecoration(
           color: _getBackgroundColor(style),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: _getBorderColor(style),
-          ),
+          border: Border.all(color: _getBorderColor(style)),
         ),
         child: Row(
           children: [
@@ -137,7 +135,6 @@ class MatchRow extends StatelessWidget {
         return TableNumberStyle.admin;
     }
   }
-
 }
 
 /// [MatchRow] のスタイルを表す列挙型。

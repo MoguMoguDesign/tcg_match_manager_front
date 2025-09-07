@@ -33,9 +33,7 @@ class TableNumberColumn extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.backgroundColor,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: colors.borderColor,
-        ),
+        border: Border.all(color: colors.borderColor),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -42,24 +42,28 @@ class VSContainer extends StatelessWidget {
       width: sizeInfo.width,
       height: sizeInfo.height,
       decoration: BoxDecoration(
-        gradient: colors.gradient,
         color: colors.backgroundColor,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: colors.borderColor,
-          width: 2,
-        ),
+        // 枠線はデザイン上不要。
         boxShadow: colors.shadow,
       ),
-      child: Center(
-        child: Text(
-          'vs',
-          style: AppTextStyles.labelLarge.copyWith(
-            color: colors.textColor,
-            fontSize: sizeInfo.fontSize,
-            fontWeight: FontWeight.bold,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (colors.splitColor != null)
+            CustomPaint(
+              painter: _DiagonalSplitPainter(splitColor: colors.splitColor!),
+            ),
+          Center(
+            child: Text(
+              'vs',
+              style: AppTextStyles.labelLarge.copyWith(
+                color: colors.textColor,
+                fontSize: sizeInfo.fontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -67,23 +71,14 @@ class VSContainer extends StatelessWidget {
   _VSSizeInfo _getSizeInfo(VSContainerSize size) {
     switch (size) {
       case VSContainerSize.small:
-        return const _VSSizeInfo(
-          width: 32,
-          height: 32,
-          fontSize: 10,
-        );
+        // デザイン比率に合わせた縦長サイズ。
+        return const _VSSizeInfo(width: 16, height: 45, fontSize: 10);
       case VSContainerSize.medium:
-        return const _VSSizeInfo(
-          width: 48,
-          height: 48,
-          fontSize: 14,
-        );
+        // Figma 準拠: W20 x H57。
+        return const _VSSizeInfo(width: 20, height: 57, fontSize: 12);
       case VSContainerSize.large:
-        return const _VSSizeInfo(
-          width: 64,
-          height: 64,
-          fontSize: 18,
-        );
+        // 縦長比率を維持した拡大サイズ。
+        return const _VSSizeInfo(width: 24, height: 68, fontSize: 14);
     }
   }
 
@@ -91,49 +86,52 @@ class VSContainer extends StatelessWidget {
     VSContainerState state,
     VSContainerUserPosition userPosition,
   ) {
+    // 左右のアウトカムを決定。
+    _SideOutcome leftOutcome;
+    _SideOutcome rightOutcome;
     switch (state) {
       case VSContainerState.progress:
-        switch (userPosition) {
-          case VSContainerUserPosition.none:
-            // Progress - 基本進行中状態（濃い青）
-            return const _VSContainerColors(
-              backgroundColor: AppColors.textBlack, // #000336
-              textColor: AppColors.white,
-              borderColor: AppColors.textBlack,
-            );
-          case VSContainerUserPosition.left:
-          case VSContainerUserPosition.right:
-            // Progress Current User - カレントユーザー進行中（青）
-            return const _VSContainerColors(
-              backgroundColor: AppColors.adminPrimary, // #3A44FB
-              textColor: AppColors.white,
-              borderColor: AppColors.adminPrimary,
-            );
-        }
+        leftOutcome = _SideOutcome.progress;
+        rightOutcome = _SideOutcome.progress;
+        break;
       case VSContainerState.leftPlayerWin:
-        return _VSContainerColors(
-          // Left Player Win - 緑と青のグラデーション
-          gradient: const LinearGradient(
-            colors: [AppColors.userPrimary, AppColors.adminPrimary], // 緑→青
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          textColor: AppColors.white,
-          borderColor: AppColors.userPrimary,
-        );
+        leftOutcome = _SideOutcome.win;
+        rightOutcome = _SideOutcome.lose;
+        break;
       case VSContainerState.leftPlayerLose:
-        return const _VSContainerColors(
-          // Left Player Lose - 紫系グラデーション
-          gradient: LinearGradient(
-            colors: [Color(0xFFB0A3E3), Color(0xFF8A7CA8)], // 薄い紫→濃い紫
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          textColor: AppColors.white,
-          borderColor: Color(0xFFB0A3E3),
-        );
+        leftOutcome = _SideOutcome.lose;
+        rightOutcome = _SideOutcome.win;
+        break;
     }
+
+    // カレントユーザー位置。
+    final bool isLeftCurrent = userPosition == VSContainerUserPosition.left;
+    final bool isRightCurrent = userPosition == VSContainerUserPosition.right;
+
+    Color mapColor(_SideOutcome outcome, bool isCurrent) {
+      if (isCurrent) return AppColors.adminPrimary;
+      switch (outcome) {
+        case _SideOutcome.progress:
+          return AppColors.textBlack;
+        case _SideOutcome.win:
+          return AppColors.userPrimaryAlpha;
+        case _SideOutcome.lose:
+          return AppColors.loseNormal;
+      }
+    }
+
+    final Color leftColor = mapColor(leftOutcome, isLeftCurrent);
+    final Color rightColor = mapColor(rightOutcome, isRightCurrent);
+
+    // 背景＝右側、対角の左側＝splitColor として描画。
+    return _VSContainerColors(
+      backgroundColor: rightColor,
+      splitColor: leftColor,
+      textColor: AppColors.white,
+    );
   }
+
+  // 対角スプリットは [_DiagonalSplitPainter] で表現する。
 }
 
 /// [VSContainer] のサイズを表す列挙型。
@@ -207,24 +205,46 @@ class _VSSizeInfo {
 class _VSContainerColors {
   const _VSContainerColors({
     this.backgroundColor,
-    this.gradient,
     required this.textColor,
-    required this.borderColor,
     this.shadow,
+    this.splitColor,
   });
 
   /// 背景色（gradientがnullの場合に使用）。
   final Color? backgroundColor;
 
-  /// グラデーション（backgroundColorより優先）。
-  final Gradient? gradient;
-
   /// テキスト色。
   final Color textColor;
 
-  /// 境界線色。
-  final Color borderColor;
-
   /// 影定義。不要な場合は null。
   final List<BoxShadow>? shadow;
+
+  /// 左上→右下の対角線で塗り分けるときの左側塗りつぶし色。不要な場合は null。
+  final Color? splitColor;
+}
+
+/// VS 左右の見た目を決める内部アウトカム。
+enum _SideOutcome { progress, win, lose }
+
+class _DiagonalSplitPainter extends CustomPainter {
+  const _DiagonalSplitPainter({required this.splitColor});
+
+  final Color splitColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = splitColor;
+    // 左上 → 右下 を結ぶ直線で分割し、左側領域（左上・左下・右下の三角形）を塗る。
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _DiagonalSplitPainter oldDelegate) {
+    return oldDelegate.splitColor != splitColor;
+  }
 }
