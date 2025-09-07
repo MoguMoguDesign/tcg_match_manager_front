@@ -47,10 +47,7 @@ class CommonConfirmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visual = _resolveVisual(
-      style: style,
-      isEnabled: isEnabled,
-    );
+    final visual = _resolveVisual(style: style, isEnabled: isEnabled);
 
     return Container(
       height: _height,
