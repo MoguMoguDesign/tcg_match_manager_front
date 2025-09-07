@@ -1,4 +1,5 @@
 # flutter_monorepo_sample
+
 [![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
 
 ## 環境構築
@@ -10,7 +11,6 @@
 - 対応 OS: macOS / Windows
 - IDE: Visual Studio Code
 
-
 ### 1. セットアップコマンドの実行
 
 本リポジトリをクローン後、プロジェクトルートへ移動して以下のコマンドを実行してください。
@@ -18,19 +18,23 @@
 ※ macOS の場合は [Homebrew](https://www.kikagaku.co.jp/kikagaku-blog/homebrew-install-howto/)、Windows の場合は [Chocolatey](https://qiita.com/Soysoy11110000/items/925391c57d01a3e3ffd8) のインストールが事前に必要です。
 
 macOS の場合：
+
 ```shell
 make setup-macos
 ```
 
 Windows の場合：
+
 ```shell
 make setup-windows
 ```
+
 これにより、FVM や Melos のような開発に必要なツールがインストールされます。
 
 ※ コマンドを実行した際に PATH を通すように warning が出ている場合、指示に沿ってシェルの設定ファイル(eg. `~/.zshrc`)へ記述してください。
 
 #### 補足）FVM について
+
 本プロジェクトは Flutter のバージョン管理に [FVM](https://fvm.app/) を利用しています。上記のセットアップコマンドにより、FVM のインストール及びバージョン指定を行っています。
 
 `flutter` や `dart` コマンドの実行時には、冒頭に `fvm` をつけてプロジェクトで共通のバージョンを利用するようにしてください。尚、現在は `stable` 版指定となっているため、 `fvm flutter upgrade` にて各自が定期的に最新の stable バージョンへアップグレードする必要があります。
@@ -56,6 +60,7 @@ export PATH="$PATH:$HOME/fvm/default/bin"
 ```
 
 以下のコマンドにより、実際に PATH が通っていることを確認します：
+
 ```shell
 which flutter # /Users/${ユーザー名}/fvm/default/bin/flutter
 ```
@@ -94,7 +99,7 @@ Homebrew を利用して rbenv インストールします：
 brew install ruby-build rbenv
 ```
 
-シェルの設定ファイル(`~/.zshrc`)へ以下の2行を追加してください：
+シェルの設定ファイル(`~/.zshrc`)へ以下の 2 行を追加してください：
 
 ```.zshrc
 export PATH=$HOME/.rbenv/bin:$PATH
@@ -128,11 +133,13 @@ rbenv global x.y.z
 ```
 
 設定を反映します：
+
 ```shell
 rbenv init
 ```
 
 rbenv の gem が動くか確認します：
+
 ```shell
 which gem
 # (○) 適切に反映されている場合：
@@ -144,6 +151,7 @@ which gem
 ###### 4. CocoaPods のインストール
 
 以下コマンドで再度 CocoaPods をインストールします：
+
 ```shell
 sudo gem install cocoapods
 ```
@@ -170,10 +178,10 @@ sudo gem install cocoapods
 
 [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) により、ファイル内でカバーされていない行を確認することが出来ます。
 
-
 参考記事：https://codewithandrea.com/articles/flutter-test-coverage/#the-coverage-gutters-extension
 
 ## Melos について
+
 本プロジェクトではパッケージ管理に [melos | Dart Package](https://pub.dev/packages/melos) 及び [Pub workspaces](https://dart.dev/tools/pub/workspaces) を導入しています。
 
 利用方法等の詳細は以下の記事をご覧下さい。
@@ -203,6 +211,7 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
 尚、arb キーの命名規則は、「利用用途 → 内容」の順でキャメルケースで記載する方針としています。
 
 例）
+
 ```arb
 "labelFoo": "ラベル用文字列 Foo"
 "buttonFoo": "ボタン用文字列 Foo"
@@ -219,12 +228,9 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
 
 本プロジェクトでは翻訳の効率化のために [arb_translate](https://pub.dev/packages/arb_translate) を利用しており（[参考](https://zenn.dev/masa_tokyo/articles/arb_translate)）、デフォルト言語の日本語用のフィールドを追加することでその他言語（英語）への翻訳が行えるようになっています。上記の melos コマンドにより、`arb_translate` コマンドの実行や、その後の翻訳用のファイルへの反映を行なっています。
 
-
 ### 3. 翻訳用フィールドの利用
 
 `L10n.of(context).labelFoo` のようにすることで、各デバイスの言語設定に応じた文字列が取得出来ます。
-
-
 
 ## ドキュメント（docs サブモジュール）
 

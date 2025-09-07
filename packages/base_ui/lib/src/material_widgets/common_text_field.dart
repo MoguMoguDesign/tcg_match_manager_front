@@ -5,12 +5,12 @@ import 'package:gap/gap.dart';
 import '../../base_ui.dart';
 
 /// アプリ内で共通で用いられる [TextFormField].
-class CommonTextFormField extends StatelessWidget {
-  /// [CommonTextFormField] を生成する。
+class CommonTextField extends StatelessWidget {
+  /// [CommonTextField] を生成する。
   ///
   /// [isObscure] はデフォルト値 として false が適用される。
-  /// [icon] は null が適用されるため、指定したい場合は [CommonTextFormField.withIcon] を利用する。
-  const CommonTextFormField({
+  /// [icon] は null が適用されるため、指定したい場合は [CommonTextField.withIcon] を利用する。
+  const CommonTextField({
     super.key,
     this.hintText,
     this.isObscure = false,
@@ -19,10 +19,10 @@ class CommonTextFormField extends StatelessWidget {
     this.validator,
   }) : icon = null;
 
-  /// アイコン付きの [CommonTextFormField] を生成する。
+  /// アイコン付きの [CommonTextField] を生成する。
   ///
   /// [isObscure] はデフォルト値 として false が適用される。
-  const CommonTextFormField.withIcon({
+  const CommonTextField.withIcon({
     super.key,
     this.hintText,
     this.isObscure = false,

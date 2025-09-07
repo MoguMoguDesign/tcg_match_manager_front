@@ -15,6 +15,10 @@ workspace:
   - packages/util
 
 dependencies:
+  app:
+    path: packages/app
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
   altive_lints: ^1.22.0
@@ -25,6 +29,8 @@ dev_dependencies:
       path: scripts/bootstrap_package
       ref: bootstrap_package/v1.1.2
   custom_lint: ^0.7.6
+  flutter_test:
+    sdk: flutter
   melos: ^7.0.0-dev.9
 
 dependency_overrides:
