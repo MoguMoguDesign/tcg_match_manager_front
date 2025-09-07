@@ -78,10 +78,7 @@ class MatchRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            TableNumberColumn(
-              tableNumber: tableNumber,
-              style: _getTableNumberStyle(style),
-            ),
+            TableNumberColumn(tableNumber: tableNumber, status: status),
             const SizedBox(width: 16),
             Expanded(
               child: PlayersContainer(
@@ -122,17 +119,6 @@ class MatchRow extends StatelessWidget {
         return Colors.grey.shade200;
       case MatchRowStyle.admin:
         return Colors.blue.shade200;
-    }
-  }
-
-  TableNumberStyle _getTableNumberStyle(MatchRowStyle style) {
-    switch (style) {
-      case MatchRowStyle.primary:
-        return TableNumberStyle.primary;
-      case MatchRowStyle.secondary:
-        return TableNumberStyle.secondary;
-      case MatchRowStyle.admin:
-        return TableNumberStyle.admin;
     }
   }
 }

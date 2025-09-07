@@ -525,14 +525,17 @@ class ComponentTestPage extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TableNumberColumn(tableNumber: 1),
+                    TableNumberColumn(
+                      tableNumber: 1,
+                      status: MatchStatus.playing,
+                    ),
                     TableNumberColumn(
                       tableNumber: 2,
-                      style: TableNumberStyle.secondary,
+                      status: MatchStatus.playing,
                     ),
                     TableNumberColumn(
                       tableNumber: 3,
-                      style: TableNumberStyle.admin,
+                      status: MatchStatus.finished,
                     ),
                   ],
                 ),
@@ -546,10 +549,7 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 // 1. Progress vs Progress (通常)
-                const PlayersContainer(
-                  player1Name: '左通常',
-                  player2Name: '右通常',
-                ),
+                const PlayersContainer(player1Name: '左通常', player2Name: '右通常'),
                 const SizedBox(height: 8),
                 // 2. Progress vs Progress (左自分)
                 const PlayersContainer(
