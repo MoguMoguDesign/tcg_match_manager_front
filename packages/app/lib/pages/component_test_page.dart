@@ -23,22 +23,22 @@ class ComponentTestPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
+                Text(
                   'UI コンポーネントテストページ',
-                  style: AppTextStyles.headlineLarge,
+                  style: AppTextStyles.headlineLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                const Text(
+                Text(
                   'ここに各種コンポーネントを追加してテストできます。',
-                  style: AppTextStyles.bodyMedium,
+                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                // Figma CommonConfirmButton (node-id: 86-7960)
-                const Text(
-                  'CommonConfirmButton (Figma 86-7960)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: CommonConfirmButton(APP) - Figma node-id: 86-7960
+                Text(
+                  '✅ CommonConfirmButton(APP) - Figma 86-7960',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -86,10 +86,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
 
-                // CommonSmallButton のテスト
-                const Text(
-                  'CommonSmallButton (Figma 95-183)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: CommonSmallButton - Figma node-id: 95-183
+                Text(
+                  '✅ CommonSmallButton - Figma 95-183',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -162,10 +162,11 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // AdminConfirmButton のテスト
-                const Text(
-                  'AdminConfirmButton (admin)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: CommonConfirmButton(PC) - Figma node-id: 244-1212 
+                Text(
+                  '✅ AdminConfirmButton (CommonConfirmButton(PC))\n'
+                  'Figma 244-1212',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -192,10 +193,10 @@ class ComponentTestPage extends StatelessWidget {
                   },
                 ),
 
-                // ConfirmDialog のテスト
-                const Text(
-                  'ConfirmDialog (Figma 86-7764)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: ConfirmDialog - Figma node-id: 86-7764
+                Text(
+                  '✅ ConfirmDialog - Figma 86-7764',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -217,10 +218,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // TextField のテスト
-                const Text(
-                  'TextField (Figma 86-7923)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: TextField - Figma node-id: 86-7923
+                Text(
+                  '✅ TextField - Figma 86-7923',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -231,10 +232,10 @@ class ComponentTestPage extends StatelessWidget {
                 const SearchTextField(hintText: '検索キーワード'),
                 const SizedBox(height: 32),
 
-                // TournamentTitleCard のテスト
-                const Text(
-                  'TournamentTitleCard (Figma 244-5226)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: TournamentTitleCard - Figma node-id: 244-5226
+                Text(
+                  '✅ TournamentTitleCard - Figma 244-5226',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -249,10 +250,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // MatchStatusContainer のテスト
-                const Text(
-                  'MatchStatusContainer (Figma 244-5549)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: MatchStatusContainer - Figma node-id: 244-5549
+                Text(
+                  '✅ MatchStatusContainer - Figma 244-5549',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -269,10 +270,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // PlayerContainer のテスト
-                const Text(
-                  'PlayerContainer (Figma 244-5574)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: PlayerContainer - Figma node-id: 244-5574
+                Text(
+                  '✅ PlayerContainer - Figma 244-5574',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -285,10 +286,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // VSContainer のテスト
-                const Text(
-                  'VSContainer (Figma 244-5640)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: VSContainer - Figma node-id: 244-5640
+                Text(
+                  '✅ VSContainer - Figma 244-5640',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -311,10 +312,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // TableNumberColumn のテスト
-                const Text(
-                  'TableNumberColumn (Figma 244-5517)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: TableNumberColumn - Figma node-id: 244-5517
+                Text(
+                  '✅ TableNumberColumn - Figma 244-5517',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -334,10 +335,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // PlayersContainer のテスト
-                const Text(
-                  'PlayersContainer (Figma 253-5745)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: PlayersContainer - Figma node-id: 253-5745
+                Text(
+                  '✅ PlayersContainer - Figma 253-5745',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -357,10 +358,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // ResultContainer のテスト
-                const Text(
-                  'ResultContainer (Figma 255-2469)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: ResultContainer - Figma node-id: 255-2469
+                Text(
+                  '✅ ResultContainer - Figma 255-2469',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -392,10 +393,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // MatchList のテスト
-                const Text(
-                  'MatchList (Figma 253-6796)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: MatchList - Figma node-id: 253-6796
+                Text(
+                  '✅ MatchList - Figma 253-6796',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -431,7 +432,102 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // TODO(component): 他のコンポーネントのテスト要素をここに追加
+                // === 未実装コンポーネント ===
+                Text(
+                  '❌ 未実装コンポーネント',
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 未実装: DialogButtons - Figma node-id: 86-7843
+                Text(
+                  '❌ DialogButtons - Figma 86-7843',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '未実装: DialogButtons',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 未実装: MatchRow - Figma node-id: 253-6227
+                Text(
+                  '❌ MatchRow - Figma 253-6227',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '未実装: MatchRow',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 未実装: MatchListHeader - Figma node-id: 253-6083
+                Text(
+                  '❌ MatchListHeader - Figma 253-6083',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '未実装: MatchListHeader',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 注意: TournamentTitleCard重複 - Figma node-id: 254-2411
+                Text(
+                  '❌ TournamentTitleCard (重複？) - Figma 254-2411',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.orange, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '重複？要確認: TournamentTitleCard',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
