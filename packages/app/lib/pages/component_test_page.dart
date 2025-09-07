@@ -1,3 +1,6 @@
+// 本ページは UI コンポーネントのショーケースであり、80 文字超のラベルや
+// 冗長なデモ引数が多数登場するため、以下のルールを一時的に無効化する。
+// ignore_for_file: lines_longer_than_80_chars, avoid_redundant_argument_values
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 
