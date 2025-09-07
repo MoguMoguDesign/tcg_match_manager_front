@@ -11,3 +11,4 @@ export 'common_outlined_button.dart';
 export 'common_scaffold.dart';
 export 'common_switch.dart';
 export 'common_text_field.dart';
+export 'tournament_title_cards.dart';
