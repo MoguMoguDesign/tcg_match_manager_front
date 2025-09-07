@@ -23,22 +23,24 @@ class ComponentTestPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
+                Text(
                   'UI コンポーネントテストページ',
-                  style: AppTextStyles.headlineLarge,
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: Colors.white,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                const Text(
+                Text(
                   'ここに各種コンポーネントを追加してテストできます。',
-                  style: AppTextStyles.bodyMedium,
+                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                // Figma CommonConfirmButton (node-id: 86-7960)
-                const Text(
-                  'CommonConfirmButton (Figma 86-7960)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: CommonConfirmButton(APP) - Figma node-id: 86-7960
+                Text(
+                  '✅ CommonConfirmButton(APP) - Figma 86-7960',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -86,10 +88,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
 
-                // CommonSmallButton のテスト
-                const Text(
-                  'CommonSmallButton (Figma 95-183)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: CommonSmallButton - Figma node-id: 95-183
+                Text(
+                  '✅ CommonSmallButton - Figma 95-183',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -162,10 +164,11 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // AdminConfirmButton のテスト
-                const Text(
-                  'AdminConfirmButton (admin)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: CommonConfirmButton(PC) - Figma node-id: 244-1212
+                Text(
+                  '✅ AdminConfirmButton (CommonConfirmButton(PC))\n'
+                  'Figma 244-1212',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -192,10 +195,10 @@ class ComponentTestPage extends StatelessWidget {
                   },
                 ),
 
-                // ConfirmDialog のテスト
-                const Text(
-                  'ConfirmDialog (Figma 86-7764)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: ConfirmDialog - Figma node-id: 86-7764
+                Text(
+                  '✅ ConfirmDialog - Figma 86-7764',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -217,10 +220,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // TextField のテスト
-                const Text(
-                  'TextField (Figma 86-7923)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: TextField - Figma node-id: 86-7923
+                Text(
+                  '✅ TextField - Figma 86-7923',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -229,15 +232,31 @@ class ComponentTestPage extends StatelessWidget {
                 const PasswordTextField(hintText: 'パスワードを入力してください'),
                 const SizedBox(height: 12),
                 const SearchTextField(hintText: '検索キーワード'),
+                const SizedBox(height: 12),
+                DropdownSelectField<String>(
+                  hintText: 'リストから選択',
+                  items: const ['オプション1', 'オプション2', 'オプション3'],
+                  onChanged: (value) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('選択: $value')));
+                  },
+                ),
                 const SizedBox(height: 32),
 
-                // TournamentTitleCard のテスト
-                const Text(
-                  'TournamentTitleCard (Figma 244-5226)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: TournamentTitleCard - Figma node-id: 244-5226
+                Text(
+                  '✅ TournamentTitleCard - Figma 244-5226',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
+                const TournamentTitleCard(
+                  title: 'トーナメントタイトル',
+                  date: '2025/08/31',
+                  participantCount: 32,
+                ),
+                const SizedBox(height: 16),
                 const TournamentTitleCard(
                   title: '春季トーナメント',
                   subtitle: '2024年4月開催',
@@ -246,13 +265,15 @@ class ComponentTestPage extends StatelessWidget {
                 const TournamentTitleCard(
                   title: 'プレミアリーグ',
                   style: TournamentCardStyle.admin,
+                  date: '2025/09/15',
+                  participantCount: 16,
                 ),
                 const SizedBox(height: 24),
 
-                // MatchStatusContainer のテスト
-                const Text(
-                  'MatchStatusContainer (Figma 244-5549)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: MatchStatusContainer - Figma node-id: 244-5549
+                Text(
+                  '✅ MatchStatusContainer - Figma 244-5549',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -260,61 +281,244 @@ class ComponentTestPage extends StatelessWidget {
                   spacing: 12,
                   runSpacing: 8,
                   children: [
-                    MatchStatusContainer(status: MatchStatus.waiting),
                     MatchStatusContainer(status: MatchStatus.playing),
                     MatchStatusContainer(status: MatchStatus.finished),
-                    MatchStatusContainer(status: MatchStatus.cancelled),
-                    MatchStatusContainer(status: MatchStatus.paused),
                   ],
                 ),
                 const SizedBox(height: 24),
 
-                // PlayerContainer のテスト
-                const Text(
-                  'PlayerContainer (Figma 244-5574)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: PlayerContainer - Figma 244-5574 (6種類)
+                Text(
+                  '✅ PlayerContainer - 6種類のデザインパターン',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
-                const PlayerContainer(playerName: '田中太郎', playerNumber: 1),
+
+                // 通常ユーザーパターン
+                const Text(
+                  '通常ユーザー:',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 const PlayerContainer(
-                  playerName: '佐藤花子',
-                  playerNumber: 2,
-                  isWinner: true,
+                  playerName: 'プレイヤー名',
+                  state: PlayerState.progress,
+                ),
+                const SizedBox(height: 8),
+                const PlayerContainer(
+                  playerName: 'プレイヤー名',
+                  state: PlayerState.win,
+                ),
+                const SizedBox(height: 8),
+                const PlayerContainer(
+                  playerName: 'プレイヤー名',
+                  state: PlayerState.lose,
+                ),
+                const SizedBox(height: 16),
+
+                // 現在ユーザーパターン
+                const Text(
+                  'カレントユーザー:',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const PlayerContainer(
+                  playerName: 'プレイヤー名',
+                  state: PlayerState.progress,
+                  isCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                const PlayerContainer(
+                  playerName: 'プレイヤー名',
+                  state: PlayerState.win,
+                  isCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                const PlayerContainer(
+                  playerName: 'プレイヤー名',
+                  state: PlayerState.lose,
+                  isCurrentUser: true,
                 ),
                 const SizedBox(height: 24),
 
-                // VSContainer のテスト
-                const Text(
-                  'VSContainer (Figma 244-5640)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: VSContainer - 9パターンデザイン
+                Text(
+                  '✅ VSContainer - 9パターンデザイン',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
+                // Progress状態のパターン
+                Text(
+                  'Progress States',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    VSContainer(size: VSContainerSize.small),
-                    VSContainer(),
-                    VSContainer(size: VSContainerSize.large),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.progress,
+                          currentUserPosition: VSContainerUserPosition.none,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Progress',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.progress,
+                          currentUserPosition: VSContainerUserPosition.left,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'User Left',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.progress,
+                          currentUserPosition: VSContainerUserPosition.right,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'User Right',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
+                // Left Player Win状態のパターン
+                Text(
+                  'Left Player Win States',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    VSContainer(),
-                    VSContainer(style: VSContainerStyle.secondary),
-                    VSContainer(style: VSContainerStyle.admin),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.leftPlayerWin,
+                          currentUserPosition: VSContainerUserPosition.none,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Left Win',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.leftPlayerWin,
+                          currentUserPosition: VSContainerUserPosition.left,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Win User Left',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.leftPlayerWin,
+                          currentUserPosition: VSContainerUserPosition.right,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Win User Right',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Left Player Lose状態のパターン
+                Text(
+                  'Left Player Lose States',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.leftPlayerLose,
+                          currentUserPosition: VSContainerUserPosition.none,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Left Lose',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.leftPlayerLose,
+                          currentUserPosition: VSContainerUserPosition.left,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Lose User Left',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        VSContainer(
+                          state: VSContainerState.leftPlayerLose,
+                          currentUserPosition: VSContainerUserPosition.right,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Lose User Right',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 24),
 
-                // TableNumberColumn のテスト
-                const Text(
-                  'TableNumberColumn (Figma 244-5517)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: TableNumberColumn - Figma node-id: 244-5517
+                Text(
+                  '✅ TableNumberColumn - Figma 244-5517',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -334,33 +538,30 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // PlayersContainer のテスト
-                const Text(
-                  'PlayersContainer (Figma 253-5745)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: PlayersContainer - Figma node-id: 253-5745
+                Text(
+                  '✅ PlayersContainer - Figma 253-5745',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
                 const PlayersContainer(
                   player1Name: '田中太郎',
                   player2Name: '佐藤花子',
-                  player1Number: 1,
-                  player2Number: 2,
-                  player2IsWinner: true,
+                  player1State: PlayerState.progress,
+                  player2State: PlayerState.win,
                 ),
                 const SizedBox(height: 16),
                 const PlayersContainer(
                   player1Name: '山田次郎',
                   player2Name: '鈴木一郎',
-                  playerStyle: PlayerContainerStyle.secondary,
-                  vsStyle: VSContainerStyle.secondary,
                 ),
                 const SizedBox(height: 24),
 
-                // ResultContainer のテスト
-                const Text(
-                  'ResultContainer (Figma 255-2469)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: ResultContainer - Figma node-id: 255-2469
+                Text(
+                  '✅ ResultContainer - Figma 255-2469',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -392,10 +593,10 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // MatchList のテスト
-                const Text(
-                  'MatchList (Figma 253-6796)',
-                  style: AppTextStyles.labelLarge,
+                // ✅ 実装済み: MatchList - Figma node-id: 253-6796
+                Text(
+                  '✅ MatchList - Figma 253-6796',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
@@ -406,21 +607,21 @@ class ComponentTestPage extends StatelessWidget {
                       player1Name: '田中太郎',
                       player2Name: '佐藤花子',
                       status: MatchStatus.playing,
-                      player1Number: 1,
-                      player2Number: 2,
+                      player1State: PlayerState.progress,
+                      player2State: PlayerState.progress,
                     ),
                     MatchData(
                       tableNumber: 2,
                       player1Name: '山田次郎',
                       player2Name: '鈴木一郎',
                       status: MatchStatus.finished,
-                      player2IsWinner: true,
+                      player2State: PlayerState.win,
                     ),
                     MatchData(
                       tableNumber: 3,
                       player1Name: '高橋三郎',
                       player2Name: '渡辺四郎',
-                      status: MatchStatus.waiting,
+                      status: MatchStatus.playing,
                     ),
                   ],
                   onMatchTap: (match) {
@@ -431,23 +632,113 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // ResultRow のテスト
-                const Text(
-                  'ResultRow (Figma 255-3528)',
-                  style: AppTextStyles.labelLarge,
+                // === 未実装コンポーネント ===
+                Text(
+                  '❌ 未実装コンポーネント',
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+
+                // ✅ 実装済み: DialogButtons - Figma node-id: 86-7843
+                Text(
+                  '✅ DialogButtons - Figma 86-7843',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
-                const ResultRow(
-                  leftLabel: 'あなた',
-                  rightValue: 'WIN',
-                  type: ResultRowType.currentUser,
+                // Default（2ボタン）
+                DialogButtons(
+                  primaryText: '決定',
+                  onPrimaryPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('DialogButtons: 決定')),
+                    );
+                  },
+                  secondaryText: 'キャンセル',
+                  onSecondaryPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('DialogButtons: キャンセル')),
+                    );
+                  },
                 ),
-                const SizedBox(height: 8),
-                const ResultRow(
-                  leftLabel: 'Player A',
-                  rightValue: 'LOSE',
-                  subtitle: 'Table 3',
+                const SizedBox(height: 12),
+                // OnlyClose（1ボタン）
+                DialogButtons(
+                  primaryText: '決定',
+                  onPrimaryPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('DialogButtons: 決定のみ')),
+                    );
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 未実装: MatchRow - Figma node-id: 253-6227
+                Text(
+                  '❌ MatchRow - Figma 253-6227',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '未実装: MatchRow',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 未実装: MatchListHeader - Figma node-id: 253-6083
+                Text(
+                  '❌ MatchListHeader - Figma 253-6083',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '未実装: MatchListHeader',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // ❌ 注意: TournamentTitleCard重複 - Figma node-id: 254-2411
+                Text(
+                  '❌ TournamentTitleCard (重複？) - Figma 254-2411',
+                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.orange, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '重複？要確認: TournamentTitleCard',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             ),

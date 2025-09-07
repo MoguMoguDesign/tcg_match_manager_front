@@ -5,8 +5,8 @@ import '../../constants/app_text_styles.dart';
 
 /// プレイヤー情報を表示するコンテナウィジェット。
 ///
-/// Figma の PlayerContainer（node-id: 244-5574）に準拠し、
-/// プレイヤー名とメタ情報を統一されたスタイルで表示する。
+/// Figma の PlayerContainer に準拠した6種類のデザインパターンを提供。
+/// Progress, Win, Lose, Progress Current User, Win Current User, Lose Current User
 class PlayerContainer extends StatelessWidget {
   /// [PlayerContainer] のコンストラクタ。
   ///
@@ -14,152 +14,159 @@ class PlayerContainer extends StatelessWidget {
   const PlayerContainer({
     super.key,
     required this.playerName,
-    this.playerNumber,
-    this.isWinner = false,
-    this.showBorder = true,
-    this.style = PlayerContainerStyle.primary,
+    this.score = '累計得点 0点',
+    this.state = PlayerState.progress,
+    this.isCurrentUser = false,
   });
 
   /// プレイヤー名。
   final String playerName;
 
-  /// プレイヤー番号（オプション）。
-  final int? playerNumber;
+  /// スコア表示（累計得点など）。
+  final String score;
 
-  /// 勝者かどうか。
-  final bool isWinner;
+  /// プレイヤーの状態。
+  final PlayerState state;
 
-  /// 境界線を表示するかどうか。
-  final bool showBorder;
-
-  /// コンテナのスタイル。
-  final PlayerContainerStyle style;
+  /// 現在のユーザーかどうか。
+  final bool isCurrentUser;
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getStyleColors(style, isWinner);
+    final colors = _getStateColors(state, isCurrentUser);
+    final showWinLabel = state == PlayerState.win;
+    final showLoseLabel = state == PlayerState.lose;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: colors.backgroundColor,
-        borderRadius: BorderRadius.circular(8),
-        border: showBorder ? Border.all(
-          color: colors.borderColor,
-          width: isWinner ? 2 : 1,
-        ) : null,
-        boxShadow: isWinner ? colors.shadow : null,
+        borderRadius: BorderRadius.circular(4),
       ),
-      child: Row(
+      child: Stack(
         children: [
-          if (playerNumber != null) ...[
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: colors.numberBackgroundColor,
-                shape: BoxShape.circle,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // プレイヤー名
+              Text(
+                playerName,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: colors.textColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              const SizedBox(height: 2),
+              // スコア
+              Text(
+                score,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: colors.textColor,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          // WIN ラベル（勝利時のみ）
+          if (showWinLabel)
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
               child: Center(
                 child: Text(
-                  playerNumber.toString(),
-                  style: AppTextStyles.labelSmall.copyWith(
-                    color: colors.numberTextColor,
-                    fontSize: 14,
+                  'WIN',
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: colors.winLabelColor,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 12),
-          ],
-          Expanded(
-            child: Text(
-              playerName,
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: colors.textColor,
-                fontSize: 16,
-                fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
+          // LOSE ラベル（敗北時のみ）
+          if (showLoseLabel)
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: Text(
+                  'LOSE',
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: colors.loseLabelColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
-          if (isWinner) ...[
-            const SizedBox(width: 8),
-            Icon(
-              Icons.emoji_events,
-              color: colors.winnerIconColor,
-              size: 20,
-            ),
-          ],
         ],
       ),
     );
   }
 
-  _PlayerContainerColors _getStyleColors(
-    PlayerContainerStyle style, 
-    bool isWinner,
+  _PlayerContainerColors _getStateColors(
+    PlayerState state, 
+    bool isCurrentUser,
   ) {
-    switch (style) {
-      case PlayerContainerStyle.primary:
-        return _PlayerContainerColors(
-          backgroundColor: isWinner 
-              ? AppColors.userPrimaryAlpha 
-              : AppColors.textBlack,
-          textColor: isWinner 
-              ? AppColors.textBlack 
-              : AppColors.white,
-          borderColor: isWinner 
-              ? AppColors.userPrimary 
-              : AppColors.whiteAlpha,
-          numberBackgroundColor: isWinner 
-              ? AppColors.userPrimary 
-              : AppColors.gray,
-          numberTextColor: AppColors.textBlack,
-          winnerIconColor: AppColors.userPrimary,
-          shadow: isWinner ? [
-            const BoxShadow(
-              color: Color(0xFFD8FF62),
-              blurRadius: 12,
-              offset: Offset(0, 2),
-            ),
-          ] : null,
-        );
-      case PlayerContainerStyle.secondary:
-        return _PlayerContainerColors(
-          backgroundColor: isWinner 
-              ? AppColors.adminPrimaryAlpha 
-              : AppColors.white,
-          textColor: AppColors.textBlack,
-          borderColor: isWinner 
-              ? AppColors.adminPrimary 
-              : AppColors.gray,
-          numberBackgroundColor: isWinner 
-              ? AppColors.adminPrimary 
-              : AppColors.grayLight,
-          numberTextColor: isWinner 
-              ? AppColors.white 
-              : AppColors.textBlack,
-          winnerIconColor: AppColors.adminPrimary,
-          shadow: isWinner ? [
-            BoxShadow(
-              color: AppColors.adminPrimary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 2),
-            ),
-          ] : null,
-        );
+    if (isCurrentUser) {
+      // Current User パターン
+      switch (state) {
+        case PlayerState.progress:
+          return const _PlayerContainerColors(
+            backgroundColor: AppColors.adminPrimary, // #3A44FB
+            textColor: AppColors.white,
+          );
+        case PlayerState.win:
+          return const _PlayerContainerColors(
+            backgroundColor: AppColors.adminPrimary, // #3A44FB
+            textColor: AppColors.white,
+            winLabelColor: Color(0x33FFFFFF), // 透明な白
+          );
+        case PlayerState.lose:
+          return const _PlayerContainerColors(
+            backgroundColor: AppColors.adminPrimary, // #3A44FB (青色)
+            textColor: AppColors.white,
+            loseLabelColor: Color(0x33FFFFFF), // 透明な白
+          );
+      }
+    } else {
+      // 通常のユーザーパターン
+      switch (state) {
+        case PlayerState.progress:
+          return const _PlayerContainerColors(
+            backgroundColor: AppColors.textBlack, // #000336
+            textColor: AppColors.white,
+          );
+        case PlayerState.win:
+          return _PlayerContainerColors(
+            backgroundColor: AppColors.userPrimary.withValues(alpha: 0.2), // rgba(180,239,3,0.2)
+            textColor: AppColors.white,
+            winLabelColor: const Color(0x33FFFFFF), // 透明な白
+          );
+        case PlayerState.lose:
+          return const _PlayerContainerColors(
+            backgroundColor: Color(0xFFB0A3E3), // 薄い紫色（Figmaデザインに準拠）
+            textColor: AppColors.white,
+            loseLabelColor: Color(0x33FFFFFF), // 透明な白
+          );
+      }
     }
   }
 }
 
-/// [PlayerContainer] のスタイルを表す列挙型。
-enum PlayerContainerStyle {
-  /// プライマリスタイル（ダークテーマ）。
-  primary,
+/// プレイヤーの状態を表す列挙型。
+enum PlayerState {
+  /// 進行中。
+  progress,
 
-  /// セカンダリスタイル（ライトテーマ）。
-  secondary,
+  /// 勝利。
+  win,
+
+  /// 敗北。
+  lose,
 }
 
 /// プレイヤーコンテナの色情報を保持するクラス。
@@ -167,11 +174,8 @@ class _PlayerContainerColors {
   const _PlayerContainerColors({
     required this.backgroundColor,
     required this.textColor,
-    required this.borderColor,
-    required this.numberBackgroundColor,
-    required this.numberTextColor,
-    required this.winnerIconColor,
-    this.shadow,
+    this.winLabelColor,
+    this.loseLabelColor,
   });
 
   /// 背景色。
@@ -180,18 +184,9 @@ class _PlayerContainerColors {
   /// テキスト色。
   final Color textColor;
 
-  /// 境界線色。
-  final Color borderColor;
+  /// WIN ラベルの色（勝利時のみ）。
+  final Color? winLabelColor;
 
-  /// 番号背景色。
-  final Color numberBackgroundColor;
-
-  /// 番号テキスト色。
-  final Color numberTextColor;
-
-  /// 勝者アイコン色。
-  final Color winnerIconColor;
-
-  /// 影定義。不要な場合は null。
-  final List<BoxShadow>? shadow;
+  /// LOSE ラベルの色（敗北時のみ）。
+  final Color? loseLabelColor;
 }

@@ -15,11 +15,12 @@ class PlayersContainer extends StatelessWidget {
     super.key,
     required this.player1Name,
     required this.player2Name,
-    this.player1Number,
-    this.player2Number,
-    this.player1IsWinner = false,
-    this.player2IsWinner = false,
-    this.playerStyle = PlayerContainerStyle.primary,
+    this.player1Score = '累計得点 0点',
+    this.player2Score = '累計得点 0点',
+    this.player1State = PlayerState.progress,
+    this.player2State = PlayerState.progress,
+    this.player1IsCurrentUser = false,
+    this.player2IsCurrentUser = false,
     this.vsStyle = VSContainerStyle.primary,
     this.vsSize = VSContainerSize.medium,
   });
@@ -30,22 +31,26 @@ class PlayersContainer extends StatelessWidget {
   /// プレイヤー2の名前。
   final String player2Name;
 
-  /// プレイヤー1の番号（オプション）。
-  final int? player1Number;
+  /// プレイヤー1のスコア。
+  final String player1Score;
 
-  /// プレイヤー2の番号（オプション）。
-  final int? player2Number;
+  /// プレイヤー2のスコア。
+  final String player2Score;
 
-  /// プレイヤー1が勝者かどうか。
-  final bool player1IsWinner;
+  /// プレイヤー1の状態。
+  final PlayerState player1State;
 
-  /// プレイヤー2が勝者かどうか。
-  final bool player2IsWinner;
+  /// プレイヤー2の状態。
+  final PlayerState player2State;
 
-  /// プレイヤーコンテナのスタイル。
-  final PlayerContainerStyle playerStyle;
+  /// プレイヤー1が現在のユーザーかどうか。
+  final bool player1IsCurrentUser;
 
-  /// VSコンテナのスタイル。
+  /// プレイヤー2が現在のユーザーかどうか。
+  final bool player2IsCurrentUser;
+
+  /// VSコンテナのスタイル（廃止予定）。
+  @Deprecated('Use player states instead')
   final VSContainerStyle vsStyle;
 
   /// VSコンテナのサイズ。
@@ -57,23 +62,49 @@ class PlayersContainer extends StatelessWidget {
       children: [
         PlayerContainer(
           playerName: player1Name,
-          playerNumber: player1Number,
-          isWinner: player1IsWinner,
-          style: playerStyle,
+          score: player1Score,
+          state: player1State,
+          isCurrentUser: player1IsCurrentUser,
         ),
         const SizedBox(height: 8),
         VSContainer(
-          style: vsStyle,
+          state: _getVSContainerState(),
+          currentUserPosition: _getCurrentUserPosition(),
           size: vsSize,
         ),
         const SizedBox(height: 8),
         PlayerContainer(
           playerName: player2Name,
-          playerNumber: player2Number,
-          isWinner: player2IsWinner,
-          style: playerStyle,
+          score: player2Score,
+          state: player2State,
+          isCurrentUser: player2IsCurrentUser,
         ),
       ],
     );
+  }
+
+  /// プレイヤーの状態からVSContainerの状態を決定する。
+  VSContainerState _getVSContainerState() {
+    // プレイヤー1が勝利している場合
+    if (player1State == PlayerState.win) {
+      return VSContainerState.leftPlayerWin;
+    }
+    // プレイヤー1が敗北している場合
+    if (player1State == PlayerState.lose) {
+      return VSContainerState.leftPlayerLose;
+    }
+    // 進行中またはその他の状態
+    return VSContainerState.progress;
+  }
+
+  /// 現在のユーザーの位置を決定する。
+  VSContainerUserPosition _getCurrentUserPosition() {
+    if (player1IsCurrentUser) {
+      return VSContainerUserPosition.left;
+    }
+    if (player2IsCurrentUser) {
+      return VSContainerUserPosition.right;
+    }
+    return VSContainerUserPosition.none;
   }
 }
