@@ -450,7 +450,7 @@ class ComponentTestPage extends StatelessWidget {
                   subtitle: 'Table 3',
                 ),
 
-                // TODO(component): 他のコンポーネントのテスト要素をここに追加
+                // TODO: 他のコンポーネントのテスト要素をここに追加
               ],
             ),
           ),
