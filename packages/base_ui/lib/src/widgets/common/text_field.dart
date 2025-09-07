@@ -260,3 +260,89 @@ class SearchTextField extends StatelessWidget {
     );
   }
 }
+
+/// ドロップダウン選択フィールド。
+///
+/// Figma の TextField（node-id: 86-7920）に準拠した選択フィールド。
+/// リストから値を選択する際に使用する。
+class DropdownSelectField<T> extends StatelessWidget {
+  /// [DropdownSelectField] のコンストラクタ。
+  const DropdownSelectField({
+    super.key,
+    required this.hintText,
+    required this.items,
+    this.value,
+    this.onChanged,
+    this.enabled = true,
+    this.itemBuilder,
+  });
+
+  /// プレースホルダーテキスト。
+  final String hintText;
+
+  /// 選択可能なアイテム一覧。
+  final List<T> items;
+
+  /// 現在選択されている値。
+  final T? value;
+
+  /// 選択変更時のコールバック。
+  final ValueChanged<T?>? onChanged;
+
+  /// フィールドが有効かどうか。
+  final bool enabled;
+
+  /// アイテムの表示形式をカスタマイズするビルダー。
+  final Widget Function(T item)? itemBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 56,
+      decoration: BoxDecoration(
+        color: enabled 
+            ? AppColors.textBlack 
+            : AppColors.gray.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(
+          color: AppColors.whiteAlpha,
+          width: 1,
+        ),
+      ),
+      child: DropdownButtonFormField<T>(
+        value: value,
+        onChanged: enabled ? onChanged : null,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: AppTextStyles.bodyMedium.copyWith(
+            color: AppColors.gray,
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 16,
+          ),
+        ),
+        style: AppTextStyles.bodyMedium.copyWith(
+          color: enabled ? AppColors.white : AppColors.gray,
+        ),
+        dropdownColor: AppColors.textBlack,
+        icon: Icon(
+          Icons.keyboard_arrow_down,
+          color: enabled ? AppColors.white : AppColors.gray,
+        ),
+        items: items.map((T item) {
+          return DropdownMenuItem<T>(
+            value: item,
+            child: itemBuilder?.call(item) ?? Text(
+              item.toString(),
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.white,
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}

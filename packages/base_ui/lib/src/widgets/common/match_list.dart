@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'match_list_header.dart';
 import 'match_row.dart';
 import 'match_status_container.dart';
+import 'player_container.dart';
 
 /// マッチリスト全体を表示するウィジェット。
 ///
@@ -55,10 +56,12 @@ class MatchList extends StatelessWidget {
                 player1Name: match.player1Name,
                 player2Name: match.player2Name,
                 status: match.status,
-                player1Number: match.player1Number,
-                player2Number: match.player2Number,
-                player1IsWinner: match.player1IsWinner,
-                player2IsWinner: match.player2IsWinner,
+                player1Score: match.player1Score,
+                player2Score: match.player2Score,
+                player1State: match.player1State,
+                player2State: match.player2State,
+                player1IsCurrentUser: match.player1IsCurrentUser,
+                player2IsCurrentUser: match.player2IsCurrentUser,
                 style: _getRowStyle(style),
                 onTap: onMatchTap != null ? () => onMatchTap!(match) : null,
               ),
@@ -114,10 +117,12 @@ class MatchData {
     required this.player1Name,
     required this.player2Name,
     required this.status,
-    this.player1Number,
-    this.player2Number,
-    this.player1IsWinner = false,
-    this.player2IsWinner = false,
+    this.player1Score = '累計得点 0点',
+    this.player2Score = '累計得点 0点',
+    this.player1State = PlayerState.progress,
+    this.player2State = PlayerState.progress,
+    this.player1IsCurrentUser = false,
+    this.player2IsCurrentUser = false,
     this.matchId,
   });
 
@@ -133,17 +138,23 @@ class MatchData {
   /// マッチステータス。
   final MatchStatus status;
 
-  /// プレイヤー1の番号（オプション）。
-  final int? player1Number;
+  /// プレイヤー1のスコア。
+  final String player1Score;
 
-  /// プレイヤー2の番号（オプション）。
-  final int? player2Number;
+  /// プレイヤー2のスコア。
+  final String player2Score;
 
-  /// プレイヤー1が勝者かどうか。
-  final bool player1IsWinner;
+  /// プレイヤー1の状態。
+  final PlayerState player1State;
 
-  /// プレイヤー2が勝者かどうか。
-  final bool player2IsWinner;
+  /// プレイヤー2の状態。
+  final PlayerState player2State;
+
+  /// プレイヤー1が現在のユーザーかどうか。
+  final bool player1IsCurrentUser;
+
+  /// プレイヤー2が現在のユーザーかどうか。
+  final bool player2IsCurrentUser;
 
   /// マッチID（オプション）。
   final String? matchId;
