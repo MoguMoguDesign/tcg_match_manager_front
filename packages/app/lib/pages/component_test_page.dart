@@ -28,7 +28,9 @@ class ComponentTestPage extends StatelessWidget {
               children: [
                 Text(
                   'UI コンポーネントテストページ',
-                  style: AppTextStyles.headlineLarge.copyWith(color: Colors.white),
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: Colors.white,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -165,7 +167,7 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // ✅ 実装済み: CommonConfirmButton(PC) - Figma node-id: 244-1212 
+                // ✅ 実装済み: CommonConfirmButton(PC) - Figma node-id: 244-1212
                 Text(
                   '✅ AdminConfirmButton (CommonConfirmButton(PC))\n'
                   'Figma 244-1212',
@@ -238,9 +240,9 @@ class ComponentTestPage extends StatelessWidget {
                   hintText: 'リストから選択',
                   items: const ['オプション1', 'オプション2', 'オプション3'],
                   onChanged: (value) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('選択: $value')),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('選択: $value')));
                   },
                 ),
                 const SizedBox(height: 32),
@@ -295,11 +297,14 @@ class ComponentTestPage extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
-                
+
                 // 通常ユーザーパターン
                 const Text(
                   '通常ユーザー:',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const PlayerContainer(
@@ -317,11 +322,14 @@ class ComponentTestPage extends StatelessWidget {
                   state: PlayerState.lose,
                 ),
                 const SizedBox(height: 16),
-                
+
                 // 現在ユーザーパターン
                 const Text(
                   'カレントユーザー:',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const PlayerContainer(
@@ -353,7 +361,9 @@ class ComponentTestPage extends StatelessWidget {
                 // Progress状態のパターン
                 Text(
                   'Progress States',
-                  style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: Colors.white70,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const Row(
@@ -366,7 +376,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.none,
                         ),
                         SizedBox(height: 4),
-                        Text('Progress', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Progress',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                     Column(
@@ -376,7 +389,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.left,
                         ),
                         SizedBox(height: 4),
-                        Text('User Left', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'User Left',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                     Column(
@@ -386,7 +402,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.right,
                         ),
                         SizedBox(height: 4),
-                        Text('User Right', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'User Right',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                   ],
@@ -395,7 +414,9 @@ class ComponentTestPage extends StatelessWidget {
                 // Left Player Win状態のパターン
                 Text(
                   'Left Player Win States',
-                  style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: Colors.white70,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const Row(
@@ -408,7 +429,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.none,
                         ),
                         SizedBox(height: 4),
-                        Text('Left Win', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Left Win',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                     Column(
@@ -418,7 +442,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.left,
                         ),
                         SizedBox(height: 4),
-                        Text('Win User Left', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Win User Left',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                     Column(
@@ -428,7 +455,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.right,
                         ),
                         SizedBox(height: 4),
-                        Text('Win User Right', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Win User Right',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                   ],
@@ -437,7 +467,9 @@ class ComponentTestPage extends StatelessWidget {
                 // Left Player Lose状態のパターン
                 Text(
                   'Left Player Lose States',
-                  style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: Colors.white70,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const Row(
@@ -450,7 +482,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.none,
                         ),
                         SizedBox(height: 4),
-                        Text('Left Lose', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Left Lose',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                     Column(
@@ -460,7 +495,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.left,
                         ),
                         SizedBox(height: 4),
-                        Text('Lose User Left', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Lose User Left',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                     Column(
@@ -470,7 +508,10 @@ class ComponentTestPage extends StatelessWidget {
                           currentUserPosition: VSContainerUserPosition.right,
                         ),
                         SizedBox(height: 4),
-                        Text('Lose User Right', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                        Text(
+                          'Lose User Right',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
                       ],
                     ),
                   ],
