@@ -449,8 +449,6 @@ class ComponentTestPage extends StatelessWidget {
                   rightValue: 'LOSE',
                   subtitle: 'Table 3',
                 ),
-
-                // TODO: 他のコンポーネントのテスト要素をここに追加
               ],
             ),
           ),
