@@ -6,7 +6,8 @@ import '../../constants/app_text_styles.dart';
 /// プレイヤー情報を表示するコンテナウィジェット。
 ///
 /// Figma の PlayerContainer に準拠した6種類のデザインパターンを提供。
-/// Progress, Win, Lose, Progress Current User, Win Current User, Lose Current User
+/// Progress, Win, Lose, Progress Current User, 
+/// Win Current User, Lose Current User
 class PlayerContainer extends StatelessWidget {
   /// [PlayerContainer] のコンストラクタ。
   ///
@@ -142,7 +143,8 @@ class PlayerContainer extends StatelessWidget {
           );
         case PlayerState.win:
           return _PlayerContainerColors(
-            backgroundColor: AppColors.userPrimary.withValues(alpha: 0.2), // rgba(180,239,3,0.2)
+            backgroundColor: AppColors.userPrimary.withValues(alpha: 0.2),
+            // rgba(180,239,3,0.2)
             textColor: AppColors.white,
             winLabelColor: const Color(0x33FFFFFF), // 透明な白
           );

@@ -49,7 +49,7 @@ class VSContainer extends StatelessWidget {
           color: colors.borderColor,
           width: 2,
         ),
-        boxShadow: colors.shadow,
+
       ),
       child: Center(
         child: Text(
@@ -210,7 +210,7 @@ class _VSContainerColors {
     this.gradient,
     required this.textColor,
     required this.borderColor,
-    this.shadow,
+
   });
 
   /// 背景色（gradientがnullの場合に使用）。
@@ -225,6 +225,5 @@ class _VSContainerColors {
   /// 境界線色。
   final Color borderColor;
 
-  /// 影定義。不要な場合は null。
-  final List<BoxShadow>? shadow;
+
 }

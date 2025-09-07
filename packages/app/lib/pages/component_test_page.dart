@@ -1,5 +1,6 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
+// ignore_for_file: avoid_redundant_argument_values, prefer_const_constructors, prefer_const_literals_to_create_immutables, lines_longer_than_80_chars, document_ignores
 
 /// コンポーネントテスト用のページを表示する。
 ///
@@ -474,10 +475,7 @@ class ComponentTestPage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        VSContainer(
-                          state: VSContainerState.leftPlayerLose,
-                          currentUserPosition: VSContainerUserPosition.none,
-                        ),
+                        VSContainer(state: VSContainerState.leftPlayerLose),
                         SizedBox(height: 4),
                         Text(
                           'Left Lose',
@@ -738,6 +736,147 @@ class ComponentTestPage extends StatelessWidget {
                       '重複？要確認: TournamentTitleCard',
                       style: TextStyle(color: Colors.white),
                     ),
+                  ),
+                ),
+
+                // Tournament Title Card
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Tournament Title Card',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Primary style
+                      const TournamentTitleCard(
+                        title: 'Magic: The Gathering Tournament',
+                        date: '2024/12/25',
+                        participantCount: 32,
+                        style: TournamentCardStyle.primary,
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Secondary style
+                      const TournamentTitleCard(
+                        title: 'Yu-Gi-Oh! Championship',
+                        date: '2024/12/30',
+                        participantCount: 64,
+                        style: TournamentCardStyle.secondary,
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Admin style
+                      const TournamentTitleCard(
+                        title: 'Pokemon TCG League',
+                        subtitle: 'Winter Season 2024',
+                        participantCount: 48,
+                        style: TournamentCardStyle.admin,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Match List Title Cards (最新版 API)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Match List Title Cards',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // First round: 前(無効/半透明) + 次
+                      MatchListTitleCards.first(
+                        onPressedPrev: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('First: 前のラウンド')),
+                          );
+                        },
+                        onPressedNext: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('First: 次のラウンド')),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Medium round: 前(無効/半透明) + 次
+                      MatchListTitleCards.medium(
+                        onPressedPrev: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Medium: 前のラウンド')),
+                          );
+                        },
+                        onPressedNext: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Medium: 次のラウンド')),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Last round: 前 + 最終順位を表示
+                      MatchListTitleCards.last(
+                        onPressedPrev: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Last: 前のラウンド')),
+                          );
+                        },
+                        onPressedShowFinal: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Last: 最終順位を表示')),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Result Row
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Result Row',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Current user style
+                      const ResultRow(
+                        leftLabel: 'Player Name',
+                        rightValue: '3-1',
+                        subtitle: 'Current User',
+                        type: ResultRowType.currentUser,
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Other player style
+                      const ResultRow(
+                        leftLabel: 'Opponent',
+                        rightValue: '2-2',
+                        subtitle: 'Other Player',
+                        type: ResultRowType.other,
+                      ),
+                    ],
                   ),
                 ),
               ],

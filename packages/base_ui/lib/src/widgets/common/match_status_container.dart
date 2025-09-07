@@ -41,7 +41,6 @@ class MatchStatusContainer extends StatelessWidget {
         statusInfo.label,
         style: AppTextStyles.labelSmall.copyWith(
           color: statusInfo.textColor,
-          fontSize: 10,
           fontWeight: FontWeight.bold,
         ),
       ),

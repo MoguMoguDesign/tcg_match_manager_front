@@ -310,7 +310,7 @@ class DropdownSelectField<T> extends StatelessWidget {
         ),
       ),
       child: DropdownButtonFormField<T>(
-        value: value,
+        initialValue: value,
         onChanged: enabled ? onChanged : null,
         decoration: InputDecoration(
           hintText: hintText,
