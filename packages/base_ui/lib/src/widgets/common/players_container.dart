@@ -21,7 +21,7 @@ class PlayersContainer extends StatelessWidget {
     this.player2State = PlayerState.progress,
     this.player1IsCurrentUser = false,
     this.player2IsCurrentUser = false,
-    this.vsStyle = VSContainerStyle.primary,
+    @Deprecated('Use VSContainerState instead') this.vsStyle = VSContainerStyle.primary,
     this.vsSize = VSContainerSize.medium,
   });
 
@@ -51,6 +51,7 @@ class PlayersContainer extends StatelessWidget {
 
   /// VSコンテナのスタイル（廃止予定）。
   @Deprecated('Use player states instead')
+  @Deprecated('Use VSContainerState instead')
   final VSContainerStyle vsStyle;
 
   /// VSコンテナのサイズ。

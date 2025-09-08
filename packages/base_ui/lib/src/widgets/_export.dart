@@ -9,6 +9,7 @@ export 'common/dialog_buttons.dart';
 export 'common/match_card.dart';
 export 'common/match_list.dart';
 export 'common/match_list_header.dart';
+export 'common/match_list_title_cards.dart';
 export 'common/match_row.dart';
 export 'common/match_status_container.dart';
 export 'common/player_container.dart';

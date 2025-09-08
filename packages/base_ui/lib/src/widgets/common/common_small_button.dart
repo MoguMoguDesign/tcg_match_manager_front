@@ -141,12 +141,7 @@ class CommonSmallButton extends StatelessWidget {
       ],
     ];
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: children,
-    );
+    return Row(mainAxisSize: MainAxisSize.min, children: children);
   }
 
   static _VisualStyle _resolveVisual({
@@ -165,7 +160,13 @@ class CommonSmallButton extends StatelessWidget {
         return _VisualStyle(
           backgroundColor: AppColors.textBlack,
           textColor: AppColors.userPrimary,
-          border: Border.all(color: AppColors.userPrimary),
+          border: Border.all(color: AppColors.userPrimary, width: 2),
+        );
+      case SmallButtonStyle.neutralOutlined:
+        return _VisualStyle(
+          backgroundColor: AppColors.textBlack,
+          textColor: AppColors.white,
+          border: Border.all(color: AppColors.white, width: 2),
         );
       case SmallButtonStyle.admin:
         return _VisualStyle(
@@ -199,6 +200,9 @@ enum SmallButtonStyle {
 
   /// セカンダリスタイル（アウトライン）。
   secondary,
+
+  /// ニュートラルアウトラインスタイル（黒地に白アウトライン/白文字）。
+  neutralOutlined,
 
   /// 管理者スタイル（管理者向けの塗りつぶし）。
   admin,

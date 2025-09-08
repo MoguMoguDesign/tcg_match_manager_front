@@ -126,6 +126,7 @@ class VSContainer extends StatelessWidget {
     // 背景＝右側、対角の左側＝splitColor として描画。
     return _VSContainerColors(
       backgroundColor: rightColor,
+      shadow: null,
       splitColor: leftColor,
       textColor: AppColors.white,
     );

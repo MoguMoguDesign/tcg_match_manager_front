@@ -6,7 +6,8 @@ import '../../constants/app_text_styles.dart';
 /// プレイヤー情報を表示するコンテナウィジェット。
 ///
 /// Figma の PlayerContainer に準拠した6種類のデザインパターンを提供。
-/// Progress, Win, Lose, Progress Current User, Win Current User, Lose Current User
+/// Progress, Win, Lose, Progress Current User,
+/// Win Current User, Lose Current User
 class PlayerContainer extends StatelessWidget {
   /// [PlayerContainer] のコンストラクタ。
   ///
@@ -38,9 +39,7 @@ class PlayerContainer extends StatelessWidget {
     final showLoseLabel = state == PlayerState.lose;
 
     return Container(
-      decoration: BoxDecoration(
-        color: colors.backgroundColor,
-      ),
+      decoration: BoxDecoration(color: colors.backgroundColor),
       child: Stack(
         children: [
           Padding(
@@ -48,25 +47,25 @@ class PlayerContainer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              // プレイヤー名
-              Text(
-                playerName,
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: colors.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+                // プレイヤー名
+                Text(
+                  playerName,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: colors.textColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 2),
-              // スコア
-              Text(
-                score,
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: colors.textColor,
-                  fontSize: 12,
+                const SizedBox(height: 2),
+                // スコア
+                Text(
+                  score,
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: colors.textColor,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-            ],
+              ],
             ),
           ),
           // WIN ラベル（勝利時のみ）
