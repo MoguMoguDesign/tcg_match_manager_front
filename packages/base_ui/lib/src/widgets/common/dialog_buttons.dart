@@ -112,7 +112,7 @@ class _DialogActionButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.backgroundColor,
         borderRadius: BorderRadius.circular(22),
-        border: colors.border,
+        boxShadow: colors.boxShadow,
       ),
       child: Material(
         color: Colors.transparent,
@@ -136,17 +136,20 @@ class _DialogActionButton extends StatelessWidget {
   _DialogButtonColors _getStyleColors(DialogButtonStyle style) {
     switch (style) {
       case DialogButtonStyle.primary:
-        return const _DialogButtonColors(
+        return _DialogButtonColors(
           backgroundColor: AppColors.userPrimary,
           textColor: AppColors.textBlack,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.userPrimary.withValues(alpha: 0.5),
+              blurRadius: 20,
+            ),
+          ],
         );
       case DialogButtonStyle.secondary:
         return const _DialogButtonColors(
           backgroundColor: Colors.transparent,
-          textColor: AppColors.white,
-          border: Border.fromBorderSide(
-            BorderSide(color: AppColors.whiteAlpha),
-          ),
+          textColor: AppColors.gray,
         );
     }
   }
@@ -166,7 +169,7 @@ class _DialogButtonColors {
   const _DialogButtonColors({
     required this.backgroundColor,
     required this.textColor,
-    this.border,
+    this.boxShadow,
   });
 
   /// 背景色。
@@ -175,6 +178,6 @@ class _DialogButtonColors {
   /// テキスト色。
   final Color textColor;
 
-  /// 枠線定義。不要な場合は null。
-  final BoxBorder? border;
+  /// ボックスシャドウ。不要な場合は null。
+  final List<BoxShadow>? boxShadow;
 }
