@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import 'common_small_button.dart';
 
-/// 試合一覧のタイトルカードを表示するウィジェット。
+/// ラウンド変更ボタン行を表示するウィジェット。
 ///
 /// Figma の MatchListTitleCards に準拠し、左右 2 つのボタンのみを表示する。
 ///
 /// タイトルやサブタイトルは表示しない。背景は透明とする。
-class MatchListTitleCards extends StatelessWidget {
+class RoundChangeButtonRow extends StatelessWidget {
   /// 最初のラウンド用の構成を表示する。
   ///
   /// 左: 「前のラウンド」（無効/半透明）。右: 「次のラウンド」。
-  const MatchListTitleCards.first({
+  const RoundChangeButtonRow.first({
     super.key,
     this.onPressedPrev,
     this.onPressedNext,
@@ -22,7 +22,7 @@ class MatchListTitleCards extends StatelessWidget {
   /// 中間ラウンド用の構成を表示する。
   ///
   /// 左: 「前のラウンド」（無効/半透明）。右: 「次のラウンド」。
-  const MatchListTitleCards.medium({
+  const RoundChangeButtonRow.medium({
     super.key,
     this.onPressedPrev,
     this.onPressedNext,
@@ -32,7 +32,7 @@ class MatchListTitleCards extends StatelessWidget {
   /// 最後のラウンド用の構成を表示する。
   ///
   /// 左: 「前のラウンド」。右: 「最終順位を表示」。
-  const MatchListTitleCards.last({
+  const RoundChangeButtonRow.last({
     super.key,
     this.onPressedPrev,
     this.onPressedShowFinal,

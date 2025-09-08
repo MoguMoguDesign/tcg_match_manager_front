@@ -623,31 +623,35 @@ class ComponentTestPage extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
-                const Wrap(
-                  spacing: 16,
-                  runSpacing: 8,
-                  children: [
-                    ResultContainer(
-                      result: ResultData(
-                        title: 'SCORE',
-                        value: '15',
-                        subtitle: 'pts',
-                      ),
+                ResultContainer(
+                  matches: [
+                    MatchData(
+                      tableNumber: 1,
+                      player1Name: 'テストプレイヤー1',
+                      player2Name: 'テストプレイヤー2',
+                      status: MatchStatus.playing,
                     ),
-                    ResultContainer(
-                      result: ResultData(
-                        title: 'RANK',
-                        value: '1st',
-                        isHighlight: true,
-                      ),
-                      style: ResultContainerStyle.winner,
-                    ),
-                    ResultContainer(
-                      result: ResultData(value: '2-1'),
-                      style: ResultContainerStyle.secondary,
-                      size: ResultContainerSize.large,
+                    MatchData(
+                      tableNumber: 2,
+                      player1Name: '山田次郎',
+                      player2Name: '鈴木一郎',
+                      status: MatchStatus.finished,
+                      player1State: PlayerState.lose,
+                      player2State: PlayerState.win,
                     ),
                   ],
+                  roundNumber: 1,
+                  roundButtonType: RoundButtonType.first,
+                  onPressedNext: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('次のラウンド')),
+                    );
+                  },
+                  onMatchTap: (match) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('テーブル ${match.tableNumber} をタップ')),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
 
@@ -691,16 +695,6 @@ class ComponentTestPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // === 未実装コンポーネント ===
-                Text(
-                  '❌ 未実装コンポーネント',
-                  style: AppTextStyles.headlineLarge.copyWith(
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-
                 // ✅ 実装済み: DialogButtons - Figma node-id: 86-7843
                 Text(
                   '✅ DialogButtons - Figma 86-7843',
@@ -734,71 +728,6 @@ class ComponentTestPage extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 24),
-
-                // ❌ 未実装: MatchRow - Figma node-id: 253-6227
-                Text(
-                  '❌ MatchRow - Figma 253-6227',
-                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
-                  textAlign: TextAlign.left,
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '未実装: MatchRow',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // ❌ 未実装: MatchListHeader - Figma node-id: 253-6083
-                Text(
-                  '❌ MatchListHeader - Figma 253-6083',
-                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
-                  textAlign: TextAlign.left,
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '未実装: MatchListHeader',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // ❌ 注意: TournamentTitleCard重複 - Figma node-id: 254-2411
-                Text(
-                  '❌ TournamentTitleCard (重複？) - Figma 254-2411',
-                  style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
-                  textAlign: TextAlign.left,
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.orange, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '重複？要確認: TournamentTitleCard',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
 
                 // Tournament Title Card
                 Container(
@@ -860,7 +789,7 @@ class ComponentTestPage extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       // First round: 前(無効/半透明) + 次
-                      MatchListTitleCards.first(
+                      RoundChangeButtonRow.first(
                         onPressedPrev: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('First: 前のラウンド')),
@@ -875,7 +804,7 @@ class ComponentTestPage extends StatelessWidget {
                       const SizedBox(height: 12),
 
                       // Medium round: 前(無効/半透明) + 次
-                      MatchListTitleCards.medium(
+                      RoundChangeButtonRow.medium(
                         onPressedPrev: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Medium: 前のラウンド')),
@@ -890,7 +819,7 @@ class ComponentTestPage extends StatelessWidget {
                       const SizedBox(height: 12),
 
                       // Last round: 前 + 最終順位を表示
-                      MatchListTitleCards.last(
+                      RoundChangeButtonRow.last(
                         onPressedPrev: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Last: 前のラウンド')),
