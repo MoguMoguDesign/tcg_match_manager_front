@@ -70,16 +70,14 @@ class MatchRow extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: _getBackgroundColor(style),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: _getBorderColor(style)),
+        padding: EdgeInsets.zero,
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
         ),
         child: Row(
           children: [
             TableNumberColumn(tableNumber: tableNumber, status: status),
-            const SizedBox(width: 16),
+            const SizedBox(width: 8),
             Expanded(
               child: PlayersContainer(
                 player1Name: player1Name,
@@ -92,35 +90,12 @@ class MatchRow extends StatelessWidget {
                 player2IsCurrentUser: player2IsCurrentUser,
               ),
             ),
-            const SizedBox(width: 16),
-            MatchStatusContainer(status: status),
           ],
         ),
       ),
     );
   }
 
-  Color _getBackgroundColor(MatchRowStyle style) {
-    switch (style) {
-      case MatchRowStyle.primary:
-        return Colors.transparent;
-      case MatchRowStyle.secondary:
-        return Colors.grey.shade50;
-      case MatchRowStyle.admin:
-        return Colors.blue.shade50;
-    }
-  }
-
-  Color _getBorderColor(MatchRowStyle style) {
-    switch (style) {
-      case MatchRowStyle.primary:
-        return Colors.grey.shade300;
-      case MatchRowStyle.secondary:
-        return Colors.grey.shade200;
-      case MatchRowStyle.admin:
-        return Colors.blue.shade200;
-    }
-  }
 }
 
 /// [MatchRow] のスタイルを表す列挙型。

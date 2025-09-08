@@ -673,6 +673,7 @@ class ComponentTestPage extends StatelessWidget {
                       player1Name: '山田次郎',
                       player2Name: '鈴木一郎',
                       status: MatchStatus.finished,
+                      player1State: PlayerState.lose,
                       player2State: PlayerState.win,
                     ),
                     MatchData(
