@@ -523,14 +523,17 @@ class ComponentTestPage extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TableNumberColumn(tableNumber: 1),
+                    TableNumberColumn(
+                      tableNumber: 1,
+                      status: MatchStatus.playing,
+                    ),
                     TableNumberColumn(
                       tableNumber: 2,
-                      style: TableNumberStyle.secondary,
+                      status: MatchStatus.playing,
                     ),
                     TableNumberColumn(
                       tableNumber: 3,
-                      style: TableNumberStyle.admin,
+                      status: MatchStatus.finished,
                     ),
                   ],
                 ),
@@ -543,16 +546,73 @@ class ComponentTestPage extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 12),
+                // 1. Progress vs Progress (通常)
+                const PlayersContainer(player1Name: '左通常', player2Name: '右通常'),
+                const SizedBox(height: 8),
+                // 2. Progress vs Progress (左自分)
                 const PlayersContainer(
-                  player1Name: '田中太郎',
-                  player2Name: '佐藤花子',
-                  player1State: PlayerState.progress,
+                  player1Name: '左自分',
+                  player2Name: '右通常',
+                  player1IsCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                // 3. Progress vs Progress (右自分)
+                const PlayersContainer(
+                  player1Name: '左通常',
+                  player2Name: '右自分',
+                  player2IsCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                // 4. Win vs Lose (左勝ち)
+                const PlayersContainer(
+                  player1Name: '左勝ち',
+                  player2Name: '右負け',
+                  player1State: PlayerState.win,
+                  player2State: PlayerState.lose,
+                ),
+                const SizedBox(height: 8),
+                // 5. Win vs Lose (左自分勝ち)
+                const PlayersContainer(
+                  player1Name: '左自分勝ち',
+                  player2Name: '右負け',
+                  player1State: PlayerState.win,
+                  player2State: PlayerState.lose,
+                  player1IsCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                // 6. Win vs Lose (右自分負け)
+                const PlayersContainer(
+                  player1Name: '左勝ち',
+                  player2Name: '右自分負け',
+                  player1State: PlayerState.win,
+                  player2State: PlayerState.lose,
+                  player2IsCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                // 7. Lose vs Win (左負け)
+                const PlayersContainer(
+                  player1Name: '左負け',
+                  player2Name: '右勝ち',
+                  player1State: PlayerState.lose,
                   player2State: PlayerState.win,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
+                // 8. Lose vs Win (左自分負け)
                 const PlayersContainer(
-                  player1Name: '山田次郎',
-                  player2Name: '鈴木一郎',
+                  player1Name: '左自分負け',
+                  player2Name: '右勝ち',
+                  player1State: PlayerState.lose,
+                  player2State: PlayerState.win,
+                  player1IsCurrentUser: true,
+                ),
+                const SizedBox(height: 8),
+                // 9. Lose vs Win (右自分勝ち)
+                const PlayersContainer(
+                  player1Name: '左負け',
+                  player2Name: '右自分勝ち',
+                  player1State: PlayerState.lose,
+                  player2State: PlayerState.win,
+                  player2IsCurrentUser: true,
                 ),
                 const SizedBox(height: 24),
 

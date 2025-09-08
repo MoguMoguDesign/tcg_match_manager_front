@@ -59,26 +59,38 @@ class PlayersContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final vs = vsSize == VSContainerSize.medium
+        ? VSContainer(
+            state: _getVSContainerState(),
+            currentUserPosition: _getCurrentUserPosition(),
+          )
+        : VSContainer(
+            state: _getVSContainerState(),
+            currentUserPosition: _getCurrentUserPosition(),
+            size: vsSize,
+          );
+
+    return Row(
       children: [
-        PlayerContainer(
-          playerName: player1Name,
-          score: player1Score,
-          state: player1State,
-          isCurrentUser: player1IsCurrentUser,
+        // 左プレイヤー
+        Expanded(
+          child: PlayerContainer(
+            playerName: player1Name,
+            score: player1Score,
+            state: player1State,
+            isCurrentUser: player1IsCurrentUser,
+          ),
         ),
-        const SizedBox(height: 8),
-        VSContainer(
-          state: _getVSContainerState(),
-          currentUserPosition: _getCurrentUserPosition(),
-          size: vsSize,
-        ),
-        const SizedBox(height: 8),
-        PlayerContainer(
-          playerName: player2Name,
-          score: player2Score,
-          state: player2State,
-          isCurrentUser: player2IsCurrentUser,
+        // VS（余白なし）
+        vs,
+        // 右プレイヤー
+        Expanded(
+          child: PlayerContainer(
+            playerName: player2Name,
+            score: player2Score,
+            state: player2State,
+            isCurrentUser: player2IsCurrentUser,
+          ),
         ),
       ],
     );
@@ -86,15 +98,15 @@ class PlayersContainer extends StatelessWidget {
 
   /// プレイヤーの状態からVSContainerの状態を決定する。
   VSContainerState _getVSContainerState() {
-    // プレイヤー1が勝利している場合
-    if (player1State == PlayerState.win) {
+    // 左右双方の状態を考慮して VS の左右配色を決定する。
+    // 優先度: 明確な勝敗があればそれを優先。
+    if (player1State == PlayerState.win || player2State == PlayerState.lose) {
       return VSContainerState.leftPlayerWin;
     }
-    // プレイヤー1が敗北している場合
-    if (player1State == PlayerState.lose) {
+    if (player1State == PlayerState.lose || player2State == PlayerState.win) {
       return VSContainerState.leftPlayerLose;
     }
-    // 進行中またはその他の状態
+    // 両者とも進行中など、勝敗未確定。
     return VSContainerState.progress;
   }
 
