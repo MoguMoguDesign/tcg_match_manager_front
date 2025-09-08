@@ -38,16 +38,16 @@ class PlayerContainer extends StatelessWidget {
     final showLoseLabel = state == PlayerState.lose;
 
     return Container(
-      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: colors.backgroundColor,
-        borderRadius: BorderRadius.circular(4),
       ),
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               // プレイヤー名
               Text(
                 playerName,
@@ -67,6 +67,7 @@ class PlayerContainer extends StatelessWidget {
                 ),
               ),
             ],
+            ),
           ),
           // WIN ラベル（勝利時のみ）
           if (showWinLabel)
@@ -108,7 +109,7 @@ class PlayerContainer extends StatelessWidget {
   }
 
   _PlayerContainerColors _getStateColors(
-    PlayerState state, 
+    PlayerState state,
     bool isCurrentUser,
   ) {
     if (isCurrentUser) {
@@ -141,14 +142,14 @@ class PlayerContainer extends StatelessWidget {
             textColor: AppColors.white,
           );
         case PlayerState.win:
-          return _PlayerContainerColors(
-            backgroundColor: AppColors.userPrimary.withValues(alpha: 0.2), // rgba(180,239,3,0.2)
+          return const _PlayerContainerColors(
+            backgroundColor: AppColors.userPrimaryAlpha, // 落ち着いた緑色（透明度20%）
             textColor: AppColors.white,
-            winLabelColor: const Color(0x33FFFFFF), // 透明な白
+            winLabelColor: Color(0x33FFFFFF), // 透明な白
           );
         case PlayerState.lose:
           return const _PlayerContainerColors(
-            backgroundColor: Color(0xFFB0A3E3), // 薄い紫色（Figmaデザインに準拠）
+            backgroundColor: AppColors.loseNormal, // 薄い紫色（Figmaデザインに準拠）
             textColor: AppColors.white,
             loseLabelColor: Color(0x33FFFFFF), // 透明な白
           );
