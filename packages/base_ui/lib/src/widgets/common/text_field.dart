@@ -76,7 +76,7 @@ class FigmaTextField extends StatelessWidget {
             color: enabled 
                 ? AppColors.textBlack 
                 : AppColors.gray.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(40),
             border: Border.all(
               color: hasError 
                   ? Colors.red 
@@ -102,7 +102,7 @@ class FigmaTextField extends StatelessWidget {
               ),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
+                horizontal: 16,
                 vertical: maxLines == 1 ? 16 : 14,
               ),
               prefixIcon: prefixIcon != null 
@@ -303,7 +303,7 @@ class DropdownSelectField<T> extends StatelessWidget {
         color: enabled 
             ? AppColors.textBlack 
             : AppColors.gray.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(40),
         border: Border.all(
           color: AppColors.whiteAlpha,
           width: 1,
@@ -319,7 +319,7 @@ class DropdownSelectField<T> extends StatelessWidget {
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
+            horizontal: 16,
             vertical: 16,
           ),
         ),

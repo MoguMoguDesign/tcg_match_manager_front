@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
+import 'dialog_buttons.dart';
 
 /// 確認用ダイアログウィジェット。
 ///
@@ -10,13 +11,14 @@ import '../../constants/app_text_styles.dart';
 class ConfirmDialog extends StatelessWidget {
   /// [ConfirmDialog] のコンストラクタ。
   ///
-  /// [title] と [message] は必須パラメータ。
+  /// [title] は必須パラメータ。
+  /// [message] はオプション（指定時は2行表示）。
   /// [confirmText] と [cancelText] はデフォルト値を持つ。
   const ConfirmDialog({
     super.key,
     required this.title,
-    required this.message,
-    this.confirmText = 'OK',
+    this.message,
+    this.confirmText = '決定',
     this.cancelText = 'キャンセル',
     this.onConfirm,
     this.onCancel,
@@ -25,8 +27,8 @@ class ConfirmDialog extends StatelessWidget {
   /// ダイアログのタイトル。
   final String title;
 
-  /// ダイアログのメッセージ内容。
-  final String message;
+  /// ダイアログのメッセージ内容（オプション）。
+  final String? message;
 
   /// 確認ボタンのテキスト。
   final String confirmText;
@@ -47,8 +49,8 @@ class ConfirmDialog extends StatelessWidget {
   static Future<bool?> show(
     BuildContext context, {
     required String title,
-    required String message,
-    String confirmText = 'OK',
+    String? message,
+    String confirmText = '決定',
     String cancelText = 'キャンセル',
     VoidCallback? onConfirm,
     VoidCallback? onCancel,
@@ -69,159 +71,58 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: AppColors.textBlack,
+      backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: AppColors.whiteAlpha),
       ),
       child: Container(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(24, 30, 24, 30),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // タイトル
             Text(
               title,
-              style: AppTextStyles.labelLarge.copyWith(
-                color: AppColors.userPrimary,
-                fontSize: 18,
+              style: AppTextStyles.headlineLarge.copyWith(
+                color: AppColors.textBlack,
+                fontSize: 20,
+                height: 1,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
-            // メッセージ
-            Text(
-              message,
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.white,
+            if (message != null) ...[
+              const SizedBox(height: 24),
+              // メッセージ
+              Text(
+                message!,
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: AppColors.textBlack,
+                  fontSize: 14,
+                  height: 1,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
+            ],
             const SizedBox(height: 24),
             // ボタン群
-            Row(
-              children: [
-                // キャンセルボタン
-                Expanded(
-                  child: _DialogButton(
-                    text: cancelText,
-                    style: _DialogButtonStyle.cancel,
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                      onCancel?.call();
-                    },
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // 確認ボタン
-                Expanded(
-                  child: _DialogButton(
-                    text: confirmText,
-                    style: _DialogButtonStyle.confirm,
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                      onConfirm?.call();
-                    },
-                  ),
-                ),
-              ],
+            SizedBox(
+              width: 314,
+              child: DialogButtons(
+                primaryText: confirmText,
+                onPrimaryPressed: () {
+                  Navigator.of(context).pop(true);
+                  onConfirm?.call();
+                },
+                secondaryText: cancelText,
+                onSecondaryPressed: () {
+                  Navigator.of(context).pop(false);
+                  onCancel?.call();
+                },
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
-
-/// ダイアログ内で使用するボタンの内部ウィジェット。
-class _DialogButton extends StatelessWidget {
-  const _DialogButton({
-    required this.text,
-    required this.style,
-    required this.onPressed,
-  });
-
-  /// ボタンのテキスト。
-  final String text;
-
-  /// ボタンのスタイル。
-  final _DialogButtonStyle style;
-
-  /// ボタンタップ時のコールバック。
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = _getStyleColors(style);
-
-    return Container(
-      height: 44,
-      decoration: BoxDecoration(
-        color: colors.backgroundColor,
-        borderRadius: BorderRadius.circular(22),
-        border: colors.border,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(22),
-          child: Center(
-            child: Text(
-              text,
-              style: AppTextStyles.labelMedium.copyWith(
-                color: colors.textColor,
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _DialogButtonColors _getStyleColors(_DialogButtonStyle style) {
-    switch (style) {
-      case _DialogButtonStyle.cancel:
-        return const _DialogButtonColors(
-          backgroundColor: Colors.transparent,
-          textColor: AppColors.white,
-          border: Border.fromBorderSide(
-            BorderSide(color: AppColors.whiteAlpha),
-          ),
-        );
-      case _DialogButtonStyle.confirm:
-        return const _DialogButtonColors(
-          backgroundColor: AppColors.userPrimary,
-          textColor: AppColors.textBlack,
-        );
-    }
-  }
-}
-
-/// ダイアログボタンのスタイルを表す列挙型。
-enum _DialogButtonStyle {
-  /// キャンセルボタンのスタイル。
-  cancel,
-
-  /// 確認ボタンのスタイル。
-  confirm,
-}
-
-/// ダイアログボタンの色情報を保持するクラス。
-class _DialogButtonColors {
-  const _DialogButtonColors({
-    required this.backgroundColor,
-    required this.textColor,
-    this.border,
-  });
-
-  /// 背景色。
-  final Color backgroundColor;
-
-  /// テキスト色。
-  final Color textColor;
-
-  /// 枠線定義。不要な場合は null。
-  final BoxBorder? border;
 }
