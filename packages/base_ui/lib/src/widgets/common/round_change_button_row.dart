@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_colors.dart';
 import 'common_small_button.dart';
 
 /// ラウンド変更ボタン行を表示するウィジェット。
@@ -65,84 +64,95 @@ class RoundChangeButtonRow extends StatelessWidget {
   Widget _buildActions() {
     switch (_variant) {
       case _Variant.first:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 160,
-              child: Opacity(
-                opacity: 0.3,
-                child: CommonSmallButton.leadingIcon(
-                  text: '前のラウンド',
-                  icon: const Icon(Icons.chevron_left, color: AppColors.white),
-                  isEnabled: false,
-                  onPressed: onPressedPrev ?? () {},
-                  style: SmallButtonStyle.neutralOutlined,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // Equal size buttons: (total width - gap) / 2
+            final buttonWidth = (constraints.maxWidth - 8) / 2;
+            return Row(
+              children: [
+                SizedBox(
+                  width: buttonWidth,
+                  child: CommonSmallButton.leadingIcon(
+                    text: '前のラウンド',
+                    icon: const Icon(Icons.chevron_left),
+                    isEnabled: false,
+                    onPressed: onPressedPrev ?? () {},
+                    style: SmallButtonStyle.neutralOutlined,
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: 160,
-              child: CommonSmallButton.trailingIcon(
-                text: '次のラウンド',
-                icon: const Icon(Icons.chevron_right, color: AppColors.white),
-                onPressed: onPressedNext ?? () {},
-                style: SmallButtonStyle.neutralOutlined,
-              ),
-            ),
-          ],
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: buttonWidth,
+                  child: CommonSmallButton.trailingIcon(
+                    text: '次のラウンド',
+                    icon: const Icon(Icons.chevron_right),
+                    onPressed: onPressedNext ?? () {},
+                    style: SmallButtonStyle.neutralOutlined,
+                  ),
+                ),
+              ],
+            );
+          },
         );
       case _Variant.medium:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 160,
-              child: CommonSmallButton.leadingIcon(
-                text: '前のラウンド',
-                icon: const Icon(Icons.chevron_left, color: AppColors.white),
-                isEnabled: false,
-                onPressed: onPressedPrev ?? () {},
-                style: SmallButtonStyle.neutralOutlined,
-              ),
-            ),
-            SizedBox(
-              width: 160,
-              child: CommonSmallButton.trailingIcon(
-                text: '次のラウンド',
-                icon: const Icon(Icons.chevron_right, color: AppColors.white),
-                onPressed: onPressedNext ?? () {},
-                style: SmallButtonStyle.neutralOutlined,
-              ),
-            ),
-          ],
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // Equal size buttons: (total width - gap) / 2
+            final buttonWidth = (constraints.maxWidth - 8) / 2;
+            return Row(
+              children: [
+                SizedBox(
+                  width: buttonWidth,
+                  child: CommonSmallButton.leadingIcon(
+                    text: '前のラウンド',
+                    icon: const Icon(Icons.chevron_left),
+                    isEnabled: false,
+                    onPressed: onPressedPrev ?? () {},
+                    style: SmallButtonStyle.neutralOutlined,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: buttonWidth,
+                  child: CommonSmallButton.trailingIcon(
+                    text: '次のラウンド',
+                    icon: const Icon(Icons.chevron_right),
+                    onPressed: onPressedNext ?? () {},
+                    style: SmallButtonStyle.neutralOutlined,
+                  ),
+                ),
+              ],
+            );
+          },
         );
       case _Variant.last:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 160,
-              child: CommonSmallButton.leadingIcon(
-                text: '前のラウンド',
-                icon: const Icon(Icons.chevron_left, color: AppColors.white),
-                onPressed: onPressedPrev ?? () {},
-                style: SmallButtonStyle.neutralOutlined,
-              ),
-            ),
-            SizedBox(
-              width: 160,
-              child: CommonSmallButton.leadingIcon(
-                text: '最終順位を表示',
-                icon: const Icon(
-                  Icons.emoji_events,
-                  color: AppColors.userPrimary,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // Equal size buttons: (total width - gap) / 2
+            final buttonWidth = (constraints.maxWidth - 8) / 2;
+            return Row(
+              children: [
+                SizedBox(
+                  width: buttonWidth,
+                  child: CommonSmallButton.leadingIcon(
+                    text: '前のラウンド',
+                    icon: const Icon(Icons.chevron_left),
+                    onPressed: onPressedPrev ?? () {},
+                    style: SmallButtonStyle.neutralOutlined,
+                  ),
                 ),
-                onPressed: onPressedShowFinal ?? () {},
-                style: SmallButtonStyle.secondary,
-              ),
-            ),
-          ],
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: buttonWidth,
+                  child: CommonSmallButton(
+                    text: '最終順位を表示',
+                    onPressed: onPressedShowFinal ?? () {},
+                    style: SmallButtonStyle.secondary,
+                  ),
+                ),
+              ],
+            );
+          },
         );
     }
   }

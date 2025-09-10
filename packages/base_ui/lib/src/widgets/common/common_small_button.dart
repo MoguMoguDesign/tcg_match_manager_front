@@ -54,10 +54,10 @@ class CommonSmallButton extends StatelessWidget {
        _trailingIcon = icon;
 
   /// ボタンの高さを定義する。
-  static const double _height = 36;
+  static const double _height = 40;
 
   /// ボタンの角丸半径を定義する。
-  static const double _radius = 20;
+  static const double _radius = 28;
 
   /// ボタンに表示されるテキスト。
   final String text;
@@ -100,7 +100,7 @@ class CommonSmallButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(_radius),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: _buildContent(visual),
             ),
           ),
@@ -113,9 +113,9 @@ class CommonSmallButton extends StatelessWidget {
   Widget _buildContent(_VisualStyle visual) {
     final textWidget = Text(
       text,
-      style: AppTextStyles.labelSmall.copyWith(
+      style: AppTextStyles.labelLarge.copyWith(
         color: visual.textColor,
-        fontSize: 12,
+        fontSize: 16,
         height: 1,
       ),
     );
@@ -131,13 +131,13 @@ class CommonSmallButton extends StatelessWidget {
 
     final children = <Widget>[
       if (hasLeading) ...[
-        _IconContainer(icon: leadingIcon),
+        _IconContainer(icon: leadingIcon, color: visual.textColor),
         const SizedBox(width: 8),
       ],
       textWidget,
       if (hasTrailing) ...[
         const SizedBox(width: 8),
-        _IconContainer(icon: trailingIcon),
+        _IconContainer(icon: trailingIcon, color: visual.textColor),
       ],
     ];
 
@@ -158,15 +158,33 @@ class CommonSmallButton extends StatelessWidget {
         );
       case SmallButtonStyle.secondary:
         return _VisualStyle(
-          backgroundColor: AppColors.textBlack,
-          textColor: AppColors.userPrimary,
-          border: Border.all(color: AppColors.userPrimary, width: 2),
+          backgroundColor: isEnabled 
+              ? AppColors.textBlack 
+              : AppColors.textBlack.withValues(alpha: 0.3),
+          textColor: isEnabled 
+              ? AppColors.userPrimary 
+              : AppColors.gray.withValues(alpha: 0.6),
+          border: Border.all(
+            color: isEnabled 
+                ? AppColors.userPrimary 
+                : AppColors.gray.withValues(alpha: 0.4), 
+            width: 2,
+          ),
         );
       case SmallButtonStyle.neutralOutlined:
         return _VisualStyle(
-          backgroundColor: AppColors.textBlack,
-          textColor: AppColors.white,
-          border: Border.all(color: AppColors.white, width: 2),
+          backgroundColor: isEnabled 
+              ? AppColors.textBlack 
+              : AppColors.textBlack.withValues(alpha: 0.3),
+          textColor: isEnabled 
+              ? AppColors.white 
+              : AppColors.gray.withValues(alpha: 0.6),
+          border: Border.all(
+            color: isEnabled 
+                ? AppColors.white 
+                : AppColors.gray.withValues(alpha: 0.4), 
+            width: 2,
+          ),
         );
       case SmallButtonStyle.admin:
         return _VisualStyle(
@@ -182,14 +200,26 @@ class CommonSmallButton extends StatelessWidget {
 /// アイコンのタップ領域や配置を統一するためのラッパーウィジェット。
 class _IconContainer extends StatelessWidget {
   /// [_IconContainer] のコンストラクタ。
-  const _IconContainer({required this.icon});
+  const _IconContainer({required this.icon, required this.color});
 
   /// 表示するアイコンウィジェット。
   final Widget icon;
 
+  /// アイコンの色。
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: 16, width: 16, child: FittedBox(child: icon));
+    return SizedBox(
+      height: 20,
+      width: 20,
+      child: FittedBox(
+        child: IconTheme(
+          data: IconThemeData(color: color, size: 20),
+          child: icon,
+        ),
+      ),
+    );
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
+import '../common/button_icon.dart';
 
 /// 管理者向けの確認アクション用ボタンウィジェット。
 ///
@@ -19,7 +20,8 @@ class AdminConfirmButton extends StatelessWidget {
     this.isFilled = true,
     this.isEnabled = true,
     this.width,
-  }) : _leadingIcon = null;
+  }) : _leadingIcon = null,
+       _buttonIconType = null;
 
   /// 左側にアイコンを表示するコンストラクタ。
   const AdminConfirmButton.leadingIcon({
@@ -30,7 +32,20 @@ class AdminConfirmButton extends StatelessWidget {
     this.isFilled = true,
     this.isEnabled = true,
     this.width,
-  }) : _leadingIcon = icon;
+  }) : _leadingIcon = icon,
+       _buttonIconType = null;
+
+  /// 左側にButtonIconを表示するコンストラクタ。
+  const AdminConfirmButton.leadingButtonIcon({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required ButtonIconType iconType,
+    this.isFilled = true,
+    this.isEnabled = true,
+    this.width,
+  }) : _leadingIcon = null,
+       _buttonIconType = iconType;
 
   static const double _height = 56;
   static const double _radius = 40;
@@ -53,6 +68,9 @@ class AdminConfirmButton extends StatelessWidget {
 
   /// 左側に表示するアイコンウィジェット。
   final Widget? _leadingIcon;
+
+  /// 左側に表示するButtonIconの種類。
+  final ButtonIconType? _buttonIconType;
 
   @override
   Widget build(BuildContext context) {
@@ -103,26 +121,53 @@ class AdminConfirmButton extends StatelessWidget {
   Widget _buildContent(Color textColor) {
     final textWidget = Text(
       text,
-      style: AppTextStyles.labelLarge.copyWith(color: textColor, height: 1),
+      style: AppTextStyles.labelLarge.copyWith(
+        color: textColor, 
+        height: 1,
+        fontSize: 16,
+      ),
     );
 
     final leadingIcon = _leadingIcon;
-    if (leadingIcon == null) {
-      return textWidget;
-    }
+    final buttonIconType = _buttonIconType;
 
-    return IconTheme(
-      data: IconThemeData(color: textColor, size: 24),
-      child: Row(
+    // ButtonIconTypeが指定されている場合はButtonIconを使用
+    if (buttonIconType != null) {
+      return Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 24, width: 24, child: FittedBox(child: leadingIcon)),
+          ButtonIcon(
+            type: buttonIconType,
+            color: textColor,
+          ),
           const SizedBox(width: 12),
           textWidget,
         ],
-      ),
-    );
+      );
+    }
+
+    // 通常のアイコンウィジェットが指定されている場合
+    if (leadingIcon != null) {
+      return IconTheme(
+        data: IconThemeData(color: textColor, size: 24),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 24,
+              width: 24,
+              child: FittedBox(child: leadingIcon),
+            ),
+            const SizedBox(width: 12),
+            textWidget,
+          ],
+        ),
+      );
+    }
+
+    return textWidget;
   }
 }
 
