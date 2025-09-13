@@ -1,0 +1,34 @@
+name: admin
+description: "Admin Flutter Web application."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+resolution: workspace
+
+dependencies:
+  base_ui:
+    path: ../../packages/base_ui
+  domain:
+    path: ../../packages/domain
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.21.2
+  go_router: ^14.6.2
+  hooks_riverpod: ^2.6.1
+  injection:
+    path: ../../packages/injection
+  util:
+    path: ../../packages/util
+
+dev_dependencies:
+  altive_lints: ^1.22.0
+  build_runner: ^2.4.15
+  custom_lint: ^0.7.6
+  flutter_test:
+    sdk: flutter
+  go_router_builder: ^2.7.1
+
+flutter:
+  uses-material-design: true

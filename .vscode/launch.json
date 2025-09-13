@@ -2,23 +2,22 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "app debug",
+      "name": "User App (Web)",
       "request": "launch",
       "type": "dart",
-      "program": "packages/app/lib/main_tcg.dart",
+      "program": "clients/app/lib/main.dart",
       "flutterMode": "debug",
-      "args": [
-      ]
+      "deviceId": "web-server",
+      "args": []
     },
     {
-      "name": "sample dev debug",
+      "name": "Admin App (Web)",
       "request": "launch",
       "type": "dart",
-      "program": "packages/sample/lib/main.dart",
+      "program": "clients/admin/lib/main.dart",
       "flutterMode": "debug",
-      "args": [
-        "--dart-define-from-file=scripts/flavors/dev.json"
-      ]
+      "deviceId": "web-server",
+      "args": []
     }
   ]
 }

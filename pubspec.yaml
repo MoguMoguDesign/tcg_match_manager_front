@@ -6,7 +6,8 @@ version: 0.1.0
 environment:
   sdk: ^3.9.0
 workspace:
-  - packages/app
+  - clients/app
+  - clients/admin
   - packages/base_ui
   - packages/domain
   - packages/injection  
@@ -15,8 +16,10 @@ workspace:
   - packages/util
 
 dependencies:
+  admin:
+    path: clients/admin
   app:
-    path: packages/app
+    path: clients/app
   flutter:
     sdk: flutter
 
