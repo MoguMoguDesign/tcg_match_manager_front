@@ -1,6 +1,8 @@
 # https://github.com/altive/altive_lints/blob/main/packages/altive_lints/lib/altive_lints.yaml
 include: package:altive_lints/altive_lints.yaml
 analyzer:
+  exclude:
+    - .github/workflows/**
   errors:
     # MEMO(masaki): Mockito にて不要な `ignore: must_be_immutable` 警告が生成されてしまうため無視する。
     # https://github.com/dart-lang/mockito/issues/795
