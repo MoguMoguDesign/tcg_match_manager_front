@@ -209,7 +209,6 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         ),
         onPressed: _toggleObscureText,
         padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(),
       ),
     );
   }
@@ -306,7 +305,6 @@ class DropdownSelectField<T> extends StatelessWidget {
         borderRadius: BorderRadius.circular(40),
         border: Border.all(
           color: AppColors.whiteAlpha,
-          width: 1,
         ),
       ),
       child: DropdownButtonFormField<T>(

@@ -38,7 +38,7 @@ class PlayerContainer extends StatelessWidget {
     final showWinLabel = state == PlayerState.win;
     final showLoseLabel = state == PlayerState.lose;
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(color: colors.backgroundColor),
       child: Stack(
         children: [
@@ -148,9 +148,9 @@ class PlayerContainer extends StatelessWidget {
           );
         case PlayerState.lose:
           return const _PlayerContainerColors(
-            backgroundColor: AppColors.loseNormal, // 薄い紫色（Figmaデザインに準拠）
+            backgroundColor: AppColors.loseNormal, // 薄い紫色
             textColor: AppColors.white,
-            loseLabelColor: Color(0x33FFFFFF), // 透明な白
+            loseLabelColor: AppColors.white, // 白色のラベル
           );
       }
     }

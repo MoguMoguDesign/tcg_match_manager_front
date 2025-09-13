@@ -44,7 +44,6 @@ class VSContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.backgroundColor,
         // 枠線はデザイン上不要。
-        boxShadow: colors.shadow,
       ),
       child: Stack(
         fit: StackFit.expand,
@@ -93,23 +92,22 @@ class VSContainer extends StatelessWidget {
       case VSContainerState.progress:
         leftOutcome = _SideOutcome.progress;
         rightOutcome = _SideOutcome.progress;
-        break;
       case VSContainerState.leftPlayerWin:
         leftOutcome = _SideOutcome.win;
         rightOutcome = _SideOutcome.lose;
-        break;
       case VSContainerState.leftPlayerLose:
         leftOutcome = _SideOutcome.lose;
         rightOutcome = _SideOutcome.win;
-        break;
     }
 
     // カレントユーザー位置。
-    final bool isLeftCurrent = userPosition == VSContainerUserPosition.left;
-    final bool isRightCurrent = userPosition == VSContainerUserPosition.right;
+    final isLeftCurrent = userPosition == VSContainerUserPosition.left;
+    final isRightCurrent = userPosition == VSContainerUserPosition.right;
 
-    Color mapColor(_SideOutcome outcome, bool isCurrent) {
-      if (isCurrent) return AppColors.adminPrimary;
+    Color mapColor(_SideOutcome outcome, {required bool isCurrent}) {
+      if (isCurrent) {
+        return AppColors.adminPrimary;
+      }
       switch (outcome) {
         case _SideOutcome.progress:
           return AppColors.textBlack;
@@ -120,13 +118,12 @@ class VSContainer extends StatelessWidget {
       }
     }
 
-    final Color leftColor = mapColor(leftOutcome, isLeftCurrent);
-    final Color rightColor = mapColor(rightOutcome, isRightCurrent);
+    final leftColor = mapColor(leftOutcome, isCurrent: isLeftCurrent);
+    final rightColor = mapColor(rightOutcome, isCurrent: isRightCurrent);
 
     // 背景＝右側、対角の左側＝splitColor として描画。
     return _VSContainerColors(
       backgroundColor: rightColor,
-      shadow: null,
       splitColor: leftColor,
       textColor: AppColors.white,
     );
@@ -207,7 +204,6 @@ class _VSContainerColors {
   const _VSContainerColors({
     this.backgroundColor,
     required this.textColor,
-    this.shadow,
     this.splitColor,
   });
 
@@ -216,9 +212,6 @@ class _VSContainerColors {
 
   /// テキスト色。
   final Color textColor;
-
-  /// 影定義。不要な場合は null。
-  final List<BoxShadow>? shadow;
 
   /// 左上→右下の対角線で塗り分けるときの左側塗りつぶし色。不要な場合は null。
   final Color? splitColor;
