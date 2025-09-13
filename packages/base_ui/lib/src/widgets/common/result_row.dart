@@ -63,7 +63,6 @@ class ResultRow extends StatelessWidget {
         border: style.border,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (rankNumber != null) ...[
             Text(
@@ -79,7 +78,6 @@ class ResultRow extends StatelessWidget {
           // VS コンテナ（Figma: 20x57）。
           const SizedBox(width: 0),
           VSContainer(
-            size: VSContainerSize.medium,
             state: vsState,
             currentUserPosition: vsCurrentUserPosition,
           ),
@@ -127,7 +125,7 @@ class ResultRow extends StatelessWidget {
             style: AppTextStyles.bodySmall.copyWith(color: style.subTextColor),
           ),
           const SizedBox(width: 8),
-          SizedBox(
+          const SizedBox(
             height: 16,
             child: VerticalDivider(
               color: AppColors.white,
@@ -194,7 +192,7 @@ _ResolvedStyle _resolveStyle(ResultRowType type) {
         backgroundColor: AppColors.textBlack,
         textColor: AppColors.userPrimary,
         subTextColor: AppColors.userPrimary,
-        border: Border.all(color: AppColors.userPrimary, width: 2),
+        border: Border.all(color: AppColors.userPrimary),
       );
   }
 }

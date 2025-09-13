@@ -21,7 +21,8 @@ class PlayersContainer extends StatelessWidget {
     this.player2State = PlayerState.progress,
     this.player1IsCurrentUser = false,
     this.player2IsCurrentUser = false,
-    @Deprecated('Use VSContainerState instead') this.vsStyle = VSContainerStyle.primary,
+    @Deprecated('Use VSContainerState instead')
+    this.vsStyle = VSContainerStyle.primary,
     this.vsSize = VSContainerSize.medium,
   });
 

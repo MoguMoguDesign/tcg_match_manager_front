@@ -5,13 +5,15 @@ import '../../constants/app_text_styles.dart';
 
 /// 確認アクション用の共通ボタンウィジェット。
 ///
-/// Figma の CommonConfirmButton に準拠し、ユーザー向けと管理者向けの
-/// 塗りつぶし／アウトラインの 4 種類のスタイルを提供する。
+/// Figma の CommonConfirmButton に準拠し、
+/// ユーザー向けと管理者向けの
+/// 塗りつぶし／アウトラインの4種類のスタイルを提供する。
 class CommonConfirmButton extends StatelessWidget {
   /// ボタンの見た目スタイルを指定するための列挙型。
   ///
   /// ユーザー向けの塗りつぶし、ユーザー向けのアウトライン、
-  /// 管理者向けの塗りつぶし、管理者向けのアウトラインの 4 種類を提供する。
+  /// 管理者向けの塗りつぶし、管理者向けのアウトラインの
+  /// 4種類を提供する。
   /// [CommonConfirmButton] のコンストラクタ。
   ///
   /// [text] と [onPressed] は必須パラメータ。
@@ -49,24 +51,28 @@ class CommonConfirmButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final visual = _resolveVisual(style: style, isEnabled: isEnabled);
 
-    return Container(
+    return SizedBox(
       height: _height,
       width: width ?? double.infinity,
-      decoration: BoxDecoration(
-        color: visual.backgroundColor,
-        borderRadius: BorderRadius.circular(_radius),
-        border: visual.border,
-        boxShadow: visual.shadow,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isEnabled ? onPressed : null,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: visual.backgroundColor,
           borderRadius: BorderRadius.circular(_radius),
-          child: Center(
-            child: Text(
-              text,
-              style: AppTextStyles.labelLarge.copyWith(color: visual.textColor),
+          border: visual.border,
+          boxShadow: visual.shadow,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: isEnabled ? onPressed : null,
+            borderRadius: BorderRadius.circular(_radius),
+            child: Center(
+              child: Text(
+                text,
+                style: AppTextStyles.labelLarge.copyWith(
+                  color: visual.textColor,
+                ),
+              ),
             ),
           ),
         ),

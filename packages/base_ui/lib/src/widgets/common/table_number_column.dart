@@ -25,7 +25,6 @@ class TableNumberColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           '$tableNumber卓',
@@ -36,7 +35,7 @@ class TableNumberColumn extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 3),
-        MatchStatusContainer(status: status, showBorder: true),
+        MatchStatusContainer(status: status),
       ],
     );
   }

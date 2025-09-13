@@ -34,7 +34,6 @@ class MatchStatusContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         border: showBorder ? Border.all(
           color: statusInfo.borderColor,
-          width: 1,
         ) : null,
       ),
       child: Text(
