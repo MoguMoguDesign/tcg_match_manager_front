@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'app_colors.dart';
 
 /// 背景グラデーションテーマを提供する。
@@ -64,7 +65,11 @@ const BackgroundGradientTheme kDefaultBackgroundGradient =
 
 /// SVG 背景画像を全面に敷くユーティリティウィジェット。
 class SvgBackground extends StatelessWidget {
-  const SvgBackground({super.key, required this.assetPath, required this.child});
+  const SvgBackground({
+    super.key,
+    required this.assetPath,
+    required this.child,
+  });
 
   /// アセットパス（例: assets/images/login_background.svg）。
   final String assetPath;
@@ -77,9 +82,12 @@ class SvgBackground extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        SvgPicture.asset(
-          assetPath,
-          fit: BoxFit.cover,
+        IgnorePointer(
+          ignoring: true,
+          child: SvgPicture.asset(
+            assetPath,
+            fit: BoxFit.cover,
+          ),
         ),
         child,
       ],
