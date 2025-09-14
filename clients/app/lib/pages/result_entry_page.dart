@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
+import '../router.dart';
 
 /// 試合結果入力ページを表示する。
 ///
@@ -93,8 +94,8 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
               backgroundColor: AppColors.userPrimary,
             ),
           );
-          // 対戦表に戻る。
-          Navigator.of(context).pop();
+          // 対戦表にリダイレクトする。
+          context.goToMatchingTable();
         },
       ),
     );
