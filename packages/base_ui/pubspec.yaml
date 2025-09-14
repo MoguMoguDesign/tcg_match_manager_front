@@ -12,6 +12,7 @@ dependencies:
     path: ../domain
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.10+1
   flutter_hooks: ^0.21.2
   flutter_localizations:
     sdk: flutter
@@ -42,8 +43,6 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    # MEMO: 現時点では images ディレクトリが空であり、解析時に警告となるため一時的に無効化する。
-    #       画像アセットを追加したタイミングでコメントアウトを解除すること。
-    # - assets/images/
+    - assets/images/
     - assets/pdfs/
     - assets/sounds/

@@ -84,9 +84,6 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bg =
-        Theme.of(context).extension<BackgroundGradientTheme>() ??
-        kDefaultBackgroundGradient;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -97,8 +94,8 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         toolbarHeight: 0,
       ),
       backgroundColor: Colors.transparent,
-      body: DecoratedBox(
-        decoration: BoxDecoration(gradient: bg.scaffoldGradient),
+      body: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
           child: Column(

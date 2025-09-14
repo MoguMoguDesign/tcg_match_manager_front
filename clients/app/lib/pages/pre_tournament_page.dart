@@ -50,9 +50,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
 
   @override
   Widget build(BuildContext context) {
-    final bg =
-        Theme.of(context).extension<BackgroundGradientTheme>() ??
-        kDefaultBackgroundGradient;
+    // 背景テーマは Svg 背景へ統一。
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -61,8 +59,8 @@ class _PreTournamentPageState extends State<PreTournamentPage>
         foregroundColor: AppColors.white,
         elevation: 0,
       ),
-      body: DecoratedBox(
-        decoration: BoxDecoration(gradient: bg.scaffoldGradient),
+      body: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/login_background.svg',
         child: SafeArea(
           top: false,
           child: Padding(

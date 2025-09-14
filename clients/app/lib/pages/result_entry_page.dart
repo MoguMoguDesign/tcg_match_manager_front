@@ -17,15 +17,13 @@ class ResultEntryPage extends StatefulWidget {
 class _ResultEntryPageState extends State<ResultEntryPage> {
   @override
   Widget build(BuildContext context) {
-    final bg =
-        Theme.of(context).extension<BackgroundGradientTheme>() ??
-        kDefaultBackgroundGradient;
+    // 背景テーマは Svg 背景へ統一。
     return Theme(
       data: Theme.of(context).copyWith(
         extensions: const <ThemeExtension<dynamic>>[kDefaultBackgroundGradient],
       ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(gradient: bg.scaffoldGradient),
+      child: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: CommonScaffold(
           appbarText: '勝敗登録',
           enableHorizontalPadding: false,

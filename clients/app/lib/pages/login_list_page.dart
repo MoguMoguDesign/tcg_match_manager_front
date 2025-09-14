@@ -23,18 +23,8 @@ class _LoginListPageState extends State<LoginListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DecoratedBox(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFB4EF03),
-              AppColors.textBlack,
-              AppColors.adminPrimary,
-            ],
-          ),
-        ),
+      body: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/login_background.svg',
         child: SafeArea(
           child: LayoutBuilder(
             builder: (context, constraints) {

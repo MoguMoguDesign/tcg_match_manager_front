@@ -20,9 +20,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
       (player) => player.isCurrentPlayer,
     );
 
-    final bg =
-        Theme.of(context).extension<BackgroundGradientTheme>() ??
-        kDefaultBackgroundGradient;
+    // 背景テーマは Svg 背景へ統一。
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -33,8 +31,8 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
         elevation: 0,
         toolbarHeight: 0,
       ),
-      body: DecoratedBox(
-        decoration: BoxDecoration(gradient: bg.scaffoldGradient),
+      body: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
           child: Column(
