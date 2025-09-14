@@ -27,6 +27,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
         child: CommonScaffold(
           appbarText: '勝敗登録',
           enableHorizontalPadding: false,
+          enableScrollView: false,
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
