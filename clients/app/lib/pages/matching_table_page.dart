@@ -20,6 +20,8 @@ class MatchingTablePage extends StatefulWidget {
 class _MatchingTablePageState extends State<MatchingTablePage> {
   int currentRound = 1;
   late List<domain.Match> matches;
+  // 直近に選択された対戦（必要になったら利用する）。
+  // domain.Match? _selectedMatch;
 
   @override
   void initState() {
@@ -80,6 +82,59 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         player2IsCurrentUser: m.player2.isCurrentPlayer,
       );
     }).toList();
+  }
+
+  Future<void> _openResultEntrySheet() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CommonConfirmButton(
+                  text: '勝利',
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await _showConfirmDialog('勝利');
+                  },
+                ),
+                const SizedBox(height: 24),
+                CommonConfirmButton(
+                  text: '引き分け(両者敗北)',
+                  style: ConfirmButtonStyle.userOutlined,
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await _showConfirmDialog('引き分け(両者敗北)');
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showConfirmDialog(String resultLabel) async {
+    final confirmed = await ConfirmDialog.show(
+      context,
+      title: 'あなたの結果: $resultLabel',
+      message: 'この内容で勝敗を登録します。よろしいですか？',
+      confirmText: '決定',
+      cancelText: 'キャンセル',
+    );
+    if (confirmed == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$resultLabelを登録しました'),
+          backgroundColor: AppColors.userPrimary,
+        ),
+      );
+    }
   }
 
   @override
@@ -189,8 +244,8 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                       ? MatchList(
                                           matches: _toMatchData(matches),
                                           showHeader: false,
-                                          onMatchTap: (_) {
-                                            context.goToResultEntry();
+                                          onMatchTap: (matchData) {
+                                            _openResultEntrySheet();
                                           },
                                         )
                                       : const Center(
@@ -214,9 +269,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.goToResultEntry();
-        },
+        onPressed: _openResultEntrySheet,
         backgroundColor: AppColors.userPrimary,
         shape: const CircleBorder(),
         child: Column(
