@@ -96,14 +96,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       style: AppTextStyles.labelMedium,
                     ),
                     const SizedBox(height: 9),
-                    AppTextField(
+                    CommonTextField(
+                      controller: _nicknameController,
                       hintText: 'ニックネームを入力',
                       onChanged: (value) {
                         setState(() {});
                       },
                     ),
                     const SizedBox(height: 16),
-                    AppButton(
+                    CommonConfirmButton(
                       text: '参加に進む',
                       onPressed: () {
                         // 画面遷移処理
@@ -125,11 +126,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 15),
-                    SmallButton(
+                    CommonSmallButton(
                       text: 'トーナメントに復帰する',
                       onPressed: () {
                         context.goToLoginList();
                       },
+                      style: SmallButtonStyle.secondary,
                     ),
                   ],
                 ),

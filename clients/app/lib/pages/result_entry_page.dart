@@ -85,25 +85,21 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                         // ボタン群
                         Column(
                           children: [
-                            SizedBox(
+                            CommonConfirmButton(
+                              text: '勝利',
                               width: 342,
-                              child: AppButton(
-                                text: '勝利',
-                                onPressed: () {
-                                  _showConfirmDialog('勝利');
-                                },
-                              ),
+                              onPressed: () {
+                                _showConfirmDialog('勝利');
+                              },
                             ),
                             const SizedBox(height: 24),
-                            SizedBox(
+                            CommonConfirmButton(
+                              text: '引き分け(両者敗北)',
                               width: 342,
-                              child: AppButton(
-                                text: '引き分け(両者敗北)',
-                                onPressed: () {
-                                  _showConfirmDialog('引き分け');
-                                },
-                                isPrimary: false,
-                              ),
+                              style: ConfirmButtonStyle.userOutlined,
+                              onPressed: () {
+                                _showConfirmDialog('引き分け');
+                              },
                             ),
                           ],
                         ),
@@ -121,69 +117,22 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
   }
 
   void _showConfirmDialog(String result) {
-    unawaited(showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        title: Text(
-          '結果確認',
-          style: AppTextStyles.headlineLarge.copyWith(
-            color: AppColors.userPrimary,
+    unawaited(ConfirmDialog.show(
+      context,
+      title: '結果確認',
+      message: '$resultで登録しますか？',
+      confirmText: '確定',
+      onConfirm: () {
+        Navigator.pop(context); // 勝敗登録画面を閉じる
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '$resultが登録されました',
+            ),
+            backgroundColor: AppColors.userPrimary,
           ),
-        ),
-        content: Text(
-          '$resultで登録しますか？',
-          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textBlack),
-        ),
-        actions: [
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    'キャンセル',
-                    style: AppTextStyles.labelLarge.copyWith(
-                      color: AppColors.textBlack,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: AppColors.userPrimary,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context); // ダイアログを閉じる
-                    Navigator.pop(context); // 勝敗登録画面を閉じる
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '$resultが登録されました',
-                        ),
-                        backgroundColor: AppColors.userPrimary,
-                      ),
-                    );
-                  },
-                  child: Text(
-                    '確定',
-                    style: AppTextStyles.labelLarge.copyWith(
-                      color: AppColors.adminPrimary,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     ));
   }
 }
