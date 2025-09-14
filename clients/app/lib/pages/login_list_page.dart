@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -20,62 +18,13 @@ class LoginListPage extends StatefulWidget {
 class _LoginListPageState extends State<LoginListPage> {
   String? selectedPlayer;
 
-  void _showPlayerList() {
-    unawaited(showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.textBlack,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('ニックネームを選択', style: AppTextStyles.labelMedium),
-              const SizedBox(height: 16),
-              Flexible(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: MockData.players.length,
-                  itemBuilder: (context, index) {
-                    final player = MockData.players[index];
-                    return ListTile(
-                      title: Text(player.name, style: AppTextStyles.bodyMedium),
-                      onTap: () {
-                        setState(() {
-                          selectedPlayer = player.name;
-                        });
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    ));
-  }
+  // 旧ボトムシート UI は DropdownSelectField に置換済みのため削除。
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DecoratedBox(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFB4EF03),
-              AppColors.textBlack,
-              AppColors.adminPrimary,
-            ],
-          ),
-        ),
+      body: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/login_background.svg',
         child: SafeArea(
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -111,7 +60,7 @@ class _LoginListPageState extends State<LoginListPage> {
                                 MockData.tournament.participantCount,
                           ),
                           const SizedBox(height: 32),
-                          // 選択フォーム
+                          // 選択フォーム（共通コンポーネントへ置換）
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -126,12 +75,19 @@ class _LoginListPageState extends State<LoginListPage> {
                                 style: AppTextStyles.labelMedium,
                               ),
                               const SizedBox(height: 9),
-                              AppDropdownField(
+                              DropdownSelectField<String>(
                                 hintText: selectedPlayer ?? 'リストから選択',
-                                onTap: _showPlayerList,
+                                items: MockData.players
+                                    .map((p) => p.name)
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedPlayer = value;
+                                  });
+                                },
                               ),
                               const SizedBox(height: 16),
-                              AppButton(
+                              CommonConfirmButton(
                                 text: 'トーナメントに復帰する',
                                 onPressed: () {
                                   context.goToMatchingTable();
@@ -144,7 +100,7 @@ class _LoginListPageState extends State<LoginListPage> {
                         ],
                       ),
                       // 登録に戻る（画面下に配置）
-                      SmallButton(
+                      CommonSmallButton(
                         text: '参加登録に戻る',
                         onPressed: () {
                           Navigator.pop(context);

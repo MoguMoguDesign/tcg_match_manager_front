@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'app_colors.dart';
 
 /// 背景グラデーションテーマを提供する。
@@ -15,6 +17,9 @@ class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
   final LinearGradient scaffoldGradient;
 
   @override
+  /// 指定した値で新しいインスタンスを返す。
+  ///
+  /// 省略した引数は既存の値を引き継ぐ。
   BackgroundGradientTheme copyWith({LinearGradient? scaffoldGradient}) {
     return BackgroundGradientTheme(
       scaffoldGradient: scaffoldGradient ?? this.scaffoldGradient,
@@ -22,6 +27,9 @@ class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
   }
 
   @override
+  /// 別のテーマとの間で線形補間を行う。
+  ///
+  /// 配列長の差異に強くするため、色は 3 色に正規化して補間する。
   BackgroundGradientTheme lerp(
     covariant ThemeExtension<BackgroundGradientTheme>? other,
     double t,
@@ -60,3 +68,40 @@ const BackgroundGradientTheme kDefaultBackgroundGradient =
         stops: <double>[0, 0.5, 1],
       ),
     );
+
+/// SVG 背景画像を全面に敷くユーティリティウィジェット。
+///
+/// 指定された SVG を画面全体に表示する。
+class SvgBackground extends StatelessWidget {
+  const SvgBackground({
+    super.key,
+    required this.assetPath,
+    required this.child,
+  });
+
+  /// アセットパス（例: assets/images/login_background.svg）。
+  final String assetPath;
+
+  /// 前景の子ウィジェット。
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Positioned.fill(
+          child: IgnorePointer(
+            child: SvgPicture.asset(
+              assetPath,
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+              excludeFromSemantics: true,
+            ),
+          ),
+        ),
+        child,
+      ],
+    );
+  }
+}

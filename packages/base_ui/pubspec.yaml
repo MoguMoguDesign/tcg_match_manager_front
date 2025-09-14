@@ -15,8 +15,9 @@ dependencies:
   flutter_hooks: ^0.21.2
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.0.10+1
   gap: ^3.0.1
-  intl: any # flutter_localizations に固定されたバージョンを利用する
+  intl: any # flutter_localizations に固定されたバージョンを利用する。
   path: ^1.9.1
   path_provider: ^2.1.5
   pdfrx: ^2.1.3
@@ -42,8 +43,6 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    # MEMO: 現時点では images ディレクトリが空であり、解析時に警告となるため一時的に無効化する。
-    #       画像アセットを追加したタイミングでコメントアウトを解除すること。
-    # - assets/images/
+    - assets/images/
     - assets/pdfs/
     - assets/sounds/

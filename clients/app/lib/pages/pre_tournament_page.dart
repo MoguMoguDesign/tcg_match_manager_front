@@ -27,21 +27,19 @@ class _PreTournamentPageState extends State<PreTournamentPage>
       duration: const Duration(seconds: 2),
       vsync: this,
     );
-    _animation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
     unawaited(_animationController.repeat(reverse: true));
-    
+
     // 5秒後に自動でマッチング表画面に遷移（モック用）
-    unawaited(Future.delayed(const Duration(seconds: 5), () async {
-      if (mounted) {
-        await Navigator.pushReplacementNamed(context, '/matching-table');
-      }
-    }));
+    unawaited(
+      Future.delayed(const Duration(seconds: 5), () async {
+        if (mounted) {
+          await Navigator.pushReplacementNamed(context, '/matching-table');
+        }
+      }),
+    );
   }
 
   @override
@@ -52,20 +50,19 @@ class _PreTournamentPageState extends State<PreTournamentPage>
 
   @override
   Widget build(BuildContext context) {
+    // 背景テーマは Svg 背景へ統一。
     return Scaffold(
-      body: DecoratedBox(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFB4EF03),
-              AppColors.textBlack,
-              AppColors.adminPrimary,
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('開始待機'),
+        backgroundColor: Colors.transparent,
+        foregroundColor: AppColors.white,
+        elevation: 0,
+      ),
+      body: SvgBackground(
+        assetPath: 'packages/base_ui/assets/images/login_background.svg',
         child: SafeArea(
+          top: false,
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -97,17 +94,13 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                   children: [
                     Text(
                       'トーナメント開始をお待ちください',
-                      style: AppTextStyles.labelMedium.copyWith(
-                        fontSize: 18,
-                      ),
+                      style: AppTextStyles.labelMedium.copyWith(fontSize: 18),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
                     Text(
                       '管理者が大会を開始するまでお待ちください\n画面は自動で更新されます',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        fontSize: 14,
-                      ),
+                      style: AppTextStyles.bodyMedium.copyWith(fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 40),
@@ -121,8 +114,9 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.userPrimary
-                                  .withValues(alpha: 0.3),
+                              color: AppColors.userPrimary.withValues(
+                                alpha: 0.3,
+                              ),
                               width: 4,
                             ),
                           ),
@@ -134,8 +128,8 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                                   strokeWidth: 4,
                                   valueColor:
                                       const AlwaysStoppedAnimation<Color>(
-                                    AppColors.userPrimary,
-                                  ),
+                                        AppColors.userPrimary,
+                                      ),
                                 ),
                               ),
                               const Center(
@@ -160,9 +154,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                       decoration: BoxDecoration(
                         color: AppColors.textBlack.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppColors.whiteAlpha,
-                        ),
+                        border: Border.all(color: AppColors.whiteAlpha),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
