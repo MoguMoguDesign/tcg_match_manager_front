@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
+
 import '../router.dart';
 
 /// 試合結果入力ページを表示する。
