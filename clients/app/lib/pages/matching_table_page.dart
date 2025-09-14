@@ -1,31 +1,10 @@
-import 'dart:math' as math;
-
 import 'package:base_ui/base_ui.dart';
-import 'package:domain/domain.dart';
+import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
 
 import '../router.dart';
 
-// 背景グラデーション仕様（result_entry_page と同一）。
-const double _backgroundGradientAngleDeg = 0; // 回転なし。
-const List<double> _backgroundGradientStops = [0.0, 0.5, 1.0];
-const List<Color> _backgroundGradientColors = <Color>[
-  AppColors.userPrimary,
-  AppColors.textBlack,
-  AppColors.adminPrimary,
-];
-
-/// 背景グラデーションを構築する。
-LinearGradient _buildBackgroundGradient() {
-  return const LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    transform: GradientRotation(
-        _backgroundGradientAngleDeg * math.pi / 180),
-    colors: _backgroundGradientColors,
-    stops: _backgroundGradientStops,
-  );
-}
+// 背景は BackgroundGradientTheme に統一する。
 
 /// マッチング表ページを表示する。
 ///
@@ -40,63 +19,90 @@ class MatchingTablePage extends StatefulWidget {
 
 class _MatchingTablePageState extends State<MatchingTablePage> {
   int currentRound = 1;
-  late List<Match> matches;
+  late List<domain.Match> matches;
 
   @override
   void initState() {
     super.initState();
-    matches = MockData.getRoundMatches(currentRound);
+    matches = domain.MockData.getRoundMatches(currentRound);
   }
 
   void _previousRound() {
     if (currentRound > 1) {
       setState(() {
         currentRound--;
-        matches = MockData.getRoundMatches(currentRound);
+        matches = domain.MockData.getRoundMatches(currentRound);
       });
     }
   }
 
   Future<void> _nextRound() async {
+    if (currentRound >= 4) {
+      if (!mounted) return;
+      context.goToFinalRanking();
+      return;
+    }
     setState(() {
       currentRound++;
-      matches = MockData.getRoundMatches(currentRound);
+      matches = domain.MockData.getRoundMatches(currentRound);
     });
+  }
+
+  /// ドメインの [domain.Match] のリストを UI 表示用の [MatchData] のリストへ変換する。
+  List<MatchData> _toMatchData(List<domain.Match> domainMatches) {
+    return domainMatches.map((m) {
+      final uiStatus = switch (m.status) {
+        domain.MatchStatus.ongoing => MatchStatus.playing,
+        domain.MatchStatus.completed => MatchStatus.finished,
+      };
+
+      PlayerState player1State;
+      PlayerState player2State;
+      if (m.status == domain.MatchStatus.completed) {
+        final player1IsWinner = identical(m.winner, m.player1);
+        player1State = player1IsWinner ? PlayerState.win : PlayerState.lose;
+        player2State = player1IsWinner ? PlayerState.lose : PlayerState.win;
+      } else {
+        player1State = PlayerState.progress;
+        player2State = PlayerState.progress;
+      }
+
+      return MatchData(
+        tableNumber: m.tableNumber,
+        player1Name: m.player1.name,
+        player2Name: m.player2.name,
+        status: uiStatus,
+        player1Score: '累計得点 ${m.player1.score}点',
+        player2Score: '累計得点 ${m.player2.score}点',
+        player1State: player1State,
+        player2State: player2State,
+        player1IsCurrentUser: m.player1.isCurrentPlayer,
+        player2IsCurrentUser: m.player2.isCurrentPlayer,
+      );
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bg =
+        Theme.of(context).extension<BackgroundGradientTheme>() ??
+        kDefaultBackgroundGradient;
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('マッチング表'),
+        backgroundColor: Colors.transparent,
+        foregroundColor: AppColors.white,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
       backgroundColor: Colors.transparent,
       body: DecoratedBox(
-        decoration: BoxDecoration(gradient: _buildBackgroundGradient()),
+        decoration: BoxDecoration(gradient: bg.scaffoldGradient),
         child: SafeArea(
+          top: false,
           child: Column(
             children: [
-              // ヘッダー
-              Container(
-                height: 89,
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 57),
-                child: Row(
-                  children: [
-                    // ロゴ
-                    Container(
-                      height: 14,
-                      width: 69,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'マチサポ',
-                        style: AppTextStyles.labelMedium.copyWith(
-                          color: AppColors.textBlack,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    const SizedBox.shrink(),
-                  ],
-                ),
-              ),
               // メインコンテンツ
               Expanded(
                 child: Padding(
@@ -105,16 +111,29 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                     children: [
                       // トーナメント情報
                       TournamentInfoCard(
-                        title: MockData.tournament.title,
-                        date: MockData.tournament.date,
-                        participantCount: MockData.tournament.participantCount,
+                        title: domain.MockData.tournament.title,
+                        date: domain.MockData.tournament.date,
+                        participantCount:
+                            domain.MockData.tournament.participantCount,
                       ),
                       const SizedBox(height: 32),
                       // ラウンドナビゲーション
-                      RoundChangeButtonRow.medium(
-                        onPressedPrev: currentRound > 1 ? _previousRound : null,
-                        onPressedNext: _nextRound,
-                      ),
+                      if (currentRound >= 4)
+                        RoundChangeButtonRow.last(
+                          onPressedPrev: currentRound > 1
+                              ? _previousRound
+                              : null,
+                          onPressedShowFinal: () {
+                            context.goToFinalRanking();
+                          },
+                        )
+                      else
+                        RoundChangeButtonRow.medium(
+                          onPressedPrev: currentRound > 1
+                              ? _previousRound
+                              : null,
+                          onPressedNext: _nextRound,
+                        ),
                       const SizedBox(height: 16),
                       // ラウンド情報
                       Expanded(
@@ -165,29 +184,16 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                   ],
                                 ),
                               ),
-                              // マッチリスト
+                              // マッチリスト（共通コンポーネント）
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(16),
                                   child: matches.isNotEmpty
-                                      ? ListView.separated(
-                                          itemCount: matches.length,
-                                          separatorBuilder: (context, index) =>
-                                              Container(
-                                                height: 1,
-                                                color: AppColors.whiteAlpha,
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                      vertical: 8,
-                                                    ),
-                                              ),
-                                          itemBuilder: (context, index) {
-                                            return MatchCard(
-                                              match: matches[index],
-                                              onResultTap: () {
-                                                context.goToResultEntry();
-                                              },
-                                            );
+                                      ? MatchList(
+                                          matches: _toMatchData(matches),
+                                          showHeader: false,
+                                          onMatchTap: (_) {
+                                            context.goToResultEntry();
                                           },
                                         )
                                       : const Center(
