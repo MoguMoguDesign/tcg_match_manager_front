@@ -85,13 +85,16 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
         message: '$resultで登録しますか？',
         confirmText: '確定',
         onConfirm: () {
-          Navigator.pop(context); // 勝敗登録画面を閉じる
+          Navigator.pop(context); // ダイアログを閉じる
+          if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('$resultが登録されました'),
               backgroundColor: AppColors.userPrimary,
             ),
           );
+          // 対戦表に戻る。
+          Navigator.of(context).pop();
         },
       ),
     );

@@ -105,7 +105,7 @@ extension AppNavigator on BuildContext {
   void goToMatchingTable() => goNamed(AppRoutes.matchingTable);
 
   /// 結果入力ページに遷移する。
-  void goToResultEntry() => goNamed(AppRoutes.resultEntry);
+  void goToResultEntry() => pushNamed(AppRoutes.resultEntry);
 
   /// 最終ランキングページに遷移する。
   void goToFinalRanking() => goNamed(AppRoutes.finalRanking);
