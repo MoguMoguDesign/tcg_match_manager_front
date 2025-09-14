@@ -91,7 +91,10 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
       builder: (context) {
         return Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 24,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -119,21 +122,22 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
   }
 
   Future<void> _showConfirmDialog(String resultLabel) async {
-    final confirmed = await ConfirmDialog.show(
+    await ConfirmDialog.show(
       context,
       title: 'あなたの結果: $resultLabel',
       message: 'この内容で勝敗を登録します。よろしいですか？',
       confirmText: '決定',
       cancelText: 'キャンセル',
+      onConfirm: () {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$resultLabelを登録しました'),
+            backgroundColor: AppColors.userPrimary,
+          ),
+        );
+      },
     );
-    if (confirmed == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('$resultLabelを登録しました'),
-          backgroundColor: AppColors.userPrimary,
-        ),
-      );
-    }
   }
 
   @override
