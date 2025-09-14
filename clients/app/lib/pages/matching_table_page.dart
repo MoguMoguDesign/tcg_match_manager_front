@@ -84,35 +84,34 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
     }).toList();
   }
 
-  Future<void> _openResultEntrySheet() async {
-    await showModalBottomSheet<void>(
+  Future<void> _openResultEntryPopup() async {
+    await showDialog<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      barrierDismissible: true,
       builder: (context) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CommonConfirmButton(
-                  text: '勝利',
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await _showConfirmDialog('勝利');
-                  },
-                ),
-                const SizedBox(height: 24),
-                CommonConfirmButton(
-                  text: '引き分け(両者敗北)',
-                  style: ConfirmButtonStyle.userOutlined,
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await _showConfirmDialog('引き分け(両者敗北)');
-                  },
-                ),
-              ],
-            ),
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CommonConfirmButton(
+                text: '勝利',
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await _showConfirmDialog('勝利');
+                },
+              ),
+              const SizedBox(height: 24),
+              CommonConfirmButton(
+                text: '引き分け(両者敗北)',
+                style: ConfirmButtonStyle.userOutlined,
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await _showConfirmDialog('引き分け(両者敗北)');
+                },
+              ),
+            ],
           ),
         );
       },
@@ -245,7 +244,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                           matches: _toMatchData(matches),
                                           showHeader: false,
                                           onMatchTap: (matchData) {
-                                            _openResultEntrySheet();
+                                            _openResultEntryPopup();
                                           },
                                         )
                                       : const Center(
@@ -269,7 +268,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _openResultEntrySheet,
+        onPressed: _openResultEntryPopup,
         backgroundColor: AppColors.userPrimary,
         shape: const CircleBorder(),
         child: Column(
