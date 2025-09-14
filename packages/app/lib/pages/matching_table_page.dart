@@ -111,81 +111,9 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                       ),
                       const SizedBox(height: 32),
                       // ラウンドナビゲーション
-                      Row(
-                        children: [
-                          // 前のラウンド
-                          Opacity(
-                            opacity: currentRound <= 1 ? 0.2 : 1.0,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.textBlack,
-                                borderRadius: BorderRadius.circular(28),
-                                border: Border.all(
-                                  color: AppColors.white,
-                                  width: 2,
-                                ),
-                              ),
-                              child: GestureDetector(
-                                onTap: currentRound > 1 ? _previousRound : null,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Icons.keyboard_arrow_left,
-                                      color: AppColors.white,
-                                      size: 24,
-                                    ),
-                                    Text(
-                                      '前のラウンド',
-                                      style: AppTextStyles.labelMedium.copyWith(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          // 次のラウンド
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.textBlack,
-                              borderRadius: BorderRadius.circular(28),
-                              border: Border.all(
-                                color: AppColors.white,
-                                width: 2,
-                              ),
-                            ),
-                            child: GestureDetector(
-                              onTap: _nextRound,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '次のラウンド',
-                                    style: AppTextStyles.labelMedium.copyWith(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: AppColors.white,
-                                    size: 24,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                      RoundChangeButtonRow.medium(
+                        onPressedPrev: currentRound > 1 ? _previousRound : null,
+                        onPressedNext: _nextRound,
                       ),
                       const SizedBox(height: 16),
                       // ラウンド情報
