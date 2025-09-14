@@ -1,8 +1,5 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../common/button_icon.dart';
 
 /// 管理者向けの確認アクション用ボタンウィジェット。
 ///
