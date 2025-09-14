@@ -38,7 +38,9 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
 
   Future<void> _nextRound() async {
     if (currentRound >= 4) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       context.goToFinalRanking();
       return;
     }

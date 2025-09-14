@@ -17,6 +17,9 @@ class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
   final LinearGradient scaffoldGradient;
 
   @override
+  /// 指定した値で新しいインスタンスを返す。
+  ///
+  /// 省略した引数は既存の値を引き継ぐ。
   BackgroundGradientTheme copyWith({LinearGradient? scaffoldGradient}) {
     return BackgroundGradientTheme(
       scaffoldGradient: scaffoldGradient ?? this.scaffoldGradient,
@@ -24,6 +27,9 @@ class BackgroundGradientTheme extends ThemeExtension<BackgroundGradientTheme> {
   }
 
   @override
+  /// 別のテーマとの間で線形補間を行う。
+  ///
+  /// 配列長の差異に強くするため、色は 3 色に正規化して補間する。
   BackgroundGradientTheme lerp(
     covariant ThemeExtension<BackgroundGradientTheme>? other,
     double t,
@@ -64,6 +70,8 @@ const BackgroundGradientTheme kDefaultBackgroundGradient =
     );
 
 /// SVG 背景画像を全面に敷くユーティリティウィジェット。
+///
+/// 指定された SVG を画面全体に表示する。
 class SvgBackground extends StatelessWidget {
   const SvgBackground({
     super.key,
@@ -84,7 +92,6 @@ class SvgBackground extends StatelessWidget {
       children: <Widget>[
         Positioned.fill(
           child: IgnorePointer(
-            ignoring: true,
             child: SvgPicture.asset(
               assetPath,
               fit: BoxFit.cover,

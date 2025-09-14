@@ -88,7 +88,9 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
         confirmText: '確定',
         onConfirm: () {
           Navigator.pop(context); // ダイアログを閉じる
-          if (!mounted) return;
+          if (!mounted) {
+            return;
+          }
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('$resultが登録されました'),
