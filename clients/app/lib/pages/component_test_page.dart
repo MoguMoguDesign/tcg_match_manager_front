@@ -163,40 +163,29 @@ class ComponentTestPage extends StatelessWidget {
 
               // ✅ 実装済み: CommonConfirmButton(PC) - Figma node-id: 244-1212
               Text(
-                '✅ AdminConfirmButton (CommonConfirmButton(PC))\n'
+                '✅ CommonConfirmButton (Admin Style)\n'
                 'Figma 244-1212',
                 style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
-              AdminConfirmButton(
-                text: '管理者ボタン',
+              CommonConfirmButton(
+                text: '管理者スタイルボタン',
+                style: ConfirmButtonStyle.adminFilled,
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('AdminConfirmButton: アイコンなし')),
+                    const SnackBar(content: Text('CommonConfirmButton: 管理者スタイル')),
                   );
                 },
               ),
               const SizedBox(height: 12),
-              AdminConfirmButton.leadingIcon(
-                text: '管理者ボタン',
-                icon: const Icon(Icons.admin_panel_settings),
+              CommonConfirmButton(
+                text: '管理者アウトラインボタン',
+                style: ConfirmButtonStyle.adminOutlined,
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('AdminConfirmButton: 左アイコンあり'),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 12),
-              AdminConfirmButton.leadingButtonIcon(
-                text: 'ButtonIcon付きボタン',
-                iconType: ButtonIconType.edit,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('AdminConfirmButton: ButtonIcon付き'),
+                      content: Text('CommonConfirmButton: 管理者アウトラインスタイル'),
                     ),
                   );
                 },
