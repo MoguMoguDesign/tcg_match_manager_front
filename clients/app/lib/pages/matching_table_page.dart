@@ -20,8 +20,6 @@ class MatchingTablePage extends StatefulWidget {
 class _MatchingTablePageState extends State<MatchingTablePage> {
   int currentRound = 1;
   late List<domain.Match> matches;
-  // 直近に選択された対戦（必要になったら利用する）。
-  // domain.Match? _selectedMatch;
 
   @override
   void initState() {
@@ -84,61 +82,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
     }).toList();
   }
 
-  Future<void> _openResultEntryPopup() async {
-    await showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 24,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CommonConfirmButton(
-                text: '勝利',
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  await _showConfirmDialog('勝利');
-                },
-              ),
-              const SizedBox(height: 24),
-              CommonConfirmButton(
-                text: '引き分け(両者敗北)',
-                style: ConfirmButtonStyle.userOutlined,
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  await _showConfirmDialog('引き分け(両者敗北)');
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _showConfirmDialog(String resultLabel) async {
-    await ConfirmDialog.show(
-      context,
-      title: 'あなたの結果: $resultLabel',
-      message: 'この内容で勝敗を登録します。よろしいですか？',
-      confirmText: '決定',
-      cancelText: 'キャンセル',
-      onConfirm: () {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$resultLabelを登録しました'),
-            backgroundColor: AppColors.userPrimary,
-          ),
-        );
-      },
-    );
-  }
+  // 勝敗登録は別ページ（ResultEntryPage）へ遷移する仕様。
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +192,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                           matches: _toMatchData(matches),
                                           showHeader: false,
                                           onMatchTap: (matchData) {
-                                            _openResultEntryPopup();
+                                            context.goToResultEntry();
                                           },
                                         )
                                       : const Center(
@@ -272,7 +216,9 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _openResultEntryPopup,
+        onPressed: () {
+          context.goToResultEntry();
+        },
         backgroundColor: AppColors.userPrimary,
         shape: const CircleBorder(),
         child: Column(
