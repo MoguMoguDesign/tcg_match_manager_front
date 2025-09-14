@@ -232,6 +232,43 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
 
 `L10n.of(context).labelFoo` のようにすることで、各デバイスの言語設定に応じた文字列が取得出来ます。
 
+## プロジェクト構成
+
+本プロジェクトはFlutter monorepoとして構成されており、以下のディレクトリ構造を持ちます：
+
+```
+├── clients/              # アプリケーション層
+│   ├── admin/            # 管理者向けアプリケーション
+│   │   ├── lib/
+│   │   │   ├── main.dart
+│   │   │   ├── pages/    # 管理者専用ページ
+│   │   │   └── widgets/  # 管理者専用ウィジェット（AdminConfirmButton等）
+│   │   └── pubspec.yaml
+│   └── app/              # メインアプリケーション
+│       ├── lib/
+│       │   ├── main.dart
+│       │   └── pages/    # アプリケーションページ（base_ui使用）
+│       └── pubspec.yaml
+├── packages/             # 共通ライブラリ
+│   └── base_ui/          # 共通UIコンポーネントライブラリ
+│       ├── lib/
+│       │   └── src/
+│       │       ├── widgets/        # 共通ウィジェット
+│       │       │   └── common/     # 両アプリで使用される共通コンポーネント
+│       │       └── material_widgets/  # Materialデザイン準拠コンポーネント
+│       └── pubspec.yaml
+└── docs/                 # 設計ドキュメント（サブモジュール）
+```
+
+### 設計原則
+
+- **clients/**: アプリケーション固有の実装を配置
+  - 各クライアントは独立して動作し、共通ライブラリを利用
+  - クライアント間でのコードの重複を避ける
+- **packages/**: 複数のクライアント間で共有されるライブラリを配置
+  - 真に共通的なコンポーネントのみを含む
+  - アプリケーション固有の実装は含まない
+
 ## ドキュメント（docs サブモジュール）
 
 本リポジトリのルート直下に、設計ドキュメント群を格納したサブモジュール `docs/` を追加しています。
