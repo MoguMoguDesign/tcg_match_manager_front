@@ -82,11 +82,15 @@ class SvgBackground extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        IgnorePointer(
-          ignoring: true,
-          child: SvgPicture.asset(
-            assetPath,
-            fit: BoxFit.cover,
+        Positioned.fill(
+          child: IgnorePointer(
+            ignoring: true,
+            child: SvgPicture.asset(
+              assetPath,
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+              excludeFromSemantics: true,
+            ),
           ),
         ),
         child,
