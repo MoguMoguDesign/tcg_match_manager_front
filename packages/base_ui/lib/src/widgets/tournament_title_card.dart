@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 /// トーナメントタイトルを表示するカードウィジェット。
 ///
@@ -61,7 +61,7 @@ class TournamentTitleCard extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          
+
           // 区切り線
           if (date != null || participantCount != null) ...[
             const SizedBox(height: 8),
@@ -72,7 +72,7 @@ class TournamentTitleCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
           ],
-          
+
           // メタ情報行（日付・参加者数）
           if (date != null || participantCount != null)
             Row(
@@ -80,11 +80,7 @@ class TournamentTitleCard extends StatelessWidget {
               children: [
                 // 日付情報
                 if (date != null) ...[
-                  Icon(
-                    Icons.access_time,
-                    color: colors.titleColor,
-                    size: 16,
-                  ),
+                  Icon(Icons.access_time, color: colors.titleColor, size: 16),
                   const SizedBox(width: 4),
                   Text(
                     date!,
@@ -95,7 +91,7 @@ class TournamentTitleCard extends StatelessWidget {
                     ),
                   ),
                 ],
-                
+
                 // セパレーター
                 if (date != null && participantCount != null) ...[
                   const SizedBox(width: 8),
@@ -106,14 +102,10 @@ class TournamentTitleCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                 ],
-                
+
                 // 参加者数情報
                 if (participantCount != null) ...[
-                  Icon(
-                    Icons.person,
-                    color: colors.titleColor,
-                    size: 16,
-                  ),
+                  Icon(Icons.person, color: colors.titleColor, size: 16),
                   const SizedBox(width: 4),
                   Text(
                     '$participantCount',
@@ -126,7 +118,7 @@ class TournamentTitleCard extends StatelessWidget {
                 ],
               ],
             ),
-          
+
           // レガシーサブタイトル（互換性維持）
           if (subtitle != null) ...[
             const SizedBox(height: 8),
@@ -167,9 +159,7 @@ class TournamentTitleCard extends StatelessWidget {
           backgroundColor: AppColors.white,
           titleColor: AppColors.textBlack,
           subtitleColor: AppColors.grayDark,
-          border: Border.fromBorderSide(
-            BorderSide(color: AppColors.gray),
-          ),
+          border: Border.fromBorderSide(BorderSide(color: AppColors.gray)),
         );
       case TournamentCardStyle.admin:
         return const _TournamentCardColors(
