@@ -26,3 +26,7 @@ linter:
     # 以下 issue にあるように Dart 3.7 以降では実質動いていないようだが、明示的に無効にしておく。
     # https://github.com/dart-lang/sdk/issues/60119
     require_trailing_commas: false
+custom_lint:
+  rules:
+    # 現状は多言語対応していないため無視する。
+    - avoid_hardcoded_japanese: false
