@@ -97,6 +97,12 @@ abstract class L10n {
     Locale('ja'),
   ];
 
+  /// ランキング番号の表示ラベルを返す。
+  ///
+  /// 数値 [n] をロケールごとの表記に整形して返す。
+  /// 例: 日本語では「1位」、英語では「#1」のように表示する。
+  String rankNumberLabel(int n);
+
   /// No description provided for @appBarLogin.
   ///
   /// In ja, this message translates to:

@@ -73,6 +73,9 @@ const BackgroundGradientTheme kDefaultBackgroundGradient =
 ///
 /// 指定された SVG を画面全体に表示する。
 class SvgBackground extends StatelessWidget {
+  /// [SvgBackground] のコンストラクタ。
+  ///
+  /// [assetPath] と [child] は必須パラメータ。
   const SvgBackground({
     super.key,
     required this.assetPath,

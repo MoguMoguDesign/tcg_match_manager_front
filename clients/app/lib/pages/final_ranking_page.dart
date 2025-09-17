@@ -39,7 +39,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
             children: [
               // メインコンテンツ
               Expanded(
-                child: Padding(
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
@@ -71,37 +71,48 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          RankingCard(player: currentPlayer),
+                          RankingRow(
+                            leftLabel: currentPlayer.name,
+                            rightValue: '${currentPlayer.score}点',
+                            type: RankingRowType.currentUser,
+                            rankNumber: currentPlayer.rank,
+                            metaLeft: '累計得点 ${currentPlayer.score}点',
+                            metaRight: 'OMW% ${currentPlayer.omwPercentage}%',
+                          ),
                         ],
                       ),
                       const SizedBox(height: 32),
                       // 対戦結果セクション
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                '対戦結果',
-                                style: AppTextStyles.labelMedium,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              '対戦結果',
+                              style: AppTextStyles.labelMedium,
                             ),
-                            const SizedBox(height: 16),
-                            Expanded(
-                              child: ListView.separated(
-                                itemCount: MockRankingData.finalRanking.length,
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 16),
-                                itemBuilder: (context, index) {
-                                  final player =
-                                      MockRankingData.finalRanking[index];
-                                  return RankingCard(player: player);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 16),
+                          RankingContainer(
+                            title: '全体ランキング',
+                            currentUserId: 'current_user',
+                            rankings: MockRankingData.finalRanking
+                                .map((player) => RankingData(
+                                      userId: player.isCurrentPlayer
+                                          ? 'current_user'
+                                          : 'user_${player.rank}',
+                                      playerName: player.name,
+                                      score: '${player.score}点',
+                                      rank: player.rank,
+                                      metaLeft:
+                                          '累計得点 ${player.score}点',
+                                      metaRight:
+                                          'OMW% ${player.omwPercentage}%',
+                                    ))
+                                .toList(),
+                          ),
+                        ],
                       ),
                     ],
                   ),
