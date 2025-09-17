@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -67,4 +68,7 @@ class L10nJa extends L10n {
 
   @override
   String get titleLoginFailed => 'ログインに失敗しました';
+
+  @override
+  String rankNumberLabel(int n) => '$n位';
 }

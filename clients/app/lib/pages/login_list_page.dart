@@ -1,6 +1,7 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../router.dart';
 
@@ -103,7 +104,7 @@ class _LoginListPageState extends State<LoginListPage> {
                       CommonSmallButton(
                         text: '参加登録に戻る',
                         onPressed: () {
-                          Navigator.pop(context);
+                          context.pop();
                         },
                       ),
                     ],
