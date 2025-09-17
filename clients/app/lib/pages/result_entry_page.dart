@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../router.dart';
 
@@ -87,7 +88,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
         message: '$resultで登録しますか？',
         confirmText: '確定',
         onConfirm: () {
-          Navigator.pop(context); // ダイアログを閉じる
+          context.pop(); // ダイアログを閉じる
           if (!mounted) {
             return;
           }

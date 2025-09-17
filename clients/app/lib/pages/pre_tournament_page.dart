@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// トーナメント開始前の待機ページを表示する。
 ///
@@ -36,7 +37,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
     unawaited(
       Future.delayed(const Duration(seconds: 5), () async {
         if (mounted) {
-          await Navigator.pushReplacementNamed(context, '/matching-table');
+          context.goNamed('matching-table');
         }
       }),
     );
