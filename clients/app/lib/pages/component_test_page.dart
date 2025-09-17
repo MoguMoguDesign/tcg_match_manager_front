@@ -174,7 +174,9 @@ class ComponentTestPage extends StatelessWidget {
                 style: ConfirmButtonStyle.adminFilled,
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('CommonConfirmButton: 管理者スタイル')),
+                    const SnackBar(
+                      content: Text('CommonConfirmButton: 管理者スタイル'),
+                    ),
                   );
                 },
               ),
@@ -944,20 +946,57 @@ class ComponentTestPage extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Current user style
-                    const ResultRow(
-                      leftLabel: 'Player Name',
+                    const RankingRow(
+                      leftLabel: 'プレイヤー自身',
                       rightValue: '3-1',
-                      subtitle: 'Current User',
-                      type: ResultRowType.currentUser,
+                      type: RankingRowType.currentUser,
+                      rankNumber: 1,
+                      metaLeft: '12点',
+                      metaRight: '50%',
                     ),
                     const SizedBox(height: 8),
 
                     // Other player style
-                    const ResultRow(
-                      leftLabel: 'Opponent',
+                    const RankingRow(
+                      leftLabel: 'プレイヤー名',
                       rightValue: '2-2',
-                      subtitle: 'Other Player',
-                      type: ResultRowType.other,
+                      type: RankingRowType.other,
+                      rankNumber: 1,
+                      metaLeft: '12点',
+                      metaRight: '50%',
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Ranking Container
+                    RankingContainer(
+                      title: 'ランキング',
+                      currentUserId: 'user1',
+                      rankings: [
+                        RankingData(
+                          userId: 'user1',
+                          playerName: 'プレイヤー自身',
+                          score: '3-1',
+                          rank: 1,
+                          metaLeft: '累計得点 12点',
+                          metaRight: 'OMW% 50%',
+                        ),
+                        RankingData(
+                          userId: 'user2',
+                          playerName: 'プレイヤー名2',
+                          score: '2-2',
+                          rank: 2,
+                          metaLeft: '累計得点 8点',
+                          metaRight: 'OMW% 40%',
+                        ),
+                        RankingData(
+                          userId: 'user3',
+                          playerName: 'プレイヤー名3',
+                          score: '1-3',
+                          rank: 3,
+                          metaLeft: '累計得点 4点',
+                          metaRight: 'OMW% 30%',
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
-import '../../l10n/_export.dart';
 import 'vs_container.dart';
 
-/// 試合結果の 1 行を表示するウィジェット。
+/// ランキングの 1 行を表示するウィジェット。
 ///
-/// Figma の ResultRow に準拠し、現在ユーザーとその他で配色などを出し分ける。
-class ResultRow extends StatelessWidget {
-  /// [ResultRow] のコンストラクタ。
+/// Figma の RankingRow に準拠し、現在ユーザーとその他で配色などを出し分ける。
+class RankingRow extends StatelessWidget {
+  /// [RankingRow] のコンストラクタ。
   ///
   /// [leftLabel]、[rightValue] は必須パラメータ。
-  const ResultRow({
+  const RankingRow({
     super.key,
     required this.leftLabel,
     required this.rightValue,
     this.subtitle,
-    this.type = ResultRowType.other,
+    this.type = RankingRowType.other,
     this.rankNumber,
     this.metaLeft,
     this.metaRight,
@@ -35,7 +34,7 @@ class ResultRow extends StatelessWidget {
   final String? subtitle;
 
   /// 行の種別。
-  final ResultRowType type;
+  final RankingRowType type;
 
   /// ランキングの番号。表示する場合は「1位」の形式で描画する。
   final int? rankNumber;
@@ -61,15 +60,17 @@ class ResultRow extends StatelessWidget {
       child: Row(
         children: [
           if (rankNumber != null) ...[
-            Container(
-              width: 60,
-              padding: const EdgeInsets.only(left: 8, right: 16),
-              child: Text(
-                L10n.of(context).rankNumberLabel(rankNumber!),
-                style: AppTextStyles.labelLarge.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+            SizedBox(
+              width: 40,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  '${rankNumber!}位',
+                  style: AppTextStyles.labelLarge.copyWith(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),
@@ -78,7 +79,7 @@ class ResultRow extends StatelessWidget {
           // 右側本体（順位ブロックと分離してクリップする）。
           Expanded(
             child: ClipPath(
-              clipper: _ResultRowClipper(),
+              clipper: _RankingRowClipper(),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: style.backgroundColor,
@@ -88,7 +89,10 @@ class ResultRow extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -118,23 +122,28 @@ class ResultRow extends StatelessWidget {
     // メタ情報が両方与えられた場合は、区切り線で分割して表示する。
     if (metaLeft != null && metaRight != null) {
       return Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            metaLeft!,
-            style: AppTextStyles.bodySmall.copyWith(
-              color: style.subTextColor,
-              fontSize: 12,
+          Flexible(
+            child: Text(
+              metaLeft!,
+              style: AppTextStyles.bodySmall.copyWith(
+                color: style.subTextColor,
+                fontSize: 12,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           const SizedBox(width: 8),
           Container(height: 16, width: 1, color: style.subTextColor),
           const SizedBox(width: 8),
-          Text(
-            metaRight!,
-            style: AppTextStyles.bodySmall.copyWith(
-              color: style.subTextColor,
-              fontSize: 12,
+          Flexible(
+            child: Text(
+              metaRight!,
+              style: AppTextStyles.bodySmall.copyWith(
+                color: style.subTextColor,
+                fontSize: 12,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -159,7 +168,7 @@ class ResultRow extends StatelessWidget {
 // ファイル末尾。
 
 /// 行の種別を表す列挙型。
-enum ResultRowType {
+enum RankingRowType {
   /// 現在のユーザーの行。
   currentUser,
 
@@ -179,15 +188,15 @@ class _ResolvedStyle {
   final Color subTextColor;
 }
 
-_ResolvedStyle _resolveStyle(ResultRowType type) {
+_ResolvedStyle _resolveStyle(RankingRowType type) {
   switch (type) {
-    case ResultRowType.currentUser:
+    case RankingRowType.currentUser:
       return const _ResolvedStyle(
         backgroundColor: AppColors.adminPrimary,
         textColor: AppColors.white,
         subTextColor: AppColors.white,
       );
-    case ResultRowType.other:
+    case RankingRowType.other:
       return const _ResolvedStyle(
         backgroundColor: Colors.transparent,
         textColor: AppColors.white,
@@ -197,7 +206,7 @@ _ResolvedStyle _resolveStyle(ResultRowType type) {
 }
 
 /// 左端を斜めにカットする [CustomClipper]。
-class _ResultRowClipper extends CustomClipper<Path> {
+class _RankingRowClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path()
