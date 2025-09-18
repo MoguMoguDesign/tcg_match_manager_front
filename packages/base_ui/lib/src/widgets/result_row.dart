@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../l10n/_export.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
+import '../l10n/_export.dart';
 import 'vs_container.dart';
 
 /// 試合結果の 1 行を表示するウィジェット。

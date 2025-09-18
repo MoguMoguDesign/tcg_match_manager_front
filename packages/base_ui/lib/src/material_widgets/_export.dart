@@ -1,7 +1,7 @@
 /// material.dart の実装をラップした、アプリ内で共通で用いられるウィジェット群。
 library;
 
-export '../widgets/common/common_confirm_button.dart';
+export '../widgets/common_confirm_button.dart';
 export 'common_app_button.dart';
 export 'common_app_text_field.dart';
 export 'common_confirm_dialog.dart';

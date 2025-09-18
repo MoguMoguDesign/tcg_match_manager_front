@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_colors.dart';
+import '../constants/app_colors.dart';
 import 'match_list_header.dart';
 import 'match_row.dart';
 import 'match_status_container.dart';

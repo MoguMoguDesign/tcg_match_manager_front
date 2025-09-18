@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 /// 小さなアクション用の共通ボタンウィジェット。
 ///
@@ -158,31 +158,31 @@ class CommonSmallButton extends StatelessWidget {
         );
       case SmallButtonStyle.secondary:
         return _VisualStyle(
-          backgroundColor: isEnabled 
-              ? AppColors.textBlack 
+          backgroundColor: isEnabled
+              ? AppColors.textBlack
               : AppColors.textBlack.withValues(alpha: 0.3),
-          textColor: isEnabled 
-              ? AppColors.userPrimary 
+          textColor: isEnabled
+              ? AppColors.userPrimary
               : AppColors.gray.withValues(alpha: 0.6),
           border: Border.all(
-            color: isEnabled 
-                ? AppColors.userPrimary 
-                : AppColors.gray.withValues(alpha: 0.4), 
+            color: isEnabled
+                ? AppColors.userPrimary
+                : AppColors.gray.withValues(alpha: 0.4),
             width: 2,
           ),
         );
       case SmallButtonStyle.neutralOutlined:
         return _VisualStyle(
-          backgroundColor: isEnabled 
-              ? AppColors.textBlack 
+          backgroundColor: isEnabled
+              ? AppColors.textBlack
               : AppColors.textBlack.withValues(alpha: 0.3),
-          textColor: isEnabled 
-              ? AppColors.white 
+          textColor: isEnabled
+              ? AppColors.white
               : AppColors.gray.withValues(alpha: 0.6),
           border: Border.all(
-            color: isEnabled 
-                ? AppColors.white 
-                : AppColors.gray.withValues(alpha: 0.4), 
+            color: isEnabled
+                ? AppColors.white
+                : AppColors.gray.withValues(alpha: 0.4),
             width: 2,
           ),
         );

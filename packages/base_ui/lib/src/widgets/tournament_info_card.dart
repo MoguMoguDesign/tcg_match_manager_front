@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
+
+import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 /// トーナメント情報を表示するカードウィジェット。
 ///
@@ -19,10 +20,10 @@ class TournamentInfoCard extends StatelessWidget {
 
   /// トーナメントのタイトル。
   final String title;
-  
+
   /// 開催日の文字列表現。
   final String date;
-  
+
   /// 参加者数。
   final int participantCount;
 
@@ -52,10 +53,7 @@ class TournamentInfoCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.userPrimaryAlpha,
-                    Colors.transparent,
-                  ],
+                  colors: [AppColors.userPrimaryAlpha, Colors.transparent],
                 ),
               ),
             ),
@@ -70,10 +68,7 @@ class TournamentInfoCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              Container(
-                height: 1,
-                color: AppColors.userPrimary,
-              ),
+              Container(height: 1, color: AppColors.userPrimary),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
