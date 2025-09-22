@@ -40,7 +40,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
         width: 600,
         constraints: const BoxConstraints(maxHeight: 700),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -58,19 +58,18 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
               ),
               child: Row(
                 children: [
-                  const Text(
+                  Text(
                     '新規作成',
-                    style: TextStyle(
+                    style: AppTextStyles.headlineLarge.copyWith(
+                      color: AppColors.textBlack,
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
                     ),
                   ),
                   const Spacer(),
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close),
-                    color: const Color(0xFF7A7A83),
+                    color: AppColors.gray,
                   ),
                 ],
               ),
@@ -84,58 +83,127 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 説明テキスト
-                    const Text(
+                    Text(
                       '*マークのある項目は必須です',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF7A7A83),
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.gray,
                       ),
                     ),
                     const SizedBox(height: 24),
                     
                     // タイトル
-                    _buildTextField(
-                      label: 'タイトル*',
-                      controller: _titleController,
-                      maxLength: 50,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'タイトル*',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        FigmaTextField(
+                          hintText: 'トーナメント名を入力',
+                          controller: _titleController,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     
                     // 大会概要
-                    _buildTextField(
-                      label: '大会概要*',
-                      controller: _descriptionController,
-                      maxLines: 4,
-                      maxLength: 200,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '大会概要*',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        FigmaTextField(
+                          hintText: '大会の説明を入力（200文字以内）',
+                          controller: _descriptionController,
+                          maxLines: 4,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     
                     // 開催日
-                    _buildTextField(
-                      label: '開催日*',
-                      controller: _dateController,
-                      placeholder: 'YYYY/MM/DD',
-                      readOnly: true,
-                      onTap: () => _selectDate(context),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '開催日*',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: AbsorbPointer(
+                            child: FigmaTextField(
+                              hintText: 'YYYY/MM/DD',
+                              controller: _dateController,
+                              suffixIcon: const Icon(Icons.calendar_today),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     
                     // 参加者上限
-                    _buildDropdownField(
-                      label: '参加者上限*',
-                      value: _selectedParticipants,
-                      items: const [
-                        '選択してください',
-                        '8人',
-                        '16人',
-                        '32人',
-                        '64人',
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '参加者上限*',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppColors.gray),
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            initialValue: _selectedParticipants == '選択してください'
+                                ? null
+                                : _selectedParticipants,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.all(16),
+                              hintText: '参加者数を選択',
+                            ),
+                            items: const [
+                              '8人',
+                              '16人',
+                              '32人',
+                              '64人',
+                            ].map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedParticipants = value ?? '選択してください';
+                              });
+                            },
+                          ),
+                        ),
                       ],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedParticipants = value!;
-                        });
-                      },
                     ),
                     const SizedBox(height: 20),
                     
@@ -143,12 +211,11 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           '最大ラウンド*',
-                          style: TextStyle(
-                            fontSize: 14,
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF7A7A83),
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -226,21 +293,36 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                         // ドロップダウン
                         if (_isMaxRoundsEnabled) ...[
                           const SizedBox(height: 8),
-                          _buildDropdownField(
-                            label: '',
-                            value: _selectedRounds,
-                            items: const [
-                              '3ラウンド',
-                              '4ラウンド',
-                              '5ラウンド（推奨）',
-                              '6ラウンド',
-                              '7ラウンド',
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedRounds = value!;
-                              });
-                            },
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppColors.gray),
+                            ),
+                            child: DropdownButtonFormField<String>(
+                              initialValue: _selectedRounds,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.all(16),
+                              ),
+                              items: const [
+                                '3ラウンド',
+                                '4ラウンド',
+                                '5ラウンド（推奨）',
+                                '6ラウンド',
+                                '7ラウンド',
+                              ].map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(item),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedRounds = value!;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ],
@@ -248,29 +330,71 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                     const SizedBox(height: 20),
                     
                     // 引き分け処理
-                    _buildDropdownField(
-                      label: '引き分け処理*',
-                      value: _selectedDrawHandling,
-                      items: const [
-                        '選択してください',
-                        '両者敗北',
-                        '両者勝利',
-                        '延長戦',
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '引き分け処理*',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppColors.gray),
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            initialValue: _selectedDrawHandling == '選択してください'
+                                ? null
+                                : _selectedDrawHandling,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.all(16),
+                              hintText: '引き分け時の処理を選択',
+                            ),
+                            items: const [
+                              '両者敗北',
+                              '両者勝利',
+                              '延長戦',
+                            ].map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedDrawHandling = value ?? '選択してください';
+                              });
+                            },
+                          ),
+                        ),
                       ],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedDrawHandling = value!;
-                        });
-                      },
                     ),
                     const SizedBox(height: 20),
                     
                     // 備考
-                    _buildTextField(
-                      label: '備考',
-                      controller: _notesController,
-                      maxLines: 4,
-                      maxLength: 200,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '備考',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.gray,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        FigmaTextField(
+                          hintText: '備考・補足情報を入力（200文字以内）',
+                          controller: _notesController,
+                          maxLines: 4,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -313,98 +437,6 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
     );
   }
 
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-    String? placeholder,
-    int maxLines = 1,
-    int? maxLength,
-    bool readOnly = false,
-    VoidCallback? onTap,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (label.isNotEmpty) ...[
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF7A7A83),
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: const Color(0xFFF9FAFF),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: TextField(
-            controller: controller,
-            maxLines: maxLines,
-            maxLength: maxLength,
-            readOnly: readOnly,
-            onTap: onTap,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.all(16),
-              hintText: placeholder,
-              hintStyle: const TextStyle(
-                color: Color(0xFF7A7A83),
-              ),
-              counterText: maxLength != null ? '${controller.text.length}/$maxLength' : null,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropdownField({
-    required String label,
-    required String value,
-    required List<String> items,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (label.isNotEmpty) ...[
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF7A7A83),
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: const Color(0xFFF9FAFF),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: DropdownButtonFormField<String>(
-            initialValue: value,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.all(16),
-            ),
-            items: items.map((item) {
-              return DropdownMenuItem<String>(
-                value: item,
-                child: Text(item),
-              );
-            }).toList(),
-            onChanged: onChanged,
-          ),
-        ),
-      ],
-    );
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final date = await showDatePicker(

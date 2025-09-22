@@ -9,21 +9,24 @@ import 'package:admin/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// 管理画面アプリのスモークテストを実行する。
+///
+/// ログインページが正しく表示されるかどうかを検証する。
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('ログインページが初期表示される', (tester) async {
+    // 画面サイズを十分な大きさに設定する。
+    final view = tester.view;
+    view.physicalSize = const Size(1280, 1024);
+    view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      view.resetPhysicalSize();
+      view.resetDevicePixelRatio();
+    });
+
     await tester.pumpWidget(const MyApp());
+    await tester.pumpAndSettle();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('管理者アカウントでログイン'), findsOneWidget);
+    expect(find.text('ログイン'), findsOneWidget);
   });
 }

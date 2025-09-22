@@ -44,16 +44,16 @@ upgrade-flutter:
 .PHONY: run-app run-admin run-both clean-clients
 
 run-app:
-	cd clients/app && flutter run -d chrome
+	cd clients/app && fvm flutter run -d chrome
 
 run-admin:
-	cd clients/admin && flutter run -d chrome
+	cd clients/admin && fvm flutter run -d chrome
 
 run-both:
-	cd clients/app && flutter run -d chrome &
-	cd clients/admin && flutter run -d chrome &
+	cd clients/app && fvm flutter run -d chrome &
+	cd clients/admin && fvm flutter run -d chrome &
 	wait
 
 clean-clients:
-	cd clients/app && flutter clean
-	cd clients/admin && flutter clean
+	cd clients/app && fvm flutter clean
+	cd clients/admin && fvm flutter clean
