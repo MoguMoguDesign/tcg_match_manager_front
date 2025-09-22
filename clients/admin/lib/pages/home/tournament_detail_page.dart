@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/layout/admin_scaffold.dart';
+import 'matches_page.dart';
+import 'participants_page.dart';
 
-/// トーナメント詳細画面
+/// トーナメント詳細画面。
 ///
-/// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=96-1200&t=whDUBuHITxOChCST-4
-class TournamentDetailPage extends StatelessWidget {
+/// Figma デザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-13828&t=whDUBuHITxOChCST-4。
+class TournamentDetailPage extends StatefulWidget {
   /// トーナメント詳細画面のコンストラクタ
   const TournamentDetailPage({required this.tournamentId, super.key});
 
@@ -14,271 +16,463 @@ class TournamentDetailPage extends StatelessWidget {
   final String tournamentId;
 
   @override
+  State<TournamentDetailPage> createState() => _TournamentDetailPageState();
+}
+
+class _TournamentDetailPageState extends State<TournamentDetailPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // ダミーデータ
-    final tournament = _getTournamentData(tournamentId);
+    final tournament = _getTournamentData(widget.tournamentId);
 
     return AdminScaffold(
       title: '',
-      actions: [
-        // 戻るボタン
-        IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back),
-          color: const Color(0xFF000336),
-        ),
-        const Spacer(),
-
-        // 編集ボタン
-        OutlinedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.edit),
-          label: const Text('編集'),
-          style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Color(0xFF000336), width: 2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          ),
-        ),
-        const SizedBox(width: 16),
-      ],
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // メインカード
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF1B4F72), Color(0xFF3A44FB)],
+      actions: const [],
+      body: Column(
+        children: [
+          // ヘッダー（戻る）
+          Container(
+            padding: const EdgeInsets.fromLTRB(40, 16, 16, 0),
+            decoration: const BoxDecoration(color: Colors.white),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                onPressed: () => context.pop(),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  size: 24,
+                  color: Color(0xFF000000),
+                ),
+                label: const Text(
+                  '戻る',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF000000),
+                  ),
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
+                  foregroundColor: const Color(0xFF000000),
                 ),
               ),
-              child: Stack(
-                children: [
-                  // ステータスバッジ
-                  Positioned(
-                    top: 16,
-                    right: 16,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFD8FF62),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        '開催前',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
-                        ),
-                      ),
-                    ),
-                  ),
+            ),
+          ),
 
-                  // メインコンテンツ
-                  Padding(
+          // メインカード（タブの上に配置）
+          Padding(
+            padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
+            child: Stack(
+              children: [
+                // 左寄せのヒーローカード（画面幅にフィット）
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment(-0.8, -1),
+                      end: Alignment(1, 0.6),
+                      colors: [
+                        Color(0xFF1219A9),
+                        Color(0xFF071301),
+                        Color(0xFFB4EF03),
+                      ],
+                      stops: [0.0, 0.8, 1.0],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(58, 68, 251, 0.1),
+                        blurRadius: 20,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
                     padding: const EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 40),
-
-                        // タイトル
+                        // タイトル（headline-large 相当 20）
                         Text(
                           tournament.title,
                           style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
-
-                        // 説明文
-                        Container(
-                          constraints: const BoxConstraints(maxWidth: 800),
-                          child: Text(
-                            tournament.description,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white.withValues(alpha: 0.9),
-                              height: 1.5,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-
-                        // アクションボタン
+                        // メタ情報行（日時 / 参加者 / 種別）
                         Row(
                           children: [
-                            ElevatedButton.icon(
-                              onPressed: () => _showQRDialog(context),
-                              icon: const Icon(Icons.qr_code),
-                              label: const Text('QRコードを確認'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF3A44FB),
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(28),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time,
+                                  size: 18,
+                                  color: Colors.white,
                                 ),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 12,
+                                const SizedBox(width: 8),
+                                Text(
+                                  tournament.date,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                             const SizedBox(width: 16),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(Icons.people),
-                              label: const Text('受付開始'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF3A44FB),
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(28),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.person,
+                                  size: 18,
+                                  color: Colors.white,
                                 ),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 12,
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${tournament.maxParticipants}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
+                              ],
+                            ),
+                            const SizedBox(width: 16),
+                            Row(
+                              children: [
+                                // 種別のダミー小アイコン枠
+                                Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'ポケカ',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 32),
-
-            // 詳細情報カード
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 左側：基本情報
-                Expanded(
-                  flex: 2,
-                  child: Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                ),
+                // 右上のラウンドピルバッジ
+                Positioned(
+                  top: 0,
+                  right: 40, // ヒーローカード右端と合わせる
+                  child: Container(
+                    height: 30,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 37,
+                      vertical: 6,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '基本情報',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF000336),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-
-                          _buildInfoRow('開催日', tournament.date),
-                          _buildInfoRow('時間', tournament.time),
-                          _buildInfoRow(
-                            '参加者上限',
-                            '${tournament.maxParticipants}人',
-                          ),
-                          _buildInfoRow('最大ラウンド', tournament.maxRounds),
-                          _buildInfoRow('引き分け処理', tournament.drawHandling),
-                        ],
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFB4EF03),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(8),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 24),
-
-                // 右側：参加者情報
-                Expanded(
-                  child: Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '参加者情報',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF000336),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-
-                          _buildInfoRow(
-                            '現在の参加者数',
-                            '${tournament.currentParticipants}人',
-                          ),
-                          Builder(
-                            builder: (context) {
-                              final percentage =
-                                  (tournament.currentParticipants /
-                                          tournament.maxParticipants *
-                                          100)
-                                      .round();
-                              return _buildInfoRow('参加率', '$percentage%');
-                            },
-                          ),
-                        ],
+                    alignment: Alignment.center,
+                    child: Text(
+                      'ラウンド${tournament.currentRound ?? 0}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF000336),
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+          ),
 
-            // 備考
-            if (tournament.notes.isNotEmpty) ...[
-              Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          // タブバー
+          DecoratedBox(
+            decoration: const BoxDecoration(color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: TabBar(
+                controller: _tabController,
+                labelColor: const Color(0xFF3A44FB),
+                unselectedLabelColor: const Color(0xFFA5A6AE),
+                indicatorColor: const Color(0xFF3A44FB),
+                indicatorWeight: 3,
+                labelStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
+                unselectedLabelStyle: const TextStyle(fontSize: 20),
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs: const [
+                  Tab(text: '大会概要'),
+                  Tab(text: '参加者一覧'),
+                  Tab(text: '対戦表'),
+                ],
+              ),
+            ),
+          ),
+
+          // タブビュー
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // 大会概要タブ
+                _buildOverviewTab(tournament),
+                // 参加者一覧タブ
+                ParticipantsContent(tournamentId: widget.tournamentId),
+                // 対戦表タブ
+                MatchesContent(tournamentId: widget.tournamentId),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOverviewTab(TournamentDetailData tournament) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 大会の説明
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F3FF),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '大会の説明',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF000336),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  tournament.description,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF000336),
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // 4 カード（開催日 / 参加者上限 / 最大ラウンド / 引き分け処理）
+          Row(
+            children: [
+              // 開催日
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        '備考',
+                        '開催日',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
                           color: Color(0xFF000336),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 9),
                       Text(
-                        tournament.notes,
+                        tournament.date,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000336),
+                        ),
+                      ),
+                      Text(
+                        tournament.time,
                         style: const TextStyle(
                           fontSize: 16,
-                          color: Color(0xFF7A7A83),
-                          height: 1.5,
+                          color: Color(0xFF000336),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              // 参加者上限
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '参加者上限',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000336),
+                        ),
+                      ),
+                      const SizedBox(height: 9),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Icon(
+                            Icons.person,
+                            size: 20,
+                            color: Color(0xFF000336),
+                          ),
+                          const SizedBox(width: 16),
+                          Text(
+                            '${tournament.maxParticipants}',
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF000336),
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            '人',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF000336),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              // 最大ラウンド
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '最大ラウンド',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000336),
+                        ),
+                      ),
+                      const SizedBox(height: 9),
+                      Text(
+                        tournament.maxRounds.contains('なるまで')
+                            ? '勝者が一人に\nなるまで'
+                            : tournament.maxRounds,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000336),
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              // 引き分け処理
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '引き分け処理',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000336),
+                        ),
+                      ),
+                      const SizedBox(height: 9),
+                      Text(
+                        tournament.drawHandling,
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000336),
                         ),
                       ),
                     ],
@@ -286,57 +480,55 @@ class TournamentDetailPage extends StatelessWidget {
                 ),
               ),
             ],
-          ],
-        ),
-      ),
-    );
-  }
+          ),
 
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 120,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF000336),
+          const SizedBox(height: 16),
+
+          // 備考
+          if (tournament.notes.isNotEmpty) ...[
+            Container(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(58, 68, 251, 0.04),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '備考',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF000336),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    tournament.notes,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF000336),
+                      height: 1.5,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 16, color: Color(0xFF7A7A83)),
-            ),
-          ),
+          ],
         ],
       ),
     );
   }
 
-  Future<void> _showQRDialog(BuildContext context) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('QRコード'),
-        content: const SizedBox(width: 200, height: 200, child: Placeholder()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('閉じる'),
-          ),
-        ],
-      ),
-    );
-  }
+  // 右上のラウンドピル表示に統一したため、ステータス色/文言関数は不要になった。
+
+  // 旧 UI の情報行は廃止した。
+
+  // ヘッダー刷新に伴い、QR ダイアログ機能は削除した。
 
   TournamentDetailData _getTournamentData(String id) {
+    // ダミーデータ（開催中の例）
     return const TournamentDetailData(
       id: '1',
       title: 'トーナメントタイトル',
@@ -354,9 +546,23 @@ class TournamentDetailPage extends StatelessWidget {
       notes:
           'テキストテキストテキストテキストテキストテキストテキストテキスト'
           'テキストテキストテキストテキストテキストテキストテキストテキスト'
-          'テキストテキストテキストテキストテキストテキスト',
+          'テキストテキストテキストテキストテキスト',
+      status: TournamentStatus.ongoing, // 開催中
+      currentRound: 3, // 現在のラウンド
     );
   }
+}
+
+/// トーナメントステータス
+enum TournamentStatus {
+  /// 開催前
+  upcoming,
+
+  /// 開催中
+  ongoing,
+
+  /// 開催済
+  completed,
 }
 
 /// トーナメント詳細データクラス
@@ -373,6 +579,8 @@ class TournamentDetailData {
     required this.maxRounds,
     required this.drawHandling,
     required this.notes,
+    required this.status,
+    this.currentRound,
   });
 
   /// ID
@@ -404,4 +612,10 @@ class TournamentDetailData {
 
   /// 備考
   final String notes;
+
+  /// ステータス
+  final TournamentStatus status;
+
+  /// 現在のラウンド（開催中のみ）
+  final int? currentRound;
 }
