@@ -477,7 +477,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                         '参加者一覧',
                         style: base_ui.AppTextStyles.headlineLarge.copyWith(
                           color: base_ui.AppColors.textBlack,
-                          fontSize: 32,
+                          fontSize: 24,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -530,7 +530,6 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
               ],
             ),
           ),
