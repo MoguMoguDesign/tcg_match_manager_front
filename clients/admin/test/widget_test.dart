@@ -15,12 +15,13 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('ログインページが初期表示される', (tester) async {
     // 画面サイズを十分な大きさに設定する。
-    final view = tester.view;
-    view.physicalSize = const Size(1280, 1024);
-    view.devicePixelRatio = 1.0;
+    final view = tester.view
+      ..physicalSize = const Size(1280, 1024)
+      ..devicePixelRatio = 1.0;
     addTearDown(() {
-      view.resetPhysicalSize();
-      view.resetDevicePixelRatio();
+      view
+        ..resetPhysicalSize()
+        ..resetDevicePixelRatio();
     });
 
     await tester.pumpWidget(const MyApp());

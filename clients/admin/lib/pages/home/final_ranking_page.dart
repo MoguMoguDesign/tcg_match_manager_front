@@ -15,10 +15,10 @@ class AdminFinalRankingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AdminScaffold(
+    return const AdminScaffold(
       title: '最終順位',
-      actions: const [],
-      body: const Center(
+      actions: [],
+      body: Center(
         child: Text('最終順位（準備中）', style: TextStyle(fontSize: 18)),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,20 +39,12 @@ class _TournamentListPageState extends State<TournamentListPage>
       title: 'トーナメント一覧',
       actions: [
         // 新規作成ボタン
-        ElevatedButton.icon(
-          onPressed: () => _showCreateTournamentDialog(context),
-          icon: const Icon(Icons.add),
-          label: const Text('新規作成'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF3A44FB),
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 12,
-            ),
+        SizedBox(
+          width: 140,
+          child: CommonConfirmButton(
+            text: '新規作成',
+            style: ConfirmButtonStyle.adminFilled,
+            onPressed: () => _showCreateTournamentDialog(context),
           ),
         ),
         const SizedBox(width: 16),

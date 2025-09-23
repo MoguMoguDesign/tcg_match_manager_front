@@ -267,6 +267,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           // 大会の説明
           Container(
             decoration: BoxDecoration(

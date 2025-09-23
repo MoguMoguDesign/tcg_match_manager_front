@@ -37,6 +37,10 @@ class AppColors {
   /// 管理者用のプライマリカラー（青）。
   /// 管理者向け機能の UI 要素で使用される。
   static const Color adminPrimary = Color(0xFF3A44FB);
+
+  /// アラート用の赤色。
+  /// 警告やエラー、重要なアクションボタンで使用される。
+  static const Color alart = Color(0xFFFF4646);
   
   // アプリ固有のカラー
   /// アプリ全体の背景色（オフホワイト）。
