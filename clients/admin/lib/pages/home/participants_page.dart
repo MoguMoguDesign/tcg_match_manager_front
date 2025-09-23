@@ -359,7 +359,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     );
   }
 
-  void _createRound() {
+  Future<void> _createRound() async {
     // TODO(admin): 実際のラウンド作成処理を実装
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -367,6 +367,9 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
         backgroundColor: Color(0xFF38A169),
       ),
     );
+
+    // 対戦表タブに切り替え（親のTabControllerを操作）
+    // TODO(admin): 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える
   }
 
   void _showQRCode() {
@@ -817,7 +820,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     );
   }
 
-  void _createRound() {
+  Future<void> _createRound() async {
     // TODO(admin): 実際のラウンド作成処理を実装
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -825,6 +828,9 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
         backgroundColor: Color(0xFF38A169),
       ),
     );
+
+    // 対戦表タブに切り替え（親のTabControllerを操作）
+    // TODO(admin): 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える
   }
 
   void _showQRCode() {

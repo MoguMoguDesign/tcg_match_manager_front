@@ -189,7 +189,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           text: 'ログイン',
                           style: ConfirmButtonStyle.adminFilled,
                           onPressed: () {
-                            context.goNamed('home');
+                            context.goNamed('tournaments');
                           },
                         ),
                         const SizedBox(height: 16),

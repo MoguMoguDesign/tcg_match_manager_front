@@ -153,10 +153,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                         child: TournamentCard(
                           tournament: tournaments[i],
                           onTap: () async {
-                            await context.pushNamed(
-                              'tournament-detail',
-                              pathParameters: {'id': tournaments[i].id},
-                            );
+                            context.go('/tournament/${tournaments[i].id}');
                           },
                         ),
                       ),
@@ -176,13 +173,8 @@ class _TournamentListPageState extends State<TournamentListPage>
                         child: (i + 4 < tournaments.length)
                             ? TournamentCard(
                                 tournament: tournaments[i + 4],
-                                onTap: () async {
-                                  await context.pushNamed(
-                                    'tournament-detail',
-                                    pathParameters: {
-                                      'id': tournaments[i + 4].id
-                                    },
-                                  );
+                                onTap: () {
+                                  context.go('/tournament/${tournaments[i + 4].id}');
                                 },
                               )
                             : const SizedBox(),
@@ -212,11 +204,8 @@ class _TournamentListPageState extends State<TournamentListPage>
                     Expanded(
                       child: TournamentCard(
                         tournament: tournaments[i],
-                        onTap: () async {
-                          await context.pushNamed(
-                            'tournament-detail',
-                            pathParameters: {'id': tournaments[i].id},
-                          );
+                        onTap: () {
+                          context.go('/tournament/${tournaments[i].id}');
                         },
                       ),
                     ),
@@ -236,13 +225,8 @@ class _TournamentListPageState extends State<TournamentListPage>
                       child: (i + 4 < tournaments.length)
                           ? TournamentCard(
                               tournament: tournaments[i + 4],
-                              onTap: () async {
-                                await context.pushNamed(
-                                  'tournament-detail',
-                                  pathParameters: {
-                                    'id': tournaments[i + 4].id
-                                  },
-                                );
+                              onTap: () {
+                                context.go('/tournament/${tournaments[i + 4].id}');
                               },
                             )
                           : const SizedBox(),
@@ -359,11 +343,8 @@ class _TournamentListPageState extends State<TournamentListPage>
 
                 // 右側：ボタン
                 ElevatedButton(
-                  onPressed: () async {
-                    await context.pushNamed(
-                      'tournament-detail',
-                      pathParameters: {'id': tournament.id},
-                    );
+                  onPressed: () {
+                    context.go('/tournament/${tournament.id}');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

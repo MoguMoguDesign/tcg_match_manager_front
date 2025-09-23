@@ -41,9 +41,7 @@ class _MatchesPageState extends State<MatchesPage> {
               ),
             ),
             // コンテンツ部分
-            SliverFillRemaining(
-              child: _buildTabContent(),
-            ),
+            SliverFillRemaining(child: _buildTabContent()),
           ],
         ),
       ),
@@ -82,8 +80,10 @@ class _MatchesPageState extends State<MatchesPage> {
               const Spacer(),
               // ユーザー情報
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
                   border: Border.all(color: const Color(0xFFE2E8F0)),
@@ -137,10 +137,7 @@ class _MatchesPageState extends State<MatchesPage> {
                   SizedBox(width: 8),
                   Text(
                     '2025/08/31',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF6B7280),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
                   ),
                 ],
               ),
@@ -152,10 +149,7 @@ class _MatchesPageState extends State<MatchesPage> {
                   SizedBox(width: 8),
                   Text(
                     '32',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF6B7280),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
                   ),
                 ],
               ),
@@ -169,10 +163,7 @@ class _MatchesPageState extends State<MatchesPage> {
                 ),
                 child: const Text(
                   'ポケカ',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF6B7280),
-                  ),
+                  style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
                 ),
               ),
               const Spacer(),
@@ -209,7 +200,7 @@ class _MatchesPageState extends State<MatchesPage> {
     final isSelected = _selectedTabIndex == index;
     return Expanded(
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           setState(() {
             _selectedTabIndex = index;
           });
@@ -335,9 +326,9 @@ class _MatchesContentState extends State<MatchesContent> {
                       const Spacer(),
                       base_ui.CommonSmallButton(
                         text: '次のラウンド',
-                        style:
-                            base_ui.SmallButtonStyle
-                                .adminOutlinedWithArrowRight,
+                        style: base_ui
+                            .SmallButtonStyle
+                            .adminOutlinedWithArrowRight,
                         isEnabled: _currentRound < _getRounds().length,
                         onPressed: _gotoNextRound,
                       ),
@@ -348,13 +339,9 @@ class _MatchesContentState extends State<MatchesContent> {
             ),
           ),
           // 対戦リスト
-          SliverToBoxAdapter(
-            child: _buildMatchesList(),
-          ),
+          SliverToBoxAdapter(child: _buildMatchesList()),
           // フッター
-          SliverToBoxAdapter(
-            child: _buildFooter(),
-          ),
+          SliverToBoxAdapter(child: _buildFooter()),
         ],
       ),
     );
@@ -476,10 +463,7 @@ class _MatchesContentState extends State<MatchesContent> {
         Expanded(
           child: Text(
             playerName,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFF000336),
-            ),
+            style: const TextStyle(fontSize: 16, color: Color(0xFF000336)),
           ),
         ),
         const SizedBox(width: 16),
@@ -556,10 +540,7 @@ class _MatchesContentState extends State<MatchesContent> {
               Spacer(),
               Text(
                 '最大人数: 32人',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF6B7280),
-                ),
+                style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
               ),
             ],
           ),
@@ -686,7 +667,6 @@ class _MatchesContentState extends State<MatchesContent> {
     }
   }
 
-
   void _updateMatchResult(AdminMatchData match, AdminMatchResult result) {
     // TODO(admin): 実際の結果更新処理を実装
     ScaffoldMessenger.of(context).showSnackBar(
@@ -698,14 +678,14 @@ class _MatchesContentState extends State<MatchesContent> {
     setState(() {});
   }
 
-
   String _getParticipantName(String? participantId) {
     if (participantId == null) {
       return '不戦勝';
     }
     final participants = _getParticipants();
-    final participant =
-        participants.where((p) => p.id == participantId).firstOrNull;
+    final participant = participants
+        .where((p) => p.id == participantId)
+        .firstOrNull;
     return participant?.name ?? '不明';
   }
 
@@ -741,8 +721,8 @@ class _MatchesContentState extends State<MatchesContent> {
     final matchCount = roundNumber == 1
         ? 8
         : roundNumber == 2
-            ? 4
-            : 1;
+        ? 4
+        : 1;
     return List.generate(matchCount, (index) {
       final tableNumber = index + 1;
       return AdminMatchData(
