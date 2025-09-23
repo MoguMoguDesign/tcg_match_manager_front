@@ -19,6 +19,7 @@ class DialogButtons extends StatelessWidget {
     this.secondaryText,
     this.onSecondaryPressed,
     this.isVertical = false,
+    this.primaryStyle = DialogButtonStyle.primary,
   });
 
   /// プライマリボタンのテキスト。
@@ -38,6 +39,9 @@ class DialogButtons extends StatelessWidget {
   /// false の場合は横方向に配置される。
   final bool isVertical;
 
+  /// プライマリボタンのスタイル。
+  final DialogButtonStyle primaryStyle;
+
   @override
   Widget build(BuildContext context) {
     final hasSecondaryButton = secondaryText != null;
@@ -55,7 +59,7 @@ class DialogButtons extends StatelessWidget {
           ],
           _DialogActionButton(
             text: primaryText,
-            style: DialogButtonStyle.primary,
+            style: primaryStyle,
             onPressed: onPrimaryPressed,
           ),
         ],
@@ -77,7 +81,7 @@ class DialogButtons extends StatelessWidget {
         Expanded(
           child: _DialogActionButton(
             text: primaryText,
-            style: DialogButtonStyle.primary,
+            style: primaryStyle,
             onPressed: onPrimaryPressed,
           ),
         ),
@@ -151,6 +155,22 @@ class _DialogActionButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           textColor: AppColors.gray,
         );
+      case DialogButtonStyle.admin:
+        return _DialogButtonColors(
+          backgroundColor: AppColors.adminPrimary,
+          textColor: AppColors.white,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.adminPrimary.withValues(alpha: 0.1),
+              blurRadius: 20,
+            ),
+          ],
+        );
+      case DialogButtonStyle.alert:
+        return const _DialogButtonColors(
+          backgroundColor: AppColors.alart,
+          textColor: AppColors.white,
+        );
     }
   }
 }
@@ -162,6 +182,12 @@ enum DialogButtonStyle {
 
   /// セカンダリボタンのスタイル（アウトライン）。
   secondary,
+
+  /// 管理者向けボタンのスタイル（青色塗りつぶし）。
+  admin,
+
+  /// アラートボタンのスタイル（赤色塗りつぶし）。
+  alert,
 }
 
 /// ダイアログボタンの色情報を保持するクラス。

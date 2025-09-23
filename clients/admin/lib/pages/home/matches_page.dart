@@ -602,13 +602,11 @@ class _MatchesContentState extends State<MatchesContent> {
   }
 
   Future<void> _setBothPlayersLose(AdminMatchData match) async {
-    final player1Name = _getParticipantName(match.player1Id);
-    final player2Name = _getParticipantName(match.player2Id);
     final confirmed = await base_ui.ConfirmDialog.show(
       context,
-      title: '両者敗北の設定',
-      message: '$player1Name vs $player2Name\nこの対戦を両者敗北に設定しますか？',
-      confirmText: '設定',
+      title: '両者敗北にしますか？',
+      confirmText: '両者敗北',
+      confirmButtonStyle: base_ui.DialogButtonStyle.admin,
     );
     if (!mounted) {
       return;
@@ -650,6 +648,7 @@ class _MatchesContentState extends State<MatchesContent> {
       title: 'ラウンド取り消し',
       message: '現在のラウンドを取り消しますか？\nこの操作は元に戻すことができません。',
       confirmText: '取り消し',
+      confirmButtonStyle: base_ui.DialogButtonStyle.alert,
     );
     if (!mounted) {
       return;
@@ -671,6 +670,7 @@ class _MatchesContentState extends State<MatchesContent> {
       title: 'ラウンドを進める',
       message: '次のラウンドに進めますか？\n現在の結果が確定されます。',
       confirmText: '進める',
+      confirmButtonStyle: base_ui.DialogButtonStyle.admin,
     );
     if (!mounted) {
       return;
