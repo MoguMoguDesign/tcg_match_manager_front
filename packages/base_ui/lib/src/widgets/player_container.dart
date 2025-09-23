@@ -123,13 +123,13 @@ class PlayerContainer extends StatelessWidget {
           return const _PlayerContainerColors(
             backgroundColor: AppColors.adminPrimary, // #3A44FB
             textColor: AppColors.white,
-            winLabelColor: Color(0x33FFFFFF), // 透明な白
+            winLabelColor: AppColors.whiteLightAlpha, // 透明な白
           );
         case PlayerState.lose:
           return const _PlayerContainerColors(
             backgroundColor: AppColors.adminPrimary, // #3A44FB (青色)
             textColor: AppColors.white,
-            loseLabelColor: Color(0x33FFFFFF), // 透明な白
+            loseLabelColor: AppColors.whiteLightAlpha, // 透明な白
           );
       }
     } else {
@@ -144,7 +144,7 @@ class PlayerContainer extends StatelessWidget {
           return const _PlayerContainerColors(
             backgroundColor: AppColors.userPrimaryAlpha, // 落ち着いた緑色（透明度20%）
             textColor: AppColors.white,
-            winLabelColor: Color(0x33FFFFFF), // 透明な白
+            winLabelColor: AppColors.whiteLightAlpha, // 透明な白
           );
         case PlayerState.lose:
           return const _PlayerContainerColors(

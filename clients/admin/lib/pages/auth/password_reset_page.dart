@@ -31,9 +31,9 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFD8FF62), // ライトグリーン
-              Color(0xFF000336), // ダークブルー
-              Color(0xFF3A44FB), // ブルー
+              AppColors.gradientLightGreen, // ライトグリーン
+              AppColors.textBlack, // ダークブルー
+              AppColors.adminPrimary, // ブルー
             ],
             stops: [0.0, 0.5, 1.0],
           ),
@@ -52,7 +52,9 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
+                      color: AppColors.gradientLightGreen.withValues(
+                        alpha: 0.5,
+                      ),
                       blurRadius: 20,
                     ),
                   ],
@@ -67,11 +69,11 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                         IconButton(
                           onPressed: () => context.pop(),
                           icon: const Icon(Icons.arrow_back),
-                          color: const Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ],
                     ),
-                    
+
                     // ロゴ
                     Container(
                       margin: const EdgeInsets.only(bottom: 24),
@@ -80,11 +82,11 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ),
-                    
+
                     // タイトル
                     Container(
                       margin: const EdgeInsets.only(bottom: 40),
@@ -93,11 +95,11 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ),
-                    
+
                     // 説明文
                     Container(
                       margin: const EdgeInsets.only(bottom: 24),
@@ -105,12 +107,12 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                         '登録されたメールアドレスに再設定用のリンクを送信します。',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Color(0xFF7A7A83),
+                          color: AppColors.grayDark,
                         ),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    
+
                     // フォーム
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,14 +123,14 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF7A7A83),
+                            color: AppColors.grayDark,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Container(
                           height: 56,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF9FAFF),
+                            color: AppColors.grayLight,
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextField(
@@ -143,13 +145,13 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // 送信ボタン
                         CommonConfirmButton(
                           text: 'リンクを送信',
                           style: ConfirmButtonStyle.adminFilled,
                           onPressed: () {
-                            // 
+                            //
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('パスワード再設定リンクを送信しました'),
@@ -158,7 +160,7 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                           },
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // キャンセルボタン
                         CommonConfirmButton(
                           text: 'キャンセル',

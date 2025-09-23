@@ -32,7 +32,7 @@ class UserDeleteDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF000336),
+                color: AppColors.textBlack,
               ),
               textAlign: TextAlign.center,
             ),
@@ -44,7 +44,7 @@ class UserDeleteDialog extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF000336),
+                color: AppColors.textBlack,
               ),
               textAlign: TextAlign.center,
             ),

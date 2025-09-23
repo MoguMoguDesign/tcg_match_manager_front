@@ -57,7 +57,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
         IconButton(
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back),
-          color: const Color(0xFF000336),
+          color: base_ui.AppColors.textBlack,
         ),
         const Spacer(),
       ],
@@ -91,21 +91,21 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                           icon: const Icon(
                             Icons.qr_code,
                             size: 20,
-                            color: Color(0xFF000336),
+                            color: base_ui.AppColors.textBlack,
                           ),
                           label: const Text(
                             'QRコード表示',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF000336),
+                              color: base_ui.AppColors.textBlack,
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             elevation: 0,
                             side: const BorderSide(
-                              color: Color(0xFF000336),
+                              color: base_ui.AppColors.textBlack,
                               width: 2,
                             ),
                             shape: RoundedRectangleBorder(
@@ -151,7 +151,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
       return const Center(
         child: Text(
           '参加者がいません',
-          style: TextStyle(fontSize: 16, color: Color(0xFF7A7A83)),
+          style: TextStyle(fontSize: 16, color: base_ui.AppColors.grayDark),
         ),
       );
     }
@@ -165,7 +165,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: const BoxDecoration(
-              color: Color(0xFFF5F5F5),
+              color: base_ui.AppColors.backgroundField,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
@@ -180,7 +180,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -190,7 +190,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -201,7 +201,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -213,7 +213,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -232,7 +232,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: const Color(0xFFE0E0E0),
+                        color: base_ui.AppColors.borderLight,
                         width: index == participants.length - 1 ? 0 : 1,
                       ),
                     ),
@@ -245,7 +245,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                           '${index + 1}',
                           style: const TextStyle(
                             fontSize: 16,
-                            color: Color(0xFF7A7A83),
+                            color: base_ui.AppColors.grayDark,
                           ),
                         ),
                       ),
@@ -254,7 +254,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                           participant.name,
                           style: const TextStyle(
                             fontSize: 16,
-                            color: Color(0xFF000336),
+                            color: base_ui.AppColors.textBlack,
                           ),
                         ),
                       ),
@@ -266,7 +266,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                               : '-',
                           style: const TextStyle(
                             fontSize: 14,
-                            color: Color(0xFF7A7A83),
+                            color: base_ui.AppColors.grayDark,
                           ),
                         ),
                       ),
@@ -279,7 +279,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                               onPressed: () => _showDeleteDialog(participant),
                               icon: const Icon(
                                 Icons.delete,
-                                color: Color(0xFFE53E3E),
+                                color: base_ui.AppColors.alart,
                                 size: 20,
                               ),
                               tooltip: '削除',
@@ -320,7 +320,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${participant.name}を削除しました'),
-        backgroundColor: const Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
   }
@@ -337,7 +337,10 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
               Spacer(),
               Text(
                 '最大人数: 32人',
-                style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: base_ui.AppColors.textGray,
+                ),
               ),
             ],
           ),
@@ -364,7 +367,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ラウンドを作成しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
 
@@ -377,7 +380,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('QRコードを表示します'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
   }
@@ -395,7 +398,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('変更を反映しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
   }
@@ -488,21 +491,21 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                         icon: const Icon(
                           Icons.qr_code,
                           size: 20,
-                          color: Color(0xFF000336),
+                          color: base_ui.AppColors.textBlack,
                         ),
                         label: const Text(
                           'QRコード表示',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF000336),
+                            color: base_ui.AppColors.textBlack,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           elevation: 0,
                           side: const BorderSide(
-                            color: Color(0xFF000336),
+                            color: base_ui.AppColors.textBlack,
                             width: 2,
                           ),
                           shape: RoundedRectangleBorder(
@@ -548,12 +551,12 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xFFE2E8F0)),
+          border: Border.all(color: base_ui.AppColors.borderGray),
         ),
         child: const Center(
           child: Text(
             '参加者がいません',
-            style: TextStyle(fontSize: 16, color: Color(0xFF7A7A83)),
+            style: TextStyle(fontSize: 16, color: base_ui.AppColors.grayDark),
           ),
         ),
       );
@@ -564,7 +567,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: base_ui.AppColors.borderGray),
       ),
       child: Column(
         children: [
@@ -572,7 +575,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: const BoxDecoration(
-              color: Color(0xFFF5F5F5),
+              color: base_ui.AppColors.backgroundField,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
@@ -587,7 +590,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -597,7 +600,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -609,7 +612,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -621,7 +624,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: base_ui.AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -636,7 +639,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: const Color(0xFFE2E8F0),
+                    color: base_ui.AppColors.borderGray,
                     width: index == _participants.length - 1 ? 0 : 1,
                   ),
                 ),
@@ -659,13 +662,19 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
           width: 80,
           child: Text(
             '$number',
-            style: const TextStyle(fontSize: 16, color: Color(0xFF7A7A83)),
+            style: const TextStyle(
+              fontSize: 16,
+              color: base_ui.AppColors.grayDark,
+            ),
           ),
         ),
         Expanded(
           child: TextFormField(
             controller: nameController,
-            style: const TextStyle(fontSize: 16, color: Color(0xFF000336)),
+            style: const TextStyle(
+              fontSize: 16,
+              color: base_ui.AppColors.textBlack,
+            ),
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -693,8 +702,8 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                           ? Icons.radio_button_checked
                           : Icons.radio_button_unchecked,
                       color: isParticipating
-                          ? const Color(0xFF22C55E)
-                          : const Color(0xFF9CA3AF),
+                          ? base_ui.AppColors.successActive
+                          : base_ui.AppColors.textDisabled,
                       size: 20,
                     ),
                     const SizedBox(width: 8),
@@ -703,8 +712,8 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                       style: TextStyle(
                         fontSize: 14,
                         color: isParticipating
-                            ? const Color(0xFF22C55E)
-                            : const Color(0xFF6B7280),
+                            ? base_ui.AppColors.successActive
+                            : base_ui.AppColors.textGray,
                       ),
                     ),
                   ],
@@ -726,8 +735,8 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                           ? Icons.radio_button_checked
                           : Icons.radio_button_unchecked,
                       color: !isParticipating
-                          ? const Color(0xFFEF4444)
-                          : const Color(0xFF9CA3AF),
+                          ? base_ui.AppColors.error
+                          : base_ui.AppColors.textDisabled,
                       size: 20,
                     ),
                     const SizedBox(width: 8),
@@ -736,8 +745,8 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                       style: TextStyle(
                         fontSize: 14,
                         color: !isParticipating
-                            ? const Color(0xFFEF4444)
-                            : const Color(0xFF6B7280),
+                            ? base_ui.AppColors.error
+                            : base_ui.AppColors.textGray,
                       ),
                     ),
                   ],
@@ -771,7 +780,10 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
               Spacer(),
               Text(
                 '最大人数: 32人',
-                style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: base_ui.AppColors.textGray,
+                ),
               ),
             ],
           ),
@@ -815,7 +827,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${participant.name}を削除しました'),
-        backgroundColor: const Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
   }
@@ -825,7 +837,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ラウンドを作成しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
 
@@ -838,7 +850,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('QRコードを表示します'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
   }
@@ -856,7 +868,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('変更を反映しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: base_ui.AppColors.success,
       ),
     );
   }

@@ -39,7 +39,7 @@ class QRDisplayDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF000336),
+                color: AppColors.textBlack,
               ),
               textAlign: TextAlign.center,
             ),
@@ -50,7 +50,7 @@ class QRDisplayDialog extends StatelessWidget {
               tournamentTitle,
               style: const TextStyle(
                 fontSize: 16,
-                color: Color(0xFF7A7A83),
+                color: AppColors.grayDark,
               ),
               textAlign: TextAlign.center,
             ),
@@ -62,7 +62,7 @@ class QRDisplayDialog extends StatelessWidget {
               height: 240,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
+                border: Border.all(color: AppColors.borderLight, width: 2),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -92,7 +92,7 @@ class QRDisplayDialog extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
+                color: AppColors.backgroundField,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -103,7 +103,7 @@ class QRDisplayDialog extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF7A7A83),
+                      color: AppColors.grayDark,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -111,7 +111,7 @@ class QRDisplayDialog extends StatelessWidget {
                     participationUrl,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF000336),
+                      color: AppColors.textBlack,
                       fontFamily: 'monospace',
                     ),
                   ),
@@ -140,7 +140,7 @@ class QRDisplayDialog extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('URLをクリップボードにコピーしました'),
-          backgroundColor: Color(0xFF38A169),
+          backgroundColor: AppColors.success,
           duration: Duration(seconds: 2),
         ),
       );

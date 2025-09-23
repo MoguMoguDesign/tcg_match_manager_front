@@ -1,3 +1,4 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,7 +33,7 @@ class AdminScaffold extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Colors.white,
               border: Border(
-                bottom: BorderSide(color: Color(0xFFE0E0E0)),
+                bottom: BorderSide(color: AppColors.borderLight),
               ),
             ),
             child: Row(
@@ -43,7 +44,7 @@ class AdminScaffold extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000336),
+                      color: AppColors.textBlack,
                     ),
                   ),
                 const Spacer(),
@@ -53,20 +54,20 @@ class AdminScaffold extends StatelessWidget {
                 PopupMenuButton<String>(
                   child: const Row(
                     children: [
-                      Icon(Icons.person, color: Color(0xFF000336)),
+                      Icon(Icons.person, color: AppColors.textBlack),
                       SizedBox(width: 8),
                       Text(
                         'ユーザー名',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       SizedBox(width: 4),
                       Icon(
                         Icons.keyboard_arrow_down,
-                        color: Color(0xFF000336),
+                        color: AppColors.textBlack,
                       ),
                     ],
                   ),

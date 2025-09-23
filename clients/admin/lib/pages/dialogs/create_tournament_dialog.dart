@@ -70,7 +70,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF000336),
+                                color: AppColors.textBlack,
                               ),
                             ),
                             const Spacer(),
@@ -78,7 +78,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                               onPressed: () => Navigator.of(context).pop(),
                               icon: const Icon(Icons.close),
                               iconSize: 24,
-                              color: const Color(0xFF000336),
+                              color: AppColors.textBlack,
                             ),
                           ],
                         ),
@@ -88,7 +88,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF000336),
+                            color: AppColors.textBlack,
                           ),
                         ),
                       ],
@@ -113,7 +113,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 9),
@@ -135,7 +135,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                     ),
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: Color(0xFF000336),
+                                      color: AppColors.textBlack,
                                     ),
                                   ),
                                 ),
@@ -150,7 +150,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF000336),
+                                          color: AppColors.textBlack,
                                         ),
                                       );
                                     },
@@ -169,7 +169,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 9),
@@ -190,7 +190,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                     ),
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: Color(0xFF000336),
+                                      color: AppColors.textBlack,
                                     ),
                                   ),
                                 ),
@@ -205,7 +205,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF000336),
+                                          color: AppColors.textBlack,
                                         ),
                                       );
                                     },
@@ -224,7 +224,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 9),
@@ -251,8 +251,8 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color: _dateController.text.isEmpty
-                                                ? const Color(0xFF7A7A83)
-                                                : const Color(0xFF000336),
+                                                ? AppColors.grayDark
+                                                : AppColors.textBlack,
                                           ),
                                         ),
                                       ],
@@ -272,7 +272,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 9),
@@ -297,7 +297,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF7A7A83),
+                                          color: AppColors.grayDark,
                                         ),
                                       ),
                                       icon: Transform.rotate(
@@ -305,7 +305,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         child: const Icon(
                                           Icons.keyboard_arrow_right,
                                           size: 24,
-                                          color: Color(0xFF000336),
+                                          color: AppColors.textBlack,
                                         ),
                                       ),
                                       isExpanded: true,
@@ -318,7 +318,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(0xFF000336),
+                                                  color: AppColors.textBlack,
                                                 ),
                                               ),
                                             );
@@ -346,7 +346,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -369,8 +369,8 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                               shape: BoxShape.circle,
                                               border: Border.all(
                                                 color: !_isMaxRoundsEnabled
-                                                    ? const Color(0xFF3A44FB)
-                                                    : const Color(0xFFD9D9D9),
+                                                    ? AppColors.adminPrimary
+                                                    : AppColors.borderDisabled,
                                                 width: 2,
                                               ),
                                             ),
@@ -383,9 +383,8 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                           const BoxDecoration(
                                                             shape:
                                                                 BoxShape.circle,
-                                                            color: Color(
-                                                              0xFF3A44FB,
-                                                            ),
+                                                            color: AppColors
+                                                                .adminPrimary,
                                                           ),
                                                     ),
                                                   )
@@ -397,7 +396,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xFF000336),
+                                              color: AppColors.textBlack,
                                             ),
                                           ),
                                         ],
@@ -423,12 +422,9 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                   shape: BoxShape.circle,
                                                   border: Border.all(
                                                     color: _isMaxRoundsEnabled
-                                                        ? const Color(
-                                                            0xFF3A44FB,
-                                                          )
-                                                        : const Color(
-                                                            0xFFD9D9D9,
-                                                          ),
+                                                        ? AppColors.adminPrimary
+                                                        : AppColors
+                                                              .borderDisabled,
                                                     width: 2,
                                                   ),
                                                 ),
@@ -438,14 +434,11 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                           width: 12,
                                                           height: 12,
                                                           decoration:
-                                                          const BoxDecoration(
-                                                                shape:
-                                                                    BoxShape
-                                                                        .circle,
-                                                                color:
-                                                                    Color(
-                                                                  0xFF3A44FB,
-                                                                ),
+                                                              const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: AppColors
+                                                                    .adminPrimary,
                                                               ),
                                                         ),
                                                       )
@@ -457,7 +450,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(0xFF000336),
+                                                  color: AppColors.textBlack,
                                                 ),
                                               ),
                                             ],
@@ -485,7 +478,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                 child: const Icon(
                                                   Icons.keyboard_arrow_right,
                                                   size: 24,
-                                                  color: Color(0xFF000336),
+                                                  color: AppColors.textBlack,
                                                 ),
                                               ),
                                               isExpanded: true,
@@ -507,9 +500,8 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: Color(
-                                                            0xFF000336,
-                                                          ),
+                                                          color: AppColors
+                                                              .textBlack,
                                                         ),
                                                       ),
                                                     );
@@ -539,7 +531,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 9),
@@ -564,7 +556,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF7A7A83),
+                                          color: AppColors.grayDark,
                                         ),
                                       ),
                                       icon: Transform.rotate(
@@ -572,7 +564,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         child: const Icon(
                                           Icons.keyboard_arrow_right,
                                           size: 24,
-                                          color: Color(0xFF000336),
+                                          color: AppColors.textBlack,
                                         ),
                                       ),
                                       isExpanded: true,
@@ -586,7 +578,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                             style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xFF000336),
+                                              color: AppColors.textBlack,
                                             ),
                                           ),
                                         );
@@ -613,7 +605,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF000336),
+                                    color: AppColors.textBlack,
                                   ),
                                 ),
                                 const SizedBox(height: 9),
@@ -634,7 +626,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                     ),
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: Color(0xFF000336),
+                                      color: AppColors.textBlack,
                                     ),
                                   ),
                                 ),
@@ -649,7 +641,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF000336),
+                                          color: AppColors.textBlack,
                                         ),
                                       );
                                     },
@@ -681,14 +673,14 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
-                              color: const Color(0xFF000336),
+                              color: AppColors.textBlack,
                               width: 2,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(
-                                  0xFF3A44FB,
-                                ).withValues(alpha: 0.1),
+                                color: AppColors.adminPrimary.withValues(
+                                  alpha: 0.1,
+                                ),
                                 blurRadius: 20,
                               ),
                             ],
@@ -705,7 +697,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF000336),
+                                color: AppColors.textBlack,
                               ),
                             ),
                           ),
@@ -716,13 +708,13 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                           width: 192,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF3A44FB),
+                            color: AppColors.adminPrimary,
                             borderRadius: BorderRadius.circular(40),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(
-                                  0xFF3A44FB,
-                                ).withValues(alpha: 0.1),
+                                color: AppColors.adminPrimary.withValues(
+                                  alpha: 0.1,
+                                ),
                                 blurRadius: 20,
                               ),
                             ],

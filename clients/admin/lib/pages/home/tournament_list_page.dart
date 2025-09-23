@@ -57,7 +57,7 @@ class _TournamentListPageState extends State<TournamentListPage>
               color: Colors.white,
               border: Border(
                 bottom: BorderSide(
-                  color: Color(0xFFE0E0E0),
+                  color: AppColors.borderLight,
                 ),
               ),
             ),
@@ -67,9 +67,9 @@ class _TournamentListPageState extends State<TournamentListPage>
                 width: double.infinity,
                 child: TabBar(
                   controller: _tabController,
-                  labelColor: const Color(0xFF3A44FB),
-                  unselectedLabelColor: const Color(0xFFA5A6AE),
-                  indicatorColor: const Color(0xFF3A44FB),
+                  labelColor: AppColors.adminPrimary,
+                  unselectedLabelColor: AppColors.gray,
+                  indicatorColor: AppColors.adminPrimary,
                   indicatorWeight: 3,
                   labelStyle: const TextStyle(
                     fontSize: 20,
@@ -113,7 +113,7 @@ class _TournamentListPageState extends State<TournamentListPage>
           'トーナメントがありません',
           style: TextStyle(
             fontSize: 16,
-            color: Color(0xFF7A7A83),
+            color: AppColors.grayDark,
           ),
         ),
       );
@@ -124,7 +124,7 @@ class _TournamentListPageState extends State<TournamentListPage>
         tournaments.first.status == TournamentStatus.ongoing) {
       final tournament = tournaments.first;
       return ColoredBox(
-        color: const Color(0xFFF9FAFF),
+        color: AppColors.grayLight,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
           child: Align(
@@ -139,7 +139,7 @@ class _TournamentListPageState extends State<TournamentListPage>
     if (tournaments.isNotEmpty &&
         tournaments.first.status == TournamentStatus.upcoming) {
       return ColoredBox(
-        color: const Color(0xFFF9FAFF),
+        color: AppColors.grayLight,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
           child: Column(
@@ -191,7 +191,7 @@ class _TournamentListPageState extends State<TournamentListPage>
 
     // その他（開催後）は開催前と同じレイアウト（1行目4個、2行目2個）
     return ColoredBox(
-      color: const Color(0xFFF9FAFF),
+      color: AppColors.grayLight,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
         child: Column(
@@ -249,8 +249,8 @@ class _TournamentListPageState extends State<TournamentListPage>
         borderRadius: BorderRadius.circular(16),
         gradient: const LinearGradient(
           colors: [
-            Color(0xFF000336),
-            Color(0xFF3A44FB),
+            AppColors.textBlack,
+            AppColors.adminPrimary,
           ],
         ),
       ),
@@ -268,7 +268,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16),
                 ),
-                color: Color(0xFFFFD700),
+                color: AppColors.warning,
               ),
             ),
           ),
@@ -348,7 +348,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF000336),
+                    foregroundColor: AppColors.textBlack,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -381,7 +381,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                   vertical: 5,
                 ),
                 decoration: const BoxDecoration(
-                  color: Color(0xFFB4EF03),
+                  color: AppColors.userPrimary,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(16),
                     bottomLeft: Radius.circular(10),
@@ -392,7 +392,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF000336),
+                    color: AppColors.textBlack,
                   ),
                 ),
               ),

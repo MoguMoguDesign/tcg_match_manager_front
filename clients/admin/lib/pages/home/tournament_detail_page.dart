@@ -1,3 +1,4 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,14 +57,14 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                 icon: const Icon(
                   Icons.arrow_back,
                   size: 24,
-                  color: Color(0xFF000000),
+                  color: AppColors.textBlack,
                 ),
                 label: const Text(
                   '戻る',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF000000),
+                    color: AppColors.textBlack,
                   ),
                 ),
                 style: TextButton.styleFrom(
@@ -71,7 +72,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                     horizontal: 8,
                     vertical: 8,
                   ),
-                  foregroundColor: const Color(0xFF000000),
+                  foregroundColor: AppColors.textBlack,
                 ),
               ),
             ),
@@ -90,9 +91,9 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                       begin: Alignment(-0.8, -1),
                       end: Alignment(1, 0.6),
                       colors: [
-                        Color(0xFF1219A9),
-                        Color(0xFF071301),
-                        Color(0xFFB4EF03),
+                        AppColors.gradientDarkBlue,
+                        AppColors.gradientBlack,
+                        AppColors.userPrimary,
                       ],
                       stops: [0.0, 0.8, 1.0],
                     ),
@@ -196,7 +197,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                       vertical: 6,
                     ),
                     decoration: const BoxDecoration(
-                      color: Color(0xFFB4EF03),
+                      color: AppColors.userPrimary,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(8),
                       ),
@@ -207,7 +208,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF000336),
+                        color: AppColors.textBlack,
                       ),
                     ),
                   ),
@@ -223,9 +224,9 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: TabBar(
                 controller: _tabController,
-                labelColor: const Color(0xFF3A44FB),
-                unselectedLabelColor: const Color(0xFFA5A6AE),
-                indicatorColor: const Color(0xFF3A44FB),
+                labelColor: AppColors.adminPrimary,
+                unselectedLabelColor: AppColors.gray,
+                indicatorColor: AppColors.adminPrimary,
                 indicatorWeight: 3,
                 labelStyle: const TextStyle(
                   fontSize: 20,
@@ -270,7 +271,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           // 大会の説明
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F3FF),
+              color: AppColors.backgroundBlue,
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -282,7 +283,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF000336),
+                    color: AppColors.textBlack,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -290,7 +291,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                   tournament.description,
                   style: const TextStyle(
                     fontSize: 14,
-                    color: Color(0xFF000336),
+                    color: AppColors.textBlack,
                     height: 1.5,
                   ),
                 ),
@@ -321,7 +322,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       const SizedBox(height: 9),
@@ -330,14 +331,14 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       Text(
                         tournament.time,
                         style: const TextStyle(
                           fontSize: 16,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ],
@@ -364,7 +365,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       const SizedBox(height: 9),
@@ -374,7 +375,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                           const Icon(
                             Icons.person,
                             size: 20,
-                            color: Color(0xFF000336),
+                            color: AppColors.textBlack,
                           ),
                           const SizedBox(width: 16),
                           Text(
@@ -382,7 +383,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                             style: const TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF000336),
+                              color: AppColors.textBlack,
                             ),
                           ),
                           const SizedBox(width: 4),
@@ -391,7 +392,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF000336),
+                              color: AppColors.textBlack,
                             ),
                           ),
                         ],
@@ -424,7 +425,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       const SizedBox(height: 9),
@@ -435,7 +436,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                           height: 1.2,
                         ),
                       ),
@@ -463,7 +464,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       const SizedBox(height: 9),
@@ -472,7 +473,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ],
@@ -500,7 +501,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: Color(0xFF000336),
+                      color: AppColors.textBlack,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -508,7 +509,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                     tournament.notes,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF000336),
+                      color: AppColors.textBlack,
                       height: 1.5,
                     ),
                   ),

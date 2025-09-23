@@ -38,7 +38,7 @@ class TournamentInfoCard extends StatelessWidget {
         border: Border.all(color: AppColors.whiteAlpha),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
+            color: AppColors.gradientLightGreen.withValues(alpha: 0.5),
             blurRadius: 20,
           ),
         ],

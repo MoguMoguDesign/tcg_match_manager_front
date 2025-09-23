@@ -1,4 +1,4 @@
-import 'package:base_ui/base_ui.dart' as base_ui;
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,7 +22,7 @@ class _MatchesPageState extends State<MatchesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppColors.backgroundLight,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -60,12 +60,12 @@ class _MatchesPageState extends State<MatchesPage> {
               DecoratedBox(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  border: Border.all(color: AppColors.borderGray),
                 ),
                 child: IconButton(
                   onPressed: context.pop,
                   icon: const Icon(Icons.keyboard_arrow_down),
-                  color: const Color(0xFF000336),
+                  color: AppColors.textBlack,
                 ),
               ),
               const SizedBox(width: 16),
@@ -74,7 +74,7 @@ class _MatchesPageState extends State<MatchesPage> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF000336),
+                  color: AppColors.textBlack,
                 ),
               ),
               const Spacer(),
@@ -86,7 +86,7 @@ class _MatchesPageState extends State<MatchesPage> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  border: Border.all(color: AppColors.borderGray),
                 ),
                 child: const Row(
                   children: [
@@ -114,7 +114,7 @@ class _MatchesPageState extends State<MatchesPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.borderGray),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +124,7 @@ class _MatchesPageState extends State<MatchesPage> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF000336),
+              color: AppColors.textBlack,
             ),
           ),
           const SizedBox(height: 16),
@@ -133,11 +133,11 @@ class _MatchesPageState extends State<MatchesPage> {
               // 日付
               const Row(
                 children: [
-                  Icon(Icons.access_time, size: 18, color: Color(0xFF6B7280)),
+                  Icon(Icons.access_time, size: 18, color: AppColors.textGray),
                   SizedBox(width: 8),
                   Text(
                     '2025/08/31',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                    style: TextStyle(fontSize: 14, color: AppColors.textGray),
                   ),
                 ],
               ),
@@ -145,11 +145,11 @@ class _MatchesPageState extends State<MatchesPage> {
               // 参加者数
               const Row(
                 children: [
-                  Icon(Icons.person, size: 18, color: Color(0xFF6B7280)),
+                  Icon(Icons.person, size: 18, color: AppColors.textGray),
                   SizedBox(width: 8),
                   Text(
                     '32',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                    style: TextStyle(fontSize: 14, color: AppColors.textGray),
                   ),
                 ],
               ),
@@ -158,12 +158,12 @@ class _MatchesPageState extends State<MatchesPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF3F4F6),
+                  color: AppColors.backgroundField,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: const Text(
                   'ポケカ',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textGray),
                 ),
               ),
               const Spacer(),
@@ -173,7 +173,7 @@ class _MatchesPageState extends State<MatchesPage> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF000336),
+                  color: AppColors.textBlack,
                 ),
               ),
             ],
@@ -208,12 +208,10 @@ class _MatchesPageState extends State<MatchesPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF000336) : Colors.transparent,
+            color: isSelected ? AppColors.textBlack : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: isSelected
-                  ? const Color(0xFF000336)
-                  : const Color(0xFFE2E8F0),
+              color: isSelected ? AppColors.textBlack : AppColors.borderGray,
             ),
           ),
           child: Text(
@@ -222,7 +220,7 @@ class _MatchesPageState extends State<MatchesPage> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.white : const Color(0xFF6B7280),
+              color: isSelected ? Colors.white : AppColors.textGray,
             ),
           ),
         ),
@@ -264,7 +262,7 @@ class _MatchesContentState extends State<MatchesContent> {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: const Color(0xFFF8F9FA),
+      color: AppColors.backgroundLight,
       child: CustomScrollView(
         slivers: [
           // 対戦表ヘッダー
@@ -282,7 +280,7 @@ class _MatchesContentState extends State<MatchesContent> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                       const Spacer(),
@@ -292,9 +290,9 @@ class _MatchesContentState extends State<MatchesContent> {
                           SizedBox(
                             width: 192,
                             height: 56,
-                            child: base_ui.CommonConfirmButton(
+                            child: CommonConfirmButton(
                               text: 'ラウンド取り消し',
-                              style: base_ui.ConfirmButtonStyle.alertOutlined,
+                              style: ConfirmButtonStyle.alertOutlined,
                               onPressed: _showCancelRoundDialog,
                             ),
                           ),
@@ -302,9 +300,9 @@ class _MatchesContentState extends State<MatchesContent> {
                           SizedBox(
                             width: 192,
                             height: 56,
-                            child: base_ui.CommonConfirmButton(
+                            child: CommonConfirmButton(
                               text: 'ラウンドを進める',
-                              style: base_ui.ConfirmButtonStyle.adminFilled,
+                              style: ConfirmButtonStyle.adminFilled,
                               onPressed: _showAdvanceRoundDialog,
                             ),
                           ),
@@ -316,19 +314,16 @@ class _MatchesContentState extends State<MatchesContent> {
                   // ナビゲーションボタン行
                   Row(
                     children: [
-                      base_ui.CommonSmallButton(
+                      CommonSmallButton(
                         text: '前のラウンド',
-                        style:
-                            base_ui.SmallButtonStyle.adminOutlinedWithArrowLeft,
+                        style: SmallButtonStyle.adminOutlinedWithArrowLeft,
                         isEnabled: _currentRound > 1,
                         onPressed: _gotoPreviousRound,
                       ),
                       const Spacer(),
-                      base_ui.CommonSmallButton(
+                      CommonSmallButton(
                         text: '次のラウンド',
-                        style: base_ui
-                            .SmallButtonStyle
-                            .adminOutlinedWithArrowRight,
+                        style: SmallButtonStyle.adminOutlinedWithArrowRight,
                         isEnabled: _currentRound < _getRounds().length,
                         onPressed: _gotoNextRound,
                       ),
@@ -360,12 +355,12 @@ class _MatchesContentState extends State<MatchesContent> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xFFE2E8F0)),
+          border: Border.all(color: AppColors.borderGray),
         ),
         child: const Center(
           child: Text(
             '対戦がありません',
-            style: TextStyle(fontSize: 16, color: Color(0xFF7A7A83)),
+            style: TextStyle(fontSize: 16, color: AppColors.grayDark),
           ),
         ),
       );
@@ -376,7 +371,7 @@ class _MatchesContentState extends State<MatchesContent> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.borderGray),
       ),
       child: Column(
         children: [
@@ -406,7 +401,7 @@ class _MatchesContentState extends State<MatchesContent> {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF000336),
+              color: AppColors.textBlack,
             ),
           ),
         ),
@@ -440,9 +435,9 @@ class _MatchesContentState extends State<MatchesContent> {
         SizedBox(
           width: 160,
           height: 40,
-          child: base_ui.CommonSmallButton(
+          child: CommonSmallButton(
             text: '両者敗北',
-            style: base_ui.SmallButtonStyle.whiteOutlined,
+            style: SmallButtonStyle.whiteOutlined,
             onPressed: () => _setBothPlayersLose(match),
           ),
         ),
@@ -463,7 +458,7 @@ class _MatchesContentState extends State<MatchesContent> {
         Expanded(
           child: Text(
             playerName,
-            style: const TextStyle(fontSize: 16, color: Color(0xFF000336)),
+            style: const TextStyle(fontSize: 16, color: AppColors.textBlack),
           ),
         ),
         const SizedBox(width: 16),
@@ -477,9 +472,7 @@ class _MatchesContentState extends State<MatchesContent> {
                 isWin
                     ? Icons.radio_button_checked
                     : Icons.radio_button_unchecked,
-                color: isWin
-                    ? const Color(0xFF22C55E)
-                    : const Color(0xFF9CA3AF),
+                color: isWin ? AppColors.successActive : AppColors.textDisabled,
                 size: 20,
               ),
               const SizedBox(width: 8),
@@ -487,9 +480,7 @@ class _MatchesContentState extends State<MatchesContent> {
                 '勝利',
                 style: TextStyle(
                   fontSize: 14,
-                  color: isWin
-                      ? const Color(0xFF22C55E)
-                      : const Color(0xFF6B7280),
+                  color: isWin ? AppColors.successActive : AppColors.textGray,
                 ),
               ),
             ],
@@ -506,9 +497,7 @@ class _MatchesContentState extends State<MatchesContent> {
                 isLose
                     ? Icons.radio_button_checked
                     : Icons.radio_button_unchecked,
-                color: isLose
-                    ? const Color(0xFFEF4444)
-                    : const Color(0xFF9CA3AF),
+                color: isLose ? AppColors.error : AppColors.textDisabled,
                 size: 20,
               ),
               const SizedBox(width: 8),
@@ -516,9 +505,7 @@ class _MatchesContentState extends State<MatchesContent> {
                 '敗北',
                 style: TextStyle(
                   fontSize: 14,
-                  color: isLose
-                      ? const Color(0xFFEF4444)
-                      : const Color(0xFF6B7280),
+                  color: isLose ? AppColors.error : AppColors.textGray,
                 ),
               ),
             ],
@@ -540,7 +527,7 @@ class _MatchesContentState extends State<MatchesContent> {
               Spacer(),
               Text(
                 '最大人数: 32人',
-                style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                style: TextStyle(fontSize: 14, color: AppColors.textGray),
               ),
             ],
           ),
@@ -550,9 +537,9 @@ class _MatchesContentState extends State<MatchesContent> {
             child: SizedBox(
               width: 192,
               height: 56,
-              child: base_ui.CommonConfirmButton(
+              child: CommonConfirmButton(
                 text: '変更を反映',
-                style: base_ui.ConfirmButtonStyle.adminFilled,
+                style: ConfirmButtonStyle.adminFilled,
                 onPressed: _confirmResults,
               ),
             ),
@@ -563,7 +550,7 @@ class _MatchesContentState extends State<MatchesContent> {
   }
 
   Future<void> _confirmResults() async {
-    final confirmed = await base_ui.ConfirmDialog.show(
+    final confirmed = await ConfirmDialog.show(
       context,
       title: '結果確定',
       message: '現在の結果を確定しますか？',
@@ -576,18 +563,18 @@ class _MatchesContentState extends State<MatchesContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('結果を確定しました'),
-          backgroundColor: Color(0xFF38A169),
+          backgroundColor: AppColors.success,
         ),
       );
     }
   }
 
   Future<void> _setBothPlayersLose(AdminMatchData match) async {
-    final confirmed = await base_ui.ConfirmDialog.show(
+    final confirmed = await ConfirmDialog.show(
       context,
       title: '両者敗北にしますか？',
       confirmText: '両者敗北',
-      confirmButtonStyle: base_ui.DialogButtonStyle.admin,
+      confirmButtonStyle: DialogButtonStyle.admin,
     );
     if (!mounted) {
       return;
@@ -597,7 +584,7 @@ class _MatchesContentState extends State<MatchesContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('両者敗北に設定しました'),
-          backgroundColor: Color(0xFF38A169),
+          backgroundColor: AppColors.success,
         ),
       );
     }
@@ -608,7 +595,7 @@ class _MatchesContentState extends State<MatchesContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('前のラウンドに移動しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: AppColors.success,
       ),
     );
   }
@@ -618,18 +605,18 @@ class _MatchesContentState extends State<MatchesContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('次のラウンドに移動しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: AppColors.success,
       ),
     );
   }
 
   Future<void> _showCancelRoundDialog() async {
-    final confirmed = await base_ui.ConfirmDialog.show(
+    final confirmed = await ConfirmDialog.show(
       context,
       title: 'ラウンド取り消し',
       message: '現在のラウンドを取り消しますか？\nこの操作は元に戻すことができません。',
       confirmText: '取り消し',
-      confirmButtonStyle: base_ui.DialogButtonStyle.alert,
+      confirmButtonStyle: DialogButtonStyle.alert,
     );
     if (!mounted) {
       return;
@@ -639,19 +626,19 @@ class _MatchesContentState extends State<MatchesContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('ラウンドを取り消しました'),
-          backgroundColor: Color(0xFF38A169),
+          backgroundColor: AppColors.success,
         ),
       );
     }
   }
 
   Future<void> _showAdvanceRoundDialog() async {
-    final confirmed = await base_ui.ConfirmDialog.show(
+    final confirmed = await ConfirmDialog.show(
       context,
       title: 'ラウンドを進める',
       message: '次のラウンドに進めますか？\n現在の結果が確定されます。',
       confirmText: '進める',
-      confirmButtonStyle: base_ui.DialogButtonStyle.admin,
+      confirmButtonStyle: DialogButtonStyle.admin,
     );
     if (!mounted) {
       return;
@@ -661,7 +648,7 @@ class _MatchesContentState extends State<MatchesContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('次のラウンドに進めました'),
-          backgroundColor: Color(0xFF38A169),
+          backgroundColor: AppColors.success,
         ),
       );
     }
@@ -672,7 +659,7 @@ class _MatchesContentState extends State<MatchesContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('結果を更新しました'),
-        backgroundColor: Color(0xFF38A169),
+        backgroundColor: AppColors.success,
       ),
     );
     setState(() {});

@@ -34,9 +34,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFD8FF62), // ライトグリーン
-              Color(0xFF000336), // ダークブルー
-              Color(0xFF3A44FB), // ブルー
+              AppColors.gradientLightGreen, // ライトグリーン
+              AppColors.textBlack, // ダークブルー
+              AppColors.adminPrimary, // ブルー
             ],
             stops: [0.0, 0.5, 1.0],
           ),
@@ -55,7 +55,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
+                      color: AppColors.gradientLightGreen.withValues(
+                        alpha: 0.5,
+                      ),
                       blurRadius: 20,
                     ),
                   ],
@@ -72,7 +74,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ),
@@ -85,7 +87,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ),
@@ -100,14 +102,14 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF7A7A83),
+                            color: AppColors.grayDark,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Container(
                           height: 56,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF9FAFF),
+                            color: AppColors.grayLight,
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextField(
@@ -129,14 +131,14 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF7A7A83),
+                            color: AppColors.grayDark,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Container(
                           height: 56,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF9FAFF),
+                            color: AppColors.grayLight,
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextField(
@@ -153,7 +155,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                                   _isPasswordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: const Color(0xFF7A7A83),
+                                  color: AppColors.grayDark,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -178,7 +180,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF3A44FB),
+                                color: AppColors.adminPrimary,
                               ),
                             ),
                           ),
@@ -214,7 +216,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            Color(0xFFE0E0E0),
+                            AppColors.borderLight,
                             Colors.transparent,
                           ],
                         ),
@@ -241,7 +243,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                             },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(
-                                color: Color(0xFF000336),
+                                color: AppColors.textBlack,
                                 width: 2,
                               ),
                               shape: RoundedRectangleBorder(
@@ -257,7 +259,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF000336),
+                                color: AppColors.textBlack,
                               ),
                             ),
                           ),
