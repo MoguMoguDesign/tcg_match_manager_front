@@ -120,8 +120,16 @@ class CommonSmallButton extends StatelessWidget {
       ),
     );
 
-    final leadingIcon = _leadingIcon;
-    final trailingIcon = _trailingIcon;
+    // スタイルに基づいて自動的にアイコンを設定
+    var leadingIcon = _leadingIcon;
+    var trailingIcon = _trailingIcon;
+
+    if (style == SmallButtonStyle.adminOutlinedWithArrowLeft) {
+      leadingIcon = const Icon(Icons.keyboard_arrow_left, size: 24);
+    } else if (style == SmallButtonStyle.adminOutlinedWithArrowRight) {
+      trailingIcon = const Icon(Icons.keyboard_arrow_right, size: 24);
+    }
+
     final hasLeading = leadingIcon != null;
     final hasTrailing = trailingIcon != null;
 
@@ -193,6 +201,45 @@ class CommonSmallButton extends StatelessWidget {
               : AppColors.adminPrimary.withValues(alpha: 0.5),
           textColor: AppColors.white,
         );
+      case SmallButtonStyle.adminOutlinedWithArrowLeft:
+        return _VisualStyle(
+          backgroundColor: AppColors.white,
+          textColor: isEnabled
+              ? AppColors.textBlack
+              : AppColors.gray,
+          border: Border.all(
+            color: isEnabled
+                ? AppColors.textBlack
+                : AppColors.gray.withValues(alpha: 0.4),
+            width: 2,
+          ),
+        );
+      case SmallButtonStyle.adminOutlinedWithArrowRight:
+        return _VisualStyle(
+          backgroundColor: AppColors.white,
+          textColor: isEnabled
+              ? AppColors.textBlack
+              : AppColors.gray,
+          border: Border.all(
+            color: isEnabled
+                ? AppColors.textBlack
+                : AppColors.gray.withValues(alpha: 0.4),
+            width: 2,
+          ),
+        );
+      case SmallButtonStyle.whiteOutlined:
+        return _VisualStyle(
+          backgroundColor: AppColors.white,
+          textColor: isEnabled
+              ? AppColors.textBlack
+              : AppColors.gray,
+          border: Border.all(
+            color: isEnabled
+                ? AppColors.textBlack
+                : AppColors.gray.withValues(alpha: 0.4),
+            width: 2,
+          ),
+        );
     }
   }
 }
@@ -236,6 +283,15 @@ enum SmallButtonStyle {
 
   /// 管理者スタイル（管理者向けの塗りつぶし）。
   admin,
+
+  /// 管理者アウトライン + 左矢印スタイル。
+  adminOutlinedWithArrowLeft,
+
+  /// 管理者アウトライン + 右矢印スタイル。
+  adminOutlinedWithArrowRight,
+
+  /// 白背景に黒アウトライン（両者敗北ボタン用）。
+  whiteOutlined,
 }
 
 /// 内部的に使用する見た目情報を保持するクラス。
