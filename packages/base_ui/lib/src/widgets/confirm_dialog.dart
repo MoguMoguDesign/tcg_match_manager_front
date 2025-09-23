@@ -22,6 +22,7 @@ class ConfirmDialog extends StatelessWidget {
     this.cancelText = 'キャンセル',
     this.onConfirm,
     this.onCancel,
+    this.confirmButtonStyle = DialogButtonStyle.primary,
   });
 
   /// ダイアログのタイトル。
@@ -42,6 +43,9 @@ class ConfirmDialog extends StatelessWidget {
   /// キャンセルボタンタップ時のコールバック。
   final VoidCallback? onCancel;
 
+  /// 確認ボタンのスタイル。
+  final DialogButtonStyle confirmButtonStyle;
+
   /// ダイアログを表示する静的メソッド。
   ///
   /// 戻り値は確認されたかどうかの [bool] 値。
@@ -54,6 +58,7 @@ class ConfirmDialog extends StatelessWidget {
     String cancelText = 'キャンセル',
     VoidCallback? onConfirm,
     VoidCallback? onCancel,
+    DialogButtonStyle confirmButtonStyle = DialogButtonStyle.primary,
   }) {
     return showDialog<bool>(
       context: context,
@@ -64,6 +69,7 @@ class ConfirmDialog extends StatelessWidget {
         cancelText: cancelText,
         onConfirm: onConfirm,
         onCancel: onCancel,
+        confirmButtonStyle: confirmButtonStyle,
       ),
     );
   }
@@ -107,6 +113,7 @@ class ConfirmDialog extends StatelessWidget {
               width: 314,
               child: DialogButtons(
                 primaryText: confirmText,
+                primaryStyle: confirmButtonStyle,
                 onPrimaryPressed: () {
                   Navigator.of(context).pop(true);
                   onConfirm?.call();

@@ -148,7 +148,7 @@ class TournamentTitleCard extends StatelessWidget {
           ),
           shadow: [
             BoxShadow(
-              color: Color(0xFFD8FF62),
+              color: AppColors.gradientLightGreen,
               blurRadius: 20,
               offset: Offset(0, 4),
             ),

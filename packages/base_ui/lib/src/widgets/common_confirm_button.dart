@@ -125,6 +125,19 @@ class CommonConfirmButton extends StatelessWidget {
           textColor: AppColors.textBlack,
           border: Border.all(color: AppColors.textBlack, width: 2),
         );
+      case ConfirmButtonStyle.alertOutlined:
+        return _VisualStyle(
+          backgroundColor: AppColors.white,
+          textColor: AppColors.alart,
+          border: Border.all(color: AppColors.alart, width: 2),
+        );
+      case ConfirmButtonStyle.alertFilled:
+        return _VisualStyle(
+          backgroundColor: isEnabled
+              ? AppColors.alart
+              : AppColors.alart.withValues(alpha: 0.5),
+          textColor: AppColors.white,
+        );
     }
   }
 }
@@ -142,6 +155,12 @@ enum ConfirmButtonStyle {
 
   /// 管理者向けのアウトラインスタイル。
   adminOutlined,
+
+  /// アラート用のアウトラインスタイル（赤枠線・赤文字）。
+  alertOutlined,
+
+  /// アラート用の塗りつぶしスタイル（赤背景・白文字）。
+  alertFilled,
 }
 
 /// 内部的に使用する見た目情報を保持するクラス。

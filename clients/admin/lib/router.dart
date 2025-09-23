@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'pages/auth/login_page.dart';
 import 'pages/auth/password_reset_page.dart';
 import 'pages/auth/signup_page.dart';
+import 'pages/home/final_ranking_page.dart';
 import 'pages/home/tournament_detail_page.dart';
 import 'pages/home/tournament_list_page.dart';
 
@@ -26,11 +27,11 @@ final adminRouter = GoRouter(
       name: 'password-reset',
       builder: (context, state) => const AdminPasswordResetPage(),
     ),
-    
+
     // メイン管理画面ルート
     GoRoute(
-      path: '/home',
-      name: 'home',
+      path: '/tournaments',
+      name: 'tournaments',
       builder: (context, state) => const TournamentListPage(),
     ),
     GoRoute(
@@ -39,6 +40,14 @@ final adminRouter = GoRouter(
       builder: (context, state) {
         final id = state.pathParameters['id']!;
         return TournamentDetailPage(tournamentId: id);
+      },
+    ),
+    GoRoute(
+      path: '/tournament/:id/final',
+      name: 'tournament-final',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return AdminFinalRankingPage(tournamentId: id);
       },
     ),
   ],
