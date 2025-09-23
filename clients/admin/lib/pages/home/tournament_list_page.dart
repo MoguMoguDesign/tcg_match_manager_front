@@ -36,21 +36,37 @@ class _TournamentListPageState extends State<TournamentListPage>
   @override
   Widget build(BuildContext context) {
     return AdminScaffold(
-      title: 'トーナメント一覧',
-      actions: [
-        // 新規作成ボタン
-        SizedBox(
-          width: 140,
-          child: CommonConfirmButton(
-            text: '新規作成',
-            style: ConfirmButtonStyle.adminFilled,
-            onPressed: () => _showCreateTournamentDialog(context),
-          ),
-        ),
-        const SizedBox(width: 16),
-      ],
       body: Column(
         children: [
+          // タイトルと新規作成ボタンのセクション
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                const Text(
+                  'トーナメント一覧',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textBlack,
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 192,
+                  height: 56,
+                  child: CommonConfirmButton(
+                    text: '新規作成',
+                    style: ConfirmButtonStyle.adminFilled,
+                    onPressed: () => _showCreateTournamentDialog(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
           // タブバー
           DecoratedBox(
             decoration: const BoxDecoration(
@@ -89,7 +105,6 @@ class _TournamentListPageState extends State<TournamentListPage>
               ),
             ),
           ),
-
           // タブビュー
           Expanded(
             child: TabBarView(
