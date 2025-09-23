@@ -1,3 +1,4 @@
+import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 
 import 'router.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'TCG Match Manager Admin',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF3A44FB)),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.adminPrimary),
         useMaterial3: true,
       ),
       routerConfig: adminRouter,

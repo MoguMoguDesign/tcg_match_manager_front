@@ -222,7 +222,6 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
 │       ├── lib/
 │       │   └── src/
 │       │       ├── widgets/        # 共通ウィジェット
-│       │       │   └── common/     # 両アプリで使用される共通コンポーネント
 │       │       └── material_widgets/  # Materialデザイン準拠コンポーネント
 │       └── pubspec.yaml
 └── docs/                 # 設計ドキュメント（サブモジュール）

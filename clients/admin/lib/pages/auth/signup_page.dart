@@ -31,9 +31,9 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFD8FF62), // ライトグリーン
-              Color(0xFF000336), // ダークブルー
-              Color(0xFF3A44FB), // ブルー
+              AppColors.gradientLightGreen, // ライトグリーン
+              AppColors.textBlack, // ダークブルー
+              AppColors.adminPrimary, // ブルー
             ],
             stops: [0.0, 0.5, 1.0],
           ),
@@ -52,7 +52,9 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFD8FF62).withValues(alpha: 0.5),
+                      color: AppColors.gradientLightGreen.withValues(
+                        alpha: 0.5,
+                      ),
                       blurRadius: 20,
                     ),
                   ],
@@ -69,11 +71,11 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ),
-                    
+
                     // タイトル
                     Container(
                       margin: const EdgeInsets.only(bottom: 40),
@@ -82,11 +84,11 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF000336),
+                          color: AppColors.textBlack,
                         ),
                       ),
                     ),
-                    
+
                     // フォーム
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,14 +99,14 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF7A7A83),
+                            color: AppColors.grayDark,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Container(
                           height: 56,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF9FAFF),
+                            color: AppColors.grayLight,
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextField(
@@ -119,26 +121,24 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // 確認コード送信ボタン
                         CommonConfirmButton(
                           text: '確認コードを送信',
                           style: ConfirmButtonStyle.adminFilled,
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Googleサインアップボタン
                         CommonConfirmButton(
                           text: 'Googleアカウントで新規登録',
                           style: ConfirmButtonStyle.adminOutlined,
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                         ),
                       ],
                     ),
-                    
+
                     // 区切り線
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 24),
@@ -148,13 +148,13 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            Color(0xFFE0E0E0),
+                            AppColors.borderLight,
                             Colors.transparent,
                           ],
                         ),
                       ),
                     ),
-                    
+
                     // ログイン
                     Column(
                       children: [
@@ -175,7 +175,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                             },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(
-                                color: Color(0xFF000336),
+                                color: AppColors.textBlack,
                                 width: 2,
                               ),
                               shape: RoundedRectangleBorder(
@@ -191,7 +191,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF000336),
+                                color: AppColors.textBlack,
                               ),
                             ),
                           ),

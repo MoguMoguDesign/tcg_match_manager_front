@@ -3,6 +3,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'constants/app_colors.dart';
+
 /// アプリ内で共通で用いられる [ThemeData].
 abstract final class CommonThemeData {
   /// ライトテーマの [ThemeData] を取得する。
@@ -26,7 +28,7 @@ abstract final class CommonThemeData {
     )._applyCommon();
   }
 
-  static const _seedColor = Color(0xFF1EAAD2);
+  static const Color _seedColor = AppColors.adminPrimary;
 }
 
 extension on ThemeData {
