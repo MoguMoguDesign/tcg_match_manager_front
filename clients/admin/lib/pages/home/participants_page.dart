@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/layout/admin_scaffold.dart';
+import '../dialogs/user_delete_dialog.dart';
 
 /// 参加者一覧画面
 ///
@@ -298,30 +299,14 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
   }
 
   Future<void> _showDeleteDialog(ParticipantData participant) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('参加者削除確認'),
-        content: Text('${participant.name}を削除しますか？\nこの操作は取り消せません。'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('キャンセル'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _deleteParticipant(participant);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFE53E3E),
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('削除'),
-          ),
-        ],
-      ),
+    final confirmed = await showUserDeleteDialog(
+      context,
+      userName: participant.name,
     );
+
+    if (confirmed ?? false) {
+      _deleteParticipant(participant);
+    }
   }
 
   void _deleteParticipant(ParticipantData participant) {
@@ -806,30 +791,14 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
   }
 
   Future<void> _showDeleteDialog(ParticipantData participant) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('参加者削除確認'),
-        content: Text('${participant.name}を削除しますか？\nこの操作は取り消せません。'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('キャンセル'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _deleteParticipant(participant);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFE53E3E),
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('削除'),
-          ),
-        ],
-      ),
+    final confirmed = await showUserDeleteDialog(
+      context,
+      userName: participant.name,
     );
+
+    if (confirmed ?? false) {
+      _deleteParticipant(participant);
+    }
   }
 
   void _deleteParticipant(ParticipantData participant) {
