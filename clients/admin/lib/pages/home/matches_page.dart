@@ -1,6 +1,10 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
+import '../../models/tournament_display_data.dart';
+import '../../widgets/tournament/tournament_back_button.dart';
+import '../../widgets/tournament/tournament_header_card.dart';
+import '../../widgets/tournament/tournament_tab_navigation.dart';
 
 /// 対戦表画面
 ///
@@ -49,184 +53,38 @@ class _MatchesPageState extends State<MatchesPage> {
   }
 
   Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // ユーザー情報と戻るボタン
-          Row(
-            children: [
-              // 戻るボタン
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.borderGray),
-                ),
-                child: IconButton(
-                  onPressed: context.pop,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  color: AppColors.textBlack,
-                ),
-              ),
-              const SizedBox(width: 16),
-              const Text(
-                '戻る',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textBlack,
-                ),
-              ),
-              const Spacer(),
-              // ユーザー情報
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(color: AppColors.borderGray),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.person, size: 20),
-                    SizedBox(width: 8),
-                    Text('ユーザー名'),
-                    SizedBox(width: 8),
-                    Icon(Icons.keyboard_arrow_down, size: 20),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          // トーナメント情報
-          _buildTournamentInfo(),
-        ],
-      ),
-    );
-  }
+    // ダミーデータ
+    final tournament = _getTournamentDisplayData();
 
-  Widget _buildTournamentInfo() {
     return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderGray),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'トーナメントタイトル',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textBlack,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              // 日付
-              const Row(
-                children: [
-                  Icon(Icons.access_time, size: 18, color: AppColors.textGray),
-                  SizedBox(width: 8),
-                  Text(
-                    '2025/08/31',
-                    style: TextStyle(fontSize: 14, color: AppColors.textGray),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 24),
-              // 参加者数
-              const Row(
-                children: [
-                  Icon(Icons.person, size: 18, color: AppColors.textGray),
-                  SizedBox(width: 8),
-                  Text(
-                    '32',
-                    style: TextStyle(fontSize: 14, color: AppColors.textGray),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 24),
-              // ゲームタイプ
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.backgroundField,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: const Text(
-                  'ポケカ',
-                  style: TextStyle(fontSize: 12, color: AppColors.textGray),
-                ),
-              ),
-              const Spacer(),
-              // 現在のラウンド
-              const Text(
-                'ラウンド3',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textBlack,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTabNavigation() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Row(
         children: [
-          _buildTabItem('大会概要', 0),
-          _buildTabItem('参加者一覧', 1),
-          _buildTabItem('対戦表', 2),
+          // 戻るボタン
+          const TournamentBackButton(),
+          const SizedBox(width: 24),
+          // トーナメントカード（横に配置）
+          Expanded(
+            child: TournamentHeaderCard(tournament: tournament),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTabItem(String title, int index) {
-    final isSelected = _selectedTabIndex == index;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () async {
-          setState(() {
-            _selectedTabIndex = index;
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.textBlack : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: isSelected ? AppColors.textBlack : AppColors.borderGray,
-            ),
-          ),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.white : AppColors.textGray,
-            ),
-          ),
-        ),
-      ),
+
+  Widget _buildTabNavigation() {
+    return TournamentTabNavigation(
+      selectedIndex: _selectedTabIndex,
+      onTabSelected: (index) {
+        setState(() {
+          _selectedTabIndex = index;
+        });
+      },
     );
   }
+
 
   Widget _buildTabContent() {
     switch (_selectedTabIndex) {
@@ -239,6 +97,20 @@ class _MatchesPageState extends State<MatchesPage> {
       default:
         return const SizedBox();
     }
+  }
+
+  TournamentDisplayData _getTournamentDisplayData() {
+    return const TournamentDisplayData(
+      id: '1',
+      title: 'トーナメントタイトル',
+      date: '2025/08/31',
+      time: '19:00-21:00',
+      currentParticipants: 32,
+      maxParticipants: 32,
+      gameType: 'ポケカ',
+      status: TournamentStatus.ongoing,
+      currentRound: 3,
+    );
   }
 }
 
@@ -728,6 +600,7 @@ class _MatchesContentState extends State<MatchesContent> {
       );
     });
   }
+
 
   List<AdminParticipantData> _getParticipants() {
     return List.generate(16, (index) {

@@ -2,7 +2,10 @@ import 'package:base_ui/base_ui.dart' as base_ui;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../models/participant_data.dart';
 import '../../widgets/layout/admin_scaffold.dart';
+import '../../widgets/tournament/participant_table.dart';
+import '../../widgets/tournament/tournament_footer.dart';
 import '../dialogs/user_delete_dialog.dart';
 
 /// 参加者一覧画面
@@ -535,274 +538,32 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
           ),
         ),
         // 参加者リスト
-        SliverToBoxAdapter(child: _buildParticipantsList()),
+        SliverToBoxAdapter(
+          child: ParticipantTable(
+            participants: _participants,
+            participantStatus: _participantStatus,
+            nameControllers: _nameControllers,
+            onStatusChanged: (participantId, {required isParticipating}) {
+              setState(() {
+                _participantStatus[participantId] = isParticipating;
+              });
+            },
+            onDelete: _showDeleteDialog,
+          ),
+        ),
         // フッター
-        SliverToBoxAdapter(child: _buildFooter()),
-      ],
-    );
-  }
-
-  Widget _buildParticipantsList() {
-    if (_participants.isEmpty) {
-      return Container(
-        margin: const EdgeInsets.all(24),
-        padding: const EdgeInsets.all(48),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: base_ui.AppColors.borderGray),
-        ),
-        child: const Center(
-          child: Text(
-            '参加者がいません',
-            style: TextStyle(fontSize: 16, color: base_ui.AppColors.grayDark),
-          ),
-        ),
-      );
-    }
-
-    return Container(
-      margin: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: base_ui.AppColors.borderGray),
-      ),
-      child: Column(
-        children: [
-          // ヘッダー
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              color: base_ui.AppColors.backgroundField,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-            ),
-            child: const Row(
-              children: [
-                SizedBox(
-                  width: 80,
-                  child: Text(
-                    'No.',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    '参加者名',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: Text(
-                    'ステータス',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    '操作',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // 参加者リスト
-          for (int index = 0; index < _participants.length; index++) ...[
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: base_ui.AppColors.borderGray,
-                    width: index == _participants.length - 1 ? 0 : 1,
-                  ),
-                ),
-              ),
-              child: _buildParticipantRow(_participants[index], index + 1),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildParticipantRow(ParticipantData participant, int number) {
-    final isParticipating = _participantStatus[participant.id] ?? true;
-    final nameController = _nameControllers[participant.id]!;
-
-    return Row(
-      children: [
-        SizedBox(
-          width: 80,
-          child: Text(
-            '$number',
-            style: const TextStyle(
-              fontSize: 16,
-              color: base_ui.AppColors.grayDark,
-            ),
-          ),
-        ),
-        Expanded(
-          child: TextFormField(
-            controller: nameController,
-            style: const TextStyle(
-              fontSize: 16,
-              color: base_ui.AppColors.textBlack,
-            ),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            ),
-          ),
-        ),
-        const SizedBox(width: 16),
-        SizedBox(
-          width: 200,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // 参加中ラジオボタン
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _participantStatus[participant.id] = true;
-                  });
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isParticipating
-                          ? Icons.radio_button_checked
-                          : Icons.radio_button_unchecked,
-                      color: isParticipating
-                          ? base_ui.AppColors.successActive
-                          : base_ui.AppColors.textDisabled,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '参加中',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: isParticipating
-                            ? base_ui.AppColors.successActive
-                            : base_ui.AppColors.textGray,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 24),
-              // ドロップラジオボタン
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _participantStatus[participant.id] = false;
-                  });
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      !isParticipating
-                          ? Icons.radio_button_checked
-                          : Icons.radio_button_unchecked,
-                      color: !isParticipating
-                          ? base_ui.AppColors.error
-                          : base_ui.AppColors.textDisabled,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'ドロップ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: !isParticipating
-                            ? base_ui.AppColors.error
-                            : base_ui.AppColors.textGray,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 100,
-          height: 40,
-          child: base_ui.CommonConfirmButton(
-            text: '削除',
-            style: base_ui.ConfirmButtonStyle.alertOutlined,
-            onPressed: () => _showDeleteDialog(participant),
+        SliverToBoxAdapter(
+          child: TournamentFooter(
+            maxParticipants: 32,
+            actionButtonText: '変更を反映',
+            onActionPressed: _applyChanges,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildFooter() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          // 最大人数表示を右下に配置
-          const Row(
-            children: [
-              Spacer(),
-              Text(
-                '最大人数: 32人',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: base_ui.AppColors.textGray,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // 変更を反映ボタンを中央に配置
-          Center(
-            child: SizedBox(
-              width: 192,
-              height: 56,
-              child: base_ui.CommonConfirmButton(
-                text: '変更を反映',
-                style: base_ui.ConfirmButtonStyle.adminFilled,
-                onPressed: _applyChanges,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Future<void> _showDeleteDialog(ParticipantData participant) async {
     final confirmed = await showUserDeleteDialog(
@@ -883,27 +644,4 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
       );
     });
   }
-}
-
-/// 参加者データクラス
-class ParticipantData {
-  /// 参加者データのコンストラクタ
-  const ParticipantData({
-    required this.id,
-    required this.name,
-    required this.tournamentId,
-    this.registeredAt,
-  });
-
-  /// 参加者ID
-  final String id;
-
-  /// 参加者名
-  final String name;
-
-  /// トーナメントID
-  final String tournamentId;
-
-  /// 登録日時
-  final DateTime? registeredAt;
 }

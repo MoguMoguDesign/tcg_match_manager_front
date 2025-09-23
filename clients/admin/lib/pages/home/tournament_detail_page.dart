@@ -1,8 +1,10 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../models/tournament_display_data.dart';
 import '../../widgets/layout/admin_scaffold.dart';
+import '../../widgets/tournament/tournament_back_button.dart';
+import '../../widgets/tournament/tournament_header_card.dart';
 import 'matches_page.dart';
 import 'participants_page.dart';
 
@@ -39,7 +41,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
   @override
   Widget build(BuildContext context) {
     // ダミーデータ
-    final tournament = _getTournamentData(widget.tournamentId);
+    final tournament = _getTournamentDisplayData(widget.tournamentId);
 
     return AdminScaffold(
       title: '',
@@ -53,174 +55,11 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
             child: Row(
               children: [
                 // 戻るボタン
-                TextButton.icon(
-                  onPressed: () => context.pop(),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    size: 24,
-                    color: AppColors.textBlack,
-                  ),
-                  label: const Text(
-                    '戻る',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textBlack,
-                    ),
-                  ),
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 8,
-                    ),
-                    foregroundColor: AppColors.textBlack,
-                  ),
-                ),
+                const TournamentBackButton(),
                 const SizedBox(width: 24),
                 // トーナメントカード（横に配置）
                 Expanded(
-                  child: Stack(
-                    children: [
-                      // メインカード
-                      Container(
-                        height: 101,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            begin: Alignment(-0.8, -1),
-                            end: Alignment(1, 0.6),
-                            colors: [
-                              AppColors.gradientDarkBlue,
-                              AppColors.gradientBlack,
-                              AppColors.userPrimary,
-                            ],
-                            stops: [0.0, 0.8, 1.0],
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(58, 68, 251, 0.1),
-                              blurRadius: 20,
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // タイトル
-                              Text(
-                                tournament.title,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              const SizedBox(height: 6),
-                              // メタ情報行（日時 / 参加者 / 種別）
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(
-                                          Icons.access_time,
-                                          size: 16,
-                                          color: Colors.white,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Flexible(
-                                          child: Text(
-                                            tournament.date,
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(
-                                        Icons.person,
-                                        size: 18,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${tournament.maxParticipants}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      // 種別のフレームアイコン
-                                      const Icon(
-                                        Icons.category_outlined,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Text(
-                                        'ポケカ',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      // 右上のステータスラベル
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          height: 30,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 5.5,
-                          ),
-                          decoration: const BoxDecoration(
-                            color: AppColors.userPrimary,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(16),
-                              bottomLeft: Radius.circular(8),
-                            ),
-                          ),
-                          child: Text(
-                            _getStatusText(tournament.status),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: TournamentHeaderCard(tournament: tournament),
                 ),
               ],
             ),
@@ -258,7 +97,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               controller: _tabController,
               children: [
                 // 大会概要タブ
-                _buildOverviewTab(tournament),
+                _buildOverviewTab(_getTournamentData(widget.tournamentId)),
                 // 参加者一覧タブ
                 ParticipantsContent(tournamentId: widget.tournamentId),
                 // 対戦表タブ
@@ -271,16 +110,6 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
     );
   }
 
-  String _getStatusText(TournamentStatus status) {
-    switch (status) {
-      case TournamentStatus.upcoming:
-        return '開催前';
-      case TournamentStatus.ongoing:
-        return 'ラウンド進行中';
-      case TournamentStatus.completed:
-        return '開催済';
-    }
-  }
 
   Widget _buildOverviewTab(TournamentDetailData tournament) {
     return SingleChildScrollView(
@@ -548,8 +377,28 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
 
   // ヘッダー刷新に伴い、QR ダイアログ機能は削除した。
 
-  TournamentDetailData _getTournamentData(String id) {
+  TournamentDisplayData _getTournamentDisplayData(String id) {
     // ダミーデータ（開催中の例）
+    return const TournamentDisplayData(
+      id: '1',
+      title: 'トーナメントタイトル',
+      description:
+          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
+          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
+          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
+          '200文字の大会概要200文字の大会概要',
+      date: '2025/08/31',
+      time: '19:00-21:00',
+      currentParticipants: 32,
+      maxParticipants: 32,
+      gameType: 'ポケカ',
+      status: TournamentStatus.ongoing, // 開催中
+      currentRound: 3, // 現在のラウンド
+    );
+  }
+
+  TournamentDetailData _getTournamentData(String id) {
+    // 既存のTournamentDetailDataも維持（大会概要タブで使用）
     return const TournamentDetailData(
       id: '1',
       title: 'トーナメントタイトル',
@@ -574,17 +423,6 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
   }
 }
 
-/// トーナメントステータス
-enum TournamentStatus {
-  /// 開催前
-  upcoming,
-
-  /// 開催中
-  ongoing,
-
-  /// 開催済
-  completed,
-}
 
 /// トーナメント詳細データクラス
 class TournamentDetailData {
