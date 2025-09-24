@@ -38,7 +38,9 @@ class PlayerContainer extends StatelessWidget {
     final showWinLabel = state == PlayerState.win;
     final showLoseLabel = state == PlayerState.lose;
 
-    return DecoratedBox(
+    return SizedBox(
+      height: 57, // VSContainerと高さを統一
+      child: DecoratedBox(
       decoration: BoxDecoration(color: colors.backgroundColor),
       child: Stack(
         children: [
@@ -72,16 +74,13 @@ class PlayerContainer extends StatelessWidget {
           if (showWinLabel)
             Positioned(
               right: 0,
-              top: 0,
               bottom: 0,
-              child: Center(
-                child: Text(
-                  'WIN',
-                  style: AppTextStyles.headlineLarge.copyWith(
-                    color: colors.winLabelColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              child: Text(
+                'WIN',
+                style: AppTextStyles.headlineLarge.copyWith(
+                  color: colors.winLabelColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -89,20 +88,18 @@ class PlayerContainer extends StatelessWidget {
           if (showLoseLabel)
             Positioned(
               right: 0,
-              top: 0,
               bottom: 0,
-              child: Center(
-                child: Text(
-                  'LOSE',
-                  style: AppTextStyles.headlineLarge.copyWith(
-                    color: colors.loseLabelColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              child: Text(
+                'LOSE',
+                style: AppTextStyles.headlineLarge.copyWith(
+                  color: colors.loseLabelColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
         ],
+      ),
       ),
     );
   }
@@ -148,9 +145,9 @@ class PlayerContainer extends StatelessWidget {
           );
         case PlayerState.lose:
           return const _PlayerContainerColors(
-            backgroundColor: AppColors.loseNormal, // 薄い紫色
+            backgroundColor: AppColors.adminPrimaryAlpha, // 管理者色透明度版
             textColor: AppColors.white,
-            loseLabelColor: AppColors.white, // 白色のラベル
+            loseLabelColor: AppColors.whiteLightAlpha, // 透明な白
           );
       }
     }

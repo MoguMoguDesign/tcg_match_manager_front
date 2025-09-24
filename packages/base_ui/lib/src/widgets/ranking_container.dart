@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
 import 'ranking_row.dart';
 
 /// ランキング一覧を表示するコンテナウィジェット。
@@ -13,7 +12,6 @@ class RankingContainer extends StatelessWidget {
     super.key,
     required this.rankings,
     this.currentUserId,
-    this.title = 'ランキング',
   });
 
   /// ランキングデータのリスト。
@@ -22,26 +20,12 @@ class RankingContainer extends StatelessWidget {
   /// 現在のユーザーID（このIDの行をcurrentUserとして表示）。
   final String? currentUserId;
 
-  /// タイトル文字列。
-  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ヘッダー
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              title,
-              style: AppTextStyles.headlineLarge.copyWith(
-                color: AppColors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
           // ランキングリスト
           ...rankings.asMap().entries.map((entry) {
             final index = entry.key;
@@ -51,10 +35,16 @@ class RankingContainer extends StatelessWidget {
 
             return Column(
               children: [
-                if (index > 0) const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: RankingRow(
+                // 順位間の区切り線（最初の要素以外）
+                if (index > 0) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    height: 1,
+                    color: AppColors.borderLight,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                RankingRow(
                     leftLabel: ranking.playerName,
                     rightValue: ranking.score,
                     type: isCurrentUser
@@ -64,7 +54,6 @@ class RankingContainer extends StatelessWidget {
                     metaLeft: ranking.metaLeft,
                     metaRight: ranking.metaRight,
                   ),
-                ),
               ],
             );
           }),

@@ -56,7 +56,7 @@ class RankingRow extends StatelessWidget {
     final style = _resolveStyle(type);
 
     return SizedBox(
-      height: 60,
+      height: 54,
       child: Row(
         children: [
           if (rankNumber != null) ...[
@@ -83,15 +83,11 @@ class RankingRow extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: style.backgroundColor,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 8,
+                    vertical: 6,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
