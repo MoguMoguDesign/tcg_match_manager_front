@@ -19,6 +19,7 @@ dependencies:
   hooks_riverpod: ^2.6.1
   injection:
     path: ../../packages/injection
+  qr_flutter: ^4.1.0
   util:
     path: ../../packages/util
 

@@ -6,6 +6,7 @@ import '../../models/participant_data.dart';
 import '../../widgets/layout/admin_scaffold.dart';
 import '../../widgets/tournament/participant_table.dart';
 import '../../widgets/tournament/tournament_footer.dart';
+import '../dialogs/qr_display_dialog.dart';
 import '../dialogs/user_delete_dialog.dart';
 
 /// 参加者一覧画面
@@ -58,7 +59,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
       actions: [
         // 戻るボタン
         IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () => _handleBack(context),
           icon: const Icon(Icons.arrow_back),
           color: base_ui.AppColors.textBlack,
         ),
@@ -378,13 +379,11 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     // TODO(admin): 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える
   }
 
-  void _showQRCode() {
-    // TODO(admin): 実際のQRコード表示処理を実装
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('QRコードを表示します'),
-        backgroundColor: base_ui.AppColors.success,
-      ),
+  Future<void> _showQRCode() async {
+    await showQRDisplayDialog(
+      context,
+      tournamentId: widget.tournamentId,
+      tournamentTitle: 'トーナメントタイトル', // TODO(admin): 実際のトーナメントタイトルを取得
     );
   }
 
@@ -404,6 +403,17 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
         backgroundColor: base_ui.AppColors.success,
       ),
     );
+  }
+
+  /// 安全な戻る処理
+  /// ナビゲーションスタックをチェックしてから適切に戻る
+  void _handleBack(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      // popできない場合はトーナメント一覧にリダイレクト
+      context.go('/tournaments');
+    }
   }
 
   // ダミーデータ生成メソッド
@@ -605,13 +615,11 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     // TODO(admin): 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える
   }
 
-  void _showQRCode() {
-    // TODO(admin): 実際のQRコード表示処理を実装
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('QRコードを表示します'),
-        backgroundColor: base_ui.AppColors.success,
-      ),
+  Future<void> _showQRCode() async {
+    await showQRDisplayDialog(
+      context,
+      tournamentId: widget.tournamentId,
+      tournamentTitle: 'トーナメントタイトル', // TODO(admin): 実際のトーナメントタイトルを取得
     );
   }
 

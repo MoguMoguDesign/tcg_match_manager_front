@@ -41,17 +41,19 @@ class VSContainer extends StatelessWidget {
     return Container(
       width: sizeInfo.width,
       height: sizeInfo.height,
-      decoration: BoxDecoration(
-        color: colors.backgroundColor,
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
         // 枠線はデザイン上不要。
       ),
       child: Stack(
         fit: StackFit.expand,
         children: [
-          if (colors.splitColor != null)
-            CustomPaint(
-              painter: _DiagonalSplitPainter(splitColor: colors.splitColor!),
+          CustomPaint(
+            painter: _DiagonalSplitPainter(
+              leftColor: colors.leftColor,
+              rightColor: colors.rightColor,
             ),
+          ),
           Center(
             child: Text(
               'vs',
@@ -114,17 +116,17 @@ class VSContainer extends StatelessWidget {
         case _SideOutcome.win:
           return AppColors.userPrimaryAlpha;
         case _SideOutcome.lose:
-          return AppColors.loseNormal;
+          return AppColors.adminPrimaryAlpha;
       }
     }
 
     final leftColor = mapColor(leftOutcome, isCurrent: isLeftCurrent);
     final rightColor = mapColor(rightOutcome, isCurrent: isRightCurrent);
 
-    // 背景＝右側、対角の左側＝splitColor として描画。
+    // 左下三角形と右上三角形をそれぞれ独立して描画。
     return _VSContainerColors(
-      backgroundColor: rightColor,
-      splitColor: leftColor,
+      leftColor: leftColor,
+      rightColor: rightColor,
       textColor: AppColors.white,
     );
   }
@@ -202,43 +204,61 @@ class _VSSizeInfo {
 /// VSコンテナの色情報を保持するクラス。
 class _VSContainerColors {
   const _VSContainerColors({
-    this.backgroundColor,
     required this.textColor,
-    this.splitColor,
+    this.leftColor,
+    this.rightColor,
   });
-
-  /// 背景色（gradientがnullの場合に使用）。
-  final Color? backgroundColor;
 
   /// テキスト色。
   final Color textColor;
 
-  /// 左上→右下の対角線で塗り分けるときの左側塗りつぶし色。不要な場合は null。
-  final Color? splitColor;
+  /// 左下三角形の色。不要な場合は null。
+  final Color? leftColor;
+
+  /// 右上三角形の色。不要な場合は null。
+  final Color? rightColor;
 }
 
 /// VS 左右の見た目を決める内部アウトカム。
 enum _SideOutcome { progress, win, lose }
 
 class _DiagonalSplitPainter extends CustomPainter {
-  const _DiagonalSplitPainter({required this.splitColor});
+  const _DiagonalSplitPainter({
+    this.leftColor,
+    this.rightColor,
+  });
 
-  final Color splitColor;
+  final Color? leftColor;
+  final Color? rightColor;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = splitColor;
-    // 左上 → 右下 を結ぶ直線で分割し、左側領域（左上・左下・右下の三角形）を塗る。
-    final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
-      ..close();
-    canvas.drawPath(path, paint);
+    // 左下三角形を描画
+    if (leftColor != null) {
+      final leftPaint = Paint()..color = leftColor!;
+      final leftPath = Path()
+        ..moveTo(0, 0) // 左上
+        ..lineTo(0, size.height) // 左下
+        ..lineTo(size.width, size.height) // 右下
+        ..close();
+      canvas.drawPath(leftPath, leftPaint);
+    }
+
+    // 右上三角形を描画
+    if (rightColor != null) {
+      final rightPaint = Paint()..color = rightColor!;
+      final rightPath = Path()
+        ..moveTo(0, 0) // 左上
+        ..lineTo(size.width, 0) // 右上
+        ..lineTo(size.width, size.height) // 右下
+        ..close();
+      canvas.drawPath(rightPath, rightPaint);
+    }
   }
 
   @override
   bool shouldRepaint(covariant _DiagonalSplitPainter oldDelegate) {
-    return oldDelegate.splitColor != splitColor;
+    return oldDelegate.leftColor != leftColor ||
+           oldDelegate.rightColor != rightColor;
   }
 }

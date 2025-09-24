@@ -1,6 +1,6 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 /// QR表示ダイアログ
 ///
@@ -23,128 +23,98 @@ class QRDisplayDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final participationUrl = 'https://tournament.app/join/$tournamentId';
 
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Container(
-        width: 480,
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // タイトル
-            const Text(
-              'トーナメント参加用QRコード',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textBlack,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-
-            // サブタイトル
-            Text(
-              tournamentTitle,
-              style: const TextStyle(
-                fontSize: 16,
-                color: AppColors.grayDark,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 32),
-
-            // QRコード表示エリア
-            Container(
-              width: 240,
-              height: 240,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: AppColors.borderLight, width: 2),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.qr_code,
-                    size: 120,
-                    color: Colors.grey[400],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'QRコード',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // 参加URL表示
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.backgroundField,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '参加URL:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.grayDark,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SelectableText(
-                    participationUrl,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textBlack,
-                      fontFamily: 'monospace',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 32),
-
-            // ボタンエリア
-            DialogButtons(
-              primaryText: '閉じる',
-              onPrimaryPressed: () => Navigator.of(context).pop(),
-              secondaryText: 'URLをコピー',
-              onSecondaryPressed: () =>
-                  _copyToClipboard(context, participationUrl),
-            ),
-          ],
+    return Stack(
+      children: [
+        // 半透明背景オーバーレイ
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.black.withValues(alpha: 0.2),
         ),
-      ),
+        // ダイアログ本体
+        Center(
+          child: Container(
+            width: 450,
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 48),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 右上のクローズボタン
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Icon(
+                      Icons.close,
+                      size: 24,
+                      color: AppColors.textBlack,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // QRコード表示エリア
+                Container(
+                  width: 288,
+                  height: 288,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  child: QrImageView(
+                    data: participationUrl,
+                    size: 288,
+                    backgroundColor: Colors.white,
+                    dataModuleStyle: const QrDataModuleStyle(
+                      color: AppColors.textBlack,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // 印刷するボタン
+                SizedBox(
+                  width: 342,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: _printQRCode,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.adminPrimary,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      elevation: 0,
+                      shadowColor: Colors.transparent,
+                    ).copyWith(
+                      overlayColor: WidgetStateProperty.all(
+                        Colors.white.withValues(alpha: 0.1),
+                      ),
+                    ),
+                    child: const Text(
+                      '印刷する',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  Future<void> _copyToClipboard(BuildContext context, String url) async {
-    await Clipboard.setData(ClipboardData(text: url));
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('URLをクリップボードにコピーしました'),
-          backgroundColor: AppColors.success,
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
+  Future<void> _printQRCode() async {
+    // TODO(admin): 印刷機能の実装
+    // printing パッケージを使用した印刷処理を実装予定
   }
 }
 

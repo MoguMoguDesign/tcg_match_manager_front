@@ -969,7 +969,6 @@ class ComponentTestPage extends StatelessWidget {
 
                     // Ranking Container
                     RankingContainer(
-                      title: 'ランキング',
                       currentUserId: 'user1',
                       rankings: [
                         RankingData(
