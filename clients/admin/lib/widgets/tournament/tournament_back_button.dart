@@ -7,13 +7,13 @@ class TournamentBackButton extends StatelessWidget {
   /// 戻るボタンのコンストラクタ
   const TournamentBackButton({this.onPressed, super.key});
 
-  /// カスタムのコールバック（指定されない場合はcontext.pop()を使用）
+  /// カスタムのコールバック（指定されない場合は安全な戻る処理を使用）
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: onPressed ?? () => context.pop(),
+      onPressed: onPressed ?? () => _handleBack(context),
       icon: const Icon(Icons.arrow_back, size: 24, color: AppColors.textBlack),
       label: const Text(
         '戻る',
@@ -28,5 +28,16 @@ class TournamentBackButton extends StatelessWidget {
         foregroundColor: AppColors.textBlack,
       ),
     );
+  }
+
+  /// 安全な戻る処理
+  /// ナビゲーションスタックをチェックしてから適切に戻る
+  void _handleBack(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      // popできない場合はトーナメント一覧にリダイレクト
+      context.go('/tournaments');
+    }
   }
 }
