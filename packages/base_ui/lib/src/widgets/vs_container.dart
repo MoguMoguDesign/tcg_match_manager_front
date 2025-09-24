@@ -114,7 +114,7 @@ class VSContainer extends StatelessWidget {
         case _SideOutcome.win:
           return AppColors.userPrimaryAlpha;
         case _SideOutcome.lose:
-          return AppColors.loseNormal;
+          return AppColors.adminPrimaryAlpha;
       }
     }
 
@@ -228,11 +228,12 @@ class _DiagonalSplitPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = splitColor;
-    // 左上 → 右下 を結ぶ直線で分割し、左側領域（左上・左下・右下の三角形）を塗る。
+    // 左上 → 右下 を結ぶ直線で分割し、左側（左上側の三角形）のみを塗る。
+    // 右側（右下側の領域）は [backgroundColor] が下地として描画される前提。
     final path = Path()
       ..moveTo(0, 0)
       ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
+      ..lineTo(size.width, 0)
       ..close();
     canvas.drawPath(path, paint);
   }
