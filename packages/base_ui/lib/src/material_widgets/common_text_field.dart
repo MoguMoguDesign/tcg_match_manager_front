@@ -56,8 +56,6 @@ class CommonTextField extends StatelessWidget {
   /// バリデーション用のメソッド。
   ///
   /// 入力が無効な場合にはエラー文字列を返し、それ以外の場合は null を返す。
-  ///
-  /// 返すエラー文字列は、多言語対応のために [L10n] へ定義したものを利用する。
   final String? Function(String? value)? validator;
 
   @override
