@@ -95,21 +95,20 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                           ),
                           const SizedBox(height: 16),
                           RankingContainer(
-                            title: '全体ランキング',
                             currentUserId: 'current_user',
                             rankings: MockRankingData.finalRanking
-                                .map((player) => RankingData(
-                                      userId: player.isCurrentPlayer
-                                          ? 'current_user'
-                                          : 'user_${player.rank}',
-                                      playerName: player.name,
-                                      score: '${player.score}点',
-                                      rank: player.rank,
-                                      metaLeft:
-                                          '累計得点 ${player.score}点',
-                                      metaRight:
-                                          'OMW% ${player.omwPercentage}%',
-                                    ))
+                                .map(
+                                  (player) => RankingData(
+                                    userId: player.isCurrentPlayer
+                                        ? 'current_user'
+                                        : 'user_${player.rank}',
+                                    playerName: player.name,
+                                    score: '${player.score}点',
+                                    rank: player.rank,
+                                    metaLeft: '累計得点 ${player.score}点',
+                                    metaRight: 'OMW% ${player.omwPercentage}%',
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ],

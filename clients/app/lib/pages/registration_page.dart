@@ -86,7 +86,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       style: AppTextStyles.labelMedium,
                     ),
                     const SizedBox(height: 9),
-                    CommonTextField(
+                    FigmaTextField(
                       controller: _nicknameController,
                       hintText: 'ニックネームを入力',
                       onChanged: (value) {
@@ -104,7 +104,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ],
                 ),
-                const Spacer(),
+                const SizedBox(height: 40),
                 // 接続問題の場合
                 Column(
                   children: [

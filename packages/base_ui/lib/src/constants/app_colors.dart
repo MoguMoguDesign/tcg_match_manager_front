@@ -111,7 +111,7 @@ class AppColors {
 
   /// 敗北状態を示す薄紫色。
   /// VS コンテナやプレイヤーコンテナの敗北状態で使用される。
-  static const Color loseNormal = Color(0xFFB0A3E3);
+  static const Color loseNormal = Color(0xFFD4CAF0);
 
   // ==========================================
   // 透明度版カラー
