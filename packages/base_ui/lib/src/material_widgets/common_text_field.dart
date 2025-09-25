@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 
-import '../../base_ui.dart';
-
 /// アプリ内で共通で用いられる [TextFormField].
 class CommonTextField extends StatelessWidget {
   /// [CommonTextField] を生成する。
@@ -58,8 +56,6 @@ class CommonTextField extends StatelessWidget {
   /// バリデーション用のメソッド。
   ///
   /// 入力が無効な場合にはエラー文字列を返し、それ以外の場合は null を返す。
-  ///
-  /// 返すエラー文字列は、多言語対応のために [L10n] へ定義したものを利用する。
   final String? Function(String? value)? validator;
 
   @override

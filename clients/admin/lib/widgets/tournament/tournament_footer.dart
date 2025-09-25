@@ -36,7 +36,7 @@ class TournamentFooter extends StatelessWidget {
             children: [
               const Spacer(),
               Text(
-                '最大人数: ${maxParticipants}人',
+                '最大人数: $maxParticipants人',
                 style: const TextStyle(fontSize: 14, color: AppColors.textGray),
               ),
             ],

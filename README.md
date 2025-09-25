@@ -200,38 +200,6 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
 
 詳細な書き方は実際のソースコードや[こちらの記事](https://zenn.dev/team_soda/articles/dart-documentation)をご参照ください。
 
-## 多言語対応について
-
-本アプリは日本語/英語に対応しているため、Text ウィジェット内で文字列を表示する際にはハードコーディングする代わりに翻訳用のファイル(`l10n.dart`)へ定義されたものを利用する必要があります。以下の手順に沿って翻訳用のフィールドを追加・利用してください。
-
-### 1. 翻訳用フィールドの追加
-
-日本語用のフィールドを `app_ja.arb` へ追加してください。
-
-尚、arb キーの命名規則は、「利用用途 → 内容」の順でキャメルケースで記載する方針としています。
-
-例）
-
-```arb
-"labelFoo": "ラベル用文字列 Foo"
-"buttonFoo": "ボタン用文字列 Foo"
-"dialogFoo": "ダイアログ用文字列 Foo"
-"messageFoo": "メッセージ用文字列 Foo"
-"appBarFoo": "AppBar 用文字列 Foo"
-"placeholderFoo": "プレースホルダー用文字列 Foo"
-"fooTypeBar": "FooType enum 用文字列の値 Bar"
-```
-
-### 2. 翻訳用コマンドの実行
-
-`melos run translate` コマンドを実行してください。
-
-本プロジェクトでは翻訳の効率化のために [arb_translate](https://pub.dev/packages/arb_translate) を利用しており（[参考](https://zenn.dev/masa_tokyo/articles/arb_translate)）、デフォルト言語の日本語用のフィールドを追加することでその他言語（英語）への翻訳が行えるようになっています。上記の melos コマンドにより、`arb_translate` コマンドの実行や、その後の翻訳用のファイルへの反映を行なっています。
-
-### 3. 翻訳用フィールドの利用
-
-`L10n.of(context).labelFoo` のようにすることで、各デバイスの言語設定に応じた文字列が取得出来ます。
-
 ## プロジェクト構成
 
 本プロジェクトはFlutter monorepoとして構成されており、以下のディレクトリ構造を持ちます：

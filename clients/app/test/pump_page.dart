@@ -1,4 +1,3 @@
-import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,8 +16,6 @@ Future<void> pumpPage(
   await tester.pumpWidget(
     ProviderScope(
       child: MaterialApp(
-        localizationsDelegates: L10n.localizationsDelegates,
-        supportedLocales: L10n.supportedLocales,
         home: MediaQuery(
           data: MediaQueryData(size: Size(width, 800)),
           child: page,

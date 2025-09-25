@@ -51,10 +51,6 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      // base_ui パッケージに定義した多言語対応の設定を適用する。
-      localizationsDelegates: L10n.localizationsDelegates,
-      supportedLocales: L10n.supportedLocales,
-      localeListResolutionCallback: localeListResolutionCallback,
       routerConfig: appRouter,
       theme: CommonThemeData.lightTheme,
       darkTheme: CommonThemeData.darkTheme,

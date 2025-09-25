@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../base_ui.dart';
-
 /// アプリ内で共通で用いられる [AlertDialog].
 ///
 /// [show] メソッドを呼び出すことで利用する。
@@ -25,15 +23,11 @@ class CommonAlertDialog extends StatelessWidget {
   /// 否定用ボタンのラベル。
   ///
   /// 「キャンセル」「いいえ」「閉じる」などを意味する文字列が入る。
-  ///
-  /// null の場合、[L10n] クラスに定義された labelOkay が適用される。
   final String? declineButtonLabel;
 
   /// 肯定用ボタンのラベル。
   ///
   /// 「OK」「はい」「確認」などを意味する文字列が入る。
-  ///
-  /// null の場合、[L10n] クラスに定義された labelCancel が適用される。
   final String? confirmButtonLabel;
 
   /// 肯定ボタン押下後の挙動。
@@ -79,7 +73,6 @@ class CommonAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = L10n.of(context);
     final textTheme = Theme.of(context).textTheme;
     return AlertDialog(
       titleTextStyle: textTheme.titleMedium,
@@ -92,7 +85,7 @@ class CommonAlertDialog extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
-              declineButtonLabel ?? l10n.labelCancel,
+              declineButtonLabel ?? 'キャンセル',
               style: textTheme.labelLarge,
             ),
           ),
@@ -103,7 +96,7 @@ class CommonAlertDialog extends StatelessWidget {
               Navigator.of(context).pop();
             }
           },
-          child: Text(confirmButtonLabel ?? l10n.labelOkay),
+          child: Text(confirmButtonLabel ?? 'OK'),
         ),
       ],
     );

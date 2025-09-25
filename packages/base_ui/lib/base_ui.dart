@@ -10,7 +10,6 @@ export 'src/common_theme_data.dart';
 export 'src/constants/app_colors.dart';
 export 'src/constants/app_gradients.dart';
 export 'src/constants/app_text_styles.dart';
-export 'src/l10n/_export.dart';
 export 'src/material_widgets/_export.dart';
 export 'src/responsive_type.dart';
 export 'src/widgets/_export.dart';
