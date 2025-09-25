@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 
-import '../../base_ui.dart';
-
 /// アプリ内で共通で用いられる [TextFormField].
 class CommonTextField extends StatelessWidget {
   /// [CommonTextField] を生成する。

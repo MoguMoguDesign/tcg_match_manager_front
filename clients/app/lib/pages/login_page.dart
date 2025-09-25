@@ -27,9 +27,9 @@ class LoginPage extends HookConsumerWidget {
   static const passwordTextFieldKey = Key('passwordTextField');
 
   /// 入力が空の場合にエラーメッセージを返す。
-  String? _validateEmptyInput(String? value, L10n l10n) {
+  String? _validateEmptyInput(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return l10n.messageEmpty;
+      return '未入力です。';
     }
     return null;
   }
@@ -40,13 +40,13 @@ class LoginPage extends HookConsumerWidget {
     final userNameController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     final isGuest = useState(false);
-    final l10n = L10n.of(context);
+
     // MEMO(masaki): 以下のデフォルトのものを全体で調整する
     // https://m3.material.io/styles/typography/type-scale-tokens
     final textTheme = Theme.of(context).textTheme;
 
     return CommonScaffold(
-      appbarText: l10n.appBarLogin,
+      appbarText: 'ログイン',
       body: Form(
         key: _formKey,
         child: Column(
@@ -55,16 +55,16 @@ class LoginPage extends HookConsumerWidget {
           children: [
             Center(child: Text('Login', style: textTheme.titleLarge)),
             const Gap(12),
-            Text(l10n.labelServer),
+            const Text('サーバー'),
             CommonTextField.withIcon(
               key: serverUrlTextFieldKey,
               icon: Icons.cloud,
               controller: serverUrlController,
               onChanged: (value) {},
-              validator: (value) => _validateEmptyInput(value, l10n),
+              validator: _validateEmptyInput,
             ),
             const Gap(12),
-            Text(l10n.labelGuest),
+            const Text('ゲスト'),
             CommonSwitch(
               value: isGuest.value,
               onChanged: (newValue) {
@@ -72,16 +72,16 @@ class LoginPage extends HookConsumerWidget {
               },
             ),
             const Gap(12),
-            Text(l10n.labelUserName),
+            const Text('ユーザー名'),
             CommonTextField.withIcon(
               key: userNameTextFieldKey,
               icon: Icons.account_box_rounded,
               controller: userNameController,
               onChanged: (value) {},
-              validator: (value) => _validateEmptyInput(value, l10n),
+              validator: _validateEmptyInput,
             ),
             const Gap(12),
-            Text(l10n.labelPassword),
+            const Text('パスワード'),
             CommonTextField.withIcon(
               key: passwordTextFieldKey,
               icon: Icons.lock_outline,
@@ -96,7 +96,7 @@ class LoginPage extends HookConsumerWidget {
                   if (!_formKey.currentState!.validate()) {
                     await CommonAlertDialog.show(
                       context,
-                      contentString: l10n.messageInvalidTextInput,
+                      contentString: '入力欄に誤りがあります。',
                     );
                     return;
                   }
@@ -126,7 +126,7 @@ class LoginPage extends HookConsumerWidget {
                     }
                     await CommonAlertDialog.show(
                       context,
-                      titleString: l10n.titleLoginFailed,
+                      titleString: 'ログインに失敗しました',
                       contentString: e.message,
                     );
                   } on GeneralFailureException catch (e) {
@@ -139,23 +139,23 @@ class LoginPage extends HookConsumerWidget {
                     // エラーコードとメッセージを合わせて表示する
                     final errorMessage =
                         '''
-              ${l10n.labelErrorCode} $statusCode ${e.errorCode}
+              エラーコード： $statusCode ${e.errorCode}
               
               ${switch (e.reason) {
-                          GeneralFailureReason.noConnectionError => l10n.messageNoConnectionError,
-                          GeneralFailureReason.serverUrlNotFoundError => l10n.messageServerUrlNotFoundError,
-                          GeneralFailureReason.badResponse => l10n.messageOtherError,
-                          GeneralFailureReason.other => l10n.messageOtherError,
+                          GeneralFailureReason.noConnectionError => 'ネットワーク接続を確認してください。',
+                          GeneralFailureReason.serverUrlNotFoundError => 'サーバー URL が正しいかご確認ください。',
+                          GeneralFailureReason.badResponse => 'エラーが発生しました。運営へお問い合わせください。',
+                          GeneralFailureReason.other => 'エラーが発生しました。運営へお問い合わせください。',
                         }}''';
 
                     await CommonAlertDialog.show(
                       context,
-                      titleString: l10n.titleLoginFailed,
+                      titleString: 'ログインに失敗しました',
                       contentString: errorMessage,
                     );
                   }
                 },
-                child: Text(l10n.buttonLogin),
+                child: const Text('ログイン'),
               ),
             ),
           ],
