@@ -69,18 +69,16 @@ class FigmaTextField extends StatelessWidget {
       children: [
         Container(
           height: maxLines == 1 ? 56 : null,
-          constraints: maxLines > 1 
-              ? const BoxConstraints(minHeight: 56) 
+          constraints: maxLines > 1
+              ? const BoxConstraints(minHeight: 56)
               : null,
           decoration: BoxDecoration(
-            color: enabled 
-                ? AppColors.textBlack 
+            color: enabled
+                ? AppColors.textBlack
                 : AppColors.gray.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(40),
             border: Border.all(
-              color: hasError 
-                  ? Colors.red 
-                  : AppColors.whiteAlpha,
+              color: hasError ? Colors.red : AppColors.whiteAlpha,
               width: hasError ? 2 : 1,
             ),
           ),
@@ -105,7 +103,7 @@ class FigmaTextField extends StatelessWidget {
                 horizontal: 16,
                 vertical: maxLines == 1 ? 16 : 14,
               ),
-              prefixIcon: prefixIcon != null 
+              prefixIcon: prefixIcon != null
                   ? Padding(
                       padding: const EdgeInsets.only(left: 16, right: 12),
                       child: prefixIcon,
@@ -251,11 +249,7 @@ class SearchTextField extends StatelessWidget {
       onChanged: onChanged,
       onSubmitted: onSubmitted,
       enabled: enabled,
-      prefixIcon: const Icon(
-        Icons.search,
-        color: AppColors.gray,
-        size: 20,
-      ),
+      prefixIcon: const Icon(Icons.search, color: AppColors.gray, size: 20),
     );
   }
 }
@@ -299,22 +293,18 @@ class DropdownSelectField<T> extends StatelessWidget {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        color: enabled 
-            ? AppColors.textBlack 
+        color: enabled
+            ? AppColors.textBlack
             : AppColors.gray.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(40),
-        border: Border.all(
-          color: AppColors.whiteAlpha,
-        ),
+        border: Border.all(color: AppColors.whiteAlpha),
       ),
       child: DropdownButtonFormField<T>(
         initialValue: value,
         onChanged: enabled ? onChanged : null,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: AppTextStyles.bodyMedium.copyWith(
-            color: AppColors.gray,
-          ),
+          hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.gray),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -325,19 +315,24 @@ class DropdownSelectField<T> extends StatelessWidget {
           color: enabled ? AppColors.white : AppColors.gray,
         ),
         dropdownColor: AppColors.textBlack,
-        icon: Icon(
-          Icons.keyboard_arrow_down,
-          color: enabled ? AppColors.white : AppColors.gray,
+        icon: Padding(
+          padding: const EdgeInsets.only(right: 16, top: 8),
+          child: Icon(
+            Icons.keyboard_arrow_down,
+            color: enabled ? AppColors.white : AppColors.gray,
+          ),
         ),
         items: items.map((T item) {
           return DropdownMenuItem<T>(
             value: item,
-            child: itemBuilder?.call(item) ?? Text(
-              item.toString(),
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.white,
-              ),
-            ),
+            child:
+                itemBuilder?.call(item) ??
+                Text(
+                  item.toString(),
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
           );
         }).toList(),
       ),
