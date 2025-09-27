@@ -131,7 +131,7 @@ class _MatchesPageState extends State<MatchesPage> {
 
   /// 大会概要タブの内容
   Widget _buildOverviewContent() {
-    return Container(
+    return ColoredBox(
       color: AppColors.backgroundLight,
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -174,7 +174,7 @@ class _MatchesPageState extends State<MatchesPage> {
 
   /// 参加者一覧タブの内容
   Widget _buildParticipantsContent() {
-    return Container(
+    return ColoredBox(
       color: AppColors.backgroundLight,
       child: Padding(
         padding: const EdgeInsets.all(24),

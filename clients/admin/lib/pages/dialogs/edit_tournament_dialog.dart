@@ -549,7 +549,7 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
       return;
     }
 
-    // TODO(admin): 実際の保存処理を実装
+    // 実際の保存処理を実装する必要があります
 
     // バリデーション
     if (_titleController.text.isEmpty) {

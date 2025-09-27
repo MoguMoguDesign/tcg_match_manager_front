@@ -312,7 +312,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
   }
 
   void _deleteParticipant(ParticipantData participant) {
-    // TODO(admin): 実際の削除処理を実装
+    // 実際の削除処理を実装する必要があります
     setState(() {
       _participants.removeWhere((p) => p.id == participant.id);
       _participantStatus.remove(participant.id);
@@ -365,7 +365,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
   }
 
   Future<void> _createRound() async {
-    // TODO(admin): 実際のラウンド作成処理を実装
+    // 実際のラウンド作成処理を実装する必要があります
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ラウンドを作成しました'),
@@ -374,19 +374,19 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     );
 
     // 対戦表タブに切り替え（親のTabControllerを操作）
-    // TODO(admin): 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える
+    // 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える実装が必要
   }
 
   Future<void> _showQRCode() async {
     await showQRDisplayDialog(
       context,
       tournamentId: widget.tournamentId,
-      tournamentTitle: 'トーナメントタイトル', // TODO(admin): 実際のトーナメントタイトルを取得
+      tournamentTitle: 'トーナメントタイトル', // 実際のトーナメントタイトルを取得する必要があります
     );
   }
 
   void _applyChanges() {
-    // TODO(admin): 実際の変更反映処理を実装
+    // 実際の変更反映処理を実装する必要があります
     // 名前の変更を適用
     for (final participant in _participants) {
       final newName = _nameControllers[participant.id]?.text ?? '';
@@ -583,7 +583,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
   }
 
   void _deleteParticipant(ParticipantData participant) {
-    // TODO(admin): 実際の削除処理を実装
+    // 実際の削除処理を実装する必要があります
     setState(() {
       _participants.removeWhere((p) => p.id == participant.id);
       _participantStatus.remove(participant.id);
@@ -599,7 +599,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
   }
 
   Future<void> _createRound() async {
-    // TODO(admin): 実際のラウンド作成処理を実装
+    // 実際のラウンド作成処理を実装する必要があります
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ラウンドを作成しました'),
@@ -608,19 +608,19 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     );
 
     // 対戦表タブに切り替え（親のTabControllerを操作）
-    // TODO(admin): 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える
+    // 親のTabControllerにアクセスして対戦表タブ（index: 2）に切り替える実装が必要
   }
 
   Future<void> _showQRCode() async {
     await showQRDisplayDialog(
       context,
       tournamentId: widget.tournamentId,
-      tournamentTitle: 'トーナメントタイトル', // TODO(admin): 実際のトーナメントタイトルを取得
+      tournamentTitle: 'トーナメントタイトル', // 実際のトーナメントタイトルを取得する必要があります
     );
   }
 
   void _applyChanges() {
-    // TODO(admin): 実際の変更反映処理を実装
+    // 実際の変更反映処理を実装する必要があります
     // 名前の変更を適用
     for (final participant in _participants) {
       final newName = _nameControllers[participant.id]?.text ?? '';
