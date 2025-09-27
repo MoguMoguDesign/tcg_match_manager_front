@@ -439,13 +439,13 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                               const BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
-                                                                color:
-                                                                    Color.fromRGBO(
-                                                                      58,
-                                                                      68,
-                                                                      251,
-                                                                      1,
-                                                                    ),
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                  58,
+                                                                  68,
+                                                                  251,
+                                                                  1,
+                                                                ),
                                                               ),
                                                         ),
                                                       )

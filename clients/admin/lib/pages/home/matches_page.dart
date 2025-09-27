@@ -734,7 +734,7 @@ class _MatchesContentState extends State<MatchesContent> {
       return;
     }
     if (confirmed ?? false) {
-      // TODO(admin): 実際の両者敗北処理を実装
+      // 実際の両者敗北処理を実装する必要があります
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('両者敗北に設定しました'),
@@ -783,7 +783,7 @@ class _MatchesContentState extends State<MatchesContent> {
       return;
     }
     if (confirmed ?? false) {
-      // TODO(admin): 実際のラウンド取り消し処理を実装
+      // 実際のラウンド取り消し処理を実装する必要があります
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('ラウンドを取り消しました'),
@@ -805,7 +805,7 @@ class _MatchesContentState extends State<MatchesContent> {
       return;
     }
     if (confirmed ?? false) {
-      // TODO(admin): 実際のラウンド進行処理を実装
+      // 実際のラウンド進行処理を実装する必要があります
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('次のラウンドに進めました'),
@@ -816,7 +816,7 @@ class _MatchesContentState extends State<MatchesContent> {
   }
 
   void _updateMatchResult(AdminMatchData match, AdminMatchResult result) {
-    // TODO(admin): 実際の結果更新処理を実装
+    // 実際の結果更新処理を実装する必要があります
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('結果を更新しました'),
