@@ -76,7 +76,6 @@ class _MatchesPageState extends State<MatchesPage> {
     );
   }
 
-
   Widget _buildTabNavigation() {
     return TournamentTabNavigation(
       selectedIndex: _selectedTabIndex,
@@ -159,10 +158,7 @@ class _MatchesPageState extends State<MatchesPage> {
               child: Center(
                 child: Text(
                   '大会概要の内容がここに表示されます',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.textGray,
-                  ),
+                  style: TextStyle(fontSize: 16, color: AppColors.textGray),
                 ),
               ),
             ),
@@ -186,10 +182,7 @@ class _MatchesPageState extends State<MatchesPage> {
               child: Center(
                 child: Text(
                   '参加者一覧の内容がここに表示されます',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.textGray,
-                  ),
+                  style: TextStyle(fontSize: 16, color: AppColors.textGray),
                 ),
               ),
             ),
@@ -244,11 +237,7 @@ class _MatchesPageState extends State<MatchesPage> {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.timeline,
-            color: AppColors.adminPrimary,
-            size: 24,
-          ),
+          const Icon(Icons.timeline, color: AppColors.adminPrimary, size: 24),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -267,16 +256,16 @@ class _MatchesPageState extends State<MatchesPage> {
                   _currentRound == 0
                       ? '準備中 - トーナメント開始待ち'
                       : _currentRound == 4
-                          ? '最終ラウンド完了 - 結果表示可能'
-                          : 'ラウンド$_currentRound進行中',
+                      ? '最終ラウンド完了 - 結果表示可能'
+                      : 'ラウンド$_currentRound進行中',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: _currentRound == 0
                         ? AppColors.textGray
                         : _currentRound == 4
-                            ? AppColors.successActive
-                            : AppColors.adminPrimary,
+                        ? AppColors.successActive
+                        : AppColors.adminPrimary,
                   ),
                 ),
               ],
@@ -321,10 +310,7 @@ class _MatchesPageState extends State<MatchesPage> {
           SizedBox(height: 16),
           Text(
             '最終ラウンド完了後に結果が表示されます',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textGray,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textGray),
           ),
         ],
       ),
@@ -449,7 +435,8 @@ class _MatchesContentState extends State<MatchesContent> {
                         style: widget.currentRound == 4
                             ? SmallButtonStyle.admin
                             : SmallButtonStyle.adminOutlinedWithArrowRight,
-                        isEnabled: widget.currentRound < _getRounds().length ||
+                        isEnabled:
+                            widget.currentRound < _getRounds().length ||
                             widget.currentRound == 4,
                         onPressed: widget.currentRound == 4
                             ? _showFinalRanking
@@ -491,9 +478,9 @@ class _MatchesContentState extends State<MatchesContent> {
     }
 
     final rounds = _getRounds();
-    final currentRoundData = rounds.where(
-      (round) => round.roundNumber == widget.currentRound,
-    ).firstOrNull;
+    final currentRoundData = rounds
+        .where((round) => round.roundNumber == widget.currentRound)
+        .firstOrNull;
 
     if (currentRoundData == null) {
       return Container(

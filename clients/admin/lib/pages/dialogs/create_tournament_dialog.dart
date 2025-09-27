@@ -439,10 +439,13 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                               const BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
-                                                                color: AppColors
-                                                                    //
-                                                                    // ignore: lines_longer_than_80_chars
-                                                                    .adminPrimary,
+                                                                color:
+                                                                    Color.fromRGBO(
+                                                                      58,
+                                                                      68,
+                                                                      251,
+                                                                      1,
+                                                                    ),
                                                               ),
                                                         ),
                                                       )
