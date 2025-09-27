@@ -66,7 +66,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                         Row(
                           children: [
                             const Text(
-                              '新規作成',
+                              '大会作成',
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                   height: 56,
                                   decoration: BoxDecoration(
                                     color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
                                   child: TextField(
                                     controller: _titleController,

@@ -61,9 +61,7 @@ class MatchListHeader extends StatelessWidget {
               ),
               Text(
                 '最大$maxRoundsラウンド',
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.white,
-                ),
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.white),
               ),
             ],
           ),

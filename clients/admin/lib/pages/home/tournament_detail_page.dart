@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../models/tournament_display_data.dart';
 import '../../widgets/layout/admin_scaffold.dart';
+import '../../widgets/ranking/final_ranking_content.dart';
 import '../../widgets/tournament/tournament_back_button.dart';
 import '../../widgets/tournament/tournament_header_card.dart';
+import '../dialogs/edit_tournament_dialog.dart';
 import 'matches_page.dart';
 import 'participants_page.dart';
 
@@ -25,11 +27,12 @@ class TournamentDetailPage extends StatefulWidget {
 class _TournamentDetailPageState extends State<TournamentDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _currentRound = 0; // ラウンド状態を管理
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -48,7 +51,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
       actions: const [],
       body: Column(
         children: [
-          // ヘッダー（戻る + トーナメントカード）
+          // ヘッダー（戻る + トーナメントカード + ラウンド進行ボタン）
           Container(
             padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
             decoration: const BoxDecoration(color: Colors.white),
@@ -86,6 +89,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                   Tab(text: '大会概要'),
                   Tab(text: '参加者一覧'),
                   Tab(text: '対戦表'),
+                  Tab(text: '大会結果'),
                 ],
               ),
             ),
@@ -101,7 +105,20 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                 // 参加者一覧タブ
                 ParticipantsContent(tournamentId: widget.tournamentId),
                 // 対戦表タブ
-                MatchesContent(tournamentId: widget.tournamentId),
+                MatchesContent(
+                  tournamentId: widget.tournamentId,
+                  currentRound: _currentRound,
+                  onRoundChanged: (newRound) {
+                    setState(() {
+                      _currentRound = newRound;
+                    });
+                  },
+                  onTabSwitch: (tabIndex) {
+                    _tabController.animateTo(tabIndex);
+                  },
+                ),
+                // 大会結果タブ
+                _buildFinalRankingTab(),
               ],
             ),
           ),
@@ -111,12 +128,118 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
   }
 
 
+  /// 大会編集ダイアログを表示
+  Future<void> _showEditTournamentDialog() async {
+    if (!mounted) {
+      return;
+    }
+
+    final displayData = _getTournamentDisplayData(widget.tournamentId);
+
+    // TournamentDisplayData を TournamentDetailData に変換
+    final tournament = TournamentDetailData(
+      id: displayData.id,
+      title: displayData.title,
+      description: displayData.description ?? '',
+      date: displayData.date,
+      time: displayData.time,
+      maxParticipants: displayData.maxParticipants,
+      currentParticipants: displayData.currentParticipants,
+      maxRounds: '5ラウンド', // デフォルト値
+      drawHandling: 'あり', // デフォルト値
+      notes: '', // デフォルト値
+      status: displayData.status,
+      currentRound: displayData.currentRound,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    await showDialog<void>(
+      context: context,
+      builder: (context) => EditTournamentDialog(tournament: tournament),
+    );
+  }
+
+  /// 現在のラウンド状況を表示するカード
+  Widget _buildRoundStatusCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.borderGray),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.timeline,
+            color: AppColors.adminPrimary,
+            size: 24,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '現在の進行状況',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textBlack,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  _currentRound == 0
+                      ? '準備中 - トーナメント開始待ち'
+                      : _currentRound == 4
+                          ? '最終ラウンド完了 - 結果表示可能'
+                          : 'ラウンド$_currentRound進行中',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: _currentRound == 0
+                        ? AppColors.textGray
+                        : _currentRound == 4
+                            ? AppColors.successActive
+                            : AppColors.adminPrimary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildOverviewTab(TournamentDetailData tournament) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ヘッダー行（ラウンド状況カード + 編集ボタン）
+          Row(
+            children: [
+              Expanded(child: _buildRoundStatusCard()),
+              const SizedBox(width: 16),
+              // 編集ボタン
+              SizedBox(
+                width: 120,
+                height: 40,
+                child: CommonSmallButton(
+                  text: '編集',
+                  style: SmallButtonStyle.whiteOutlined,
+                  onPressed: _showEditTournamentDialog,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           // 大会の説明
           Container(
             decoration: BoxDecoration(
@@ -477,4 +600,36 @@ class TournamentDetailData {
 
   /// 現在のラウンド（開催中のみ）
   final int? currentRound;
+}
+
+extension _TournamentDetailPageStateExtension on _TournamentDetailPageState {
+  /// 大会結果タブの内容を構築
+  Widget _buildFinalRankingTab() {
+    // ラウンド4完了後は最終順位を表示
+    if (_currentRound >= 4) {
+      return const FinalRankingContent();
+    }
+
+    // まだラウンド4に到達していない場合はプレースホルダーを表示
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.emoji_events_outlined,
+            size: 64,
+            color: AppColors.textGray,
+          ),
+          SizedBox(height: 16),
+          Text(
+            '最終ラウンド完了後に結果が表示されます',
+            style: TextStyle(
+              fontSize: 16,
+              color: AppColors.textGray,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -76,17 +76,15 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                   // ヘッダーとボタン
                   Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          '参加者一覧',
-                          style: base_ui.AppTextStyles.headlineLarge.copyWith(
-                            color: base_ui.AppColors.textBlack,
-                            fontSize: 32,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      Text(
+                        '参加者一覧',
+                        style: base_ui.AppTextStyles.headlineLarge.copyWith(
+                          color: base_ui.AppColors.textBlack,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const Spacer(),
                       SizedBox(
                         width: 192,
                         height: 56,
@@ -485,17 +483,17 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                 // ヘッダーとボタン
                 Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        '参加者一覧',
-                        style: base_ui.AppTextStyles.headlineLarge.copyWith(
-                          color: base_ui.AppColors.textBlack,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
+                    // Expanded(
+                    //   child: Text(
+                    //     '参加者一覧',
+                    //     style: base_ui.AppTextStyles.headlineLarge.copyWith(
+                    //       color: base_ui.AppColors.textBlack,
+                    //       fontSize: 24,
+                    //       fontWeight: FontWeight.w600,
+                    //     ),
+                    //   ),
+                    // ),
+                    const Spacer(),
                     SizedBox(
                       width: 192,
                       height: 56,
@@ -572,8 +570,6 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
       ],
     );
   }
-
-
 
   Future<void> _showDeleteDialog(ParticipantData participant) async {
     final confirmed = await showUserDeleteDialog(
