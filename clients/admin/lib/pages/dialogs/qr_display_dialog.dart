@@ -82,19 +82,20 @@ class QRDisplayDialog extends StatelessWidget {
                   height: 56,
                   child: ElevatedButton(
                     onPressed: _printQRCode,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.adminPrimary,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      elevation: 0,
-                      shadowColor: Colors.transparent,
-                    ).copyWith(
-                      overlayColor: WidgetStateProperty.all(
-                        Colors.white.withValues(alpha: 0.1),
-                      ),
-                    ),
+                    style:
+                        ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.adminPrimary,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          elevation: 0,
+                          shadowColor: Colors.transparent,
+                        ).copyWith(
+                          overlayColor: WidgetStateProperty.all(
+                            Colors.white.withValues(alpha: 0.1),
+                          ),
+                        ),
                     child: const Text(
                       '印刷する',
                       style: TextStyle(
@@ -113,7 +114,7 @@ class QRDisplayDialog extends StatelessWidget {
   }
 
   Future<void> _printQRCode() async {
-    // TODO(admin): 印刷機能の実装
+    // 印刷機能の実装が必要です
     // printing パッケージを使用した印刷処理を実装予定
   }
 }

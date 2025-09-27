@@ -1,10 +1,14 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../models/tournament_display_data.dart';
+import '../../widgets/ranking/final_ranking_content.dart';
 import '../../widgets/tournament/tournament_back_button.dart';
 import '../../widgets/tournament/tournament_header_card.dart';
 import '../../widgets/tournament/tournament_tab_navigation.dart';
+import '../dialogs/edit_tournament_dialog.dart';
+import 'tournament_detail_page.dart';
 
 /// 対戦表画面
 ///
@@ -22,6 +26,7 @@ class MatchesPage extends StatefulWidget {
 
 class _MatchesPageState extends State<MatchesPage> {
   int _selectedTabIndex = 2; // 対戦表タブを初期選択
+  int _currentRound = 0; // ラウンド状態を親で管理
 
   @override
   Widget build(BuildContext context) {
@@ -65,38 +70,210 @@ class _MatchesPageState extends State<MatchesPage> {
           const TournamentBackButton(),
           const SizedBox(width: 24),
           // トーナメントカード（横に配置）
-          Expanded(
-            child: TournamentHeaderCard(tournament: tournament),
-          ),
+          Expanded(child: TournamentHeaderCard(tournament: tournament)),
         ],
       ),
     );
   }
 
-
   Widget _buildTabNavigation() {
     return TournamentTabNavigation(
       selectedIndex: _selectedTabIndex,
       onTabSelected: (index) {
-        setState(() {
-          _selectedTabIndex = index;
-        });
+        // 他のタブが選択されたら適切な画面に遷移
+        switch (index) {
+          case 0:
+            context.go('/tournament/${widget.tournamentId}');
+          case 1:
+            context.go('/tournament/${widget.tournamentId}/participants');
+          case 2:
+            // 現在の画面なので何もしない
+            setState(() {
+              _selectedTabIndex = index;
+            });
+          case 3:
+            setState(() {
+              _selectedTabIndex = index;
+            });
+        }
       },
     );
   }
 
-
   Widget _buildTabContent() {
     switch (_selectedTabIndex) {
       case 0:
-        return const Center(child: Text('大会概要'));
+        return _buildOverviewContent();
       case 1:
-        return const Center(child: Text('参加者一覧'));
+        return _buildParticipantsContent();
       case 2:
-        return MatchesContent(tournamentId: widget.tournamentId);
+        return MatchesContent(
+          tournamentId: widget.tournamentId,
+          currentRound: _currentRound,
+          onRoundChanged: (newRound) {
+            setState(() {
+              _currentRound = newRound;
+            });
+          },
+          onTabSwitch: (tabIndex) {
+            setState(() {
+              _selectedTabIndex = tabIndex;
+            });
+          },
+        );
+      case 3:
+        return _buildFinalRankingContent();
       default:
         return const SizedBox();
     }
+  }
+
+  /// 大会概要タブの内容
+  Widget _buildOverviewContent() {
+    return ColoredBox(
+      color: AppColors.backgroundLight,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            // ヘッダー行（ラウンド状況カード + 編集ボタン）
+            Row(
+              children: [
+                Expanded(child: _buildRoundStatusCard()),
+                const SizedBox(width: 16),
+                // 編集ボタン
+                SizedBox(
+                  width: 120,
+                  height: 40,
+                  child: CommonSmallButton(
+                    text: '編集',
+                    style: SmallButtonStyle.whiteOutlined,
+                    onPressed: _showEditTournamentDialog,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Expanded(
+              child: Center(
+                child: Text(
+                  '大会概要の内容がここに表示されます',
+                  style: TextStyle(fontSize: 16, color: AppColors.textGray),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 参加者一覧タブの内容
+  Widget _buildParticipantsContent() {
+    return ColoredBox(
+      color: AppColors.backgroundLight,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            _buildRoundStatusCard(),
+            const SizedBox(height: 24),
+            const Expanded(
+              child: Center(
+                child: Text(
+                  '参加者一覧の内容がここに表示されます',
+                  style: TextStyle(fontSize: 16, color: AppColors.textGray),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 大会編集ダイアログを表示
+  Future<void> _showEditTournamentDialog() async {
+    if (!mounted) {
+      return;
+    }
+
+    final displayData = _getTournamentDisplayData();
+
+    // TournamentDisplayData を TournamentDetailData に変換
+    final tournament = TournamentDetailData(
+      id: displayData.id,
+      title: displayData.title,
+      description: displayData.description ?? '',
+      date: displayData.date,
+      time: displayData.time,
+      maxParticipants: displayData.maxParticipants,
+      currentParticipants: displayData.currentParticipants,
+      maxRounds: '5ラウンド', // デフォルト値
+      drawHandling: 'あり', // デフォルト値
+      notes: '', // デフォルト値
+      status: displayData.status,
+      currentRound: displayData.currentRound,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    await showDialog<void>(
+      context: context,
+      builder: (context) => EditTournamentDialog(tournament: tournament),
+    );
+  }
+
+  /// 現在のラウンド状況を表示するカード
+  Widget _buildRoundStatusCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.borderGray),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.timeline, color: AppColors.adminPrimary, size: 24),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '現在の進行状況',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textBlack,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  _currentRound == 0
+                      ? '準備中 - トーナメント開始待ち'
+                      : _currentRound == 4
+                      ? '最終ラウンド完了 - 結果表示可能'
+                      : 'ラウンド$_currentRound進行中',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: _currentRound == 0
+                        ? AppColors.textGray
+                        : _currentRound == 4
+                        ? AppColors.successActive
+                        : AppColors.adminPrimary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   TournamentDisplayData _getTournamentDisplayData() {
@@ -112,6 +289,33 @@ class _MatchesPageState extends State<MatchesPage> {
       currentRound: 3,
     );
   }
+
+  /// 大会結果タブの内容を構築
+  Widget _buildFinalRankingContent() {
+    // ラウンド4完了後は最終順位を表示
+    if (_currentRound >= 4) {
+      return const FinalRankingContent();
+    }
+
+    // まだラウンド4に到達していない場合はプレースホルダーを表示
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.emoji_events_outlined,
+            size: 64,
+            color: AppColors.textGray,
+          ),
+          SizedBox(height: 16),
+          Text(
+            '最終ラウンド完了後に結果が表示されます',
+            style: TextStyle(fontSize: 16, color: AppColors.textGray),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// 対戦表コンテンツ。
@@ -119,18 +323,31 @@ class _MatchesPageState extends State<MatchesPage> {
 /// AdminScaffold を含まない、タブ内などで再利用するためのコンテンツ部分を提供する。
 class MatchesContent extends StatefulWidget {
   /// 対戦表コンテンツのコンストラクタ。
-  const MatchesContent({required this.tournamentId, super.key});
+  const MatchesContent({
+    required this.tournamentId,
+    required this.currentRound,
+    required this.onRoundChanged,
+    this.onTabSwitch,
+    super.key,
+  });
 
   /// トーナメント ID。
   final String tournamentId;
+
+  /// 現在のラウンド番号。
+  final int currentRound;
+
+  /// ラウンド変更コールバック。
+  final void Function(int newRound) onRoundChanged;
+
+  /// タブ切り替えコールバック。
+  final void Function(int tabIndex)? onTabSwitch;
 
   @override
   State<MatchesContent> createState() => _MatchesContentState();
 }
 
 class _MatchesContentState extends State<MatchesContent> {
-  final int _currentRound = 1;
-
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -147,14 +364,14 @@ class _MatchesContentState extends State<MatchesContent> {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        '対戦表',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
+                      // const Text(
+                      //   '対戦表',
+                      //   style: TextStyle(
+                      //     fontSize: 24,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: AppColors.textBlack,
+                      //   ),
+                      // ),
                       const Spacer(),
                       // 右側のアクションボタン
                       Row(
@@ -189,15 +406,41 @@ class _MatchesContentState extends State<MatchesContent> {
                       CommonSmallButton(
                         text: '前のラウンド',
                         style: SmallButtonStyle.adminOutlinedWithArrowLeft,
-                        isEnabled: _currentRound > 1,
+                        isEnabled: widget.currentRound > 0,
                         onPressed: _gotoPreviousRound,
                       ),
                       const Spacer(),
+                      // 現在のラウンド表示
+                      if (widget.currentRound > 0)
+                        Text(
+                          'ラウンド${widget.currentRound}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textBlack,
+                          ),
+                        )
+                      else
+                        const Text(
+                          '準備中',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textGray,
+                          ),
+                        ),
+                      const Spacer(),
                       CommonSmallButton(
-                        text: '次のラウンド',
-                        style: SmallButtonStyle.adminOutlinedWithArrowRight,
-                        isEnabled: _currentRound < _getRounds().length,
-                        onPressed: _gotoNextRound,
+                        text: widget.currentRound == 4 ? '最終順位を表示' : '次のラウンド',
+                        style: widget.currentRound == 4
+                            ? SmallButtonStyle.admin
+                            : SmallButtonStyle.adminOutlinedWithArrowRight,
+                        isEnabled:
+                            widget.currentRound < _getRounds().length ||
+                            widget.currentRound == 4,
+                        onPressed: widget.currentRound == 4
+                            ? _showFinalRanking
+                            : _gotoNextRound,
                       ),
                     ],
                   ),
@@ -215,9 +458,48 @@ class _MatchesContentState extends State<MatchesContent> {
   }
 
   Widget _buildMatchesList() {
-    final currentRoundData = _getRounds().firstWhere(
-      (round) => round.roundNumber == _currentRound,
-    );
+    // 初期状態（currentRound = 0）では準備中メッセージを表示
+    if (widget.currentRound == 0) {
+      return Container(
+        margin: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(48),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppColors.borderGray),
+        ),
+        child: const Center(
+          child: Text(
+            '対戦表の準備中です。「次のラウンド」ボタンを押してください。',
+            style: TextStyle(fontSize: 16, color: AppColors.grayDark),
+          ),
+        ),
+      );
+    }
+
+    final rounds = _getRounds();
+    final currentRoundData = rounds
+        .where((round) => round.roundNumber == widget.currentRound)
+        .firstOrNull;
+
+    if (currentRoundData == null) {
+      return Container(
+        margin: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(48),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppColors.borderGray),
+        ),
+        child: const Center(
+          child: Text(
+            '対戦がありません',
+            style: TextStyle(fontSize: 16, color: AppColors.grayDark),
+          ),
+        ),
+      );
+    }
+
     final matches = currentRoundData.matches;
 
     if (matches.isEmpty) {
@@ -452,7 +734,7 @@ class _MatchesContentState extends State<MatchesContent> {
       return;
     }
     if (confirmed ?? false) {
-      // TODO(admin): 実際の両者敗北処理を実装
+      // 実際の両者敗北処理を実装する必要があります
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('両者敗北に設定しました'),
@@ -463,23 +745,30 @@ class _MatchesContentState extends State<MatchesContent> {
   }
 
   void _gotoPreviousRound() {
-    // TODO(admin): 実際の前のラウンド移動処理を実装
+    final newRound = widget.currentRound - 1;
+    widget.onRoundChanged(newRound);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('前のラウンドに移動しました'),
+      SnackBar(
+        content: Text('ラウンド$newRoundに移動しました'),
         backgroundColor: AppColors.success,
       ),
     );
   }
 
   void _gotoNextRound() {
-    // TODO(admin): 実際の次のラウンド移動処理を実装
+    final newRound = widget.currentRound + 1;
+    widget.onRoundChanged(newRound);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('次のラウンドに移動しました'),
+      SnackBar(
+        content: Text('ラウンド$newRoundに移動しました'),
         backgroundColor: AppColors.success,
       ),
     );
+  }
+
+  void _showFinalRanking() {
+    // 常にタブ内遷移を使用（コールバックは必ず提供されているはず）
+    widget.onTabSwitch?.call(3); // 大会結果タブ（index: 3）に切り替え
   }
 
   Future<void> _showCancelRoundDialog() async {
@@ -494,7 +783,7 @@ class _MatchesContentState extends State<MatchesContent> {
       return;
     }
     if (confirmed ?? false) {
-      // TODO(admin): 実際のラウンド取り消し処理を実装
+      // 実際のラウンド取り消し処理を実装する必要があります
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('ラウンドを取り消しました'),
@@ -516,7 +805,7 @@ class _MatchesContentState extends State<MatchesContent> {
       return;
     }
     if (confirmed ?? false) {
-      // TODO(admin): 実際のラウンド進行処理を実装
+      // 実際のラウンド進行処理を実装する必要があります
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('次のラウンドに進めました'),
@@ -527,7 +816,7 @@ class _MatchesContentState extends State<MatchesContent> {
   }
 
   void _updateMatchResult(AdminMatchData match, AdminMatchResult result) {
-    // TODO(admin): 実際の結果更新処理を実装
+    // 実際の結果更新処理を実装する必要があります
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('結果を更新しました'),
@@ -570,8 +859,15 @@ class _MatchesContentState extends State<MatchesContent> {
         id: 'round_3',
         tournamentId: widget.tournamentId,
         roundNumber: 3,
-        name: '決勝',
+        name: 'ラウンド3',
         matches: _getMatchesForRound(3),
+      ),
+      AdminRoundData(
+        id: 'round_4',
+        tournamentId: widget.tournamentId,
+        roundNumber: 4,
+        name: '決勝',
+        matches: _getMatchesForRound(4),
       ),
     ];
   }
@@ -581,6 +877,8 @@ class _MatchesContentState extends State<MatchesContent> {
         ? 8
         : roundNumber == 2
         ? 4
+        : roundNumber == 3
+        ? 2
         : 1;
     return List.generate(matchCount, (index) {
       final tableNumber = index + 1;
@@ -600,7 +898,6 @@ class _MatchesContentState extends State<MatchesContent> {
       );
     });
   }
-
 
   List<AdminParticipantData> _getParticipants() {
     return List.generate(16, (index) {

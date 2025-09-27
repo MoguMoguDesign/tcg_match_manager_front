@@ -41,9 +41,7 @@ class _TournamentListPageState extends State<TournamentListPage>
           // タイトルと新規作成ボタンのセクション
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
+            decoration: const BoxDecoration(color: Colors.white),
             child: Row(
               children: [
                 const Text(
@@ -59,7 +57,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                   width: 192,
                   height: 56,
                   child: CommonConfirmButton(
-                    text: '新規作成',
+                    text: '大会作成',
                     style: ConfirmButtonStyle.adminFilled,
                     onPressed: () => _showCreateTournamentDialog(context),
                   ),
@@ -71,11 +69,7 @@ class _TournamentListPageState extends State<TournamentListPage>
           DecoratedBox(
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(
-                bottom: BorderSide(
-                  color: AppColors.borderLight,
-                ),
-              ),
+              border: Border(bottom: BorderSide(color: AppColors.borderLight)),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 64),
@@ -126,10 +120,7 @@ class _TournamentListPageState extends State<TournamentListPage>
       return const Center(
         child: Text(
           'トーナメントがありません',
-          style: TextStyle(
-            fontSize: 16,
-            color: AppColors.grayDark,
-          ),
+          style: TextStyle(fontSize: 16, color: AppColors.grayDark),
         ),
       );
     }
@@ -189,7 +180,9 @@ class _TournamentListPageState extends State<TournamentListPage>
                             ? TournamentCard(
                                 tournament: tournaments[i + 4],
                                 onTap: () {
-                                  context.go('/tournament/${tournaments[i + 4].id}');
+                                  context.go(
+                                    '/tournament/${tournaments[i + 4].id}',
+                                  );
                                 },
                               )
                             : const SizedBox(),
@@ -241,7 +234,9 @@ class _TournamentListPageState extends State<TournamentListPage>
                           ? TournamentCard(
                               tournament: tournaments[i + 4],
                               onTap: () {
-                                context.go('/tournament/${tournaments[i + 4].id}');
+                                context.go(
+                                  '/tournament/${tournaments[i + 4].id}',
+                                );
                               },
                             )
                           : const SizedBox(),
@@ -258,176 +253,131 @@ class _TournamentListPageState extends State<TournamentListPage>
 
   // 開催中トーナメント専用カード
   Widget _buildOngoingTournamentCard(TournamentData tournament) {
-    return Container(
-      height: 140,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: const LinearGradient(
-          colors: [
-            AppColors.textBlack,
-            AppColors.adminPrimary,
-          ],
+    return InkWell(
+      onTap: () {
+        context.go('/tournament/${tournament.id}');
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        height: 140,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: const LinearGradient(
+            colors: [AppColors.textBlack, AppColors.adminPrimary],
+          ),
         ),
-      ),
-      child: Stack(
-        children: [
-          // 下部の黄色い波線
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 6,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16),
-                ),
-                color: AppColors.warning,
-              ),
-            ),
-          ),
-
-          // メインコンテンツ
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),
-            child: Row(
-              children: [
-                // 左側：情報
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // タイトル
-                      Text(
-                        tournament.title,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-
-                      // 日付と参加者数とカテゴリ
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_today,
-                            size: 16,
-                            color: Colors.white70,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            tournament.date,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          const Icon(
-                            Icons.people,
-                            size: 16,
-                            color: Colors.white70,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            '${tournament.participants}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                            ),
-                          ),
-                          if (tournament.gameType != null) ...[
-                            const SizedBox(width: 20),
-                            Text(
-                              tournament.gameType!,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white70,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                // 右側：ボタン
-                ElevatedButton(
-                  onPressed: () {
-                    context.go('/tournament/${tournament.id}');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppColors.textBlack,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 12,
-                    ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    '対戦表を開く',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // ラウンドラベル
-          if (tournament.round != null)
+        child: Stack(
+          children: [
+            // 下部の黄色い波線
             Positioned(
-              top: 0,
+              bottom: 0,
+              left: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 5,
-                ),
+                height: 6,
                 decoration: const BoxDecoration(
-                  color: AppColors.userPrimary,
                   borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(16),
-                    bottomLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
                   ),
-                ),
-                child: Text(
-                  tournament.round!,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textBlack,
-                  ),
+                  color: AppColors.warning,
                 ),
               ),
             ),
 
-          // 「対戦表を開く」のアンダーライン
-          Positioned(
-            bottom: 10,
-            left: 28,
-            child: Text(
-              '対戦表を開く',
-              style: TextStyle(
-                fontSize: 11,
-                color: Colors.white.withValues(alpha: 0.6),
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.white.withValues(alpha: 0.6),
+            // メインコンテンツ
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // タイトル
+                  Text(
+                    tournament.title,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // 日付と参加者数とカテゴリ
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_today,
+                        size: 16,
+                        color: Colors.white70,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        tournament.date,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      const Icon(
+                        Icons.people,
+                        size: 16,
+                        color: Colors.white70,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${tournament.participants}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      if (tournament.gameType != null) ...[
+                        const SizedBox(width: 20),
+                        Text(
+                          tournament.gameType!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+
+            // ラウンドラベル
+            if (tournament.round != null)
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 5,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: AppColors.userPrimary,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      bottomLeft: Radius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    tournament.round!,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textBlack,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

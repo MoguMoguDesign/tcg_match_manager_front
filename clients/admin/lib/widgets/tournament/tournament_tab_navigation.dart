@@ -10,7 +10,7 @@ class TournamentTabNavigation extends StatelessWidget {
   const TournamentTabNavigation({
     required this.selectedIndex,
     required this.onTabSelected,
-    this.tabs = const ['大会概要', '参加者一覧', '対戦表'],
+    this.tabs = const ['大会概要', '参加者一覧', '対戦表', '大会結果'],
     super.key,
   });
 

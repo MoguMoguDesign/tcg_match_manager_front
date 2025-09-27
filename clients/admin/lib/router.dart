@@ -4,6 +4,7 @@ import 'pages/auth/login_page.dart';
 import 'pages/auth/password_reset_page.dart';
 import 'pages/auth/signup_page.dart';
 import 'pages/home/final_ranking_page.dart';
+import 'pages/home/matches_page.dart';
 import 'pages/home/participants_page.dart';
 import 'pages/home/tournament_detail_page.dart';
 import 'pages/home/tournament_list_page.dart';
@@ -49,6 +50,14 @@ final adminRouter = GoRouter(
       builder: (context, state) {
         final id = state.pathParameters['id']!;
         return ParticipantsPage(tournamentId: id);
+      },
+    ),
+    GoRoute(
+      path: '/tournament/:id/matches',
+      name: 'tournament-matches',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return MatchesPage(tournamentId: id);
       },
     ),
     GoRoute(
