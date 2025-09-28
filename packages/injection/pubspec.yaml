@@ -8,7 +8,11 @@ environment:
 resolution: workspace
 
 dependencies:
+  firebase_auth: ^5.7.0
+  http: ^1.4.0
   meta: ^1.16.0
+  repository:
+    path: ../repository
   riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
   shared_preferences: ^2.5.3

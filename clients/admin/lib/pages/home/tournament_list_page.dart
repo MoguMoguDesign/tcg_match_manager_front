@@ -1,5 +1,7 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/layout/admin_scaffold.dart';
@@ -9,15 +11,15 @@ import '../dialogs/create_tournament_dialog.dart';
 /// トーナメント一覧（ホーム）画面
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=96-331&t=whDUBuHITxOChCST-4
-class TournamentListPage extends StatefulWidget {
+class TournamentListPage extends ConsumerStatefulWidget {
   /// トーナメント一覧画面のコンストラクタ
   const TournamentListPage({super.key});
 
   @override
-  State<TournamentListPage> createState() => _TournamentListPageState();
+  ConsumerState<TournamentListPage> createState() => _TournamentListPageState();
 }
 
-class _TournamentListPageState extends State<TournamentListPage>
+class _TournamentListPageState extends ConsumerState<TournamentListPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 

@@ -16,6 +16,7 @@ dependencies:
   injection:
     path: ../injection
   json_annotation: ^4.9.0
+  meta: ^1.16.0
   riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
   system:
