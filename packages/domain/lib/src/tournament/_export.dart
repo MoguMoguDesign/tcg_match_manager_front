@@ -1,7 +1,7 @@
-export 'tournament.dart';
 export 'create_tournament_use_case.dart';
-export 'get_tournaments_use_case.dart';
-export 'get_tournament_use_case.dart';
-export 'update_tournament_use_case.dart';
 export 'delete_tournament_use_case.dart';
+export 'get_tournament_use_case.dart';
+export 'get_tournaments_use_case.dart';
+export 'tournament.dart';
+export 'update_tournament_use_case.dart';
 export 'tournament_list_notifier.dart';

@@ -4,11 +4,11 @@
 /// トーナメント情報を表すデータクラス。
 /// 
 /// トーナメントのタイトル、開催日、参加者数の情報を保持する。
-class Tournament {
-  /// [Tournament]のコンストラクタ。
+class MockTournament {
+  /// [MockTournament]のコンストラクタ。
   /// 
   /// [title]、[date]、[participantCount]はすべて必須パラメータ。
-  const Tournament({
+  const MockTournament({
     required this.title,
     required this.date,
     required this.participantCount,
@@ -94,7 +94,7 @@ enum MatchStatus {
 /// UI開発とテスト用に、トーナメント、プレイヤー、対戦のサンプルデータを定義する。
 class MockData {
   /// サンプルのトーナメント情報。
-  static const Tournament tournament = Tournament(
+  static const MockTournament tournament = MockTournament(
     title: 'トーナメントタイトル',
     date: '2025/08/31',
     participantCount: 32,
