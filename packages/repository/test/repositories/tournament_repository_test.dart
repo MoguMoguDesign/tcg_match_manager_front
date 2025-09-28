@@ -302,7 +302,7 @@ void main() {
         final repository = TournamentApiRepository(apiClient: apiClient);
 
         // Should be able to call getTournaments method
-        expect(() => repository.getTournaments(), isA<Function>());
+        expect(repository.getTournaments, isA<Function>());
       });
 
       test(
@@ -376,7 +376,7 @@ void main() {
         final repository = TournamentApiRepository(apiClient: apiClient);
 
         // Should be able to call getTournament method with id
-        expect(() => repository.getTournament('1'), isA<Function>());
+        expect(repository.getTournament, isA<Function>());
       });
 
       test(
@@ -520,18 +520,7 @@ void main() {
         final repository = TournamentApiRepository(apiClient: apiClient);
 
         // Should be able to call updateTournament method
-        expect(
-          () => repository.updateTournament(
-            '1',
-            const UpdateTournamentRequest(
-              title: 'Updated Tournament',
-              description: 'Updated description',
-              startDate: '2024-01-01T00:00:00Z',
-              endDate: '2024-01-02T00:00:00Z',
-            ),
-          ),
-          isA<Function>(),
-        );
+        expect(repository.updateTournament, isA<Function>());
       });
 
       test(
@@ -746,7 +735,7 @@ void main() {
         final repository = TournamentApiRepository(apiClient: apiClient);
 
         // Should be able to call deleteTournament method
-        expect(() => repository.deleteTournament('1'), isA<Function>());
+        expect(repository.deleteTournament, isA<Function>());
       });
 
       test('TournamentApiRepository.deleteTournament returns void', () async {
