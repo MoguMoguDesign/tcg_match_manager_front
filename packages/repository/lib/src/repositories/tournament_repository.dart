@@ -37,7 +37,9 @@ abstract interface class TournamentRepository {
   /// Returns: 更新されたトーナメント情報
   /// Throws: トーナメントが見つからない場合や更新に失敗した場合
   Future<TournamentModel> updateTournament(
-      String id, UpdateTournamentRequest request);
+    String id,
+    UpdateTournamentRequest request,
+  );
 
   /// 指定されたIDのトーナメントを削除する。
   ///

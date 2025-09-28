@@ -16,7 +16,7 @@ AdminApiClient adminApiClient(Ref ref) {
 AdminApiClient getAdminApiClient() {
   // TODO(admin): 実際のAPIベースURLを設定する
   const baseUrl = 'https://api.example.com';
-  
+
   return AdminApiClient(
     baseUrl: baseUrl,
     httpClient: http.Client(),

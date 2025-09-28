@@ -20,7 +20,7 @@ class GetTournamentUseCase {
   /// [GetTournamentUseCase] を生成する。
   ///
   /// [tournamentRepository] は、トーナメントに関する通信を行うためのリポジトリ。
-  GetTournamentUseCase({
+  const GetTournamentUseCase({
     required TournamentRepository tournamentRepository,
   }) : _tournamentRepository = tournamentRepository;
 

@@ -20,7 +20,7 @@ class DeleteTournamentUseCase {
   /// [DeleteTournamentUseCase] を生成する。
   ///
   /// [tournamentRepository] は、トーナメントに関する通信を行うためのリポジトリ。
-  DeleteTournamentUseCase({
+  const DeleteTournamentUseCase({
     required TournamentRepository tournamentRepository,
   }) : _tournamentRepository = tournamentRepository;
 

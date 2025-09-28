@@ -8,10 +8,13 @@ part 'tournament_list_notifier.g.dart';
 enum TournamentListState {
   /// 初期状態
   initial,
+
   /// 読み込み中
   loading,
+
   /// 読み込み成功
   loaded,
+
   /// 読み込み失敗
   error,
 }
@@ -69,7 +72,6 @@ class TournamentListNotifier extends _$TournamentListNotifier {
       state = state.copyWith(
         state: TournamentListState.loaded,
         tournaments: tournaments,
-        errorMessage: null,
       );
     } on FailureStatusException catch (e) {
       state = state.copyWith(
@@ -83,14 +85,16 @@ class TournamentListNotifier extends _$TournamentListNotifier {
           message = '認証に失敗しました。再度ログインしてください。';
         case GeneralFailureReason.noConnectionError:
           message = 'ネットワークに接続できません。';
-        default:
-          message = 'エラーが発生しました。';
+        case GeneralFailureReason.serverUrlNotFoundError:
+          message = 'サーバーURLが見つかりません。';
+        case GeneralFailureReason.badResponse:
+          message = '不正なレスポンスです。';
       }
       state = state.copyWith(
         state: TournamentListState.error,
         errorMessage: message,
       );
-    } catch (e) {
+    } on Exception {
       state = state.copyWith(
         state: TournamentListState.error,
         errorMessage: '予期しないエラーが発生しました',
