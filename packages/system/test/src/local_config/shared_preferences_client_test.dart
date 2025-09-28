@@ -77,18 +77,14 @@ void main() {
         expect(result, expectedValue);
 
         // SharedPreferencesWithCache の getBool メソッドが正しい引数で呼び出されることを確認する。
-        verify(
-          mockSharedPreferencesWithCache.getBool(key.name),
-        ).called(1);
+        verify(mockSharedPreferencesWithCache.getBool(key.name)).called(1);
       });
 
       test('値が保存されていない場合、null を返す。', () {
         const key = SharedPreferencesKey.isLoggedIn;
 
         // getBool メソッドが null を返すスタブを用意する。
-        when(
-          mockSharedPreferencesWithCache.getBool(key.name),
-        ).thenReturn(null);
+        when(mockSharedPreferencesWithCache.getBool(key.name)).thenReturn(null);
 
         // getBool を実行する。
         final result = client.getBool(key: key);
@@ -97,9 +93,7 @@ void main() {
         expect(result, isNull);
 
         // SharedPreferencesWithCache の getBool メソッドが正しい引数で呼び出されることを確認する。
-        verify(
-          mockSharedPreferencesWithCache.getBool(key.name),
-        ).called(1);
+        verify(mockSharedPreferencesWithCache.getBool(key.name)).called(1);
       });
     });
   });

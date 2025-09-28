@@ -20,9 +20,8 @@ class UpdateTournamentUseCase {
   /// [UpdateTournamentUseCase] を生成する。
   ///
   /// [tournamentRepository] は、トーナメントに関する通信を行うためのリポジトリ。
-  UpdateTournamentUseCase({
-    required TournamentRepository tournamentRepository,
-  }) : _tournamentRepository = tournamentRepository;
+  UpdateTournamentUseCase({required TournamentRepository tournamentRepository})
+    : _tournamentRepository = tournamentRepository;
 
   final TournamentRepository _tournamentRepository;
 

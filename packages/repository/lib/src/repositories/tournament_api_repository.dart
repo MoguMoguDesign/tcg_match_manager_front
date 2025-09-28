@@ -10,14 +10,15 @@ import 'tournament_repository.dart';
 /// Firebase Authentication による認証を行い、HTTPリクエストでAPIと通信する。
 class TournamentApiRepository implements TournamentRepository {
   /// [TournamentApiRepository]のコンストラクタ。
-  const TournamentApiRepository({
-    required AdminApiClient apiClient,
-  }) : _apiClient = apiClient;
+  const TournamentApiRepository({required AdminApiClient apiClient})
+    : _apiClient = apiClient;
 
   final AdminApiClient _apiClient;
 
   @override
-  Future<TournamentModel> createTournament(CreateTournamentRequest request) async {
+  Future<TournamentModel> createTournament(
+    CreateTournamentRequest request,
+  ) async {
     final response = await _apiClient.post(
       '/admin/tournaments',
       body: request.toJson(),
@@ -67,7 +68,9 @@ class TournamentApiRepository implements TournamentRepository {
 
   @override
   Future<TournamentModel> updateTournament(
-      String id, UpdateTournamentRequest request) async {
+    String id,
+    UpdateTournamentRequest request,
+  ) async {
     // 入力検証
     if (id.isEmpty) {
       throw const AdminApiException(
@@ -115,7 +118,8 @@ class TournamentApiRepository implements TournamentRepository {
   /// Returns: [TournamentModel] のリスト
   /// Throws: [AdminApiException] レスポンス形式が不正な場合
   List<TournamentModel> _parseTournamentsResponse(
-      Map<String, dynamic> response) {
+    Map<String, dynamic> response,
+  ) {
     // dataフィールドの存在確認
     if (!response.containsKey('data')) {
       throw const AdminApiException(
@@ -130,25 +134,25 @@ class TournamentApiRepository implements TournamentRepository {
     if (data is! List) {
       throw AdminApiException(
         code: 'INVALID_RESPONSE',
-        message: 'APIレスポンスの"data"フィールドがList型ではありません'
+        message:
+            'APIレスポンスの"data"フィールドがList型ではありません'
             '（実際の型: ${data.runtimeType}）',
       );
     }
 
     // 各要素をTournamentModelに変換
     try {
-      return data
-          .map((item) {
-            if (item is! Map<String, dynamic>) {
-              throw AdminApiException(
-                code: 'INVALID_RESPONSE',
-                message: 'トーナメントデータの形式が不正です'
-                    '（期待: Map<String, dynamic>、実際: ${item.runtimeType}）',
-              );
-            }
-            return TournamentModel.fromJson(item);
-          })
-          .toList();
+      return data.map((item) {
+        if (item is! Map<String, dynamic>) {
+          throw AdminApiException(
+            code: 'INVALID_RESPONSE',
+            message:
+                'トーナメントデータの形式が不正です'
+                '（期待: Map<String, dynamic>、実際: ${item.runtimeType}）',
+          );
+        }
+        return TournamentModel.fromJson(item);
+      }).toList();
     } catch (e) {
       if (e is AdminApiException) {
         rethrow;

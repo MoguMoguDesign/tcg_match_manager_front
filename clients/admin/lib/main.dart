@@ -6,11 +6,7 @@ import 'router.dart';
 
 /// Entry point of the application.
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 /// The main application widget.

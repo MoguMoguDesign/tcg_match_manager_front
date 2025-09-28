@@ -11,10 +11,12 @@ class CreateTournamentDialog extends ConsumerStatefulWidget {
   const CreateTournamentDialog({super.key});
 
   @override
-  ConsumerState<CreateTournamentDialog> createState() => _CreateTournamentDialogState();
+  ConsumerState<CreateTournamentDialog> createState() =>
+      _CreateTournamentDialogState();
 }
 
-class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog> {
+class _CreateTournamentDialogState
+    extends ConsumerState<CreateTournamentDialog> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _dateController = TextEditingController();
@@ -437,17 +439,11 @@ class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog>
                                                           height: 12,
                                                           decoration:
                                                               // ネスト対応。
-                                                              // ignore: lines_longer_than_80_chars
                                                               const BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                  58,
-                                                                  68,
-                                                                  251,
-                                                                  1,
-                                                                ),
+                                                                color: AppColors
+                                                                    .adminPrimary,
                                                               ),
                                                         ),
                                                       )
@@ -773,37 +769,37 @@ class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog>
   Future<void> _createTournament() async {
     // 入力検証
     if (_titleController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('タイトルを入力してください')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('タイトルを入力してください')));
       return;
     }
-    
+
     if (_descriptionController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('大会概要を入力してください')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('大会概要を入力してください')));
       return;
     }
-    
+
     if (_dateController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('開催日を選択してください')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('開催日を選択してください')));
       return;
     }
-    
+
     if (_selectedParticipants == '選択してください') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('参加者上限を選択してください')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('参加者上限を選択してください')));
       return;
     }
-    
+
     if (_selectedDrawHandling == '選択してください') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('引き分け処理を選択してください')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('引き分け処理を選択してください')));
       return;
     }
 
@@ -814,7 +810,7 @@ class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog>
       final endDate = '${dateString}T18:00:00Z';
 
       final createUseCase = ref.read(createTournamentUseCaseProvider);
-      
+
       await createUseCase.invoke(
         title: _titleController.text.trim(),
         description: _descriptionController.text.trim(),
@@ -824,15 +820,15 @@ class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog>
 
       if (mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('トーナメントを作成しました')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('トーナメントを作成しました')));
       }
     } on FailureStatusException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('エラー: ${e.message}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('エラー: ${e.message}')));
       }
     } on GeneralFailureException catch (e) {
       if (mounted) {
@@ -842,18 +838,20 @@ class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog>
             message = '認証に失敗しました。再度ログインしてください。';
           case GeneralFailureReason.noConnectionError:
             message = 'ネットワークに接続できません。';
-          default:
-            message = 'エラーが発生しました。';
+          case GeneralFailureReason.serverUrlNotFoundError:
+            message = 'サーバーURLが見つかりません。';
+          case GeneralFailureReason.badResponse:
+            message = '不正なレスポンスです。';
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       }
-    } catch (e) {
+    } on Exception {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('予期しないエラーが発生しました')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('予期しないエラーが発生しました')));
       }
     }
   }

@@ -32,9 +32,7 @@ class MatchStatusContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: statusInfo.backgroundColor,
         borderRadius: BorderRadius.circular(4),
-        border: showBorder ? Border.all(
-          color: statusInfo.borderColor,
-        ) : null,
+        border: showBorder ? Border.all(color: statusInfo.borderColor) : null,
       ),
       child: Text(
         statusInfo.label,

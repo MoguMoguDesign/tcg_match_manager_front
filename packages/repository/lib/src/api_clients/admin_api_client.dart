@@ -14,9 +14,9 @@ class AdminApiClient {
     required String baseUrl,
     http.Client? httpClient,
     FirebaseAuth? firebaseAuth,
-  })  : _baseUrl = baseUrl,
-        _httpClient = httpClient ?? http.Client(),
-        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  }) : _baseUrl = baseUrl,
+       _httpClient = httpClient ?? http.Client(),
+       _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   final String _baseUrl;
   final http.Client _httpClient;
@@ -69,11 +69,7 @@ class AdminApiClient {
     String path, {
     Map<String, String>? queryParameters,
   }) async {
-    return _makeRequest(
-      'GET',
-      path,
-      queryParameters: queryParameters,
-    );
+    return _makeRequest('GET', path, queryParameters: queryParameters);
   }
 
   /// 管理者向けAPIにPOSTリクエストを送信する。
@@ -96,7 +92,6 @@ class AdminApiClient {
       queryParameters: queryParameters,
     );
   }
-
 
   /// 管理者向けAPIにPATCHリクエストを送信する。
   ///
@@ -130,11 +125,7 @@ class AdminApiClient {
     String path, {
     Map<String, String>? queryParameters,
   }) async {
-    return _makeRequest(
-      'DELETE',
-      path,
-      queryParameters: queryParameters,
-    );
+    return _makeRequest('DELETE', path, queryParameters: queryParameters);
   }
 
   /// HTTPリクエストを実行する内部メソッド。
@@ -266,16 +257,13 @@ class AdminApiClient {
           code = 'INTERNAL_ERROR';
           message = 'サーバー内部エラーが発生しました';
         default:
-          message = 'HTTP ${response.statusCode}: '
+          message =
+              'HTTP ${response.statusCode}: '
               '${response.reasonPhrase}';
       }
     }
 
-    throw AdminApiException(
-      code: code,
-      message: message,
-      details: details,
-    );
+    throw AdminApiException(code: code, message: message, details: details);
   }
 
   /// リソースを解放する。

@@ -15,10 +15,7 @@ class FinalRankingContent extends StatelessWidget {
     return ColoredBox(
       color: AppColors.backgroundLight,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 64,
-          vertical: 24,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
         child: Container(
           decoration: BoxDecoration(
             color: const Color(0xFFF1F3FF), // admin-card color
@@ -64,9 +61,7 @@ class FinalRankingContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final ranking = rankings[index];
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -122,8 +117,8 @@ class FinalRankingContent extends StatelessWidget {
                               ranking.rank == 1
                                   ? Icons.emoji_events
                                   : ranking.rank == 2
-                                      ? Icons.military_tech
-                                      : Icons.workspace_premium,
+                                  ? Icons.military_tech
+                                  : Icons.workspace_premium,
                               color: _getRankColor(ranking.rank),
                               size: 20,
                             ),

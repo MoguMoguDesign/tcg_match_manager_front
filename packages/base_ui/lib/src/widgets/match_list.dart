@@ -45,9 +45,7 @@ class MatchList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (showHeader) ...[
-            const MatchListHeader(
-              roundNumber: 1,
-            ),
+            const MatchListHeader(roundNumber: 1),
             const SizedBox(height: 16),
           ],
           Padding(
@@ -57,7 +55,7 @@ class MatchList extends StatelessWidget {
                 ...matches.asMap().entries.expand((entry) {
                   final index = entry.key;
                   final match = entry.value;
-                  
+
                   final matchRow = MatchRow(
                     tableNumber: match.tableNumber,
                     player1Name: match.player1Name,
@@ -72,7 +70,7 @@ class MatchList extends StatelessWidget {
                     style: _getRowStyle(style),
                     onTap: onMatchTap != null ? () => onMatchTap!(match) : null,
                   );
-                  
+
                   if (index == 0) {
                     return [matchRow];
                   } else {
@@ -107,7 +105,6 @@ class MatchList extends StatelessWidget {
       ),
     );
   }
-
 
   MatchRowStyle _getRowStyle(MatchListStyle style) {
     switch (style) {

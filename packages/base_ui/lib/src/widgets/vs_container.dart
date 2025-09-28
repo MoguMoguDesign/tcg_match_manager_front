@@ -223,10 +223,7 @@ class _VSContainerColors {
 enum _SideOutcome { progress, win, lose }
 
 class _DiagonalSplitPainter extends CustomPainter {
-  const _DiagonalSplitPainter({
-    this.leftColor,
-    this.rightColor,
-  });
+  const _DiagonalSplitPainter({this.leftColor, this.rightColor});
 
   final Color? leftColor;
   final Color? rightColor;
@@ -259,6 +256,6 @@ class _DiagonalSplitPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _DiagonalSplitPainter oldDelegate) {
     return oldDelegate.leftColor != leftColor ||
-           oldDelegate.rightColor != rightColor;
+        oldDelegate.rightColor != rightColor;
   }
 }

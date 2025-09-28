@@ -71,9 +71,7 @@ class MatchRow extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.zero,
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-        ),
+        decoration: const BoxDecoration(color: Colors.transparent),
         child: Row(
           children: [
             TableNumberColumn(tableNumber: tableNumber, status: status),
@@ -95,7 +93,6 @@ class MatchRow extends StatelessWidget {
       ),
     );
   }
-
 }
 
 /// [MatchRow] のスタイルを表す列挙型。

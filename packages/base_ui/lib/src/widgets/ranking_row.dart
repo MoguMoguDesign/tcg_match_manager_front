@@ -81,9 +81,7 @@ class RankingRow extends StatelessWidget {
             child: ClipPath(
               clipper: _RankingRowClipper(),
               child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: style.backgroundColor,
-                ),
+                decoration: BoxDecoration(color: style.backgroundColor),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,

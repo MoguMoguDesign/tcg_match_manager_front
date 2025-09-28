@@ -10,6 +10,6 @@ part 'tournament_repository_injection.g.dart';
 @riverpod
 TournamentRepository tournamentRepository(Ref ref) {
   final adminApiClient = ref.watch(adminApiClientProvider);
-  
+
   return TournamentApiRepository(apiClient: adminApiClient);
 }
