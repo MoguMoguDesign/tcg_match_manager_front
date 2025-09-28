@@ -1,19 +1,21 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:clock/clock.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 大会新規作成ダイアログ
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-4453&t=whDUBuHITxOChCST-4
-class CreateTournamentDialog extends StatefulWidget {
+class CreateTournamentDialog extends ConsumerStatefulWidget {
   /// 大会新規作成ダイアログのコンストラクタ
   const CreateTournamentDialog({super.key});
 
   @override
-  State<CreateTournamentDialog> createState() => _CreateTournamentDialogState();
+  ConsumerState<CreateTournamentDialog> createState() => _CreateTournamentDialogState();
 }
 
-class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
+class _CreateTournamentDialogState extends ConsumerState<CreateTournamentDialog> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _dateController = TextEditingController();
@@ -590,11 +592,92 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
     }
   }
 
-  void _createTournament() {
-    Navigator.of(context).pop();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('トーナメントを作成しました')));
+  Future<void> _createTournament() async {
+    // 入力検証
+    if (_titleController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('タイトルを入力してください')),
+      );
+      return;
+    }
+    
+    if (_descriptionController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('大会概要を入力してください')),
+      );
+      return;
+    }
+    
+    if (_dateController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('開催日を選択してください')),
+      );
+      return;
+    }
+    
+    if (_selectedParticipants == '選択してください') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('参加者上限を選択してください')),
+      );
+      return;
+    }
+    
+    if (_selectedDrawHandling == '選択してください') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('引き分け処理を選択してください')),
+      );
+      return;
+    }
+
+    try {
+      // ISO 8601 形式の日時文字列を作成
+      final dateString = _dateController.text.replaceAll('/', '-');
+      final startDate = '${dateString}T09:00:00Z';
+      final endDate = '${dateString}T18:00:00Z';
+
+      final createUseCase = ref.read(createTournamentUseCaseProvider);
+      
+      await createUseCase.invoke(
+        title: _titleController.text.trim(),
+        description: _descriptionController.text.trim(),
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('トーナメントを作成しました')),
+        );
+      }
+    } on FailureStatusException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('エラー: ${e.message}')),
+        );
+      }
+    } on GeneralFailureException catch (e) {
+      if (mounted) {
+        String message;
+        switch (e.reason) {
+          case GeneralFailureReason.other:
+            message = '認証に失敗しました。再度ログインしてください。';
+          case GeneralFailureReason.noConnectionError:
+            message = 'ネットワークに接続できません。';
+          default:
+            message = 'エラーが発生しました。';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('予期しないエラーが発生しました')),
+        );
+      }
+    }
   }
 }
 

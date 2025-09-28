@@ -1,0 +1,66 @@
+import 'package:injection/injection.dart';
+import 'package:repository/repository.dart';
+import 'package:riverpod/riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../domain.dart';
+
+part 'get_tournament_use_case.g.dart';
+
+/// [GetTournamentUseCase] を提供する。
+@riverpod
+GetTournamentUseCase getTournamentUseCase(Ref ref) {
+  return GetTournamentUseCase(
+    tournamentRepository: ref.watch(tournamentRepositoryProvider),
+  );
+}
+
+/// トーナメント詳細取得に関する処理を行う UseCase。
+class GetTournamentUseCase {
+  /// [GetTournamentUseCase] を生成する。
+  ///
+  /// [tournamentRepository] は、トーナメントに関する通信を行うためのリポジトリ。
+  GetTournamentUseCase({
+    required TournamentRepository tournamentRepository,
+  }) : _tournamentRepository = tournamentRepository;
+
+  final TournamentRepository _tournamentRepository;
+
+  /// 指定されたIDのトーナメント詳細を取得する。
+  ///
+  /// [id]: トーナメント ID
+  ///
+  /// Returns: トーナメント詳細情報
+  /// Throws: [FailureStatusException] API がエラーステータスを返した場合
+  /// Throws: [GeneralFailureException] ネットワークエラーや予期しないエラーの場合
+  Future<Tournament> invoke({required String id}) async {
+    try {
+      final result = await _tournamentRepository.getTournament(id);
+      return Tournament.fromModel(result);
+    } on AdminApiException catch (e) {
+      switch (e.code) {
+        case 'INVALID_ARGUMENT':
+        case 'PARSE_ERROR':
+          throw FailureStatusException(e.message);
+        case 'NOT_FOUND':
+          throw FailureStatusException('指定されたトーナメントが見つかりません');
+        case 'UNAUTHENTICATED':
+        case 'AUTH_ERROR':
+          throw GeneralFailureException(
+            reason: GeneralFailureReason.other,
+            errorCode: e.code,
+          );
+        case 'NETWORK_ERROR':
+          throw GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: e.code,
+          );
+        default:
+          throw GeneralFailureException(
+            reason: GeneralFailureReason.other,
+            errorCode: e.code,
+          );
+      }
+    }
+  }
+}
