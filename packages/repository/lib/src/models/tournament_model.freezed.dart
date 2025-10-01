@@ -16,11 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TournamentModel {
 
-/// 大会ID。
+/// 大会 ID。
  String get id;/// 大会タイトル。
  String get title;/// 大会の説明。
- String get description;/// 大会開始日時（ISO 8601形式）。
- String get startDate;/// 大会終了日時（ISO 8601形式）。
+ String get description;/// 大会開始日時（ISO 8601 形式）。
+ String get startDate;/// 大会終了日時（ISO 8601 形式）。
  String get endDate;
 /// Create a copy of TournamentModel
 /// with the given fields replaced by the non-null parameter values.
@@ -92,15 +92,15 @@ class _TournamentModel implements TournamentModel {
   const _TournamentModel({required this.id, required this.title, required this.description, required this.startDate, required this.endDate});
   factory _TournamentModel.fromJson(Map<String, dynamic> json) => _$TournamentModelFromJson(json);
 
-/// 大会ID。
+/// 大会 ID。
 @override final  String id;
 /// 大会タイトル。
 @override final  String title;
 /// 大会の説明。
 @override final  String description;
-/// 大会開始日時（ISO 8601形式）。
+/// 大会開始日時（ISO 8601 形式）。
 @override final  String startDate;
-/// 大会終了日時（ISO 8601形式）。
+/// 大会終了日時（ISO 8601 形式）。
 @override final  String endDate;
 
 /// Create a copy of TournamentModel
