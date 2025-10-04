@@ -13,8 +13,8 @@ sealed class HttpResponse with _$HttpResponse {
   const factory HttpResponse.success({
     /// HTTP のレスポンスボディ。
     ///
-    /// 実際のレスポンスボディは String 型だが、扱いやすいように JsonMap 型にデコードした形で格納する。
-    required JsonMap jsonData,
+    /// 実際のレスポンスボディは String 型だが、扱いやすいように JsonMap 型または List<dynamic> 型にデコードした形で格納する。
+    required dynamic jsonData,
 
     /// HTTP のレスポンスヘッダ。
     required Map<String, List<String>> headers,

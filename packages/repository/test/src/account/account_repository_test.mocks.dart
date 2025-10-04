@@ -28,6 +28,25 @@ import 'package:system/src/http/_export.dart' as _i2;
 /// See the documentation for Mockito's code generation for more information.
 class MockHttpClient extends _i1.Mock implements _i2.HttpClient {
   @override
+  _i3.Future<_i2.HttpResponse> getUri(Uri? uri) =>
+      (super.noSuchMethod(
+            Invocation.method(#getUri, [uri]),
+            returnValue: _i3.Future<_i2.HttpResponse>.value(
+              _i4.dummyValue<_i2.HttpResponse>(
+                this,
+                Invocation.method(#getUri, [uri]),
+              ),
+            ),
+            returnValueForMissingStub: _i3.Future<_i2.HttpResponse>.value(
+              _i4.dummyValue<_i2.HttpResponse>(
+                this,
+                Invocation.method(#getUri, [uri]),
+              ),
+            ),
+          )
+          as _i3.Future<_i2.HttpResponse>);
+
+  @override
   _i3.Future<_i2.HttpResponse> postUri(Uri? uri, Map<String, dynamic>? data) =>
       (super.noSuchMethod(
             Invocation.method(#postUri, [uri, data]),

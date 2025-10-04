@@ -1,3 +1,7 @@
+export 'match_list_response.dart';
+export 'match_player_repository.dart';
+export 'match_submit_result_request.dart';
+export 'match_submit_result_response.dart';
 export 'player_auth_request.dart';
 export 'player_auth_response.dart';
 export 'player_auth_repository.dart';
