@@ -101,8 +101,9 @@ class MatchPlayerRepository {
     switch (response) {
       case SuccessHttpResponse(jsonData: final jsonData):
         // JsonMap を Response に変換する。
-        final matchSubmitResultResponse =
-            MatchSubmitResultResponse.fromJson(jsonData);
+        final matchSubmitResultResponse = MatchSubmitResultResponse.fromJson(
+          jsonData as Map<String, dynamic>,
+        );
 
         return SuccessRepositoryResult(matchSubmitResultResponse);
       case FailureHttpResponse(:final e, :final status, :final statusCode):

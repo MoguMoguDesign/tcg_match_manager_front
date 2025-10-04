@@ -54,7 +54,9 @@ class PlayerAuthRepository {
     switch (response) {
       case SuccessHttpResponse(jsonData: final jsonData):
         // JsonMap を Response に変換する。
-        final playerAuthResponse = PlayerAuthResponse.fromJson(jsonData);
+        final playerAuthResponse = PlayerAuthResponse.fromJson(
+          jsonData as Map<String, dynamic>,
+        );
 
         return SuccessRepositoryResult(playerAuthResponse);
       case FailureHttpResponse(:final e, :final status, :final statusCode):

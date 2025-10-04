@@ -54,7 +54,9 @@ class PlayerRegistrationRepository {
       case SuccessHttpResponse(jsonData: final jsonData):
         // JsonMap を Response に変換する。
         final playerRegistrationResponse =
-            PlayerRegistrationResponse.fromJson(jsonData);
+            PlayerRegistrationResponse.fromJson(
+          jsonData as Map<String, dynamic>,
+        );
 
         return SuccessRepositoryResult(playerRegistrationResponse);
       case FailureHttpResponse(:final e, :final status, :final statusCode):

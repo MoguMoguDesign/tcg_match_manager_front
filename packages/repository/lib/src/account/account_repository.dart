@@ -55,12 +55,13 @@ class AccountRepository {
     switch (response) {
       case SuccessHttpResponse(jsonData: final jsonData):
         // JsonMap を DTO に変換する。
-        final accountDto = AccountDto.fromJson(jsonData);
+        final jsonMap = jsonData as Map<String, dynamic>;
+        final accountDto = AccountDto.fromJson(jsonMap);
 
         // 認証が失敗した場合。
         if (accountDto.isFailureStatus) {
           return FailureRepositoryResult(
-            jsonData,
+            jsonMap,
             reason: FailureRepositoryResultReason.failureStatus,
             data: accountDto,
           );
