@@ -10,3 +10,5 @@ export 'player_registration_response.dart';
 export 'player_registration_repository.dart';
 export 'standing_player_repository.dart';
 export 'standing_response.dart';
+export 'tournament_info_repository.dart';
+export 'tournament_info_response.dart';
