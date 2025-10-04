@@ -5,4 +5,5 @@ library;
 
 export 'src/account/_export.dart';
 export 'src/local_config/_export.dart';
+export 'src/player/_export.dart';
 export 'src/repository_result.dart';
