@@ -11,6 +11,9 @@ part 'local_config_repository.g.dart';
 enum LocalConfigKey {
   /// ログインしているかどうか。
   isLoggedIn,
+
+  /// プレイヤーセッション情報。
+  playerSession,
 }
 
 /// [LocalConfigRepository] を生成する。
@@ -46,6 +49,21 @@ class LocalConfigRepository {
   /// [defaultValue] には、State クラスの初期値と同じ値を指定する。
   bool getBool({required LocalConfigKey key, required bool defaultValue}) {
     return _client.getBool(key: _toPrefsKey(key)) ?? defaultValue;
+  }
+
+  /// [String] 型の値を保存する。
+  Future<void> setString({
+    required LocalConfigKey key,
+    required String value,
+  }) async {
+    await _client.setString(key: _toPrefsKey(key), value: value);
+  }
+
+  /// [String] 型の値を取得する。
+  ///
+  /// 値が存在しない場合は null を返す。
+  String? getString({required LocalConfigKey key}) {
+    return _client.getString(key: _toPrefsKey(key));
   }
 
   /// [LocalConfigKey] を [SharedPreferencesKey] に変換する。

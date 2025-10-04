@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum SharedPreferencesKey {
   /// ログインしているかどうか。
   isLoggedIn,
+
+  /// プレイヤーセッション情報。
+  playerSession,
 }
 
 /// [SharedPreferences] を操作するラッパークラス。
@@ -33,5 +36,20 @@ class SharedPreferencesClient {
   /// 値が保存されていない場合は null を返す。
   bool? getBool({required SharedPreferencesKey key}) {
     return _prefs.getBool(key.name);
+  }
+
+  /// [String] 型の値を保存する。
+  Future<void> setString({
+    required SharedPreferencesKey key,
+    required String value,
+  }) async {
+    await _prefs.setString(key.name, value);
+  }
+
+  /// [String] 型の値を読み込む。
+  ///
+  /// 値が保存されていない場合は null を返す。
+  String? getString({required SharedPreferencesKey key}) {
+    return _prefs.getString(key.name);
   }
 }

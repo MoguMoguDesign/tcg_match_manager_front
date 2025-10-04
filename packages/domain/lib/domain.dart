@@ -9,3 +9,4 @@ export 'src/general_error_exception.dart';
 export 'src/local_config/_export.dart';
 export 'src/models/mock_data.dart';
 export 'src/models/ranking.dart';
+export 'src/player/_export.dart';
