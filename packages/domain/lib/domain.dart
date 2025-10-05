@@ -11,3 +11,4 @@ export 'src/match/_export.dart';
 export 'src/models/mock_data.dart';
 export 'src/models/ranking.dart';
 export 'src/player/_export.dart';
+export 'src/standing/_export.dart';
