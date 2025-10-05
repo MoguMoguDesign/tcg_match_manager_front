@@ -1,32 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_published_matches_use_case.dart';
+part of 'submit_match_result_use_case.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getPublishedMatchesUseCaseHash() =>
-    r'23121504d26910ff4507f6bf36fd68998cbf0f4f';
+String _$submitMatchResultUseCaseHash() =>
+    r'c71d0c2e7a632ab6e30b7331b3c6644aceb169b2';
 
-/// [GetPublishedMatchesUseCase] を提供する。
+/// [SubmitMatchResultUseCase] を提供する。
 ///
-/// Copied from [getPublishedMatchesUseCase].
-@ProviderFor(getPublishedMatchesUseCase)
-final getPublishedMatchesUseCaseProvider =
-    AutoDisposeProvider<GetPublishedMatchesUseCase>.internal(
-      getPublishedMatchesUseCase,
-      name: r'getPublishedMatchesUseCaseProvider',
+/// Copied from [submitMatchResultUseCase].
+@ProviderFor(submitMatchResultUseCase)
+final submitMatchResultUseCaseProvider =
+    AutoDisposeProvider<SubmitMatchResultUseCase>.internal(
+      submitMatchResultUseCase,
+      name: r'submitMatchResultUseCaseProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$getPublishedMatchesUseCaseHash,
+          : _$submitMatchResultUseCaseHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GetPublishedMatchesUseCaseRef =
-    AutoDisposeProviderRef<GetPublishedMatchesUseCase>;
+typedef SubmitMatchResultUseCaseRef =
+    AutoDisposeProviderRef<SubmitMatchResultUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
