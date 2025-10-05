@@ -48,15 +48,15 @@ class Player {
   final bool isCurrentPlayer;
 }
 
-/// 対戦情報を表すデータクラス。
+/// 対戦情報を表すデータクラス（モック用）。
 /// 
 /// テーブル番号、対戦する2人のプレイヤー、試合状況、勝者の情報を保持する。
-class Match {
-  /// [Match]のコンストラクタ。
+class MockMatch {
+  /// [MockMatch]のコンストラクタ。
   /// 
   /// [tableNumber]、[player1]、[player2]、[status]は必須パラメータ。
   /// [winner]はオプションで、試合完了時にのみ設定される。
-  const Match({
+  const MockMatch({
     required this.tableNumber,
     required this.player1,
     required this.player2,
@@ -117,30 +117,30 @@ class MockData {
   /// 
   /// [round]に応じて、そのラウンドの対戦組み合わせとステータスを返す。
   /// 現在はラウンド1のみに対応しており、それ以外は空のリストを返す。
-  static List<Match> getRoundMatches(int round) {
+  static List<MockMatch> getRoundMatches(int round) {
     switch (round) {
       case 1:
         return [
-          Match(
+          MockMatch(
             tableNumber: 1,
             player1: players[0],
             player2: players[2],
             status: MatchStatus.ongoing,
           ),
-          Match(
+          MockMatch(
             tableNumber: 2,
             player1: players[1],
             player2: players[3],
             status: MatchStatus.ongoing,
           ),
-          Match(
+          MockMatch(
             tableNumber: 3,
             player1: players[4],
             player2: players[5],
             status: MatchStatus.completed,
             winner: players[4],
           ),
-          Match(
+          MockMatch(
             tableNumber: 4,
             player1: players[6],
             player2: players[7],
