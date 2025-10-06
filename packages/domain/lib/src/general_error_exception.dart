@@ -50,6 +50,9 @@ enum GeneralFailureReason {
   /// 不正なステータスコードが返ってきた場合のエラー。
   badResponse,
 
+  /// セッション有効期限切れエラー。
+  sessionExpired,
+
   /// その他のエラー。
   other,
 }
