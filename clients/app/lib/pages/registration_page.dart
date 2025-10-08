@@ -1,31 +1,111 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../router.dart';
 
 /// 参加者登録ページを表示する。
 ///
 /// ニックネームの入力とトーナメントへの参加登録を行う。
-class RegistrationPage extends StatefulWidget {
+class RegistrationPage extends HookConsumerWidget {
   /// [RegistrationPage] のコンストラクタ。
   const RegistrationPage({super.key});
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nicknameController = useTextEditingController();
+    final isLoading = useState(false);
+    final nickname = useState('');
 
-class _RegistrationPageState extends State<RegistrationPage> {
-  final TextEditingController _nicknameController = TextEditingController();
+    // UseCase と Notifier を取得する。
+    final registerPlayerUseCase = ref.read(registerPlayerUseCaseProvider);
+    final playerSessionNotifier =
+        ref.read(playerSessionNotifierProvider.notifier);
 
-  @override
-  void dispose() {
-    _nicknameController.dispose();
-    super.dispose();
-  }
+    /// プレイヤー登録処理を実行する。
+    Future<void> handleRegister() async {
+      if (nickname.value.trim().isEmpty) {
+        return;
+      }
 
-  @override
-  Widget build(BuildContext context) {
+      isLoading.value = true;
+
+      try {
+        // TODO(user): baseUrl と tournamentId は QR コードスキャンまたは
+        // ルートパラメータから取得する。
+        const baseUrl = 'https://example.com/';
+        const tournamentId = 'tournament-001';
+
+        // プレイヤー登録を実行する。
+        final session = await registerPlayerUseCase.invoke(
+          baseUrl: baseUrl,
+          tournamentId: tournamentId,
+          playerName: nickname.value.trim(),
+        );
+
+        // セッション情報を保存する。
+        await playerSessionNotifier.saveSession(session);
+
+        // 登録成功時の処理。
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '登録が完了しました（${session.playerName}）',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.textBlack,
+                ),
+              ),
+              backgroundColor: AppColors.userPrimary,
+            ),
+          );
+          context.goToPreTournament();
+        }
+      } on GeneralFailureException catch (e) {
+        // エラーハンドリング。
+        if (context.mounted) {
+          final errorMessage = switch (e.reason) {
+            GeneralFailureReason.noConnectionError => 'ネットワーク接続エラーが発生しました',
+            GeneralFailureReason.serverUrlNotFoundError => 'サーバーが見つかりません',
+            _ => '登録に失敗しました',
+          };
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                errorMessage,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } on FailureStatusException catch (e) {
+        // API エラー。
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                e.message,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } finally {
+        isLoading.value = false;
+      }
+    }
+
     return Scaffold(
       body: SvgBackground(
         assetPath: 'packages/base_ui/assets/images/login_background.svg',
@@ -64,7 +144,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                 ),
                 const SizedBox(height: 59),
-                // トーナメント情報カード
+                // トーナメント情報カード（TODO: API から取得）
                 TournamentInfoCard(
                   title: MockData.tournament.title,
                   date: MockData.tournament.date,
@@ -87,20 +167,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                     const SizedBox(height: 9),
                     FigmaTextField(
-                      controller: _nicknameController,
+                      controller: nicknameController,
                       hintText: 'ニックネームを入力',
                       onChanged: (value) {
-                        setState(() {});
+                        nickname.value = value;
                       },
                     ),
                     const SizedBox(height: 16),
                     CommonConfirmButton(
-                      text: '参加に進む',
+                      text: isLoading.value ? '登録中...' : '参加に進む',
                       onPressed: () {
-                        // 画面遷移処理
-                        context.goToPreTournament();
+                        unawaited(handleRegister());
                       },
-                      isEnabled: _nicknameController.text.isNotEmpty,
+                      isEnabled: nickname.value.trim().isNotEmpty &&
+                          !isLoading.value,
                     ),
                   ],
                 ),
