@@ -41,8 +41,8 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
         children: [
           // 背景オーバーレイ
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
             color: Colors.black.withValues(alpha: 0.2),
           ),
 
