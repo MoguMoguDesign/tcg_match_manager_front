@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +29,12 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    // 初期化時にトーナメント一覧を読み込む
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref.read(tournamentListNotifierProvider.notifier).loadTournaments(),
+      );
+    });
   }
 
   @override
@@ -36,6 +45,8 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
 
   @override
   Widget build(BuildContext context) {
+    final tournamentListData = ref.watch(tournamentListNotifierProvider);
+
     return AdminScaffold(
       body: Column(
         children: [
@@ -105,9 +116,18 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                _buildTournamentList(_getUpcomingTournaments()),
-                _buildTournamentList(_getOngoingTournaments()),
-                _buildTournamentList(_getCompletedTournaments()),
+                _buildTournamentList(
+                  tournamentListData,
+                  TournamentStatus.upcoming,
+                ),
+                _buildTournamentList(
+                  tournamentListData,
+                  TournamentStatus.ongoing,
+                ),
+                _buildTournamentList(
+                  tournamentListData,
+                  TournamentStatus.completed,
+                ),
               ],
             ),
           ),
@@ -116,7 +136,54 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
     );
   }
 
-  Widget _buildTournamentList(List<TournamentData> tournaments) {
+  Widget _buildTournamentList(
+    TournamentListData tournamentListData,
+    TournamentStatus statusFilter,
+  ) {
+    // ローディング状態
+    if (tournamentListData.state == TournamentListState.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    // エラー状態
+    if (tournamentListData.state == TournamentListState.error) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'エラーが発生しました',
+              style: TextStyle(fontSize: 16, color: AppColors.grayDark),
+            ),
+            if (tournamentListData.errorMessage != null)
+              Text(
+                tournamentListData.errorMessage!,
+                style: const TextStyle(fontSize: 14, color: AppColors.grayDark),
+              ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                unawaited(
+                  ref
+                      .read(tournamentListNotifierProvider.notifier)
+                      .refreshTournaments(),
+                );
+              },
+              child: const Text('再試行'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Domain層のTournamentをUI用のTournamentDataに変換
+    final tournaments = tournamentListData.tournaments
+        .map((tournament) => _convertToTournamentData(tournament, statusFilter))
+        .where((tournament) => tournament.status == statusFilter)
+        .toList();
+
     if (tournaments.isEmpty) {
       return const Center(
         child: Text(
@@ -388,47 +455,61 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
       context: context,
       builder: (context) => const CreateTournamentDialog(),
     );
+
+    // ダイアログが閉じられた後、トーナメント一覧を更新
+    unawaited(
+      ref.read(tournamentListNotifierProvider.notifier).refreshTournaments(),
+    );
   }
 
-  // ダミーデータ生成メソッド
-  List<TournamentData> _getOngoingTournaments() {
-    return [
-      const TournamentData(
-        id: '1',
-        title: 'トーナメントタイトル',
-        date: '2025/08/31',
-        participants: 32,
-        status: TournamentStatus.ongoing,
-        round: 'ラウンド3',
-        gameType: 'ポケカ',
-      ),
-    ];
-  }
+  // Domain層のTournamentをUI用のTournamentDataに変換
+  TournamentData _convertToTournamentData(
+    Tournament tournament,
+    TournamentStatus defaultStatus,
+  ) {
+    // 日付文字列をパース（ISO 8601形式からYYYY/MM/DD形式に変換）
+    String formatDate(String isoDate) {
+      try {
+        final dateTime = DateTime.parse(isoDate);
+        return '${dateTime.year}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
+      } on FormatException {
+        return isoDate; // パースに失敗した場合はそのまま返す
+      }
+    }
 
-  List<TournamentData> _getUpcomingTournaments() {
-    return List.generate(6, (index) {
-      return TournamentData(
-        id: 'upcoming_$index',
-        title: 'トーナメントタイトル',
-        date: '2025/08/31',
-        participants: 32,
-        status: TournamentStatus.upcoming,
-        gameType: 'ポケカ',
-      );
-    });
-  }
+    // 現在時刻と比較してステータスを決定
+    var status = defaultStatus;
+    try {
+      final now = DateTime.now();
+      if (tournament.startDate != null && tournament.endDate != null) {
+        final startDate = DateTime.parse(tournament.startDate!);
+        final endDate = DateTime.parse(tournament.endDate!);
 
-  List<TournamentData> _getCompletedTournaments() {
-    return List.generate(8, (index) {
-      return TournamentData(
-        id: 'completed_$index',
-        title: 'トーナメントタイトル',
-        date: '2025/08/31',
-        participants: 32,
-        status: TournamentStatus.completed,
-        gameType: 'ポケカ',
-      );
-    });
+        if (now.isBefore(startDate)) {
+          status = TournamentStatus.upcoming;
+        } else if (now.isAfter(endDate)) {
+          status = TournamentStatus.completed;
+        } else {
+          status = TournamentStatus.ongoing;
+        }
+      }
+    } on FormatException {
+      // 日付のパースに失敗した場合はデフォルトステータスを使用
+    }
+
+    return TournamentData(
+      id: tournament.id,
+      title: tournament.title,
+      date: tournament.startDate != null
+          ? formatDate(tournament.startDate!)
+          : '日付未設定',
+      participants: 0, // TODO(developer): プレイヤー数の取得を実装
+      status: status,
+      round: status == TournamentStatus.ongoing
+          ? 'ラウンド1'
+          : null, // TODO(developer): 実際のラウンド情報を取得
+      gameType: 'ポケカ', // TODO(developer): ゲーム種別の取得を実装
+    );
   }
 }
 

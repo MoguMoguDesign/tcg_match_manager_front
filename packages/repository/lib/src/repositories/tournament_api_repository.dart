@@ -120,29 +120,29 @@ class TournamentApiRepository implements TournamentRepository {
   List<TournamentModel> _parseTournamentsResponse(
     Map<String, dynamic> response,
   ) {
-    // dataフィールドの存在確認
-    if (!response.containsKey('data')) {
+    // tournamentsフィールドの存在確認
+    if (!response.containsKey('tournaments')) {
       throw const AdminApiException(
         code: 'INVALID_RESPONSE',
-        message: 'APIレスポンスに"data"フィールドが含まれていません',
+        message: 'APIレスポンスに"tournaments"フィールドが含まれていません',
       );
     }
 
-    final data = response['data'];
+    final tournaments = response['tournaments'];
 
-    // dataがListかどうか確認
-    if (data is! List) {
+    // tournamentsがListかどうか確認
+    if (tournaments is! List) {
       throw AdminApiException(
         code: 'INVALID_RESPONSE',
         message:
-            'APIレスポンスの"data"フィールドがList型ではありません'
-            '（実際の型: ${data.runtimeType}）',
+            'APIレスポンスの"tournaments"フィールドがList型ではありません'
+            '（実際の型: ${tournaments.runtimeType}）',
       );
     }
 
     // 各要素をTournamentModelに変換
     try {
-      return data.map((item) {
+      return tournaments.map((item) {
         if (item is! Map<String, dynamic>) {
           throw AdminApiException(
             code: 'INVALID_RESPONSE',
@@ -151,6 +151,7 @@ class TournamentApiRepository implements TournamentRepository {
                 '（期待: Map<String, dynamic>、実際: ${item.runtimeType}）',
           );
         }
+
         return TournamentModel.fromJson(item);
       }).toList();
     } catch (e) {
