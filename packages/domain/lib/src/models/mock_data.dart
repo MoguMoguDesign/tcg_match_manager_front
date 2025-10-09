@@ -1,12 +1,12 @@
-// テストデータとしてダミーデータの英語使用を許可
-// ignore_for_file: avoid_hardcoded_japanese
+// 仮実装のためカバレッジから除外する。
+// coverage:ignore-file
 
 /// トーナメント情報を表すデータクラス。
-/// 
+///
 /// トーナメントのタイトル、開催日、参加者数の情報を保持する。
 class Tournament {
   /// [Tournament]のコンストラクタ。
-  /// 
+  ///
   /// [title]、[date]、[participantCount]はすべて必須パラメータ。
   const Tournament({
     required this.title,
@@ -16,20 +16,20 @@ class Tournament {
 
   /// トーナメントのタイトル。
   final String title;
-  
+
   /// トーナメントの開催日（YYYY/MM/DD形式）。
   final String date;
-  
+
   /// トーナメントの参加者数。
   final int participantCount;
 }
 
 /// プレイヤー情報を表すデータクラス。
-/// 
+///
 /// プレイヤーの名前、現在のスコア、現在のユーザーかどうかの情報を保持する。
 class Player {
   /// [Player]のコンストラクタ。
-  /// 
+  ///
   /// [name]と[score]は必須パラメータ。
   /// [isCurrentPlayer]はオプションでデフォルトは`false`。
   const Player({
@@ -40,20 +40,20 @@ class Player {
 
   /// プレイヤーの名前。
   final String name;
-  
+
   /// プレイヤーの現在のスコア。
   final int score;
-  
+
   /// このプレイヤーが現在のユーザーかどうか。
   final bool isCurrentPlayer;
 }
 
 /// 対戦情報を表すデータクラス。
-/// 
+///
 /// テーブル番号、対戦する2人のプレイヤー、試合状況、勝者の情報を保持する。
 class Match {
   /// [Match]のコンストラクタ。
-  /// 
+  ///
   /// [tableNumber]、[player1]、[player2]、[status]は必須パラメータ。
   /// [winner]はオプションで、試合完了時にのみ設定される。
   const Match({
@@ -66,31 +66,31 @@ class Match {
 
   /// 対戦が行われるテーブル番号。
   final int tableNumber;
-  
+
   /// 1人目のプレイヤー。
   final Player player1;
-  
+
   /// 2人目のプレイヤー。
   final Player player2;
-  
+
   /// 対戦の現在の状況。
   final MatchStatus status;
-  
+
   /// 対戦の勝者（試合が完了している場合のみ）。
   final Player? winner;
 }
 
 /// 対戦の状況を表す列挙型。
-enum MatchStatus { 
+enum MatchStatus {
   /// 試合進行中。
-  ongoing, 
-  
+  ongoing,
+
   /// 試合完了。
-  completed 
+  completed,
 }
 
 /// モック用のテストデータを提供するクラス。
-/// 
+///
 /// UI開発とテスト用に、トーナメント、プレイヤー、対戦のサンプルデータを定義する。
 class MockData {
   /// サンプルのトーナメント情報。
@@ -99,7 +99,7 @@ class MockData {
     date: '2025/08/31',
     participantCount: 32,
   );
-  
+
   /// サンプルのプレイヤー一覧。
   /// 現在のユーザーを含む8名のプレイヤーデータ。
   static const List<Player> players = [
@@ -112,9 +112,9 @@ class MockData {
     Player(name: 'プレイヤー7', score: 0),
     Player(name: 'プレイヤー8', score: 0),
   ];
-  
+
   /// 指定されたラウンドの対戦データを取得する。
-  /// 
+  ///
   /// [round]に応じて、そのラウンドの対戦組み合わせとステータスを返す。
   /// 現在はラウンド1のみに対応しており、それ以外は空のリストを返す。
   static List<Match> getRoundMatches(int round) {

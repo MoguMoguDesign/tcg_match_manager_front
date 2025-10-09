@@ -5,4 +5,3 @@ library;
 
 export 'src/http/_export.dart';
 export 'src/local_config/_export.dart';
-export 'src/system_base.dart';
