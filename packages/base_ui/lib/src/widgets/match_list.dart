@@ -53,8 +53,7 @@ class MatchList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
             child: Column(
-              children: [
-                ...matches.asMap().entries.expand((entry) {
+              children: matches.asMap().entries.expand((entry) {
                   final index = entry.key;
                   final match = entry.value;
                   
@@ -83,8 +82,7 @@ class MatchList extends StatelessWidget {
                       matchRow,
                     ];
                   }
-                }),
-              ],
+                }).toList(),
             ),
           ),
         ],

@@ -102,8 +102,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
         assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
-          child: Column(
-            children: [
+          child:
               // メインコンテンツ
               Expanded(
                 child: Padding(
@@ -213,8 +212,6 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                   ),
                 ),
               ),
-            ],
-          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

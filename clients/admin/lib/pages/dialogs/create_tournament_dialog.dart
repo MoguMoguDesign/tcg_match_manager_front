@@ -242,21 +242,17 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                       horizontal: 13,
                                       vertical: 16,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          _dateController.text.isEmpty
-                                              ? 'YYYY/MM/DD'
-                                              : _dateController.text,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: _dateController.text.isEmpty
-                                                ? AppColors.grayDark
-                                                : AppColors.textBlack,
-                                          ),
-                                        ),
-                                      ],
+                                    child: Text(
+                                      _dateController.text.isEmpty
+                                          ? 'YYYY/MM/DD'
+                                          : _dateController.text,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: _dateController.text.isEmpty
+                                            ? AppColors.grayDark
+                                            : AppColors.textBlack,
+                                      ),
                                     ),
                                   ),
                                 ),

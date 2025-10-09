@@ -35,8 +35,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
         assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
-          child: Column(
-            children: [
+          child:
               // メインコンテンツ
               Expanded(
                 child: SingleChildScrollView(
@@ -117,8 +116,6 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                   ),
                 ),
               ),
-            ],
-          ),
         ),
       ),
       // フローティングボタン（共通ボタンへ置換）

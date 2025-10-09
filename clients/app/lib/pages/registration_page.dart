@@ -34,10 +34,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
                       onPressed: () {
                         context.goToComponentTest();
                       },
@@ -47,7 +46,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         size: 24,
                       ),
                     ),
-                  ],
                 ),
                 const SizedBox(height: 95),
                 // ロゴ

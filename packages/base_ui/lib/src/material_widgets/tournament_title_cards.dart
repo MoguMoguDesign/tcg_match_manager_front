@@ -37,9 +37,7 @@ class TournamentTitleCards extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: style.border,
       ),
-      child: Row(
-        children: [
-          Expanded(
+      child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -62,8 +60,6 @@ class TournamentTitleCards extends StatelessWidget {
             ),
           ),
           // 末尾要素は現状なし。
-        ],
-      ),
     );
   }
 }

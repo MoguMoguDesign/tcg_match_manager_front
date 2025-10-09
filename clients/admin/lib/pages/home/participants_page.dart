@@ -275,19 +275,16 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                       ),
                       SizedBox(
                         width: 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () => _showDeleteDialog(participant),
-                              icon: const Icon(
-                                Icons.delete,
-                                color: base_ui.AppColors.alart,
-                                size: 20,
-                              ),
-                              tooltip: '削除',
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () => _showDeleteDialog(participant),
+                            icon: const Icon(
+                              Icons.delete,
+                              color: base_ui.AppColors.alart,
+                              size: 20,
                             ),
-                          ],
+                            tooltip: '削除',
+                          ),
                         ),
                       ),
                     ],
@@ -482,8 +479,9 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
             child: Column(
               children: [
                 // ヘッダーとボタン
-                Row(
-                  children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child:
                     // Expanded(
                     //   child: Text(
                     //     '参加者一覧',
@@ -494,7 +492,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                     //     ),
                     //   ),
                     // ),
-                    const Spacer(),
+                    // const Spacer(),
                     SizedBox(
                       width: 192,
                       height: 56,
@@ -530,17 +528,19 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: 240,
-                      height: 56,
-                      child: base_ui.CommonConfirmButton(
-                        text: 'ラウンド作成(大会開始)',
-                        style: base_ui.ConfirmButtonStyle.adminFilled,
-                        onPressed: _createRound,
-                      ),
+                ),
+                const SizedBox(width: 16),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: 240,
+                    height: 56,
+                    child: base_ui.CommonConfirmButton(
+                      text: 'ラウンド作成(大会開始)',
+                      style: base_ui.ConfirmButtonStyle.adminFilled,
+                      onPressed: _createRound,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

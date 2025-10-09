@@ -64,14 +64,13 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // 戻るボタン
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => context.pop(),
-                          icon: const Icon(Icons.arrow_back),
-                          color: AppColors.textBlack,
-                        ),
-                      ],
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () => context.pop(),
+                        icon: const Icon(Icons.arrow_back),
+                        color: AppColors.textBlack,
+                      ),
                     ),
 
                     // ロゴ

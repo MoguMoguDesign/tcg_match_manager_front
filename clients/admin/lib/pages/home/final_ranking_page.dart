@@ -120,8 +120,7 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
+                  child:
                       // ランキングリスト
                       Expanded(
                         child: ListView.builder(
@@ -188,8 +187,6 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                           },
                         ),
                       ),
-                    ],
-                  ),
                 ),
               ),
             ),
