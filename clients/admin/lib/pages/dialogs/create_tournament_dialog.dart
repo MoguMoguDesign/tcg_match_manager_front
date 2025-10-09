@@ -430,14 +430,15 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                         child: Container(
                                                           width: 12,
                                                           height: 12,
-                                                          decoration:
-                                                              // ネスト対応。
-                                                              const BoxDecoration(
+                                                          // ネストが深い。
+                                                          // ignore: lines_longer_than_80_chars
+                                                          decoration: const BoxDecoration(
                                                                 shape:
                                                                     BoxShape
                                                                         .circle,
-                                                                color: AppColors
-                                                                    .adminPrimary,
+                                                                // ネストが深い。
+                                                                // ignore: lines_longer_than_80_chars
+                                                                color: AppColors.adminPrimary,
                                                               ),
                                                         ),
                                                       )
