@@ -31,7 +31,7 @@ class AdminScaffold extends StatelessWidget {
             height: 80,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               border: Border(
                 bottom: BorderSide(color: AppColors.borderLight),
               ),

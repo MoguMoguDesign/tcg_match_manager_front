@@ -194,7 +194,7 @@ _ResolvedStyle _resolveStyle(RankingRowType type) {
       );
     case RankingRowType.other:
       return const _ResolvedStyle(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         textColor: AppColors.white,
         subTextColor: AppColors.white,
       );

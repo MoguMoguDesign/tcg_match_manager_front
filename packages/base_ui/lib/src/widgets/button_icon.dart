@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 /// ボタンアイコンウィジェット。
 ///
 /// Figma の ButtonIcon コンポーネント（node-id: 244-1230, 244-1232, 244-2294）に準拠し、
@@ -55,9 +57,9 @@ class ButtonIcon extends StatelessWidget {
           height: size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: color ?? Colors.white.withValues(alpha: 0.2),
+            color: color ?? AppColors.white.withValues(alpha: 0.2),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.white.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -66,7 +68,7 @@ class ButtonIcon extends StatelessWidget {
           child: Icon(
             Icons.add,
             size: size * 0.6,
-            color: color ?? Colors.white,
+            color: color ?? AppColors.white,
           ),
         ),
       ],
@@ -83,9 +85,9 @@ class ButtonIcon extends StatelessWidget {
           height: size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: color ?? Colors.white.withValues(alpha: 0.2),
+            color: color ?? AppColors.white.withValues(alpha: 0.2),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.white.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -94,7 +96,7 @@ class ButtonIcon extends StatelessWidget {
           child: Icon(
             Icons.edit,
             size: size * 0.5,
-            color: color ?? Colors.white,
+            color: color ?? AppColors.white,
           ),
         ),
       ],
@@ -111,9 +113,9 @@ class ButtonIcon extends StatelessWidget {
           height: size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: color ?? Colors.white.withValues(alpha: 0.2),
+            color: color ?? AppColors.white.withValues(alpha: 0.2),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.white.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -122,7 +124,7 @@ class ButtonIcon extends StatelessWidget {
           child: Icon(
             Icons.qr_code,
             size: size * 0.6,
-            color: color ?? Colors.white,
+            color: color ?? AppColors.white,
           ),
         ),
       ],

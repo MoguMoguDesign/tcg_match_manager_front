@@ -97,9 +97,9 @@ class MatchList extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.transparent,
+            AppColors.transparent,
             AppColors.gray.withValues(alpha: 0.3),
-            Colors.transparent,
+            AppColors.transparent,
           ],
         ),
       ),

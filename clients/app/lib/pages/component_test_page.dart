@@ -25,21 +25,21 @@ class ComponentTestPage extends StatelessWidget {
               Text(
                 'UI コンポーネントテストページ',
                 style: AppTextStyles.headlineLarge.copyWith(
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
               Text(
                 'ここに各種コンポーネントを追加してテストできます。',
-                style: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
+                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.white),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
               // ✅ 実装済み: CommonConfirmButton(APP) - Figma node-id: 86-7960
               Text(
                 '✅ CommonConfirmButton(APP) - Figma 86-7960',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -90,7 +90,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: CommonSmallButton - Figma node-id: 95-183
               Text(
                 '✅ CommonSmallButton - Figma 95-183',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -165,7 +165,7 @@ class ComponentTestPage extends StatelessWidget {
               Text(
                 '✅ CommonConfirmButton (Admin Style)\n'
                 'Figma 244-1212',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -197,7 +197,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 新規追加: ButtonIcon - Figma node-id: 244-1230, 244-1232, 244-2294
               Text(
                 '✅ ButtonIcon - Figma 244-1230, 244-1232, 244-2294',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -211,7 +211,7 @@ class ComponentTestPage extends StatelessWidget {
                       Text(
                         'Default',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -223,7 +223,7 @@ class ComponentTestPage extends StatelessWidget {
                       Text(
                         'Edit',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -235,7 +235,7 @@ class ComponentTestPage extends StatelessWidget {
                       Text(
                         'QR',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -258,7 +258,7 @@ class ComponentTestPage extends StatelessWidget {
                       Text(
                         'サイズ32',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -273,7 +273,7 @@ class ComponentTestPage extends StatelessWidget {
                       Text(
                         '管理者色',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -283,13 +283,13 @@ class ComponentTestPage extends StatelessWidget {
                       const ButtonIcon(
                         type: ButtonIconType.qr,
                         size: 16,
-                        color: Colors.red,
+                        color: AppColors.red,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         'サイズ16',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -300,7 +300,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: ConfirmDialog - Figma node-id: 86-7764
               Text(
                 '✅ ConfirmDialog - Figma 86-7764',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -325,7 +325,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: TextField - Figma node-id: 86-7923
               Text(
                 '✅ TextField - Figma 86-7923',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -349,7 +349,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: TournamentTitleCard - Figma node-id: 244-5226
               Text(
                 '✅ TournamentTitleCard - Figma 244-5226',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -375,7 +375,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: MatchStatusContainer - Figma node-id: 244-5549
               Text(
                 '✅ MatchStatusContainer - Figma 244-5549',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -392,7 +392,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: PlayerContainer - Figma 244-5574 (6種類)
               Text(
                 '✅ PlayerContainer - 6種類のデザインパターン',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -401,7 +401,7 @@ class ComponentTestPage extends StatelessWidget {
               const Text(
                 '通常ユーザー:',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -426,7 +426,7 @@ class ComponentTestPage extends StatelessWidget {
               const Text(
                 'カレントユーザー:',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -453,14 +453,14 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: VSContainer - 9パターンデザイン
               Text(
                 '✅ VSContainer - 9パターンデザイン',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
               // Progress状態のパターン
               Text(
                 'Progress States',
-                style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.white70),
               ),
               const SizedBox(height: 8),
               const Row(
@@ -475,7 +475,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Progress',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -488,7 +488,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'User Left',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -501,7 +501,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'User Right',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -511,7 +511,7 @@ class ComponentTestPage extends StatelessWidget {
               // Left Player Win状態のパターン
               Text(
                 'Left Player Win States',
-                style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.white70),
               ),
               const SizedBox(height: 8),
               const Row(
@@ -526,7 +526,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Left Win',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -539,7 +539,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Win User Left',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -552,7 +552,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Win User Right',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -562,7 +562,7 @@ class ComponentTestPage extends StatelessWidget {
               // Left Player Lose状態のパターン
               Text(
                 'Left Player Lose States',
-                style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.white70),
               ),
               const SizedBox(height: 8),
               const Row(
@@ -574,7 +574,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Left Lose',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -587,7 +587,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Lose User Left',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -600,7 +600,7 @@ class ComponentTestPage extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         'Lose User Right',
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                        style: TextStyle(color: AppColors.white70, fontSize: 10),
                       ),
                     ],
                   ),
@@ -611,7 +611,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: TableNumberColumn - Figma node-id: 244-5517
               Text(
                 '✅ TableNumberColumn - Figma 244-5517',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -637,7 +637,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: PlayersContainer - Figma node-id: 253-5745
               Text(
                 '✅ PlayersContainer - Figma 253-5745',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -714,7 +714,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: ResultContainer - Figma node-id: 255-2469
               Text(
                 '✅ ResultContainer - Figma 255-2469',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -753,7 +753,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: MatchList - Figma node-id: 253-6796
               Text(
                 '✅ MatchList - Figma 253-6796',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -793,7 +793,7 @@ class ComponentTestPage extends StatelessWidget {
               // ✅ 実装済み: DialogButtons - Figma node-id: 86-7843
               Text(
                 '✅ DialogButtons - Figma 86-7843',
-                style: AppTextStyles.labelLarge.copyWith(color: Colors.white),
+                style: AppTextStyles.labelLarge.copyWith(color: AppColors.white),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
@@ -832,7 +832,7 @@ class ComponentTestPage extends StatelessWidget {
                     const Text(
                       'Tournament Title Card',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -876,7 +876,7 @@ class ComponentTestPage extends StatelessWidget {
                     const Text(
                       'Round Change Button Row',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -938,7 +938,7 @@ class ComponentTestPage extends StatelessWidget {
                     const Text(
                       'Result Row',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

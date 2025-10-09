@@ -54,7 +54,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           // ヘッダー（戻る + トーナメントカード + ラウンド進行ボタン）
           Container(
             padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Row(
               children: [
                 // 戻るボタン
@@ -70,7 +70,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
 
           // タブバー
           DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: TabBar(
@@ -167,7 +167,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),
@@ -279,7 +279,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -322,7 +322,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -382,7 +382,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -421,7 +421,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -461,7 +461,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           if (tournament.notes.isNotEmpty) ...[
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(58, 68, 251, 0.04),
+                color: AppColors.adminPrimary.withValues(alpha: 0.04),
                 borderRadius: BorderRadius.circular(16),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

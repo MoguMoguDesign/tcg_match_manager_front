@@ -58,7 +58,7 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
       ),
@@ -425,7 +425,7 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
                     width: 192,
                     height: 56,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.circular(40),
                       border: Border.all(
                         color: AppColors.textBlack,
@@ -490,7 +490,7 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ),

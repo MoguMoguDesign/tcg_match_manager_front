@@ -99,7 +99,7 @@ class AdminConfirmButton extends StatelessWidget {
         boxShadow: shadow,
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isEnabled ? onPressed : null,
           borderRadius: BorderRadius.circular(_radius),

@@ -36,14 +36,14 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       child: Stack(
         children: [
           // 背景オーバーレイ
           Container(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height,
-            color: Colors.black.withValues(alpha: 0.2),
+            color: AppColors.black.withValues(alpha: 0.2),
           ),
 
           // ダイアログ本体
@@ -52,7 +52,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
               width: 719,
               constraints: const BoxConstraints(maxHeight: 800),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -432,17 +432,12 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                           height: 12,
                                                           decoration:
                                                               // ネスト対応。
-                                                              // ignore: lines_longer_than_80_chars
                                                               const BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                  58,
-                                                                  68,
-                                                                  251,
-                                                                  1,
-                                                                ),
+                                                                shape:
+                                                                    BoxShape
+                                                                        .circle,
+                                                                color: AppColors
+                                                                    .adminPrimary,
                                                               ),
                                                         ),
                                                       )
@@ -674,7 +669,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                           width: 192,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
                               color: AppColors.textBlack,
@@ -735,7 +730,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: AppColors.white,
                               ),
                             ),
                           ),

@@ -51,7 +51,7 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
           // ヘッダー（戻る + トーナメントカード）
           Container(
             padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Row(
               children: [
                 // 戻るボタン
@@ -67,7 +67,7 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
 
           // タブバー
           DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: TabBar(
@@ -116,7 +116,7 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF1F3FF), // admin-card color
+                    color: AppColors.backgroundBlue, // admin-card color
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.all(16),
@@ -134,7 +134,8 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.grey.withValues(alpha: 0.3),
+                                    color: AppColors.grey
+                                        .withValues(alpha: 0.3),
                                   ),
                                 ),
                               ),

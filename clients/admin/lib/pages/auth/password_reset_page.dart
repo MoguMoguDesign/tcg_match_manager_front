@@ -48,7 +48,7 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(

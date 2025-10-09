@@ -70,7 +70,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
         slivers: [
           SliverToBoxAdapter(
             child: Container(
-              color: Colors.white,
+              color: base_ui.AppColors.white,
               padding: const EdgeInsets.all(24),
               child: Column(
                 children: [
@@ -105,7 +105,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
+                            backgroundColor: base_ui.AppColors.white,
                             elevation: 0,
                             side: const BorderSide(
                               color: base_ui.AppColors.textBlack,
@@ -327,7 +327,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
 
   Widget _buildFooter() {
     return Container(
-      color: Colors.white,
+      color: base_ui.AppColors.white,
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
@@ -474,7 +474,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
       slivers: [
         SliverToBoxAdapter(
           child: Container(
-            color: Colors.white,
+            color: base_ui.AppColors.white,
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
@@ -512,7 +512,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor: base_ui.AppColors.white,
                           elevation: 0,
                           side: const BorderSide(
                             color: base_ui.AppColors.textBlack,

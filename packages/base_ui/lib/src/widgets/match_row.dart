@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
 import 'match_status_container.dart';
 import 'player_container.dart';
 import 'players_container.dart';
@@ -72,7 +73,7 @@ class MatchRow extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.zero,
         decoration: const BoxDecoration(
-          color: Colors.transparent,
+          color: AppColors.transparent,
         ),
         child: Row(
           children: [

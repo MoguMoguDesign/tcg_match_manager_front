@@ -42,7 +42,7 @@ class VSContainer extends StatelessWidget {
       width: sizeInfo.width,
       height: sizeInfo.height,
       decoration: const BoxDecoration(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         // 枠線はデザイン上不要。
       ),
       child: Stack(

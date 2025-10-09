@@ -51,7 +51,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -215,9 +215,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.transparent,
+                            AppColors.transparent,
                             AppColors.borderLight,
-                            Colors.transparent,
+                            AppColors.transparent,
                           ],
                         ),
                       ),
@@ -231,7 +231,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.black,
                           ),
                         ),
                         const SizedBox(height: 8),

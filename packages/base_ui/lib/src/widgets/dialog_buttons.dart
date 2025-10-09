@@ -119,7 +119,7 @@ class _DialogActionButton extends StatelessWidget {
         boxShadow: colors.boxShadow,
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: onPressed,
           borderRadius: BorderRadius.circular(22),
@@ -152,7 +152,7 @@ class _DialogActionButton extends StatelessWidget {
         );
       case DialogButtonStyle.secondary:
         return const _DialogButtonColors(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.transparent,
           textColor: AppColors.gray,
         );
       case DialogButtonStyle.admin:

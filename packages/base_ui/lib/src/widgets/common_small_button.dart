@@ -94,7 +94,7 @@ class CommonSmallButton extends StatelessWidget {
         border: visual.border,
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isEnabled ? onPressed : null,
           borderRadius: BorderRadius.circular(_radius),

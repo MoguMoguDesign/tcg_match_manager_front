@@ -39,7 +39,7 @@ class _MatchesPageState extends State<MatchesPage> {
             // ヘッダー部分
             SliverToBoxAdapter(
               child: ColoredBox(
-                color: Colors.white,
+                color: AppColors.white,
                 child: Column(
                   children: [
                     // ユーザー情報とトーナメント情報
@@ -64,7 +64,7 @@ class _MatchesPageState extends State<MatchesPage> {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: AppColors.white),
       child: Row(
         children: [
           // 戻るボタン
@@ -232,7 +232,7 @@ class _MatchesPageState extends State<MatchesPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),
@@ -358,7 +358,7 @@ class _MatchesContentState extends State<MatchesContent> {
           // 対戦表ヘッダー
           SliverToBoxAdapter(
             child: Container(
-              color: Colors.white,
+              color: AppColors.white,
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -465,7 +465,7 @@ class _MatchesContentState extends State<MatchesContent> {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -488,7 +488,7 @@ class _MatchesContentState extends State<MatchesContent> {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -508,7 +508,7 @@ class _MatchesContentState extends State<MatchesContent> {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -524,7 +524,7 @@ class _MatchesContentState extends State<MatchesContent> {
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),
@@ -672,7 +672,7 @@ class _MatchesContentState extends State<MatchesContent> {
 
   Widget _buildFooter() {
     return Container(
-      color: Colors.white,
+      color: AppColors.white,
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
