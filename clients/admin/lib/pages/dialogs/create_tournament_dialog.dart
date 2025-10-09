@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 
 /// 大会新規作成ダイアログ
@@ -758,9 +759,9 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
   Future<void> _selectDate(BuildContext context) async {
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: clock.now(),
+      firstDate: clock.now(),
+      lastDate: clock.now().add(const Duration(days: 365)),
     );
     if (date != null) {
       _dateController.text =

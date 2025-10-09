@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -846,7 +847,7 @@ class _MatchesContentState extends State<MatchesContent> {
         roundNumber: 1,
         name: 'ラウンド1',
         matches: _getMatchesForRound(1),
-        startedAt: DateTime.now().subtract(const Duration(hours: 2)),
+        startedAt: clock.now().subtract(const Duration(hours: 2)),
       ),
       AdminRoundData(
         id: 'round_2',
@@ -893,7 +894,7 @@ class _MatchesContentState extends State<MatchesContent> {
             ? AdminMatchResult.player1Win
             : AdminMatchResult.pending,
         finishedAt: roundNumber == 1 && index < 4
-            ? DateTime.now().subtract(Duration(minutes: 30 - index * 5))
+            ? clock.now().subtract(Duration(minutes: 30 - index * 5))
             : null,
       );
     });
@@ -905,7 +906,7 @@ class _MatchesContentState extends State<MatchesContent> {
         id: 'participant_$index',
         name: 'プレイヤー名${index + 1}',
         tournamentId: widget.tournamentId,
-        registeredAt: DateTime.now().subtract(Duration(days: index)),
+        registeredAt: clock.now().subtract(Duration(days: index)),
       );
     });
   }

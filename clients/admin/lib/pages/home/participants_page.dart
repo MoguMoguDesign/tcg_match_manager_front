@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart' as base_ui;
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -421,7 +422,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
         id: 'participant_$index',
         name: '参加者${index + 1}',
         tournamentId: widget.tournamentId,
-        registeredAt: DateTime.now().subtract(Duration(days: index)),
+        registeredAt: clock.now().subtract(Duration(days: index)),
       );
     });
   }
@@ -644,7 +645,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
         id: 'participant_$index',
         name: '参加者${index + 1}',
         tournamentId: widget.tournamentId,
-        registeredAt: DateTime.now().subtract(Duration(days: index)),
+        registeredAt: clock.now().subtract(Duration(days: index)),
       );
     });
   }
