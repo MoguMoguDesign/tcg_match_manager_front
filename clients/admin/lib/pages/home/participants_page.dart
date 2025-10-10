@@ -68,80 +68,82 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
       ],
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              color: base_ui.AppColors.white,
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  // ヘッダーとボタン
-                  Row(
-                    children: [
-                      Text(
-                        '参加者一覧',
-                        style: base_ui.AppTextStyles.headlineLarge.copyWith(
-                          color: base_ui.AppColors.textBlack,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: 192,
-                        height: 56,
-                        child: ElevatedButton.icon(
-                          onPressed: _showQRCode,
-                          icon: const Icon(
-                            Icons.qr_code,
-                            size: 20,
+          SliverList.list(
+            children: [
+              Container(
+                color: base_ui.AppColors.white,
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    // ヘッダーとボタン
+                    Row(
+                      children: [
+                        Text(
+                          '参加者一覧',
+                          style: base_ui.AppTextStyles.headlineLarge.copyWith(
                             color: base_ui.AppColors.textBlack,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w600,
                           ),
-                          label: const Text(
-                            'QRコード表示',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: 192,
+                          height: 56,
+                          child: ElevatedButton.icon(
+                            onPressed: _showQRCode,
+                            icon: const Icon(
+                              Icons.qr_code,
+                              size: 20,
                               color: base_ui.AppColors.textBlack,
                             ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: base_ui.AppColors.white,
-                            elevation: 0,
-                            side: const BorderSide(
-                              color: base_ui.AppColors.textBlack,
-                              width: 2,
+                            label: const Text(
+                              'QRコード表示',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: base_ui.AppColors.textBlack,
+                              ),
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 16,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: base_ui.AppColors.white,
+                              elevation: 0,
+                              side: const BorderSide(
+                                color: base_ui.AppColors.textBlack,
+                                width: 2,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 16,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      SizedBox(
-                        width: 240,
-                        height: 56,
-                        child: base_ui.CommonConfirmButton(
-                          text: 'ラウンド作成(大会開始)',
-                          style: base_ui.ConfirmButtonStyle.adminFilled,
-                          onPressed: _createRound,
+                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: 240,
+                          height: 56,
+                          child: base_ui.CommonConfirmButton(
+                            text: 'ラウンド作成(大会開始)',
+                            style: base_ui.ConfirmButtonStyle.adminFilled,
+                            onPressed: _createRound,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
-            ),
+              // 参加者リスト
+              _buildParticipantsList(),
+              // フッター
+              _buildFooter(),
+            ],
           ),
-          // 参加者リスト
-          SliverToBoxAdapter(child: _buildParticipantsList()),
-          // フッター
-          SliverToBoxAdapter(child: _buildFooter()),
         ],
       ),
     );
@@ -472,101 +474,87 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: Container(
-            color: base_ui.AppColors.white,
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                // ヘッダーとボタン
-                Align(
-                  alignment: Alignment.centerRight,
-                  child:
-                    // Expanded(
-                    //   child: Text(
-                    //     '参加者一覧',
-                    //     style: base_ui.AppTextStyles.headlineLarge.copyWith(
-                    //       color: base_ui.AppColors.textBlack,
-                    //       fontSize: 24,
-                    //       fontWeight: FontWeight.w600,
-                    //     ),
-                    //   ),
-                    // ),
-                    // const Spacer(),
-                    SizedBox(
+        SliverList.list(
+          children: [
+            Container(
+              color: base_ui.AppColors.white,
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  // ヘッダーとボタン
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
                       width: 192,
                       height: 56,
                       child: ElevatedButton.icon(
-                        onPressed: _showQRCode,
-                        icon: const Icon(
-                          Icons.qr_code,
-                          size: 20,
-                          color: base_ui.AppColors.textBlack,
-                        ),
-                        label: const Text(
-                          'QRコード表示',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                          onPressed: _showQRCode,
+                          icon: const Icon(
+                            Icons.qr_code,
+                            size: 20,
                             color: base_ui.AppColors.textBlack,
                           ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: base_ui.AppColors.white,
-                          elevation: 0,
-                          side: const BorderSide(
-                            color: base_ui.AppColors.textBlack,
-                            width: 2,
+                          label: const Text(
+                            'QRコード表示',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: base_ui.AppColors.textBlack,
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: base_ui.AppColors.white,
+                            elevation: 0,
+                            side: const BorderSide(
+                              color: base_ui.AppColors.textBlack,
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                ),
-                const SizedBox(width: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(
-                    width: 240,
-                    height: 56,
-                    child: base_ui.CommonConfirmButton(
-                      text: 'ラウンド作成(大会開始)',
-                      style: base_ui.ConfirmButtonStyle.adminFilled,
-                      onPressed: _createRound,
+                  ),
+                  const SizedBox(width: 16),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: 240,
+                      height: 56,
+                      child: base_ui.CommonConfirmButton(
+                        text: 'ラウンド作成(大会開始)',
+                        style: base_ui.ConfirmButtonStyle.adminFilled,
+                        onPressed: _createRound,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
-        // 参加者リスト
-        SliverToBoxAdapter(
-          child: ParticipantTable(
-            participants: _participants,
-            participantStatus: _participantStatus,
-            nameControllers: _nameControllers,
-            onStatusChanged: (participantId, {required isParticipating}) {
-              setState(() {
-                _participantStatus[participantId] = isParticipating;
-              });
-            },
-            onDelete: _showDeleteDialog,
-          ),
-        ),
-        // フッター
-        SliverToBoxAdapter(
-          child: TournamentFooter(
-            maxParticipants: 32,
-            actionButtonText: '変更を反映',
-            onActionPressed: _applyChanges,
-          ),
+            // 参加者リスト
+            ParticipantTable(
+              participants: _participants,
+              participantStatus: _participantStatus,
+              nameControllers: _nameControllers,
+              onStatusChanged: (participantId, {required isParticipating}) {
+                setState(() {
+                  _participantStatus[participantId] = isParticipating;
+                });
+              },
+              onDelete: _showDeleteDialog,
+            ),
+            // フッター
+            TournamentFooter(
+              maxParticipants: 32,
+              actionButtonText: '変更を反映',
+              onActionPressed: _applyChanges,
+            ),
+          ],
         ),
       ],
     );
