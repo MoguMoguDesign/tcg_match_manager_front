@@ -54,7 +54,7 @@ void main() {
 
       /// ダミー値から生成される想定の URL。
       const url = 'https://api.example.com/api/v1/auth/login';
-      
+
       /// リクエストボディ。
       const requestBody = {
         'username': 'testuser',
@@ -65,8 +65,9 @@ void main() {
       group('成功シナリオ。', () {
         test('成功した場合、SuccessRepositoryResult を返す。', () async {
           // ダミーの値から生成される想定の URL を元にスタブを用意する。
-          when(mockHttpClient.postUri(Uri.parse(url), requestBody))
-              .thenAnswer((_) async {
+          when(mockHttpClient.postUri(Uri.parse(url), requestBody)).thenAnswer((
+            _,
+          ) async {
             return const SuccessHttpResponse(
               jsonData: {
                 'STATUS': '0',
@@ -110,8 +111,9 @@ void main() {
         test('SuccessHttpResponse のステータスにより失敗と判断された場合、'
             ' FailureRepositoryResult を返す。', () async {
           // ダミーの値から生成される想定の URL を元にスタブを用意する。
-          when(mockHttpClient.postUri(Uri.parse(url), requestBody))
-              .thenAnswer((_) async {
+          when(mockHttpClient.postUri(Uri.parse(url), requestBody)).thenAnswer((
+            _,
+          ) async {
             return const SuccessHttpResponse(
               jsonData: {'STATUS': '1', 'MESSAGE': 'ログイン失敗'},
               headers: {},
@@ -135,10 +137,7 @@ void main() {
 
         test('失敗した場合、FailureRepositoryResult を返す。', () async {
           // どの URL の場合でも 404 が返ってくるスタブを用意する。
-          when(mockHttpClient.postUri(
-            any,
-            any,
-          )).thenAnswer((_) async {
+          when(mockHttpClient.postUri(any, any)).thenAnswer((_) async {
             return FailureHttpResponse(
               e: Exception(),
               status: ErrorStatus.notFound,

@@ -94,5 +94,4 @@ class LoginUseCase {
     // 末尾に `/` がない場合は付与する。
     return normalizedUrl.endsWith('/') ? normalizedUrl : '$normalizedUrl/';
   }
-
 }

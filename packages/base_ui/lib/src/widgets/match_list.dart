@@ -45,44 +45,42 @@ class MatchList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (showHeader) ...[
-            const MatchListHeader(
-              roundNumber: 1,
-            ),
+            const MatchListHeader(roundNumber: 1),
             const SizedBox(height: 16),
           ],
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
             child: Column(
               children: matches.asMap().entries.expand((entry) {
-                  final index = entry.key;
-                  final match = entry.value;
-                  
-                  final matchRow = MatchRow(
-                    tableNumber: match.tableNumber,
-                    player1Name: match.player1Name,
-                    player2Name: match.player2Name,
-                    status: match.status,
-                    player1Score: match.player1Score,
-                    player2Score: match.player2Score,
-                    player1State: match.player1State,
-                    player2State: match.player2State,
-                    player1IsCurrentUser: match.player1IsCurrentUser,
-                    player2IsCurrentUser: match.player2IsCurrentUser,
-                    style: _getRowStyle(style),
-                    onTap: onMatchTap != null ? () => onMatchTap!(match) : null,
-                  );
-                  
-                  if (index == 0) {
-                    return [matchRow];
-                  } else {
-                    return [
-                      const SizedBox(height: 8),
-                      _buildDivider(),
-                      const SizedBox(height: 8),
-                      matchRow,
-                    ];
-                  }
-                }).toList(),
+                final index = entry.key;
+                final match = entry.value;
+
+                final matchRow = MatchRow(
+                  tableNumber: match.tableNumber,
+                  player1Name: match.player1Name,
+                  player2Name: match.player2Name,
+                  status: match.status,
+                  player1Score: match.player1Score,
+                  player2Score: match.player2Score,
+                  player1State: match.player1State,
+                  player2State: match.player2State,
+                  player1IsCurrentUser: match.player1IsCurrentUser,
+                  player2IsCurrentUser: match.player2IsCurrentUser,
+                  style: _getRowStyle(style),
+                  onTap: onMatchTap != null ? () => onMatchTap!(match) : null,
+                );
+
+                if (index == 0) {
+                  return [matchRow];
+                } else {
+                  return [
+                    const SizedBox(height: 8),
+                    _buildDivider(),
+                    const SizedBox(height: 8),
+                    matchRow,
+                  ];
+                }
+              }).toList(),
             ),
           ),
         ],
@@ -105,7 +103,6 @@ class MatchList extends StatelessWidget {
       ),
     );
   }
-
 
   MatchRowStyle _getRowStyle(MatchListStyle style) {
     switch (style) {

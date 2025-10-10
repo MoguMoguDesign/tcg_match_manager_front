@@ -488,37 +488,37 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
                       width: 192,
                       height: 56,
                       child: ElevatedButton.icon(
-                          onPressed: _showQRCode,
-                          icon: const Icon(
-                            Icons.qr_code,
-                            size: 20,
+                        onPressed: _showQRCode,
+                        icon: const Icon(
+                          Icons.qr_code,
+                          size: 20,
+                          color: base_ui.AppColors.textBlack,
+                        ),
+                        label: const Text(
+                          'QRコード表示',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                             color: base_ui.AppColors.textBlack,
                           ),
-                          label: const Text(
-                            'QRコード表示',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: base_ui.AppColors.textBlack,
-                            ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: base_ui.AppColors.white,
+                          elevation: 0,
+                          side: const BorderSide(
+                            color: base_ui.AppColors.textBlack,
+                            width: 2,
                           ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: base_ui.AppColors.white,
-                            elevation: 0,
-                            side: const BorderSide(
-                              color: base_ui.AppColors.textBlack,
-                              width: 2,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 16,
-                            ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 16,
                           ),
                         ),
                       ),
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Align(

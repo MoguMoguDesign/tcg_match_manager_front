@@ -61,9 +61,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                 const TournamentBackButton(),
                 const SizedBox(width: 24),
                 // トーナメントカード（横に配置）
-                Expanded(
-                  child: TournamentHeaderCard(tournament: tournament),
-                ),
+                Expanded(child: TournamentHeaderCard(tournament: tournament)),
               ],
             ),
           ),
@@ -127,7 +125,6 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
     );
   }
 
-
   /// 大会編集ダイアログを表示
   Future<void> _showEditTournamentDialog() async {
     if (!mounted) {
@@ -173,11 +170,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.timeline,
-            color: AppColors.adminPrimary,
-            size: 24,
-          ),
+          const Icon(Icons.timeline, color: AppColors.adminPrimary, size: 24),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -196,16 +189,16 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                   _currentRound == 0
                       ? '準備中 - トーナメント開始待ち'
                       : _currentRound == 4
-                          ? '最終ラウンド完了 - 結果表示可能'
-                          : 'ラウンド$_currentRound進行中',
+                      ? '最終ラウンド完了 - 結果表示可能'
+                      : 'ラウンド$_currentRound進行中',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: _currentRound == 0
                         ? AppColors.textGray
                         : _currentRound == 4
-                            ? AppColors.successActive
-                            : AppColors.adminPrimary,
+                        ? AppColors.successActive
+                        : AppColors.adminPrimary,
                   ),
                 ),
               ],
@@ -546,7 +539,6 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
   }
 }
 
-
 /// トーナメント詳細データクラス
 class TournamentDetailData {
   /// トーナメント詳細データのコンストラクタ
@@ -623,10 +615,7 @@ extension _TournamentDetailPageStateExtension on _TournamentDetailPageState {
           SizedBox(height: 16),
           Text(
             '最終ラウンド完了後に結果が表示されます',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textGray,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textGray),
           ),
         ],
       ),

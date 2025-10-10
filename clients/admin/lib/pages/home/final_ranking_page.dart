@@ -58,9 +58,7 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                 const TournamentBackButton(),
                 const SizedBox(width: 24),
                 // トーナメントカード（横に配置）
-                Expanded(
-                  child: TournamentHeaderCard(tournament: tournament),
-                ),
+                Expanded(child: TournamentHeaderCard(tournament: tournament)),
               ],
             ),
           ),
@@ -88,11 +86,13 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                     case 0:
                       context.go('/tournament/${widget.tournamentId}');
                     case 1:
-                      context.go('/tournament/${widget.tournamentId}/participants');
+                      context.go(
+                        '/tournament/${widget.tournamentId}/participants',
+                      );
                     case 2:
                       context.go('/tournament/${widget.tournamentId}/matches');
                     case 3:
-                      // 現在の画面なので何もしない
+                    // 現在の画面なので何もしない
                   }
                 },
                 tabs: const [
@@ -128,14 +128,13 @@ class _AdminFinalRankingPageState extends State<AdminFinalRankingPage>
                           itemBuilder: (context, index) {
                             final ranking = rankings[index];
                             return Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16,
-                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: AppColors.grey
-                                        .withValues(alpha: 0.3),
+                                    color: AppColors.grey.withValues(
+                                      alpha: 0.3,
+                                    ),
                                   ),
                                 ),
                               ),

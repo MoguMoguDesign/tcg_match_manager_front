@@ -37,15 +37,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                      onPressed: () {
-                        context.goToComponentTest();
-                      },
-                      icon: const Icon(
-                        Icons.settings,
-                        color: AppColors.white,
-                        size: 24,
-                      ),
+                    onPressed: () {
+                      context.goToComponentTest();
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: AppColors.white,
+                      size: 24,
                     ),
+                  ),
                 ),
                 const SizedBox(height: 95),
                 // ロゴ
@@ -79,10 +79,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'ニックネーム',
-                      style: AppTextStyles.labelMedium,
-                    ),
+                    const Text('ニックネーム', style: AppTextStyles.labelMedium),
                     const SizedBox(height: 9),
                     FigmaTextField(
                       controller: _nicknameController,
@@ -108,9 +105,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     Text(
                       '接続が切れましたか？',
-                      style: AppTextStyles.bodySmall.copyWith(
-                        fontSize: 12,
-                      ),
+                      style: AppTextStyles.bodySmall.copyWith(fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 15),

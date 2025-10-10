@@ -38,28 +38,26 @@ class TournamentTitleCards extends StatelessWidget {
         border: style.border,
       ),
       child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppTextStyles.labelLarge.copyWith(
-                    color: style.titleColor,
-                  ),
-                ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle!,
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: style.subtitleColor,
-                    ),
-                  ),
-                ],
-              ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: AppTextStyles.labelLarge.copyWith(color: style.titleColor),
             ),
-          ),
-          // 末尾要素は現状なし。
+            if (subtitle != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                subtitle!,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: style.subtitleColor,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+      // 末尾要素は現状なし。
     );
   }
 }
