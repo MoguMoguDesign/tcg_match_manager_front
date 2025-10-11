@@ -666,25 +666,26 @@ class _MaxRoundsSelector extends StatelessWidget {
                         ),
                       ),
                       isExpanded: true,
-                      items: const [
-                        '3ラウンド',
-                        '4ラウンド',
-                        '5ラウンド（推奨）',
-                        '6ラウンド',
-                        '7ラウンド',
-                      ].map((item) {
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                      items:
+                          const [
+                            '3ラウンド',
+                            '4ラウンド',
+                            '5ラウンド（推奨）',
+                            '6ラウンド',
+                            '7ラウンド',
+                          ].map((item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textBlack,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                       onChanged: onRoundsChanged,
                     ),
                   ),
