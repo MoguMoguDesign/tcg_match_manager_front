@@ -39,6 +39,39 @@ void main() {
     );
   });
 
+  group('TournamentDetailData のテスト。', () {
+    group('copyWith メソッドのテスト。', () {
+      test('state のみを更新する。', () {
+        const data = TournamentDetailData();
+
+        final copied = data.copyWith(state: TournamentDetailState.loading);
+
+        expect(copied.state, TournamentDetailState.loading);
+        expect(copied.tournament, data.tournament);
+        expect(copied.errorMessage, data.errorMessage);
+      });
+
+      test('引数なしで呼ぶと現在の値を保持する。', () {
+        const data = TournamentDetailData(
+          state: TournamentDetailState.loaded,
+          tournament: Tournament(
+            id: 't1',
+            title: 'Tournament 1',
+            createdAt: '2024-01-01',
+            updatedAt: '2024-01-01',
+          ),
+          errorMessage: 'エラー',
+        );
+
+        final copied = data.copyWith();
+
+        expect(copied.state, data.state);
+        expect(copied.tournament, data.tournament);
+        expect(copied.errorMessage, data.errorMessage);
+      });
+    });
+  });
+
   group('TournamentDetailNotifier のテスト。', () {
     group('build メソッドのテスト。', () {
       test('初期状態で TournamentDetailData を生成する。', () {

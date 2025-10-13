@@ -36,6 +36,42 @@ void main() {
     });
   });
 
+  group('PlayerListData のテスト。', () {
+    group('copyWith メソッドのテスト。', () {
+      test('state のみを更新する。', () {
+        const data = PlayerListData();
+
+        final copied = data.copyWith(state: PlayerListState.loading);
+
+        expect(copied.state, PlayerListState.loading);
+        expect(copied.players, data.players);
+        expect(copied.errorMessage, data.errorMessage);
+      });
+
+      test('引数なしで呼ぶと現在の値を保持する。', () {
+        const data = PlayerListData(
+          state: PlayerListState.loaded,
+          players: [
+            Player(
+              playerId: 'p1',
+              name: 'Player 1',
+              playerNumber: 1,
+              status: 'ACTIVE',
+              userId: 'u1',
+            ),
+          ],
+          errorMessage: 'エラー',
+        );
+
+        final copied = data.copyWith();
+
+        expect(copied.state, data.state);
+        expect(copied.players, data.players);
+        expect(copied.errorMessage, data.errorMessage);
+      });
+    });
+  });
+
   group('PlayerListNotifier のテスト。', () {
     group('build メソッドのテスト。', () {
       test('初期状態で PlayerListData を生成する。', () {
