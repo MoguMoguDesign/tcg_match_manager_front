@@ -1,23 +1,47 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
-import 'package:domain/domain.dart';
+import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// 最終ランキングページを表示する。
 ///
 /// トーナメント終了後の最終順位と各プレイヤーの戦績を表示する。
-class FinalRankingPage extends StatefulWidget {
+class FinalRankingPage extends HookConsumerWidget {
   /// [FinalRankingPage] のコンストラクタ。
   const FinalRankingPage({super.key});
 
   @override
-  State<FinalRankingPage> createState() => _FinalRankingPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Notifier とセッション情報を取得する。
+    final standingListNotifier =
+        ref.read(domain.standingListNotifierProvider.notifier);
+    final standingListState = ref.watch(domain.standingListNotifierProvider);
+    final sessionState = ref.watch(domain.playerSessionNotifierProvider);
 
-class _FinalRankingPageState extends State<FinalRankingPage> {
-  @override
-  Widget build(BuildContext context) {
-    final currentPlayer = MockRankingData.finalRanking.firstWhere(
-      (player) => player.isCurrentPlayer,
+    /// 最終順位を取得する。
+    Future<void> fetchStandings() async {
+      final session = sessionState;
+
+      // TODO(user): baseUrl は QR コードスキャンまたは
+      // ルートパラメータから取得する。
+      const baseUrl = 'https://example.com/';
+      await standingListNotifier.fetchStandings(
+        baseUrl: baseUrl,
+        tournamentId: session.tournamentId,
+        userId: session.userId,
+      );
+    }
+
+    // 初回ロード時に最終順位を取得する。
+    useEffect(
+      () {
+        unawaited(fetchStandings());
+        return null;
+      },
+      [],
     );
 
     // 背景テーマは Svg 背景へ統一。
@@ -35,89 +59,124 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
         assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
-          child: Column(
-            children: [
-              // メインコンテンツ
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      // トーナメント情報
-                      TournamentInfoCard(
-                        title: MockData.tournament.title,
-                        date: MockData.tournament.date,
-                        participantCount: MockData.tournament.participantCount,
-                      ),
-                      const SizedBox(height: 32),
-                      // 最終順位タイトル
-                      Text(
-                        '最終順位',
-                        style: AppTextStyles.headlineLarge.copyWith(
-                          color: AppColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 32),
-                      // 自分の順位セクション
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              '自分の順位',
-                              style: AppTextStyles.labelMedium,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          RankingRow(
-                            leftLabel: currentPlayer.name,
-                            rightValue: '${currentPlayer.score}点',
-                            type: RankingRowType.currentUser,
-                            rankNumber: currentPlayer.rank,
-                            metaLeft: '累計得点 ${currentPlayer.score}点',
-                            metaRight: 'OMW% ${currentPlayer.omwPercentage}%',
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 32),
-                      // 対戦結果セクション
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              '対戦結果',
-                              style: AppTextStyles.labelMedium,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          RankingContainer(
-                            currentUserId: 'current_user',
-                            rankings: MockRankingData.finalRanking
-                                .map(
-                                  (player) => RankingData(
-                                    userId: player.isCurrentPlayer
-                                        ? 'current_user'
-                                        : 'user_${player.rank}',
-                                    playerName: player.name,
-                                    score: '${player.score}点',
-                                    rank: player.rank,
-                                    metaLeft: '累計得点 ${player.score}点',
-                                    metaRight: 'OMW% ${player.omwPercentage}%',
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ],
-                      ),
-                    ],
+          child: standingListState.when(
+            data: (standing) {
+              if (standing == null || standing.rankings.isEmpty) {
+                return const Center(
+                  child: Text(
+                    '最終順位が取得できませんでした',
+                    style: AppTextStyles.bodyMedium,
                   ),
+                );
+              }
+
+              // 自分の順位を取得する。
+              final session = sessionState;
+              final currentPlayerRanking = standing.rankings.firstWhere(
+                (ranking) => ranking.playerName == session.playerName,
+                orElse: () => standing.rankings.first,
+              );
+
+              return Column(
+                children: [
+                  // メインコンテンツ
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          // トーナメント情報
+                          TournamentInfoCard(
+                            title: domain.MockData.tournament.title,
+                            date: domain.MockData.tournament.date,
+                            participantCount:
+                                domain.MockData.tournament.participantCount,
+                          ),
+                          const SizedBox(height: 32),
+                          // 最終順位タイトル
+                          Text(
+                            '最終順位',
+                            style: AppTextStyles.headlineLarge.copyWith(
+                              color: AppColors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 32),
+                          // 自分の順位セクション
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  '自分の順位',
+                                  style: AppTextStyles.labelMedium,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              RankingRow(
+                                leftLabel: currentPlayerRanking.playerName,
+                                rightValue:
+                                    '${currentPlayerRanking.matchPoints}点',
+                                type: RankingRowType.currentUser,
+                                rankNumber: currentPlayerRanking.rank,
+                                metaLeft:
+                                    '累計得点 ${currentPlayerRanking.matchPoints}点',
+                                metaRight:
+                                    'OMW% ${currentPlayerRanking.omwPercentage.toStringAsFixed(2)}%', // ignore: lines_longer_than_80_chars
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 32),
+                          // 対戦結果セクション
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  '対戦結果',
+                                  style: AppTextStyles.labelMedium,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              RankingContainer(
+                                currentUserId: session.playerName,
+                                rankings: standing.rankings
+                                    .map(
+                                      (ranking) => RankingData(
+                                        userId: ranking.playerName,
+                                        playerName: ranking.playerName,
+                                        score: '${ranking.matchPoints}点',
+                                        rank: ranking.rank,
+                                        metaLeft:
+                                            '累計得点 ${ranking.matchPoints}点',
+                                        metaRight:
+                                            'OMW% ${ranking.omwPercentage.toStringAsFixed(2)}%', // ignore: lines_longer_than_80_chars
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, _) => Center(
+              child: Text(
+                'エラーが発生しました: $error',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: Colors.red,
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../router.dart';
 
@@ -9,85 +13,110 @@ import '../router.dart';
 /// マッチング表ページを表示する。
 ///
 /// 現在のラウンドの対戦表やラウンド移動の操作を提供する。
-class MatchingTablePage extends StatefulWidget {
+class MatchingTablePage extends HookConsumerWidget {
   /// [MatchingTablePage] のコンストラクタ。
   const MatchingTablePage({super.key});
 
   @override
-  State<MatchingTablePage> createState() => _MatchingTablePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentRound = useState(1);
 
-class _MatchingTablePageState extends State<MatchingTablePage> {
-  int currentRound = 1;
-  late List<domain.Match> matches;
+    // Notifier とセッション情報を取得する。
+    final matchListNotifier =
+        ref.read(domain.matchListNotifierProvider.notifier);
+    final matchListState = ref.watch(domain.matchListNotifierProvider);
+    final sessionState = ref.watch(domain.playerSessionNotifierProvider);
 
-  @override
-  void initState() {
-    super.initState();
-    matches = domain.MockData.getRoundMatches(currentRound);
-  }
+    /// マッチリストを取得する。
+    Future<void> fetchMatches() async {
+      final session = sessionState;
 
-  void _previousRound() {
-    if (currentRound > 1) {
-      setState(() {
-        currentRound--;
-        matches = domain.MockData.getRoundMatches(currentRound);
-      });
+      // TODO(user): baseUrl と roundId は QR コードスキャンまたは
+      // ルートパラメータから取得する。
+      const baseUrl = 'https://example.com/';
+      await matchListNotifier.fetchMatches(
+        baseUrl: baseUrl,
+        tournamentId: session.tournamentId,
+        roundId: 'round-${currentRound.value}',
+        userId: session.userId,
+      );
     }
-  }
 
-  Future<void> _nextRound() async {
-    if (currentRound >= 4) {
-      if (!mounted) {
+    // 初回ロード時にマッチリストを取得する。
+    useEffect(
+      () {
+        unawaited(fetchMatches());
+        return null;
+      },
+      [currentRound.value],
+    );
+
+    /// 前のラウンドに移動する。
+    void previousRound() {
+      if (currentRound.value > 1) {
+        currentRound.value--;
+      }
+    }
+
+    /// 次のラウンドに移動する。
+    Future<void> nextRound() async {
+      if (currentRound.value >= 4) {
+        if (!context.mounted) {
+          return;
+        }
+        context.goToFinalRanking();
         return;
       }
-      context.goToFinalRanking();
-      return;
+      currentRound.value++;
     }
-    setState(() {
-      currentRound++;
-      matches = domain.MockData.getRoundMatches(currentRound);
-    });
-  }
 
-  /// ドメインの [domain.Match] のリストを UI 表示用の [MatchData] のリストへ変換する。
-  List<MatchData> _toMatchData(List<domain.Match> domainMatches) {
-    return domainMatches.map((m) {
-      final uiStatus = switch (m.status) {
-        domain.MatchStatus.ongoing => MatchStatus.playing,
-        domain.MatchStatus.completed => MatchStatus.finished,
-      };
+    /// ドメインの [domain.Match] のリストを UI 表示用の [MatchData] のリストへ変換する。
+    List<MatchData> toMatchData(List<domain.Match> domainMatches) {
+      return domainMatches.map((m) {
+        // 結果が存在するかどうかで状態を判定する。
+        final hasResult = m.result != null;
+        final uiStatus = hasResult ? MatchStatus.finished : MatchStatus.playing;
 
-      PlayerState player1State;
-      PlayerState player2State;
-      if (m.status == domain.MatchStatus.completed) {
-        final player1IsWinner = identical(m.winner, m.player1);
-        player1State = player1IsWinner ? PlayerState.win : PlayerState.lose;
-        player2State = player1IsWinner ? PlayerState.lose : PlayerState.win;
-      } else {
-        player1State = PlayerState.progress;
-        player2State = PlayerState.progress;
-      }
+        PlayerState player1State;
+        PlayerState player2State;
 
-      return MatchData(
-        tableNumber: m.tableNumber,
-        player1Name: m.player1.name,
-        player2Name: m.player2.name,
-        status: uiStatus,
-        player1Score: '累計得点 ${m.player1.score}点',
-        player2Score: '累計得点 ${m.player2.score}点',
-        player1State: player1State,
-        player2State: player2State,
-        player1IsCurrentUser: m.player1.isCurrentPlayer,
-        player2IsCurrentUser: m.player2.isCurrentPlayer,
-      );
-    }).toList();
-  }
+        if (hasResult) {
+          // 勝者IDでプレイヤーの状態を判定する。
+          final player1IsWinner = m.result!.winnerId == m.player1.id;
+          final player2IsWinner = m.result!.winnerId == m.player2.id;
 
-  // 勝敗登録は別ページ（ResultEntryPage）へ遷移する仕様。
+          if (player1IsWinner) {
+            player1State = PlayerState.win;
+            player2State = PlayerState.lose;
+          } else if (player2IsWinner) {
+            player1State = PlayerState.lose;
+            player2State = PlayerState.win;
+          } else {
+            // 引き分け（winnerId が null の場合）。
+            player1State = PlayerState.lose;
+            player2State = PlayerState.lose;
+          }
+        } else {
+          player1State = PlayerState.progress;
+          player2State = PlayerState.progress;
+        }
 
-  @override
-  Widget build(BuildContext context) {
+        return MatchData(
+          tableNumber: m.tableNumber,
+          player1Name: m.player1.name,
+          player2Name: m.player2.name,
+          status: uiStatus,
+          player1Score: '累計得点 ${m.player1.matchingPoints}点',
+          player2Score: '累計得点 ${m.player2.matchingPoints}点',
+          player1State: player1State,
+          player2State: player2State,
+          player1IsCurrentUser: m.isMine && m.meSide == 'player1',
+          player2IsCurrentUser: m.isMine && m.meSide == 'player2',
+        );
+      }).toList();
+    }
+
+    // 勝敗登録は別ページ（ResultEntryPage）へ遷移する仕様。
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -119,21 +148,19 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                       ),
                       const SizedBox(height: 32),
                       // ラウンドナビゲーション
-                      if (currentRound >= 4)
+                      if (currentRound.value >= 4)
                         RoundChangeButtonRow.last(
-                          onPressedPrev: currentRound > 1
-                              ? _previousRound
-                              : null,
+                          onPressedPrev:
+                              currentRound.value > 1 ? previousRound : null,
                           onPressedShowFinal: () {
                             context.goToFinalRanking();
                           },
                         )
                       else
                         RoundChangeButtonRow.medium(
-                          onPressedPrev: currentRound > 1
-                              ? _previousRound
-                              : null,
-                          onPressedNext: _nextRound,
+                          onPressedPrev:
+                              currentRound.value > 1 ? previousRound : null,
+                          onPressedNext: nextRound,
                         ),
                       const SizedBox(height: 16),
                       // ラウンド情報
@@ -160,7 +187,7 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    'ラウンド$currentRound',
+                                    'ラウンド${currentRound.value}',
                                     style: AppTextStyles.headlineLarge,
                                   ),
                                 ),
@@ -189,20 +216,35 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(16),
-                                  child: matches.isNotEmpty
-                                      ? MatchList(
-                                          matches: _toMatchData(matches),
-                                          showHeader: false,
-                                          onMatchTap: (matchData) {
-                                            context.goToResultEntry();
-                                          },
-                                        )
-                                      : const Center(
+                                  child: matchListState.when(
+                                    data: (matches) {
+                                      if (matches.isEmpty) {
+                                        return const Center(
                                           child: Text(
                                             'このラウンドの対戦はありません',
                                             style: AppTextStyles.bodyMedium,
                                           ),
-                                        ),
+                                        );
+                                      }
+                                      return MatchList(
+                                        matches: toMatchData(matches),
+                                        showHeader: false,
+                                        onMatchTap: (matchData) {
+                                          context.goToResultEntry();
+                                        },
+                                      );
+                                    },
+                                    loading: () => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    error: (error, _) => Center(
+                                      child: Text(
+                                        'エラーが発生しました: $error',
+                                        style: AppTextStyles.bodyMedium
+                                            .copyWith(color: Colors.red),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
