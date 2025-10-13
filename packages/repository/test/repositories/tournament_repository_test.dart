@@ -24,24 +24,40 @@ void main() {
     const idToken = 'mock_id_token';
 
     // Test data constants
-    const testTournamentData = {
+    const testTournamentData = <String, dynamic>{
       'id': '1',
       'title': 'Test Tournament',
       'description': 'Test description',
+      'venue': 'Test Venue',
       'startDate': '2024-01-01T00:00:00Z',
       'endDate': '2024-01-02T00:00:00Z',
+      'drawPoints': 0,
+      'maxRounds': 3,
+      'expectedPlayers': 8,
+      'status': 'PREPARING',
+      'currentRound': 0,
+      'createdAt': '2024-01-01T00:00:00Z',
+      'updatedAt': '2024-01-01T00:00:00Z',
     };
 
     // Helper methods
     CreateTournamentRequest createTestRequest({
       String title = 'Test Tournament',
       String description = 'Test description',
+      String venue = 'Test Venue',
+      int drawPoints = 0,
+      int? maxRounds = 3,
+      int? expectedPlayers = 8,
     }) {
       return CreateTournamentRequest(
         title: title,
         description: description,
-        startDate: testTournamentData['startDate']!,
-        endDate: testTournamentData['endDate']!,
+        venue: venue,
+        startDate: testTournamentData['startDate']! as String,
+        endDate: testTournamentData['endDate']! as String,
+        drawPoints: drawPoints,
+        maxRounds: maxRounds,
+        expectedPlayers: expectedPlayers,
       );
     }
 
@@ -49,13 +65,27 @@ void main() {
       String id = '1',
       String title = 'Test Tournament',
       String description = 'Test description',
+      String venue = 'Test Venue',
+      int drawPoints = 0,
+      int? maxRounds = 3,
+      int? expectedPlayers = 8,
+      String status = 'PREPARING',
+      int currentRound = 0,
     }) {
       return TournamentModel(
         id: id,
         title: title,
         description: description,
-        startDate: testTournamentData['startDate']!,
-        endDate: testTournamentData['endDate']!,
+        venue: venue,
+        startDate: testTournamentData['startDate']! as String,
+        endDate: testTournamentData['endDate']! as String,
+        drawPoints: drawPoints,
+        maxRounds: maxRounds,
+        expectedPlayers: expectedPlayers,
+        status: status,
+        currentRound: currentRound,
+        createdAt: testTournamentData['createdAt']! as String,
+        updatedAt: testTournamentData['updatedAt']! as String,
       );
     }
 
@@ -76,7 +106,13 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => Response(
-          '{"id": "1", "title": "Test Tournament", "description": "Test description", "startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+          '{"id": "1", "title": "Test Tournament", '
+          '"description": "Test description", '
+          '"venue": "Test Venue", '
+          '"startDate": "2024-01-01T00:00:00Z", '
+          '"endDate": "2024-01-02T00:00:00Z", '
+          '"createdAt": "2024-01-01T00:00:00Z", '
+          '"updatedAt": "2024-01-01T00:00:00Z"}',
           200,
           headers: {'content-type': 'application/json'},
         ),
@@ -85,7 +121,7 @@ void main() {
       // Default GET request mock
       when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
         (_) async => Response(
-          '{"data": []}',
+          '{"tournaments": []}',
           200,
           headers: {'content-type': 'application/json'},
         ),
@@ -146,6 +182,7 @@ void main() {
           const request = CreateTournamentRequest(
             title: 'Test Tournament',
             description: 'Test description',
+            venue: 'Test Venue',
             startDate: '2024-01-01T00:00:00Z',
             endDate: '2024-01-02T00:00:00Z',
           );
@@ -166,8 +203,11 @@ void main() {
           id: '1',
           title: 'Sample Tournament',
           description: 'Test description',
+          venue: 'Sample Venue',
           startDate: '2024-01-01T00:00:00Z',
           endDate: '2024-01-02T00:00:00Z',
+          createdAt: '2024-01-01T00:00:00Z',
+          updatedAt: '2024-01-01T00:00:00Z',
         );
         expect(tournament.title, 'Sample Tournament');
       });
@@ -177,6 +217,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'New Tournament',
           description: 'Test description',
+          venue: 'Test Venue',
           startDate: '2024-01-01T00:00:00Z',
           endDate: '2024-01-02T00:00:00Z',
         );
@@ -189,6 +230,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'My Tournament',
           description: 'Test description',
+          venue: 'Test Venue',
           startDate: '2024-01-01T00:00:00Z',
           endDate: '2024-01-02T00:00:00Z',
         );
@@ -202,7 +244,13 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => Response(
-            '{"id": "1", "title": "My Tournament", "description": "Test description", "startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+            '{"id": "1", "title": "My Tournament", '
+            '"description": "Test description", '
+            '"venue": "Test Venue", '
+            '"startDate": "2024-01-01T00:00:00Z", '
+            '"endDate": "2024-01-02T00:00:00Z", '
+            '"createdAt": "2024-01-01T00:00:00Z", '
+            '"updatedAt": "2024-01-01T00:00:00Z"}',
             200,
             headers: {'content-type': 'application/json'},
           ),
@@ -223,6 +271,7 @@ void main() {
           const request = CreateTournamentRequest(
             title: 'API Test Tournament',
             description: 'Test description',
+            venue: 'Test Venue',
             startDate: '2024-01-01T00:00:00Z',
             endDate: '2024-01-02T00:00:00Z',
           );
@@ -237,7 +286,13 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "1", "title": "API Test Tournament", "description": "Test description", "startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+              '{"id": "1", "title": "API Test Tournament", '
+              '"description": "Test description", '
+              '"venue": "Test Venue", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -269,8 +324,11 @@ void main() {
           id: '123',
           title: 'Extended Tournament',
           description: 'Tournament description',
+          venue: 'Extended Venue',
           startDate: '2024-01-01T10:00:00Z',
           endDate: '2024-01-02T18:00:00Z',
+          createdAt: '2024-01-01T10:00:00Z',
+          updatedAt: '2024-01-01T10:00:00Z',
         );
 
         expect(tournament.id, '123');
@@ -285,6 +343,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'New Extended Tournament',
           description: 'New tournament description',
+          venue: 'Extended Venue',
           startDate: '2024-01-01T10:00:00Z',
           endDate: '2024-01-02T18:00:00Z',
         );
@@ -319,7 +378,13 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"data": [{"id": "1", "title": "Test Tournament", "description": "Test description", "startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}]}',
+              '{"tournaments": [{"id": "1", "title": "Test Tournament", '
+              '"description": "Test description", '
+              '"venue": "Test Venue", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}]}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -347,7 +412,20 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"data": [{"id": "1", "title": "Tournament 1", "description": "Desc 1", "startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}, {"id": "2", "title": "Tournament 2", "description": "Desc 2", "startDate": "2024-01-03T00:00:00Z", "endDate": "2024-01-04T00:00:00Z"}]}',
+              '{"tournaments": [{"id": "1", "title": "Tournament 1", '
+              '"description": "Desc 1", '
+              '"venue": "Venue 1", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}, '
+              '{"id": "2", "title": "Tournament 2", '
+              '"description": "Desc 2", '
+              '"venue": "Venue 2", '
+              '"startDate": "2024-01-03T00:00:00Z", '
+              '"endDate": "2024-01-04T00:00:00Z", '
+              '"createdAt": "2024-01-03T00:00:00Z", '
+              '"updatedAt": "2024-01-03T00:00:00Z"}]}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -393,8 +471,13 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "1", "title": "Tournament Detail Test", "description": "Detail test description", '
-              '"startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+              '{"id": "1", "title": "Tournament Detail Test", '
+              '"description": "Detail test description", '
+              '"venue": "Detail test venue", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -425,7 +508,11 @@ void main() {
             (_) async => Response(
               '{"id": "$tournamentId", "title": "Detail Tournament", '
               '"description": "Detail description", '
-              '"startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+              '"venue": "Detail venue", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -498,20 +585,21 @@ void main() {
       test('UpdateTournamentRequest model exists', () {
         // GREEN: This should pass - model exists with partial update support
         const request = UpdateTournamentRequest.full(
-          title: 'Updated Tournament',
-          description: 'Updated description',
-          startDate: '2024-01-01T00:00:00Z',
-          endDate: '2024-01-02T00:00:00Z',
+          name: 'Updated Tournament',
+          overview: 'Updated description',
+          category: 'Standard',
+          date: '2024-01-01T00:00:00Z',
+          remarks: 'Some remarks',
         );
 
         expect(request, isNotNull);
-        expect(request.title, 'Updated Tournament');
+        expect(request.name, 'Updated Tournament');
         expect(request.hasUpdates, isTrue);
 
         // Test partial update
-        const partialRequest = UpdateTournamentRequest(title: 'Only Title');
-        expect(partialRequest.title, 'Only Title');
-        expect(partialRequest.description, isNull);
+        const partialRequest = UpdateTournamentRequest(name: 'Only Name');
+        expect(partialRequest.name, 'Only Name');
+        expect(partialRequest.overview, isNull);
         expect(partialRequest.hasUpdates, isTrue);
       });
 
@@ -529,10 +617,10 @@ void main() {
           // RED: This should fail - method doesn't exist yet
           final repository = TournamentApiRepository(apiClient: apiClient);
           const updateRequest = UpdateTournamentRequest(
-            title: 'Updated Tournament Title',
-            description: 'Updated description',
-            startDate: '2024-01-01T00:00:00Z',
-            endDate: '2024-01-02T00:00:00Z',
+            name: 'Updated Tournament Title',
+            overview: 'Updated description',
+            category: 'Standard',
+            date: '2024-01-01T00:00:00Z',
           );
 
           // Mock specific response for this test
@@ -546,7 +634,11 @@ void main() {
             (_) async => Response(
               '{"id": "1", "title": "Updated Tournament Title", '
               '"description": "Updated description", '
-              '"startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+              '"venue": "Updated venue", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -567,10 +659,10 @@ void main() {
           final repository = TournamentApiRepository(apiClient: apiClient);
           const tournamentId = '123';
           const updateRequest = UpdateTournamentRequest(
-            title: 'Patch Test Tournament',
-            description: 'Patch test description',
-            startDate: '2024-01-01T00:00:00Z',
-            endDate: '2024-01-02T00:00:00Z',
+            name: 'Patch Test Tournament',
+            overview: 'Patch test description',
+            category: 'Standard',
+            date: '2024-01-01T00:00:00Z',
           );
 
           // Mock HTTP client response for tournament update
@@ -584,7 +676,11 @@ void main() {
             (_) async => Response(
               '{"id": "$tournamentId", "title": "Patch Test Tournament", '
               '"description": "Patch test description", '
-              '"startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+              '"venue": "Patch test venue", '
+              '"startDate": "2024-01-01T00:00:00Z", '
+              '"endDate": "2024-01-02T00:00:00Z", '
+              '"createdAt": "2024-01-01T00:00:00Z", '
+              '"updatedAt": "2024-01-01T00:00:00Z"}',
               200,
               headers: {'content-type': 'application/json'},
             ),
@@ -615,10 +711,10 @@ void main() {
           // RED: This should fail - method doesn't exist yet
           final repository = TournamentApiRepository(apiClient: apiClient);
           const updateRequest = UpdateTournamentRequest(
-            title: 'Test',
-            description: 'Test',
-            startDate: '2024-01-01T00:00:00Z',
-            endDate: '2024-01-02T00:00:00Z',
+            name: 'Test',
+            overview: 'Test',
+            category: 'Standard',
+            date: '2024-01-01T00:00:00Z',
           );
 
           expect(
@@ -641,10 +737,10 @@ void main() {
           final repository = TournamentApiRepository(apiClient: apiClient);
           const invalidId = 'invalid-id';
           const updateRequest = UpdateTournamentRequest(
-            title: 'Test',
-            description: 'Test',
-            startDate: '2024-01-01T00:00:00Z',
-            endDate: '2024-01-02T00:00:00Z',
+            name: 'Test',
+            overview: 'Test',
+            category: 'Standard',
+            date: '2024-01-01T00:00:00Z',
           );
 
           // Mock 404 response
@@ -693,7 +789,7 @@ void main() {
         // REFACTOR: Test partial update functionality
         final repository = TournamentApiRepository(apiClient: apiClient);
         const partialRequest = UpdateTournamentRequest(
-          title: 'Only Title Updated',
+          name: 'Only Name Updated',
         );
 
         // Mock response for partial update
@@ -705,9 +801,13 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => Response(
-            '{"id": "1", "title": "Only Title Updated", '
+            '{"id": "1", "title": "Only Name Updated", '
             '"description": "Original description", '
-            '"startDate": "2024-01-01T00:00:00Z", "endDate": "2024-01-02T00:00:00Z"}',
+            '"venue": "Original venue", '
+            '"startDate": "2024-01-01T00:00:00Z", '
+            '"endDate": "2024-01-02T00:00:00Z", '
+            '"createdAt": "2024-01-01T00:00:00Z", '
+            '"updatedAt": "2024-01-01T00:00:00Z"}',
             200,
             headers: {'content-type': 'application/json'},
           ),
@@ -715,15 +815,15 @@ void main() {
 
         final result = await repository.updateTournament('1', partialRequest);
 
-        expect(result.title, 'Only Title Updated');
+        expect(result.title, 'Only Name Updated');
         expect(result.description, 'Original description');
 
-        // Verify that only the title was sent in the request body
+        // Verify that only the name was sent in the request body
         verify(
           mockHttpClient.patch(
             Uri.parse('$baseUrl/admin/tournaments/1'),
             headers: anyNamed('headers'),
-            body: '{"title":"Only Title Updated"}',
+            body: '{"name":"Only Name Updated"}',
           ),
         ).called(1);
       });
@@ -874,7 +974,8 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"code": "TOURNAMENT_HAS_ACTIVE_MATCHES", "message": "Cannot delete tournament with active matches"}',
+              '{"code": "TOURNAMENT_HAS_ACTIVE_MATCHES", '
+              '"message": "Cannot delete tournament with active matches"}',
               409,
               headers: {'content-type': 'application/json'},
             ),
@@ -955,6 +1056,181 @@ void main() {
           // Both should complete successfully
           expect(true, isTrue);
         },
+      );
+    });
+
+    group('RED Phase 11 - Error handling for malformed responses', () {
+      test(
+        'createTournament throws AdminApiException '
+        'for malformed response',
+        () async {
+        final repository = TournamentApiRepository(apiClient: apiClient);
+        const request = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          venue: 'テスト会場',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          maxRounds: 5,
+          expectedPlayers: 16,
+        );
+
+        // 不正なレスポンス（TournamentModelに変換できない）を返す
+        when(
+          mockHttpClient.post(
+            Uri.parse('$baseUrl/admin/tournaments'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            '{"invalid": "data"}',
+            200,
+            headers: {'content-type': 'application/json'},
+          ),
+        );
+
+        expect(
+          () => repository.createTournament(request),
+          throwsA(
+            isA<AdminApiException>().having(
+              (e) => e.code,
+              'code',
+              'PARSE_ERROR',
+            ),
+          ),
+        );
+      },
+      );
+
+      test(
+        'getTournaments throws AdminApiException '
+        'when tournaments field is missing',
+        () async {
+        final repository = TournamentApiRepository(apiClient: apiClient);
+
+        // tournamentsフィールドがないレスポンス
+        when(
+          mockHttpClient.get(
+            Uri.parse('$baseUrl/admin/tournaments'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            '{"data": []}',
+            200,
+            headers: {'content-type': 'application/json'},
+          ),
+        );
+
+        expect(
+          repository.getTournaments,
+          throwsA(
+            isA<AdminApiException>().having(
+              (e) => e.code,
+              'code',
+              'INVALID_RESPONSE',
+            ),
+          ),
+        );
+      },
+      );
+
+      test(
+        'getTournaments throws AdminApiException '
+        'when tournaments field is not a List',
+        () async {
+        final repository = TournamentApiRepository(apiClient: apiClient);
+
+        // tournamentsフィールドがList型でない
+        when(
+          mockHttpClient.get(
+            Uri.parse('$baseUrl/admin/tournaments'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            '{"tournaments": "not a list"}',
+            200,
+            headers: {'content-type': 'application/json'},
+          ),
+        );
+
+        expect(
+          repository.getTournaments,
+          throwsA(
+            isA<AdminApiException>().having(
+              (e) => e.code,
+              'code',
+              'INVALID_RESPONSE',
+            ),
+          ),
+        );
+      },
+      );
+
+      test(
+        'getTournaments throws AdminApiException when item is not a Map',
+        () async {
+        final repository = TournamentApiRepository(apiClient: apiClient);
+
+        // tournamentsフィールドの要素がMap<String, dynamic>でない
+        when(
+          mockHttpClient.get(
+            Uri.parse('$baseUrl/admin/tournaments'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            '{"tournaments": ["not a map", "another string"]}',
+            200,
+            headers: {'content-type': 'application/json'},
+          ),
+        );
+
+        expect(
+          repository.getTournaments,
+          throwsA(
+            isA<AdminApiException>().having(
+              (e) => e.code,
+              'code',
+              'INVALID_RESPONSE',
+            ),
+          ),
+        );
+      },
+      );
+
+      test(
+        'getTournaments throws AdminApiException for parse error',
+        () async {
+        final repository = TournamentApiRepository(apiClient: apiClient);
+
+        // Mapだが、TournamentModelに変換できない不正なデータ
+        when(
+          mockHttpClient.get(
+            Uri.parse('$baseUrl/admin/tournaments'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            '{"tournaments": [{"invalid": "tournament data"}]}',
+            200,
+            headers: {'content-type': 'application/json'},
+          ),
+        );
+
+        expect(
+          repository.getTournaments,
+          throwsA(
+            isA<AdminApiException>().having(
+              (e) => e.code,
+              'code',
+              'PARSE_ERROR',
+            ),
+          ),
+        );
+      },
       );
     });
   });
