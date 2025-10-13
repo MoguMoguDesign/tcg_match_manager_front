@@ -503,12 +503,15 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
       date: tournament.startDate != null
           ? formatDate(tournament.startDate!)
           : '日付未設定',
-      participants: 0, // TODO(developer): プレイヤー数の取得を実装
+      // プレイヤー数は今後実装予定
+      participants: 0,
       status: status,
+      // 実際のラウンド情報は今後取得予定
       round: status == TournamentStatus.ongoing
           ? 'ラウンド1'
-          : null, // TODO(developer): 実際のラウンド情報を取得
-      gameType: 'ポケカ', // TODO(developer): ゲーム種別の取得を実装
+          : null,
+      // ゲーム種別は今後取得予定
+      gameType: 'ポケカ',
     );
   }
 }

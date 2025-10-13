@@ -8,6 +8,8 @@ environment:
 resolution: workspace
 
 dependencies:
+  domain:
+    path: ../domain
   firebase_auth: ^5.7.0
   http: ^1.4.0
   meta: ^1.16.0
