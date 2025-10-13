@@ -1,8 +1,10 @@
 import 'package:domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:injection/injection.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:repository/repository.dart';
+import 'package:riverpod/riverpod.dart';
 
 import 'add_player_use_case_test.mocks.dart';
 
@@ -15,6 +17,22 @@ void main() {
   setUp(() {
     mockPlayerRepository = MockPlayerRepository();
     useCase = AddPlayerUseCase(playerRepository: mockPlayerRepository);
+  });
+
+  group('addPlayerUseCaseProvider のテスト。', () {
+    test('addPlayerUseCaseProvider が AddPlayerUseCase を返す。', () {
+      final container = ProviderContainer(
+        overrides: [
+          playerRepositoryProvider.overrideWithValue(mockPlayerRepository),
+        ],
+      );
+
+      final result = container.read(addPlayerUseCaseProvider);
+
+      expect(result, isA<AddPlayerUseCase>());
+
+      container.dispose();
+    });
   });
 
   group('AddPlayerUseCase のテスト。', () {
@@ -93,6 +111,66 @@ void main() {
           userId: testUserId,
         ),
         throwsA(isA<FailureStatusException>()),
+      );
+    });
+
+    test(
+      'AdminApiException (PARSE_ERROR) が発生した場合、 '
+      'FailureStatusExceptionをスローする。',
+      () async {
+      const testErrorMessage = 'パースエラー';
+
+      // AdminApiException をスローするスタブを用意する。
+      when(
+        mockPlayerRepository.addPlayer(
+          tournamentId: anyNamed('tournamentId'),
+          request: anyNamed('request'),
+        ),
+      ).thenThrow(
+        const AdminApiException(
+          code: 'PARSE_ERROR',
+          message: testErrorMessage,
+        ),
+      );
+
+      // invoke メソッドを実行し、例外がスローされることを確認する。
+      expect(
+        () => useCase.invoke(
+          tournamentId: testTournamentId,
+          name: testName,
+          playerNumber: testPlayerNumber,
+          userId: testUserId,
+        ),
+        throwsA(isA<FailureStatusException>()),
+      );
+    });
+
+    test(
+      'AdminApiException (UNAUTHENTICATED) が発生した場合、 '
+      'GeneralFailureExceptionをスローする。',
+      () async {
+      // AdminApiException をスローするスタブを用意する。
+      when(
+        mockPlayerRepository.addPlayer(
+          tournamentId: anyNamed('tournamentId'),
+          request: anyNamed('request'),
+        ),
+      ).thenThrow(
+        const AdminApiException(
+          code: 'UNAUTHENTICATED',
+          message: '認証が必要です',
+        ),
+      );
+
+      // invoke メソッドを実行し、例外がスローされることを確認する。
+      expect(
+        () => useCase.invoke(
+          tournamentId: testTournamentId,
+          name: testName,
+          playerNumber: testPlayerNumber,
+          userId: testUserId,
+        ),
+        throwsA(isA<GeneralFailureException>()),
       );
     });
 

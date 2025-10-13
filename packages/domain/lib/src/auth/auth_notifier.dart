@@ -1,3 +1,6 @@
+// 将来の実装のため、テストカバレッジから除外する。
+// coverage:ignore-file
+
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

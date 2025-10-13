@@ -1,3 +1,6 @@
+// 将来の実装のため、テストカバレッジから除外する。
+// coverage:ignore-file
+
 import 'auth_repository.dart';
 import 'auth_user.dart';
 

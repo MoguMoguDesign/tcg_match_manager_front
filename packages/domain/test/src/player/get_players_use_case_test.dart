@@ -1,8 +1,10 @@
 import 'package:domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:injection/injection.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:repository/repository.dart';
+import 'package:riverpod/riverpod.dart';
 
 import 'get_players_use_case_test.mocks.dart';
 
@@ -15,6 +17,22 @@ void main() {
   setUp(() {
     mockPlayerRepository = MockPlayerRepository();
     useCase = GetPlayersUseCase(playerRepository: mockPlayerRepository);
+  });
+
+  group('getPlayersUseCaseProvider のテスト。', () {
+    test('getPlayersUseCaseProvider が GetPlayersUseCase を返す。', () {
+      final container = ProviderContainer(
+        overrides: [
+          playerRepositoryProvider.overrideWithValue(mockPlayerRepository),
+        ],
+      );
+
+      final result = container.read(getPlayersUseCaseProvider);
+
+      expect(result, isA<GetPlayersUseCase>());
+
+      container.dispose();
+    });
   });
 
   group('GetPlayersUseCase のテスト。', () {
@@ -125,6 +143,34 @@ void main() {
     });
 
     test(
+      'AdminApiException (INVALID_RESPONSE) が発生した場合、 '
+      'FailureStatusExceptionをスローする。',
+      () async {
+      const testErrorMessage = '無効なレスポンス';
+
+      // AdminApiException をスローするスタブを用意する。
+      when(
+        mockPlayerRepository.getPlayers(
+          tournamentId: anyNamed('tournamentId'),
+          status: anyNamed('status'),
+        ),
+      ).thenThrow(
+        const AdminApiException(
+          code: 'INVALID_RESPONSE',
+          message: testErrorMessage,
+        ),
+      );
+
+      // invoke メソッドを実行し、例外がスローされることを確認する。
+      expect(
+        () => useCase.invoke(
+          tournamentId: testTournamentId,
+        ),
+        throwsA(isA<FailureStatusException>()),
+      );
+    });
+
+    test(
       'AdminApiException (PARSE_ERROR) が発生した場合、 '
       'FailureStatusExceptionをスローする。',
       () async {
@@ -166,6 +212,32 @@ void main() {
         const AdminApiException(
           code: 'UNAUTHENTICATED',
           message: '未認証',
+        ),
+      );
+
+      // invoke メソッドを実行し、例外がスローされることを確認する。
+      expect(
+        () => useCase.invoke(
+          tournamentId: testTournamentId,
+        ),
+        throwsA(isA<GeneralFailureException>()),
+      );
+    });
+
+    test(
+      'AdminApiException (AUTH_ERROR) が発生した場合、 '
+      'GeneralFailureExceptionをスローする。',
+      () async {
+      // AdminApiException をスローするスタブを用意する。
+      when(
+        mockPlayerRepository.getPlayers(
+          tournamentId: anyNamed('tournamentId'),
+          status: anyNamed('status'),
+        ),
+      ).thenThrow(
+        const AdminApiException(
+          code: 'AUTH_ERROR',
+          message: '認証エラー',
         ),
       );
 
