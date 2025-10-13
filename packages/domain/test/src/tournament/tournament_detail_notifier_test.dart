@@ -60,8 +60,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。
@@ -95,8 +98,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。
@@ -166,7 +172,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (noConnectionError) が発生した場合、state が error になる。',
+        'GeneralFailureException (noConnectionError) が発生した場合、 '
+        'state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
@@ -192,7 +199,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、state が error になる。',
+        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、 '
+        'state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
@@ -272,8 +280,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。
@@ -305,8 +316,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。

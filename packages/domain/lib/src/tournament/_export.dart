@@ -1,3 +1,4 @@
+export 'create_tournament_request.dart';
 export 'create_tournament_use_case.dart';
 export 'delete_tournament_use_case.dart';
 export 'get_tournament_use_case.dart';

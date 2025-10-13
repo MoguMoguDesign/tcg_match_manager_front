@@ -1,29 +1,33 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../home/tournament_detail_page.dart';
+import '../home/tournament_detail_page.dart' as detail_page;
 
 /// 大会編集ダイアログ
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=550-4806&t=3LcouErPKHmLq3zh-4
-class EditTournamentDialog extends StatefulWidget {
+class EditTournamentDialog extends ConsumerStatefulWidget {
   /// 大会編集ダイアログのコンストラクタ
   const EditTournamentDialog({required this.tournament, super.key});
 
   /// 編集対象のトーナメントデータ
-  final TournamentDetailData tournament;
+  final detail_page.TournamentDetailData tournament;
 
   @override
-  State<EditTournamentDialog> createState() => _EditTournamentDialogState();
+  ConsumerState<EditTournamentDialog> createState() =>
+      _EditTournamentDialogState();
 }
 
-class _EditTournamentDialogState extends State<EditTournamentDialog> {
+class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
   late final TextEditingController _dateController;
   late final TextEditingController _timeController;
   late final TextEditingController _notesController;
 
+  late String _selectedCategory;
   late String _selectedParticipants;
   late String _selectedRounds;
   late String _selectedDrawHandling;
@@ -33,17 +37,19 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
     super.initState();
 
     // 既存データで初期化
-    _titleController = TextEditingController(text: widget.tournament.title);
+    final tournament = widget.tournament;
+    _titleController = TextEditingController(text: tournament.title);
     _descriptionController = TextEditingController(
-      text: widget.tournament.description,
+      text: tournament.description,
     );
-    _dateController = TextEditingController(text: widget.tournament.date);
-    _timeController = TextEditingController(text: widget.tournament.time);
-    _notesController = TextEditingController(text: widget.tournament.notes);
+    _dateController = TextEditingController(text: tournament.date);
+    _timeController = TextEditingController(text: tournament.time);
+    _notesController = TextEditingController(text: tournament.notes);
 
-    _selectedParticipants = '${widget.tournament.maxParticipants}人';
-    _selectedRounds = widget.tournament.maxRounds;
-    _selectedDrawHandling = widget.tournament.drawHandling;
+    _selectedCategory = tournament.category;
+    _selectedParticipants = '${tournament.maxParticipants}人';
+    _selectedRounds = tournament.maxRounds;
+    _selectedDrawHandling = tournament.drawHandling;
   }
 
   @override
@@ -169,6 +175,54 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
                             fontSize: 14,
                             color: AppColors.textBlack,
                           ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // 大会カテゴリ
+                    _buildFormField(
+                      label: '大会カテゴリ',
+                      isRequired: true,
+                      child: Container(
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppColors.grayLight,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          initialValue: _selectedCategory,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textBlack,
+                          ),
+                          items: [
+                            'Pokemon Card',
+                            '遊戯王',
+                            'デュエルマスターズ',
+                            'ヴァンガード',
+                            'その他',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                _selectedCategory = newValue;
+                              });
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -540,8 +594,6 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
       return;
     }
 
-    // 実際の保存処理を実装する必要があります
-
     // バリデーション
     if (_titleController.text.isEmpty) {
       if (!mounted) {
@@ -563,6 +615,19 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('大会の説明は必須です'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    if (_selectedCategory.isEmpty) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('大会カテゴリは必須です'),
           backgroundColor: AppColors.error,
         ),
       );
@@ -635,15 +700,141 @@ class _EditTournamentDialogState extends State<EditTournamentDialog> {
       return;
     }
 
-    // 成功メッセージを表示してダイアログを閉じる
-    if (mounted) {
+    try {
+      // 日付と時刻をISO 8601形式に変換
+      final dateParts = _dateController.text.split('/');
+      if (dateParts.length != 3) {
+        throw const FormatException('日付の形式が正しくありません');
+      }
+      final year = dateParts[0].padLeft(4, '0');
+      final month = dateParts[1].padLeft(2, '0');
+      final day = dateParts[2].padLeft(2, '0');
+
+      // 時刻を分割（HH:MM-HH:MM形式）- 開始時刻のみを使用
+      final timeParts = _timeController.text.split('-');
+      if (timeParts.length != 2) {
+        throw const FormatException('時刻の形式が正しくありません');
+      }
+
+      final startTimeParts = timeParts[0].trim().split(':');
+
+      if (startTimeParts.length != 2) {
+        throw const FormatException('時刻の形式が正しくありません');
+      }
+
+      final startHour = startTimeParts[0].padLeft(2, '0');
+      final startMinute = startTimeParts[1].padLeft(2, '0');
+
+      // 開催日時（ISO 8601形式）
+      final date = '$year-$month-${day}T$startHour:$startMinute:00Z';
+
+      // トーナメント編集Notifierを取得
+      final notifier = ref.read(tournamentEditNotifierProvider.notifier);
+
+      // トーナメントIDを取得
+      final tournamentId = widget.tournament.id;
+
+      // デバッグログ
+      debugPrint('DEBUG: Tournament ID = $tournamentId');
+      debugPrint('DEBUG: Calling updateTournament with:');
+      debugPrint('  id: $tournamentId');
+      debugPrint('  name: ${_titleController.text.trim()}');
+      debugPrint('  overview: ${_descriptionController.text.trim()}');
+      debugPrint('  category: $_selectedCategory');
+      debugPrint('  date: $date');
+      final remarksValue = _notesController.text.trim().isNotEmpty
+          ? _notesController.text.trim()
+          : null;
+      debugPrint('  remarks: $remarksValue');
+
+      // API呼び出し
+      await notifier.updateTournament(
+        id: tournamentId,
+        name: _titleController.text.trim(),
+        overview: _descriptionController.text.trim(),
+        category: _selectedCategory,
+        date: date,
+        remarks: _notesController.text.trim().isNotEmpty
+            ? _notesController.text.trim()
+            : null,
+      );
+
+      // 状態を確認
+      final state = ref.read(tournamentEditNotifierProvider);
+
+      if (!mounted) {
+        return;
+      }
+
+      if (state.state == TournamentEditState.success) {
+        // 成功メッセージを表示してダイアログを閉じる
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('大会情報を更新しました'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+        Navigator.of(context).pop();
+      } else if (state.state == TournamentEditState.error) {
+        // エラーメッセージを表示
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.errorMessage ?? '更新に失敗しました'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } on FormatException catch (e) {
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('大会情報を更新しました'),
-          backgroundColor: AppColors.success,
+        SnackBar(
+          content: Text('入力エラー: ${e.message}'),
+          backgroundColor: AppColors.error,
         ),
       );
-      Navigator.of(context).pop();
+    } on FailureStatusException catch (e) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('エラー: ${e.message}'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    } on GeneralFailureException catch (e) {
+      if (!mounted) {
+        return;
+      }
+      String message;
+      switch (e.reason) {
+        case GeneralFailureReason.other:
+          message = '認証に失敗しました。再度ログインしてください。';
+        case GeneralFailureReason.noConnectionError:
+          message = 'ネットワークに接続できません。';
+        case GeneralFailureReason.serverUrlNotFoundError:
+          message = 'サーバーURLが見つかりません。';
+        case GeneralFailureReason.badResponse:
+          message = '不正なレスポンスです。';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    } on Exception catch (e) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('予期しないエラーが発生しました: $e'),
+          backgroundColor: AppColors.error,
+        ),
+      );
     }
   }
 }

@@ -63,7 +63,6 @@ void main() {
       verify(
         mockPlayerRepository.getPlayers(
           tournamentId: testTournamentId,
-          status: null,
         ),
       ).called(1);
     });
@@ -125,7 +124,10 @@ void main() {
       expect(result, isEmpty);
     });
 
-    test('AdminApiException (PARSE_ERROR) が発生した場合、FailureStatusExceptionをスローする。', () async {
+    test(
+      'AdminApiException (PARSE_ERROR) が発生した場合、 '
+      'FailureStatusExceptionをスローする。',
+      () async {
       const testErrorMessage = 'パースエラー';
 
       // AdminApiException をスローするスタブを用意する。
@@ -150,7 +152,10 @@ void main() {
       );
     });
 
-    test('AdminApiException (UNAUTHENTICATED) が発生した場合、GeneralFailureExceptionをスローする。', () async {
+    test(
+      'AdminApiException (UNAUTHENTICATED) が発生した場合、 '
+      'GeneralFailureExceptionをスローする。',
+      () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(
@@ -173,7 +178,10 @@ void main() {
       );
     });
 
-    test('AdminApiException (NETWORK_ERROR) が発生した場合、GeneralFailureException(noConnectionError)をスローする。', () async {
+    test(
+      'AdminApiException (NETWORK_ERROR) が発生した場合、 '
+      'GeneralFailureException(noConnectionError)をスローする。',
+      () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(
@@ -198,7 +206,10 @@ void main() {
       }
     });
 
-    test('AdminApiException (その他) が発生した場合、GeneralFailureExceptionをスローする。', () async {
+    test(
+      'AdminApiException (その他) が発生した場合、 '
+      'GeneralFailureExceptionをスローする。',
+      () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(

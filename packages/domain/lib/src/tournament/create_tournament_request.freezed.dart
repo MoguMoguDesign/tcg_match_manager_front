@@ -12,15 +12,14 @@ part of 'create_tournament_request.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$CreateTournamentRequest {
 
-/// 大会タイトル。
- String get title;/// 大会の説明。
+/// トーナメントタイトル。
+ String get title;/// トーナメントの説明。
  String get description;/// 開催会場。
- String get venue;/// 大会開始日時（ISO 8601 形式）。
- String get startDate;/// 大会終了日時（ISO 8601 形式）。
+ String get venue;/// トーナメント開始日時（ISO 8601 形式）。
+ String get startDate;/// トーナメント終了日時（ISO 8601 形式）。
  String get endDate;/// 引き分け得点（0点 or 1点）。
  int get drawPoints;/// ラウンド数（手動指定時、nullの場合は自動計算）。
  int? get maxRounds;/// 予定参加者数（自動計算用）。
@@ -31,8 +30,6 @@ mixin _$CreateTournamentRequest {
 @pragma('vm:prefer-inline')
 $CreateTournamentRequestCopyWith<CreateTournamentRequest> get copyWith => _$CreateTournamentRequestCopyWithImpl<CreateTournamentRequest>(this as CreateTournamentRequest, _$identity);
 
-  /// Serializes this CreateTournamentRequest to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -40,7 +37,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateTournamentRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.drawPoints, drawPoints) || other.drawPoints == drawPoints)&&(identical(other.maxRounds, maxRounds) || other.maxRounds == maxRounds)&&(identical(other.expectedPlayers, expectedPlayers) || other.expectedPlayers == expectedPlayers));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,title,description,venue,startDate,endDate,drawPoints,maxRounds,expectedPlayers);
 
@@ -92,21 +89,21 @@ as int?,
 
 
 /// @nodoc
-@JsonSerializable()
+
 
 class _CreateTournamentRequest implements CreateTournamentRequest {
   const _CreateTournamentRequest({required this.title, required this.description, required this.venue, required this.startDate, required this.endDate, this.drawPoints = 0, this.maxRounds, this.expectedPlayers});
-  factory _CreateTournamentRequest.fromJson(Map<String, dynamic> json) => _$CreateTournamentRequestFromJson(json);
+  
 
-/// 大会タイトル。
+/// トーナメントタイトル。
 @override final  String title;
-/// 大会の説明。
+/// トーナメントの説明。
 @override final  String description;
 /// 開催会場。
 @override final  String venue;
-/// 大会開始日時（ISO 8601 形式）。
+/// トーナメント開始日時（ISO 8601 形式）。
 @override final  String startDate;
-/// 大会終了日時（ISO 8601 形式）。
+/// トーナメント終了日時（ISO 8601 形式）。
 @override final  String endDate;
 /// 引き分け得点（0点 or 1点）。
 @override@JsonKey() final  int drawPoints;
@@ -121,17 +118,14 @@ class _CreateTournamentRequest implements CreateTournamentRequest {
 @pragma('vm:prefer-inline')
 _$CreateTournamentRequestCopyWith<_CreateTournamentRequest> get copyWith => __$CreateTournamentRequestCopyWithImpl<_CreateTournamentRequest>(this, _$identity);
 
-@override
-Map<String, dynamic> toJson() {
-  return _$CreateTournamentRequestToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateTournamentRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.drawPoints, drawPoints) || other.drawPoints == drawPoints)&&(identical(other.maxRounds, maxRounds) || other.maxRounds == maxRounds)&&(identical(other.expectedPlayers, expectedPlayers) || other.expectedPlayers == expectedPlayers));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,title,description,venue,startDate,endDate,drawPoints,maxRounds,expectedPlayers);
 

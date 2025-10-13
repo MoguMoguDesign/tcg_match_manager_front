@@ -56,15 +56,21 @@ void main() {
             id: 'test-id-1',
             title: 'テスト大会1',
             description: 'テスト大会1の説明',
+            venue: 'テスト会場1',
             startDate: '2025-10-01T10:00:00Z',
             endDate: '2025-10-01T18:00:00Z',
+            createdAt: '2025-10-01T09:00:00Z',
+            updatedAt: '2025-10-01T09:00:00Z',
           ),
           const Tournament(
             id: 'test-id-2',
             title: 'テスト大会2',
             description: 'テスト大会2の説明',
+            venue: 'テスト会場2',
             startDate: '2025-10-02T10:00:00Z',
             endDate: '2025-10-02T18:00:00Z',
+            createdAt: '2025-10-02T09:00:00Z',
+            updatedAt: '2025-10-02T09:00:00Z',
           ),
         ];
 
@@ -100,8 +106,11 @@ void main() {
             id: 'test-id-1',
             title: 'テスト大会1',
             description: 'テスト大会1の説明',
+            venue: 'テスト会場1',
             startDate: '2025-10-01T10:00:00Z',
             endDate: '2025-10-01T18:00:00Z',
+            createdAt: '2025-10-01T09:00:00Z',
+            updatedAt: '2025-10-01T09:00:00Z',
           ),
         ];
 
@@ -188,7 +197,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (noConnectionError) が発生した場合、state が error になる。',
+        'GeneralFailureException (noConnectionError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(mockGetTournamentsUseCase.invoke()).thenThrow(
@@ -214,7 +224,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、state が error になる。',
+        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(mockGetTournamentsUseCase.invoke()).thenThrow(
@@ -286,6 +297,32 @@ void main() {
       });
     });
 
+    group('copyWith のテスト。', () {
+      test('copyWith で state に null を渡すと現在の state を保持する', () {
+        const data = TournamentListData(
+          state: TournamentListState.loaded,
+        );
+
+        final copied = data.copyWith(
+          tournaments: [
+            const Tournament(
+              id: 'test-id',
+              title: 'Test Tournament',
+              description: 'Test Description',
+              venue: 'Test Venue',
+              startDate: '2025-10-01T10:00:00Z',
+              endDate: '2025-10-01T18:00:00Z',
+              createdAt: '2025-10-01T09:00:00Z',
+              updatedAt: '2025-10-01T09:00:00Z',
+            ),
+          ],
+        );
+
+        expect(copied.state, TournamentListState.loaded);
+        expect(copied.tournaments, hasLength(1));
+      });
+    });
+
     group('refreshTournaments メソッドのテスト。', () {
       test('refreshTournaments が loadTournaments を呼び出す。', () async {
         final testTournaments = [
@@ -293,8 +330,11 @@ void main() {
             id: 'test-id-1',
             title: 'テスト大会1',
             description: 'テスト大会1の説明',
+            venue: 'テスト会場1',
             startDate: '2025-10-01T10:00:00Z',
             endDate: '2025-10-01T18:00:00Z',
+            createdAt: '2025-10-01T09:00:00Z',
+            updatedAt: '2025-10-01T09:00:00Z',
           ),
         ];
 

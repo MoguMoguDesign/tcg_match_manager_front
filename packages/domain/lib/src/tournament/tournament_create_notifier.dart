@@ -67,23 +67,36 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
   ///
   /// [title]: トーナメントのタイトル
   /// [description]: トーナメントの説明
+  /// [venue]: 開催会場
   /// [startDate]: 開始日時（ISO 8601 形式）
   /// [endDate]: 終了日時（ISO 8601 形式）
+  /// [drawPoints]: 引き分け得点（オプション）
+  /// [maxRounds]: ラウンド数（オプション、自動計算時はnull）
+  /// [expectedPlayers]: 予定参加者数（オプション）
   Future<void> createTournament({
     required String title,
     required String description,
+    required String venue,
     required String startDate,
     required String endDate,
+    int drawPoints = 0,
+    int? maxRounds,
+    int? expectedPlayers,
   }) async {
     state = state.copyWith(state: TournamentCreateState.creating);
 
     try {
-      final tournament = await _createTournamentUseCase.invoke(
+      final request = CreateTournamentRequest(
         title: title,
         description: description,
+        venue: venue,
         startDate: startDate,
         endDate: endDate,
+        drawPoints: drawPoints,
+        maxRounds: maxRounds,
+        expectedPlayers: expectedPlayers,
       );
+      final tournament = await _createTournamentUseCase.call(request);
       state = state.copyWith(
         state: TournamentCreateState.success,
         tournament: tournament,

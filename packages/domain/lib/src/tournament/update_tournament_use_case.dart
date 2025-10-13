@@ -28,27 +28,30 @@ class UpdateTournamentUseCase {
   /// トーナメント情報を更新する。
   ///
   /// [id]: トーナメント ID
-  /// [title]: 更新するタイトル（null の場合は更新しない）
-  /// [description]: 更新する説明（null の場合は更新しない）
-  /// [startDate]: 更新する開始日時（null の場合は更新しない）
-  /// [endDate]: 更新する終了日時（null の場合は更新しない）
+  /// [name]: 更新するトーナメント名（null の場合は更新しない）
+  /// [overview]: 更新する概要（null の場合は更新しない）
+  /// [category]: 更新するカテゴリ（null の場合は更新しない）
+  /// [date]: 更新する開催日時（null の場合は更新しない）
+  /// [remarks]: 更新する備考（null の場合は更新しない）
   ///
   /// Returns: 更新されたトーナメント情報
   /// Throws: [FailureStatusException] API がエラーステータスを返した場合
   /// Throws: [GeneralFailureException] ネットワークエラーや予期しないエラーの場合
   Future<Tournament> invoke({
     required String id,
-    String? title,
-    String? description,
-    String? startDate,
-    String? endDate,
+    String? name,
+    String? overview,
+    String? category,
+    String? date,
+    String? remarks,
   }) async {
     try {
       final request = UpdateTournamentRequest(
-        title: title,
-        description: description,
-        startDate: startDate,
-        endDate: endDate,
+        name: name,
+        overview: overview,
+        category: category,
+        date: date,
+        remarks: remarks,
       );
 
       final result = await _tournamentRepository.updateTournament(id, request);
@@ -59,7 +62,7 @@ class UpdateTournamentUseCase {
         case 'PARSE_ERROR':
           throw FailureStatusException(e.message);
         case 'NOT_FOUND':
-          throw FailureStatusException('指定されたトーナメントが見つかりません');
+          throw const FailureStatusException('指定されたトーナメントが見つかりません');
         case 'UNAUTHENTICATED':
         case 'AUTH_ERROR':
           throw GeneralFailureException(

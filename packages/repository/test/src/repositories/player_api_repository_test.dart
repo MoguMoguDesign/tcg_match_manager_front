@@ -66,7 +66,9 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => Response(
-            '{"playerId": "p_1", "name": "テストプレイヤー", "playerNumber": 42, "status": "ACTIVE", "userId": "test-user-id"}',
+            '{"playerId": "p_1", "name": "テストプレイヤー", '
+            '"playerNumber": 42, "status": "ACTIVE", '
+            '"userId": "test-user-id"}',
             200,
             headers: {'content-type': 'application/json'},
           ),
@@ -149,7 +151,10 @@ void main() {
         // GET request mock
         when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
           (_) async => Response(
-            '{"players": [{"playerId": "p_1", "name": "テストプレイヤー1", "playerNumber": 1, "status": "ACTIVE", "userId": "user-1"}, {"playerId": "p_2", "name": "テストプレイヤー2", "playerNumber": 2, "status": "ACTIVE", "userId": "user-2"}]}',
+            '{"players": [{"playerId": "p_1", "name": "テストプレイヤー1", '
+            '"playerNumber": 1, "status": "ACTIVE", "userId": "user-1"}, '
+            '{"playerId": "p_2", "name": "テストプレイヤー2", '
+            '"playerNumber": 2, "status": "ACTIVE", "userId": "user-2"}]}',
             200,
             headers: {'content-type': 'application/json'},
           ),
@@ -173,7 +178,8 @@ void main() {
         // GET request mock
         when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
           (_) async => Response(
-            '{"players": [{"playerId": "p_1", "name": "テストプレイヤー1", "playerNumber": 1, "status": "ACTIVE", "userId": "user-1"}]}',
+            '{"players": [{"playerId": "p_1", "name": "テストプレイヤー1", '
+            '"playerNumber": 1, "status": "ACTIVE", "userId": "user-1"}]}',
             200,
             headers: {'content-type': 'application/json'},
           ),

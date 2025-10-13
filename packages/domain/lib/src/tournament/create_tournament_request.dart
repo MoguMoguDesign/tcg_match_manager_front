@@ -1,28 +1,27 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_tournament_request.freezed.dart';
-part 'create_tournament_request.g.dart';
 
-/// 大会作成リクエストを表すモデルクラス。
+/// 大会作成用のリクエスト。
 ///
-/// API への大会作成リクエストデータを表現する。
+/// 新しいトーナメントを作成するためのパラメータを保持する。
 @freezed
 abstract class CreateTournamentRequest with _$CreateTournamentRequest {
   /// [CreateTournamentRequest] のコンストラクタ。
   const factory CreateTournamentRequest({
-    /// 大会タイトル。
+    /// トーナメントタイトル。
     required String title,
 
-    /// 大会の説明。
+    /// トーナメントの説明。
     required String description,
 
     /// 開催会場。
     required String venue,
 
-    /// 大会開始日時（ISO 8601 形式）。
+    /// トーナメント開始日時（ISO 8601 形式）。
     required String startDate,
 
-    /// 大会終了日時（ISO 8601 形式）。
+    /// トーナメント終了日時（ISO 8601 形式）。
     required String endDate,
 
     /// 引き分け得点（0点 or 1点）。
@@ -34,8 +33,4 @@ abstract class CreateTournamentRequest with _$CreateTournamentRequest {
     /// 予定参加者数（自動計算用）。
     int? expectedPlayers,
   }) = _CreateTournamentRequest;
-
-  /// JSON から CreateTournamentRequest インスタンスを作成する。
-  factory CreateTournamentRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateTournamentRequestFromJson(json);
 }

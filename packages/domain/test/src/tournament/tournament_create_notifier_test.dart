@@ -29,7 +29,8 @@ void main() {
 
   group('tournamentCreateNotifierProvider のテスト。', () {
     test(
-      'tournamentCreateNotifierProvider が TournamentCreateNotifier を返す。',
+      'tournamentCreateNotifierProvider が '
+      'TournamentCreateNotifier を返す。',
       () {
         expect(
           container.read(tournamentCreateNotifierProvider.notifier),
@@ -58,23 +59,23 @@ void main() {
       const testStartDate = '2025-10-01T10:00:00Z';
       const testEndDate = '2025-10-01T18:00:00Z';
 
-      test('トーナメントの作成に成功した場合、state が success になる。', () async {
-        final testTournament = Tournament(
+      test(
+        'トーナメントの作成に成功した場合、state が success になる。',
+        () async {
+        const testTournament = Tournament(
           id: 'test-id',
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // createTournament メソッドが正常に完了するスタブを用意する。
         when(
-          mockCreateTournamentUseCase.invoke(
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
-          ),
+          mockCreateTournamentUseCase.call(any),
         ).thenAnswer((_) async => testTournament);
 
         final notifier = container.read(
@@ -89,6 +90,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
         );
@@ -99,34 +101,37 @@ void main() {
         expect(state.tournament, testTournament);
         expect(state.errorMessage, isNull);
 
-        // UseCase の invoke メソッドが正しい引数で呼び出されることを確認する。
+        // UseCase の call メソッドが正しい引数で呼び出されることを確認する
         verify(
-          mockCreateTournamentUseCase.invoke(
-            title: testTitle,
-            description: testDescription,
-            startDate: testStartDate,
-            endDate: testEndDate,
+          mockCreateTournamentUseCase.call(
+            const CreateTournamentRequest(
+              title: testTitle,
+              description: testDescription,
+              venue: 'テスト会場',
+              startDate: testStartDate,
+              endDate: testEndDate,
+            ),
           ),
         ).called(1);
       });
 
-      test('creating 状態の間、state が creating になる。', () async {
-        final testTournament = Tournament(
+      test(
+        'creating 状態の間、state が creating になる。',
+        () async {
+        const testTournament = Tournament(
           id: 'test-id',
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // createTournament メソッドが正常に完了するスタブを用意する。
         when(
-          mockCreateTournamentUseCase.invoke(
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
-          ),
+          mockCreateTournamentUseCase.call(any),
         ).thenAnswer((_) async {
           // creating 状態を確認する。
           final state = container.read(tournamentCreateNotifierProvider);
@@ -142,22 +147,20 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
         );
       });
 
-      test('FailureStatusException が発生した場合、state が error になる。', () async {
+      test(
+        'FailureStatusException が発生した場合、state が error になる。',
+        () async {
         const testErrorMessage = '入力エラー';
 
         // FailureStatusException がスローされるスタブを用意する。
         when(
-          mockCreateTournamentUseCase.invoke(
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
-          ),
+          mockCreateTournamentUseCase.call(any),
         ).thenThrow(const FailureStatusException(testErrorMessage));
 
         final notifier = container.read(
@@ -168,6 +171,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
         );
@@ -180,16 +184,12 @@ void main() {
       });
 
       test(
-        'GeneralFailureException (other) が発生した場合、state が error になる。',
+        'GeneralFailureException (other) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
-            mockCreateTournamentUseCase.invoke(
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
-            ),
+            mockCreateTournamentUseCase.call(any),
           ).thenThrow(
             const GeneralFailureException(
               reason: GeneralFailureReason.other,
@@ -205,6 +205,7 @@ void main() {
           await notifier.createTournament(
             title: testTitle,
             description: testDescription,
+            venue: 'テスト会場',
             startDate: testStartDate,
             endDate: testEndDate,
           );
@@ -213,21 +214,20 @@ void main() {
           final state = container.read(tournamentCreateNotifierProvider);
           expect(state.state, TournamentCreateState.error);
           expect(state.tournament, isNull);
-          expect(state.errorMessage, '認証に失敗しました。再度ログインしてください。');
+          expect(
+            state.errorMessage,
+            '認証に失敗しました。再度ログインしてください。',
+          );
         },
       );
 
       test(
-        'GeneralFailureException (noConnectionError) が発生した場合、state が error になる。',
+        'GeneralFailureException (noConnectionError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
-            mockCreateTournamentUseCase.invoke(
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
-            ),
+            mockCreateTournamentUseCase.call(any),
           ).thenThrow(
             const GeneralFailureException(
               reason: GeneralFailureReason.noConnectionError,
@@ -243,6 +243,7 @@ void main() {
           await notifier.createTournament(
             title: testTitle,
             description: testDescription,
+            venue: 'テスト会場',
             startDate: testStartDate,
             endDate: testEndDate,
           );
@@ -256,16 +257,12 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、state が error になる。',
+        'GeneralFailureException (serverUrlNotFoundError) '
+        'が発生した場合、 state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
-            mockCreateTournamentUseCase.invoke(
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
-            ),
+            mockCreateTournamentUseCase.call(any),
           ).thenThrow(
             const GeneralFailureException(
               reason: GeneralFailureReason.serverUrlNotFoundError,
@@ -281,6 +278,7 @@ void main() {
           await notifier.createTournament(
             title: testTitle,
             description: testDescription,
+            venue: 'テスト会場',
             startDate: testStartDate,
             endDate: testEndDate,
           );
@@ -294,16 +292,12 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (badResponse) が発生した場合、state が error になる。',
+        'GeneralFailureException (badResponse) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
-            mockCreateTournamentUseCase.invoke(
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
-            ),
+            mockCreateTournamentUseCase.call(any),
           ).thenThrow(
             const GeneralFailureException.badResponse(
               errorCode: 'BAD_RESPONSE',
@@ -319,6 +313,7 @@ void main() {
           await notifier.createTournament(
             title: testTitle,
             description: testDescription,
+            venue: 'テスト会場',
             startDate: testStartDate,
             endDate: testEndDate,
           );
@@ -331,15 +326,12 @@ void main() {
         },
       );
 
-      test('予期しない例外が発生した場合、state が error になる。', () async {
+      test(
+        '予期しない例外が発生した場合、state が error になる。',
+        () async {
         // 予期しない例外がスローされるスタブを用意する。
         when(
-          mockCreateTournamentUseCase.invoke(
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
-          ),
+          mockCreateTournamentUseCase.call(any),
         ).thenThrow(Exception('予期しないエラー'));
 
         final notifier = container.read(
@@ -350,6 +342,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
         );
@@ -362,29 +355,53 @@ void main() {
       });
     });
 
+    group('copyWith のテスト。', () {
+      test('copyWith で state に null を渡すと現在の state を保持する', () {
+        const data = TournamentCreateData(
+          state: TournamentCreateState.success,
+        );
+
+        final copied = data.copyWith(
+          tournament: const Tournament(
+            id: 'test-id',
+            title: 'Test Tournament',
+            description: 'Test Description',
+            venue: 'Test Venue',
+            startDate: '2025-10-01T10:00:00Z',
+            endDate: '2025-10-01T18:00:00Z',
+            createdAt: '2025-10-01T09:00:00Z',
+            updatedAt: '2025-10-01T09:00:00Z',
+          ),
+        );
+
+        expect(copied.state, TournamentCreateState.success);
+        expect(copied.tournament, isNotNull);
+      });
+    });
+
     group('reset メソッドのテスト。', () {
-      test('reset を呼ぶと state が初期状態に戻る。', () async {
+      test(
+        'reset を呼ぶと state が初期状態に戻る。',
+        () async {
         const testTitle = 'テスト大会';
         const testDescription = 'テスト大会の説明';
         const testStartDate = '2025-10-01T10:00:00Z';
         const testEndDate = '2025-10-01T18:00:00Z';
 
-        final testTournament = Tournament(
+        const testTournament = Tournament(
           id: 'test-id',
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // createTournament メソッドが正常に完了するスタブを用意する。
         when(
-          mockCreateTournamentUseCase.invoke(
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
-          ),
+          mockCreateTournamentUseCase.call(any),
         ).thenAnswer((_) async => testTournament);
 
         final notifier = container.read(
@@ -395,6 +412,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
         );

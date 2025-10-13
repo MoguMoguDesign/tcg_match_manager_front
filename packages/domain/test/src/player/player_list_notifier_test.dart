@@ -99,7 +99,6 @@ void main() {
         verify(
           mockGetPlayersUseCase.invoke(
             tournamentId: testTournamentId,
-            status: null,
           ),
         ).called(1);
       });
@@ -259,7 +258,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (noConnectionError) が発生した場合、state が error になる。',
+        'GeneralFailureException (noConnectionError) が発生した場合、 '
+        'state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
@@ -290,7 +290,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、state が error になる。',
+        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、 '
+        'state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
@@ -413,7 +414,6 @@ void main() {
         verify(
           mockGetPlayersUseCase.invoke(
             tournamentId: testTournamentId,
-            status: null,
           ),
         ).called(1);
       });

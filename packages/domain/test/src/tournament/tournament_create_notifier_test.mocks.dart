@@ -33,41 +33,24 @@ class _FakeTournament_0 extends _i1.SmartFake implements _i2.Tournament {
 class MockCreateTournamentUseCase extends _i1.Mock
     implements _i2.CreateTournamentUseCase {
   @override
-  _i3.Future<_i2.Tournament> invoke({
-    required String? title,
-    required String? description,
-    required String? startDate,
-    required String? endDate,
-  }) =>
+  _i3.Future<_i2.Tournament> call(_i2.CreateTournamentRequest? request) =>
       (super.noSuchMethod(
-            Invocation.method(#invoke, [], {
-              #title: title,
-              #description: description,
-              #startDate: startDate,
-              #endDate: endDate,
-            }),
+            Invocation.method(#call, [request]),
             returnValue: _i3.Future<_i2.Tournament>.value(
-              _FakeTournament_0(
-                this,
-                Invocation.method(#invoke, [], {
-                  #title: title,
-                  #description: description,
-                  #startDate: startDate,
-                  #endDate: endDate,
-                }),
-              ),
+              _FakeTournament_0(this, Invocation.method(#call, [request])),
             ),
             returnValueForMissingStub: _i3.Future<_i2.Tournament>.value(
-              _FakeTournament_0(
-                this,
-                Invocation.method(#invoke, [], {
-                  #title: title,
-                  #description: description,
-                  #startDate: startDate,
-                  #endDate: endDate,
-                }),
-              ),
+              _FakeTournament_0(this, Invocation.method(#call, [request])),
             ),
           )
           as _i3.Future<_i2.Tournament>);
+
+  @override
+  int getRecommendedRounds(int? expectedPlayers) =>
+      (super.noSuchMethod(
+            Invocation.method(#getRecommendedRounds, [expectedPlayers]),
+            returnValue: 0,
+            returnValueForMissingStub: 0,
+          )
+          as int);
 }

@@ -116,26 +116,29 @@ class TournamentEditNotifier extends _$TournamentEditNotifier {
   /// トーナメント情報を更新する。
   ///
   /// [id]: トーナメント ID
-  /// [title]: 更新するタイトル（null の場合は更新しない）
-  /// [description]: 更新する説明（null の場合は更新しない）
-  /// [startDate]: 更新する開始日時（null の場合は更新しない）
-  /// [endDate]: 更新する終了日時（null の場合は更新しない）
+  /// [name]: 更新するトーナメント名（null の場合は更新しない）
+  /// [overview]: 更新する概要（null の場合は更新しない）
+  /// [category]: 更新するカテゴリ（null の場合は更新しない）
+  /// [date]: 更新する開催日時（null の場合は更新しない）
+  /// [remarks]: 更新する備考（null の場合は更新しない）
   Future<void> updateTournament({
     required String id,
-    String? title,
-    String? description,
-    String? startDate,
-    String? endDate,
+    String? name,
+    String? overview,
+    String? category,
+    String? date,
+    String? remarks,
   }) async {
     state = state.copyWith(state: TournamentEditState.updating);
 
     try {
       final tournament = await _updateTournamentUseCase.invoke(
         id: id,
-        title: title,
-        description: description,
-        startDate: startDate,
-        endDate: endDate,
+        name: name,
+        overview: overview,
+        category: category,
+        date: date,
+        remarks: remarks,
       );
       state = state.copyWith(
         state: TournamentEditState.success,

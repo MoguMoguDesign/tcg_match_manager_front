@@ -43,7 +43,7 @@ class GetTournamentUseCase {
         case 'PARSE_ERROR':
           throw FailureStatusException(e.message);
         case 'NOT_FOUND':
-          throw FailureStatusException('指定されたトーナメントが見つかりません');
+          throw const FailureStatusException('指定されたトーナメントが見つかりません');
         case 'UNAUTHENTICATED':
         case 'AUTH_ERROR':
           throw GeneralFailureException(

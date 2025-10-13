@@ -206,6 +206,7 @@ class _MatchesPageState extends State<MatchesPage> {
       id: displayData.id,
       title: displayData.title,
       description: displayData.description ?? '',
+      category: 'Pokemon Card', // デフォルト値（実際にはAPIから取得すべき）
       date: displayData.date,
       time: displayData.time,
       maxParticipants: displayData.maxParticipants,

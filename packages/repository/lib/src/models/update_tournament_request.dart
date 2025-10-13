@@ -5,38 +5,44 @@
 class UpdateTournamentRequest {
   /// [UpdateTournamentRequest]のコンストラクタ。
   const UpdateTournamentRequest({
-    this.title,
-    this.description,
-    this.startDate,
-    this.endDate,
+    this.name,
+    this.overview,
+    this.category,
+    this.date,
+    this.remarks,
   });
 
   /// 全フィールド必須のファクトリコンストラクタ。
   const UpdateTournamentRequest.full({
-    required this.title,
-    required this.description,
-    required this.startDate,
-    required this.endDate,
+    required this.name,
+    required this.overview,
+    required this.category,
+    required this.date,
+    required this.remarks,
   });
 
-  /// トーナメントのタイトル（オプショナル）。
-  final String? title;
+  /// トーナメント名（オプショナル）。
+  final String? name;
 
-  /// トーナメントの説明（オプショナル）。
-  final String? description;
+  /// トーナメント概要（オプショナル）。
+  final String? overview;
 
-  /// トーナメントの開始日時（ISO8601形式）（オプショナル）。
-  final String? startDate;
+  /// トーナメントカテゴリ（オプショナル）。
+  final String? category;
 
-  /// トーナメントの終了日時（ISO8601形式）（オプショナル）。
-  final String? endDate;
+  /// トーナメント開催日時（ISO8601形式）（オプショナル）。
+  final String? date;
+
+  /// 備考（オプショナル）。
+  final String? remarks;
 
   /// 更新フィールドが存在するかチェックする。
   bool get hasUpdates =>
-      title != null ||
-      description != null ||
-      startDate != null ||
-      endDate != null;
+      name != null ||
+      overview != null ||
+      category != null ||
+      date != null ||
+      remarks != null;
 
   /// JSONに変換する。
   ///
@@ -44,17 +50,20 @@ class UpdateTournamentRequest {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
 
-    if (title != null) {
-      json['title'] = title;
+    if (name != null) {
+      json['name'] = name;
     }
-    if (description != null) {
-      json['description'] = description;
+    if (overview != null) {
+      json['overview'] = overview;
     }
-    if (startDate != null) {
-      json['startDate'] = startDate;
+    if (category != null) {
+      json['category'] = category;
     }
-    if (endDate != null) {
-      json['endDate'] = endDate;
+    if (date != null) {
+      json['date'] = date;
+    }
+    if (remarks != null) {
+      json['remarks'] = remarks;
     }
 
     return json;

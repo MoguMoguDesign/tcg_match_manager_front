@@ -65,8 +65,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。
@@ -100,8 +103,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。
@@ -171,7 +177,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (noConnectionError) が発生した場合、state が error になる。',
+        'GeneralFailureException (noConnectionError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
@@ -197,7 +204,8 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、state が error になる。',
+        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
@@ -271,28 +279,33 @@ void main() {
 
     group('updateTournament メソッドのテスト。', () {
       const testId = 'test-id';
-      const testTitle = 'テスト大会（更新）';
-      const testDescription = 'テスト大会の説明（更新）';
-      const testStartDate = '2025-10-02T10:00:00Z';
-      const testEndDate = '2025-10-02T18:00:00Z';
+      const testName = 'テスト大会（更新）';
+      const testOverview = 'テスト大会の説明（更新）';
+      const testCategory = 'カテゴリ';
+      const testDate = '2025-10-02T10:00:00Z';
+      const testRemarks = '備考';
 
       test('トーナメントの更新に成功した場合、state が success になる。', () async {
         const testTournament = Tournament(
           id: testId,
-          title: testTitle,
-          description: testDescription,
-          startDate: testStartDate,
-          endDate: testEndDate,
+          title: testName,
+          description: testOverview,
+          venue: 'テスト会場',
+          startDate: testDate,
+          endDate: testDate,
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // updateTournament メソッドが正常に完了するスタブを用意する。
         when(
           mockUpdateTournamentUseCase.invoke(
             id: anyNamed('id'),
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
           ),
         ).thenAnswer((_) async => testTournament);
 
@@ -307,10 +320,11 @@ void main() {
         // updateTournament メソッドを実行する。
         await notifier.updateTournament(
           id: testId,
-          title: testTitle,
-          description: testDescription,
-          startDate: testStartDate,
-          endDate: testEndDate,
+          name: testName,
+          overview: testOverview,
+          category: testCategory,
+          date: testDate,
+          remarks: testRemarks,
         );
 
         // state が success に更新されていることを確認する。
@@ -323,10 +337,11 @@ void main() {
         verify(
           mockUpdateTournamentUseCase.invoke(
             id: testId,
-            title: testTitle,
-            description: testDescription,
-            startDate: testStartDate,
-            endDate: testEndDate,
+            name: testName,
+            overview: testOverview,
+            category: testCategory,
+            date: testDate,
+            remarks: testRemarks,
           ),
         ).called(1);
       });
@@ -334,20 +349,24 @@ void main() {
       test('updating 状態の間、state が updating になる。', () async {
         const testTournament = Tournament(
           id: testId,
-          title: testTitle,
-          description: testDescription,
-          startDate: testStartDate,
-          endDate: testEndDate,
+          title: testName,
+          description: testOverview,
+          venue: 'テスト会場',
+          startDate: testDate,
+          endDate: testDate,
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // updateTournament メソッドが正常に完了するスタブを用意する。
         when(
           mockUpdateTournamentUseCase.invoke(
             id: anyNamed('id'),
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
           ),
         ).thenAnswer((_) async {
           // updating 状態を確認する。
@@ -363,30 +382,35 @@ void main() {
         // updateTournament メソッドを実行する。
         await notifier.updateTournament(
           id: testId,
-          title: testTitle,
-          description: testDescription,
-          startDate: testStartDate,
-          endDate: testEndDate,
+          name: testName,
+          overview: testOverview,
+          category: testCategory,
+          date: testDate,
+          remarks: testRemarks,
         );
       });
 
       test('一部のパラメータのみ更新する場合、正しく動作する。', () async {
         const testTournament = Tournament(
           id: testId,
-          title: testTitle,
+          title: testName,
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // updateTournament メソッドが正常に完了するスタブを用意する。
         when(
           mockUpdateTournamentUseCase.invoke(
             id: anyNamed('id'),
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
           ),
         ).thenAnswer((_) async => testTournament);
 
@@ -394,8 +418,8 @@ void main() {
           tournamentEditNotifierProvider.notifier,
         );
 
-        // updateTournament メソッドを実行する（title のみ更新）。
-        await notifier.updateTournament(id: testId, title: testTitle);
+        // updateTournament メソッドを実行する（name のみ更新）。
+        await notifier.updateTournament(id: testId, name: testName);
 
         // state が success に更新されていることを確認する。
         final state = container.read(tournamentEditNotifierProvider);
@@ -406,10 +430,7 @@ void main() {
         verify(
           mockUpdateTournamentUseCase.invoke(
             id: testId,
-            title: testTitle,
-            description: null,
-            startDate: null,
-            endDate: null,
+            name: testName,
           ),
         ).called(1);
       });
@@ -421,10 +442,11 @@ void main() {
         when(
           mockUpdateTournamentUseCase.invoke(
             id: anyNamed('id'),
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
           ),
         ).thenThrow(const FailureStatusException(testErrorMessage));
 
@@ -435,10 +457,11 @@ void main() {
         // updateTournament メソッドを実行する。
         await notifier.updateTournament(
           id: testId,
-          title: testTitle,
-          description: testDescription,
-          startDate: testStartDate,
-          endDate: testEndDate,
+          name: testName,
+          overview: testOverview,
+          category: testCategory,
+          date: testDate,
+          remarks: testRemarks,
         );
 
         // state が error に更新されていることを確認する。
@@ -455,10 +478,11 @@ void main() {
           when(
             mockUpdateTournamentUseCase.invoke(
               id: anyNamed('id'),
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
+              name: anyNamed('name'),
+              overview: anyNamed('overview'),
+              category: anyNamed('category'),
+              date: anyNamed('date'),
+              remarks: anyNamed('remarks'),
             ),
           ).thenThrow(
             const GeneralFailureException(
@@ -474,10 +498,11 @@ void main() {
           // updateTournament メソッドを実行する。
           await notifier.updateTournament(
             id: testId,
-            title: testTitle,
-            description: testDescription,
-            startDate: testStartDate,
-            endDate: testEndDate,
+            name: testName,
+            overview: testOverview,
+            category: testCategory,
+            date: testDate,
+            remarks: testRemarks,
           );
 
           // state が error に更新されていることを確認する。
@@ -489,16 +514,18 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (noConnectionError) が発生した場合、state が error になる。',
+        'GeneralFailureException (noConnectionError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
             mockUpdateTournamentUseCase.invoke(
               id: anyNamed('id'),
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
+              name: anyNamed('name'),
+              overview: anyNamed('overview'),
+              category: anyNamed('category'),
+              date: anyNamed('date'),
+              remarks: anyNamed('remarks'),
             ),
           ).thenThrow(
             const GeneralFailureException(
@@ -514,10 +541,11 @@ void main() {
           // updateTournament メソッドを実行する。
           await notifier.updateTournament(
             id: testId,
-            title: testTitle,
-            description: testDescription,
-            startDate: testStartDate,
-            endDate: testEndDate,
+            name: testName,
+            overview: testOverview,
+            category: testCategory,
+            date: testDate,
+            remarks: testRemarks,
           );
 
           // state が error に更新されていることを確認する。
@@ -529,16 +557,18 @@ void main() {
       );
 
       test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、state が error になる。',
+        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
+        ' state が error になる。',
         () async {
           // GeneralFailureException がスローされるスタブを用意する。
           when(
             mockUpdateTournamentUseCase.invoke(
               id: anyNamed('id'),
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
+              name: anyNamed('name'),
+              overview: anyNamed('overview'),
+              category: anyNamed('category'),
+              date: anyNamed('date'),
+              remarks: anyNamed('remarks'),
             ),
           ).thenThrow(
             const GeneralFailureException(
@@ -554,10 +584,11 @@ void main() {
           // updateTournament メソッドを実行する。
           await notifier.updateTournament(
             id: testId,
-            title: testTitle,
-            description: testDescription,
-            startDate: testStartDate,
-            endDate: testEndDate,
+            name: testName,
+            overview: testOverview,
+            category: testCategory,
+            date: testDate,
+            remarks: testRemarks,
           );
 
           // state が error に更新されていることを確認する。
@@ -575,10 +606,11 @@ void main() {
           when(
             mockUpdateTournamentUseCase.invoke(
               id: anyNamed('id'),
-              title: anyNamed('title'),
-              description: anyNamed('description'),
-              startDate: anyNamed('startDate'),
-              endDate: anyNamed('endDate'),
+              name: anyNamed('name'),
+              overview: anyNamed('overview'),
+              category: anyNamed('category'),
+              date: anyNamed('date'),
+              remarks: anyNamed('remarks'),
             ),
           ).thenThrow(
             const GeneralFailureException.badResponse(
@@ -594,10 +626,11 @@ void main() {
           // updateTournament メソッドを実行する。
           await notifier.updateTournament(
             id: testId,
-            title: testTitle,
-            description: testDescription,
-            startDate: testStartDate,
-            endDate: testEndDate,
+            name: testName,
+            overview: testOverview,
+            category: testCategory,
+            date: testDate,
+            remarks: testRemarks,
           );
 
           // state が error に更新されていることを確認する。
@@ -613,10 +646,11 @@ void main() {
         when(
           mockUpdateTournamentUseCase.invoke(
             id: anyNamed('id'),
-            title: anyNamed('title'),
-            description: anyNamed('description'),
-            startDate: anyNamed('startDate'),
-            endDate: anyNamed('endDate'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
           ),
         ).thenThrow(Exception('予期しないエラー'));
 
@@ -627,10 +661,11 @@ void main() {
         // updateTournament メソッドを実行する。
         await notifier.updateTournament(
           id: testId,
-          title: testTitle,
-          description: testDescription,
-          startDate: testStartDate,
-          endDate: testEndDate,
+          name: testName,
+          overview: testOverview,
+          category: testCategory,
+          date: testDate,
+          remarks: testRemarks,
         );
 
         // state が error に更新されていることを確認する。
@@ -641,6 +676,30 @@ void main() {
       });
     });
 
+    group('copyWith のテスト。', () {
+      test('copyWith で state に null を渡すと現在の state を保持する', () {
+        const data = TournamentEditData(
+          state: TournamentEditState.loaded,
+        );
+
+        final copied = data.copyWith(
+          tournament: const Tournament(
+            id: 'test-id',
+            title: 'Test Tournament',
+            description: 'Test Description',
+            venue: 'Test Venue',
+            startDate: '2025-10-01T10:00:00Z',
+            endDate: '2025-10-01T18:00:00Z',
+            createdAt: '2025-10-01T09:00:00Z',
+            updatedAt: '2025-10-01T09:00:00Z',
+          ),
+        );
+
+        expect(copied.state, TournamentEditState.loaded);
+        expect(copied.tournament, isNotNull);
+      });
+    });
+
     group('reset メソッドのテスト。', () {
       test('reset を呼ぶと state が初期状態に戻る。', () async {
         const testId = 'test-id';
@@ -648,8 +707,11 @@ void main() {
           id: testId,
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          createdAt: '2025-10-01T09:00:00Z',
+          updatedAt: '2025-10-01T09:00:00Z',
         );
 
         // getTournament メソッドが正常に完了するスタブを用意する。

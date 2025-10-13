@@ -24,7 +24,7 @@ void main() {
     const testUserId = 'test-user-id';
 
     test('プレイヤー登録に成功した場合、Player を返す。', () async {
-      final testPlayerModel = PlayerModel(
+      const testPlayerModel = PlayerModel(
         playerId: 'p_1',
         name: testName,
         playerNumber: testPlayerNumber,
@@ -65,7 +65,10 @@ void main() {
       ).called(1);
     });
 
-    test('AdminApiException (INVALID_RESPONSE) が発生した場合、FailureStatusExceptionをスローする。', () async {
+    test(
+      'AdminApiException (INVALID_RESPONSE) が発生した場合、 '
+      'FailureStatusExceptionをスローする。',
+      () async {
       const testErrorMessage = '無効なレスポンス';
 
       // AdminApiException をスローするスタブを用意する。
@@ -93,7 +96,10 @@ void main() {
       );
     });
 
-    test('AdminApiException (AUTH_ERROR) が発生した場合、GeneralFailureExceptionをスローする。', () async {
+    test(
+      'AdminApiException (AUTH_ERROR) が発生した場合、 '
+      'GeneralFailureExceptionをスローする。',
+      () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(
@@ -119,7 +125,10 @@ void main() {
       );
     });
 
-    test('AdminApiException (NETWORK_ERROR) が発生した場合、GeneralFailureException(noConnectionError)をスローする。', () async {
+    test(
+      'AdminApiException (NETWORK_ERROR) が発生した場合、 '
+      'GeneralFailureException(noConnectionError)をスローする。',
+      () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(
@@ -147,7 +156,10 @@ void main() {
       }
     });
 
-    test('AdminApiException (その他) が発生した場合、GeneralFailureExceptionをスローする。', () async {
+    test(
+      'AdminApiException (その他) が発生した場合、 '
+      'GeneralFailureExceptionをスローする。',
+      () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(

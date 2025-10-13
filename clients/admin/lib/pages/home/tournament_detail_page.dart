@@ -138,6 +138,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
       id: displayData.id,
       title: displayData.title,
       description: displayData.description ?? '',
+      category: 'Pokemon Card', // デフォルト値（実際にはAPIから取得すべき）
       date: displayData.date,
       time: displayData.time,
       maxParticipants: displayData.maxParticipants,
@@ -495,8 +496,9 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
 
   TournamentDisplayData _getTournamentDisplayData(String id) {
     // ダミーデータ（開催中の例）
-    return const TournamentDisplayData(
-      id: '1',
+    // 注: 実際のIDを使用してAPIから取得するように後で実装する
+    return TournamentDisplayData(
+      id: id, // 実際の大会IDを使用
       title: 'トーナメントタイトル',
       description:
           '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
@@ -515,14 +517,16 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
 
   TournamentDetailData _getTournamentData(String id) {
     // 既存のTournamentDetailDataも維持（大会概要タブで使用）
-    return const TournamentDetailData(
-      id: '1',
+    // 注: 実際のIDを使用してAPIから取得するように後で実装する
+    return TournamentDetailData(
+      id: id, // 実際の大会IDを使用
       title: 'トーナメントタイトル',
       description:
           '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
           '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
           '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
           '200文字の大会概要200文字の大会概要',
+      category: 'Pokemon Card', // カテゴリ
       date: '2025/08/31',
       time: '19:00-21:00',
       maxParticipants: 32,
@@ -546,6 +550,7 @@ class TournamentDetailData {
     required this.id,
     required this.title,
     required this.description,
+    required this.category,
     required this.date,
     required this.time,
     required this.maxParticipants,
@@ -565,6 +570,9 @@ class TournamentDetailData {
 
   /// 説明
   final String description;
+
+  /// カテゴリ（例: "Pokemon Card", "スタンダード"）
+  final String category;
 
   /// 日付
   final String date;

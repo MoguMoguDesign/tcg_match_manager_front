@@ -40,7 +40,7 @@ class DeleteTournamentUseCase {
         case 'INVALID_ARGUMENT':
           throw FailureStatusException(e.message);
         case 'NOT_FOUND':
-          throw FailureStatusException('指定されたトーナメントが見つかりません');
+          throw const FailureStatusException('指定されたトーナメントが見つかりません');
         case 'CONFLICT':
         case 'TOURNAMENT_HAS_ACTIVE_MATCHES':
         case 'BUSINESS_RULE_VIOLATION':
