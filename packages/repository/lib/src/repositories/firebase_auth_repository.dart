@@ -1,3 +1,6 @@
+// 将来の実装のため、テストカバレッジから除外する。
+// coverage:ignore-file
+
 import 'package:domain/domain.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
