@@ -170,6 +170,17 @@ void main() {
       });
     });
 
+    group('toJson のテスト', () {
+      test('toJson を呼ぶと UnimplementedError がスローされる', () {
+        const dto = AccountDto(isFailureStatus: false);
+
+        expect(
+          () => dto.toJson(),
+          throwsA(isA<UnimplementedError>()),
+        );
+      });
+    });
+
     group('equality のテスト', () {
       test('同じ値を持つインスタンスは等しい', () {
         const dto1 = AccountDto(

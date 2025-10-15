@@ -50,7 +50,6 @@ void main() {
       expect(client, isA<AdminApiClient>());
       client.dispose();
     });
-
   });
 
   group('GET リクエストのテスト', () {
@@ -802,6 +801,20 @@ void main() {
       const exception2 = AdminApiException(
         code: 'OTHER_ERROR',
         message: 'テストエラー',
+      );
+
+      expect(exception1, isNot(equals(exception2)));
+    });
+
+    test('messageが異なる場合は等しくない', () {
+      const exception1 = AdminApiException(
+        code: 'TEST_ERROR',
+        message: 'Message 1',
+      );
+
+      const exception2 = AdminApiException(
+        code: 'TEST_ERROR',
+        message: 'Message 2',
       );
 
       expect(exception1, isNot(equals(exception2)));
