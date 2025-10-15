@@ -20,7 +20,7 @@ class TournamentApiRepository implements TournamentRepository {
     CreateTournamentRequest request,
   ) async {
     final response = await _apiClient.post(
-      '/admin/tournaments',
+      '/tournaments',
       body: request.toJson(),
     );
 
@@ -46,7 +46,7 @@ class TournamentApiRepository implements TournamentRepository {
 
   @override
   Future<List<TournamentModel>> getTournaments() async {
-    final response = await _apiClient.get('/admin/tournaments');
+    final response = await _apiClient.get('/tournaments');
 
     return _parseTournamentsResponse(response);
   }
@@ -61,7 +61,7 @@ class TournamentApiRepository implements TournamentRepository {
       );
     }
 
-    final response = await _apiClient.get('/admin/tournaments/$id');
+    final response = await _apiClient.get('/tournaments/$id');
 
     return _parseTournamentResponse(response);
   }
@@ -87,7 +87,7 @@ class TournamentApiRepository implements TournamentRepository {
     }
 
     final response = await _apiClient.patch(
-      '/admin/tournaments/$id',
+      '/tournaments/$id',
       body: request.toJson(),
     );
 
@@ -104,7 +104,7 @@ class TournamentApiRepository implements TournamentRepository {
       );
     }
 
-    await _apiClient.delete('/admin/tournaments/$id');
+    await _apiClient.delete('/tournaments/$id');
 
     // DELETE操作は正常完了時にレスポンスボディを必要としない
     // HTTPステータス 200 (OK) または 204 (No Content) で成功を判断
