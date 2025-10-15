@@ -21,11 +21,19 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // 環境変数からAdmin API URLを取得
+  final adminApiUrl = dotenv.env['ADMIN_API_URL'];
+  if (adminApiUrl == null || adminApiUrl.isEmpty) {
+    throw Exception('ADMIN_API_URL is not configured in .env file');
+  }
+
   runApp(
     ProviderScope(
       overrides: [
         // AuthRepositoryのプロバイダーをオーバーライド
         authRepositoryProvider.overrideWith(injection.authRepository),
+        // Admin API BaseURLのプロバイダーをオーバーライド
+        injection.adminApiBaseUrlProvider.overrideWith((ref) => adminApiUrl),
       ],
       child: const MyApp(),
     ),

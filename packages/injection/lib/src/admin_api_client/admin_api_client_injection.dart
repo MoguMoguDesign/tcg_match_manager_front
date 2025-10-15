@@ -6,17 +6,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'admin_api_client_injection.g.dart';
 
+/// Admin API のベースURLを提供する。
+///
+/// デフォルトではダミーURLだが、main.dartでオーバーライドされる。
+@riverpod
+String adminApiBaseUrl(Ref ref) {
+  // このデフォルト値はテスト用。実際のアプリではmain.dartでオーバーライドされる。
+  return 'https://api.example.com/api/v1';
+}
+
 /// [AdminApiClient] を提供する。
 @riverpod
 AdminApiClient adminApiClient(Ref ref) {
-  return getAdminApiClient();
+  final baseUrl = ref.watch(adminApiBaseUrlProvider);
+  return getAdminApiClient(baseUrl: baseUrl);
 }
 
 /// [AdminApiClient] を取得する。
-AdminApiClient getAdminApiClient() {
-  // 実際のAPIベースURLを設定
-  const baseUrl = 'https://api.example.com';
-
+///
+/// [baseUrl] 管理者APIのベースURL
+AdminApiClient getAdminApiClient({required String baseUrl}) {
   return AdminApiClient( // coverage:ignore-line
     baseUrl: baseUrl,
     httpClient: http.Client(),
