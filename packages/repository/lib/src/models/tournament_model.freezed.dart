@@ -25,15 +25,15 @@ mixin _$TournamentModel {
 @JsonKey(name: 'date') String? get startDate;/// 大会終了日時（ISO 8601 形式）。
  String? get endDate;/// 引き分け得点（0点 or 1点）。
  int get drawPoints;/// ラウンド数。
-@JsonKey(name: 'max_round') int? get maxRounds;/// 予定参加者数。
+@JsonKey(name: 'maxRound') int? get maxRounds;/// 予定参加者数。
  int? get expectedPlayers;/// トーナメントステータス。
  String get status;/// 現在のラウンド番号。
-@JsonKey(name: 'current_round') int get currentRound;/// スケジュールモード。
-@JsonKey(name: 'schedule_mode') String? get scheduleMode;/// プレイヤー数。
-@JsonKey(name: 'player_count') int? get playerCount;/// 管理者UID。
-@JsonKey(name: 'admin_uid') String? get adminUid;/// 作成日時（ISO 8601 形式）。
-@JsonKey(name: 'created_at') String get createdAt;/// 更新日時（ISO 8601 形式）。
-@JsonKey(name: 'updated_at') String get updatedAt;
+@JsonKey(name: 'currentRound') int get currentRound;/// スケジュールモード。
+@JsonKey(name: 'scheduleMode') String? get scheduleMode;/// プレイヤー数。
+@JsonKey(name: 'playerCount') int? get playerCount;/// 管理者UID。
+@JsonKey(name: 'adminUid') String? get adminUid;/// 作成日時（ISO 8601 形式）。
+@JsonKey(name: 'createdAt') String get createdAt;/// 更新日時（ISO 8601 形式）。
+@JsonKey(name: 'updatedAt') String get updatedAt;
 /// Create a copy of TournamentModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -66,7 +66,7 @@ abstract mixin class $TournamentModelCopyWith<$Res>  {
   factory $TournamentModelCopyWith(TournamentModel value, $Res Function(TournamentModel) _then) = _$TournamentModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'name') String title,@JsonKey(name: 'overview') String? description, String? category, String? venue,@JsonKey(name: 'date') String? startDate, String? endDate, int drawPoints,@JsonKey(name: 'max_round') int? maxRounds, int? expectedPlayers, String status,@JsonKey(name: 'current_round') int currentRound,@JsonKey(name: 'schedule_mode') String? scheduleMode,@JsonKey(name: 'player_count') int? playerCount,@JsonKey(name: 'admin_uid') String? adminUid,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt
+ String id,@JsonKey(name: 'name') String title,@JsonKey(name: 'overview') String? description, String? category, String? venue,@JsonKey(name: 'date') String? startDate, String? endDate, int drawPoints,@JsonKey(name: 'maxRound') int? maxRounds, int? expectedPlayers, String status,@JsonKey(name: 'currentRound') int currentRound,@JsonKey(name: 'scheduleMode') String? scheduleMode,@JsonKey(name: 'playerCount') int? playerCount,@JsonKey(name: 'adminUid') String? adminUid,@JsonKey(name: 'createdAt') String createdAt,@JsonKey(name: 'updatedAt') String updatedAt
 });
 
 
@@ -113,7 +113,7 @@ as String,
 @JsonSerializable()
 
 class _TournamentModel implements TournamentModel {
-  const _TournamentModel({required this.id, @JsonKey(name: 'name') required this.title, @JsonKey(name: 'overview') this.description, this.category, this.venue, @JsonKey(name: 'date') this.startDate, this.endDate, this.drawPoints = 0, @JsonKey(name: 'max_round') this.maxRounds, this.expectedPlayers, this.status = 'PREPARING', @JsonKey(name: 'current_round') this.currentRound = 0, @JsonKey(name: 'schedule_mode') this.scheduleMode, @JsonKey(name: 'player_count') this.playerCount, @JsonKey(name: 'admin_uid') this.adminUid, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'updated_at') required this.updatedAt});
+  const _TournamentModel({required this.id, @JsonKey(name: 'name') required this.title, @JsonKey(name: 'overview') this.description, this.category, this.venue, @JsonKey(name: 'date') this.startDate, this.endDate, this.drawPoints = 0, @JsonKey(name: 'maxRound') this.maxRounds, this.expectedPlayers, this.status = 'PREPARING', @JsonKey(name: 'currentRound') this.currentRound = 0, @JsonKey(name: 'scheduleMode') this.scheduleMode, @JsonKey(name: 'playerCount') this.playerCount, @JsonKey(name: 'adminUid') this.adminUid, @JsonKey(name: 'createdAt') required this.createdAt, @JsonKey(name: 'updatedAt') required this.updatedAt});
   factory _TournamentModel.fromJson(Map<String, dynamic> json) => _$TournamentModelFromJson(json);
 
 /// 大会 ID。
@@ -133,23 +133,23 @@ class _TournamentModel implements TournamentModel {
 /// 引き分け得点（0点 or 1点）。
 @override@JsonKey() final  int drawPoints;
 /// ラウンド数。
-@override@JsonKey(name: 'max_round') final  int? maxRounds;
+@override@JsonKey(name: 'maxRound') final  int? maxRounds;
 /// 予定参加者数。
 @override final  int? expectedPlayers;
 /// トーナメントステータス。
 @override@JsonKey() final  String status;
 /// 現在のラウンド番号。
-@override@JsonKey(name: 'current_round') final  int currentRound;
+@override@JsonKey(name: 'currentRound') final  int currentRound;
 /// スケジュールモード。
-@override@JsonKey(name: 'schedule_mode') final  String? scheduleMode;
+@override@JsonKey(name: 'scheduleMode') final  String? scheduleMode;
 /// プレイヤー数。
-@override@JsonKey(name: 'player_count') final  int? playerCount;
+@override@JsonKey(name: 'playerCount') final  int? playerCount;
 /// 管理者UID。
-@override@JsonKey(name: 'admin_uid') final  String? adminUid;
+@override@JsonKey(name: 'adminUid') final  String? adminUid;
 /// 作成日時（ISO 8601 形式）。
-@override@JsonKey(name: 'created_at') final  String createdAt;
+@override@JsonKey(name: 'createdAt') final  String createdAt;
 /// 更新日時（ISO 8601 形式）。
-@override@JsonKey(name: 'updated_at') final  String updatedAt;
+@override@JsonKey(name: 'updatedAt') final  String updatedAt;
 
 /// Create a copy of TournamentModel
 /// with the given fields replaced by the non-null parameter values.
@@ -184,7 +184,7 @@ abstract mixin class _$TournamentModelCopyWith<$Res> implements $TournamentModel
   factory _$TournamentModelCopyWith(_TournamentModel value, $Res Function(_TournamentModel) _then) = __$TournamentModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'name') String title,@JsonKey(name: 'overview') String? description, String? category, String? venue,@JsonKey(name: 'date') String? startDate, String? endDate, int drawPoints,@JsonKey(name: 'max_round') int? maxRounds, int? expectedPlayers, String status,@JsonKey(name: 'current_round') int currentRound,@JsonKey(name: 'schedule_mode') String? scheduleMode,@JsonKey(name: 'player_count') int? playerCount,@JsonKey(name: 'admin_uid') String? adminUid,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt
+ String id,@JsonKey(name: 'name') String title,@JsonKey(name: 'overview') String? description, String? category, String? venue,@JsonKey(name: 'date') String? startDate, String? endDate, int drawPoints,@JsonKey(name: 'maxRound') int? maxRounds, int? expectedPlayers, String status,@JsonKey(name: 'currentRound') int currentRound,@JsonKey(name: 'scheduleMode') String? scheduleMode,@JsonKey(name: 'playerCount') int? playerCount,@JsonKey(name: 'adminUid') String? adminUid,@JsonKey(name: 'createdAt') String createdAt,@JsonKey(name: 'updatedAt') String updatedAt
 });
 
 

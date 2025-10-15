@@ -35,7 +35,7 @@ abstract class TournamentModel with _$TournamentModel {
     @Default(0) int drawPoints,
 
     /// ラウンド数。
-    @JsonKey(name: 'max_round') int? maxRounds,
+    @JsonKey(name: 'maxRound') int? maxRounds,
 
     /// 予定参加者数。
     int? expectedPlayers,
@@ -44,22 +44,22 @@ abstract class TournamentModel with _$TournamentModel {
     @Default('PREPARING') String status,
 
     /// 現在のラウンド番号。
-    @JsonKey(name: 'current_round') @Default(0) int currentRound,
+    @JsonKey(name: 'currentRound') @Default(0) int currentRound,
 
     /// スケジュールモード。
-    @JsonKey(name: 'schedule_mode') String? scheduleMode,
+    @JsonKey(name: 'scheduleMode') String? scheduleMode,
 
     /// プレイヤー数。
-    @JsonKey(name: 'player_count') int? playerCount,
+    @JsonKey(name: 'playerCount') int? playerCount,
 
     /// 管理者UID。
-    @JsonKey(name: 'admin_uid') String? adminUid,
+    @JsonKey(name: 'adminUid') String? adminUid,
 
     /// 作成日時（ISO 8601 形式）。
-    @JsonKey(name: 'created_at') required String createdAt,
+    @JsonKey(name: 'createdAt') required String createdAt,
 
     /// 更新日時（ISO 8601 形式）。
-    @JsonKey(name: 'updated_at') required String updatedAt,
+    @JsonKey(name: 'updatedAt') required String updatedAt,
   }) = _TournamentModel;
 
   /// JSON から TournamentModel インスタンスを作成する。

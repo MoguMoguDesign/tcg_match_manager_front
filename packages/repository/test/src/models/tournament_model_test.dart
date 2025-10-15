@@ -77,8 +77,8 @@ void main() {
         final json = {
           'id': 'tournament-123',
           'name': 'テスト大会',
-          'created_at': '2025-10-01T10:00:00Z',
-          'updated_at': '2025-10-01T10:00:00Z',
+          'createdAt': '2025-10-01T10:00:00Z',
+          'updatedAt': '2025-10-01T10:00:00Z',
         };
 
         final model = TournamentModel.fromJson(json);
@@ -101,15 +101,15 @@ void main() {
           'date': '2025-10-01T10:00:00Z',
           'endDate': '2025-10-01T18:00:00Z',
           'drawPoints': 1,
-          'max_round': 5,
+          'maxRound': 5,
           'expectedPlayers': 32,
           'status': 'IN_PROGRESS',
-          'current_round': 2,
-          'schedule_mode': 'SWISS',
-          'player_count': 30,
-          'admin_uid': 'admin-uid-123',
-          'created_at': '2025-10-01T09:00:00Z',
-          'updated_at': '2025-10-01T11:00:00Z',
+          'currentRound': 2,
+          'scheduleMode': 'SWISS',
+          'playerCount': 30,
+          'adminUid': 'admin-uid-123',
+          'createdAt': '2025-10-01T09:00:00Z',
+          'updatedAt': '2025-10-01T11:00:00Z',
         };
 
         final model = TournamentModel.fromJson(json);
@@ -149,9 +149,9 @@ void main() {
         expect(json['name'], 'テスト大会');
         expect(json['drawPoints'], 0);
         expect(json['status'], 'PREPARING');
-        expect(json['current_round'], 0);
-        expect(json['created_at'], '2025-10-01T10:00:00Z');
-        expect(json['updated_at'], '2025-10-01T10:00:00Z');
+        expect(json['currentRound'], 0);
+        expect(json['createdAt'], '2025-10-01T10:00:00Z');
+        expect(json['updatedAt'], '2025-10-01T10:00:00Z');
       });
 
       test('全てのフィールドを持つインスタンスをJSONに変換できる', () {
@@ -185,15 +185,15 @@ void main() {
         expect(json['date'], '2025-10-01T10:00:00Z');
         expect(json['endDate'], '2025-10-01T18:00:00Z');
         expect(json['drawPoints'], 1);
-        expect(json['max_round'], 5);
+        expect(json['maxRound'], 5);
         expect(json['expectedPlayers'], 32);
         expect(json['status'], 'IN_PROGRESS');
-        expect(json['current_round'], 2);
-        expect(json['schedule_mode'], 'SWISS');
-        expect(json['player_count'], 30);
-        expect(json['admin_uid'], 'admin-uid-123');
-        expect(json['created_at'], '2025-10-01T09:00:00Z');
-        expect(json['updated_at'], '2025-10-01T11:00:00Z');
+        expect(json['currentRound'], 2);
+        expect(json['scheduleMode'], 'SWISS');
+        expect(json['playerCount'], 30);
+        expect(json['adminUid'], 'admin-uid-123');
+        expect(json['createdAt'], '2025-10-01T09:00:00Z');
+        expect(json['updatedAt'], '2025-10-01T11:00:00Z');
       });
     });
 

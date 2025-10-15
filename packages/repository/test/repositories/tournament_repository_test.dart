@@ -106,10 +106,10 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => Response(
-          '{"id": "1", "title": "Test Tournament", '
-          '"description": "Test description", '
+          '{"id": "1", "name": "Test Tournament", '
+          '"overview": "Test description", '
           '"venue": "Test Venue", '
-          '"startDate": "2024-01-01T00:00:00Z", '
+          '"date": "2024-01-01T00:00:00Z", '
           '"endDate": "2024-01-02T00:00:00Z", '
           '"createdAt": "2024-01-01T00:00:00Z", '
           '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -244,10 +244,10 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => Response(
-            '{"id": "1", "title": "My Tournament", '
-            '"description": "Test description", '
+            '{"id": "1", "name": "My Tournament", '
+            '"overview": "Test description", '
             '"venue": "Test Venue", '
-            '"startDate": "2024-01-01T00:00:00Z", '
+            '"date": "2024-01-01T00:00:00Z", '
             '"endDate": "2024-01-02T00:00:00Z", '
             '"createdAt": "2024-01-01T00:00:00Z", '
             '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -286,10 +286,10 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "1", "title": "API Test Tournament", '
-              '"description": "Test description", '
+              '{"id": "1", "name": "API Test Tournament", '
+              '"overview": "Test description", '
               '"venue": "Test Venue", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -378,10 +378,10 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"tournaments": [{"id": "1", "title": "Test Tournament", '
-              '"description": "Test description", '
+              '{"tournaments": [{"id": "1", "name": "Test Tournament", '
+              '"overview": "Test description", '
               '"venue": "Test Venue", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}]}',
@@ -412,17 +412,17 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"tournaments": [{"id": "1", "title": "Tournament 1", '
-              '"description": "Desc 1", '
+              '{"tournaments": [{"id": "1", "name": "Tournament 1", '
+              '"overview": "Desc 1", '
               '"venue": "Venue 1", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}, '
-              '{"id": "2", "title": "Tournament 2", '
-              '"description": "Desc 2", '
+              '{"id": "2", "name": "Tournament 2", '
+              '"overview": "Desc 2", '
               '"venue": "Venue 2", '
-              '"startDate": "2024-01-03T00:00:00Z", '
+              '"date": "2024-01-03T00:00:00Z", '
               '"endDate": "2024-01-04T00:00:00Z", '
               '"createdAt": "2024-01-03T00:00:00Z", '
               '"updatedAt": "2024-01-03T00:00:00Z"}]}',
@@ -471,10 +471,10 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "1", "title": "Tournament Detail Test", '
-              '"description": "Detail test description", '
+              '{"id": "1", "name": "Tournament Detail Test", '
+              '"overview": "Detail test description", '
               '"venue": "Detail test venue", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -506,10 +506,10 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "$tournamentId", "title": "Detail Tournament", '
-              '"description": "Detail description", '
+              '{"id": "$tournamentId", "name": "Detail Tournament", '
+              '"overview": "Detail description", '
               '"venue": "Detail venue", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -632,10 +632,10 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "1", "title": "Updated Tournament Title", '
-              '"description": "Updated description", '
+              '{"id": "1", "name": "Updated Tournament Title", '
+              '"overview": "Updated description", '
               '"venue": "Updated venue", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -674,10 +674,10 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => Response(
-              '{"id": "$tournamentId", "title": "Patch Test Tournament", '
-              '"description": "Patch test description", '
+              '{"id": "$tournamentId", "name": "Patch Test Tournament", '
+              '"overview": "Patch test description", '
               '"venue": "Patch test venue", '
-              '"startDate": "2024-01-01T00:00:00Z", '
+              '"date": "2024-01-01T00:00:00Z", '
               '"endDate": "2024-01-02T00:00:00Z", '
               '"createdAt": "2024-01-01T00:00:00Z", '
               '"updatedAt": "2024-01-01T00:00:00Z"}',
@@ -801,10 +801,10 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => Response(
-            '{"id": "1", "title": "Only Name Updated", '
-            '"description": "Original description", '
+            '{"id": "1", "name": "Only Name Updated", '
+            '"overview": "Original description", '
             '"venue": "Original venue", '
-            '"startDate": "2024-01-01T00:00:00Z", '
+            '"date": "2024-01-01T00:00:00Z", '
             '"endDate": "2024-01-02T00:00:00Z", '
             '"createdAt": "2024-01-01T00:00:00Z", '
             '"updatedAt": "2024-01-01T00:00:00Z"}',
