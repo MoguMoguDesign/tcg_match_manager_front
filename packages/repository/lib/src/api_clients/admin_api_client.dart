@@ -15,10 +15,8 @@ class AdminApiClient {
     http.Client? httpClient,
     FirebaseAuth? firebaseAuth,
   }) : _baseUrl = baseUrl,
-       // coverage:ignore-start
-       _httpClient = httpClient ?? http.Client(),
-       _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
-       // coverage:ignore-end
+       _httpClient = httpClient ?? http.Client(), // coverage:ignore-line
+       _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance; // coverage:ignore-line
 
   final String _baseUrl;
   final http.Client _httpClient;
@@ -171,13 +169,11 @@ class AdminApiClient {
           );
         case 'DELETE':
           response = await _httpClient.delete(uri, headers: headers);
-        // coverage:ignore-start
-        default:
-          throw AdminApiException(
-            code: 'UNSUPPORTED_METHOD',
-            message: 'サポートされていないHTTPメソッド: $method',
-          );
-        // coverage:ignore-end
+        default: // coverage:ignore-line
+          throw AdminApiException( // coverage:ignore-line
+            code: 'UNSUPPORTED_METHOD', // coverage:ignore-line
+            message: 'サポートされていないHTTPメソッド: $method', // coverage:ignore-line
+          ); // coverage:ignore-line
       }
 
       // レスポンス解析
