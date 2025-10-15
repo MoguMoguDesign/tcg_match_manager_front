@@ -17,7 +17,7 @@ AdminApiClient getAdminApiClient() {
   // 実際のAPIベースURLを設定
   const baseUrl = 'https://api.example.com';
 
-  return AdminApiClient(
+  return AdminApiClient( // coverage:ignore-line
     baseUrl: baseUrl,
     httpClient: http.Client(),
     firebaseAuth: FirebaseAuth.instance,

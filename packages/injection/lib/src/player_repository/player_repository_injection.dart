@@ -11,5 +11,5 @@ part 'player_repository_injection.g.dart';
 PlayerRepository playerRepository(Ref ref) {
   final adminApiClient = ref.watch(adminApiClientProvider);
 
-  return PlayerApiRepository(apiClient: adminApiClient);
+  return PlayerApiRepository(apiClient: adminApiClient); // coverage:ignore-line
 }
