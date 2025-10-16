@@ -63,3 +63,8 @@ packages/*/coverage/
 
 # arb_translate の API キー。
 .arb_translate_api_key
+
+# docs サブモジュール。
+#
+# サブモジュールのコミット参照は追跡しない。
+/docs/
