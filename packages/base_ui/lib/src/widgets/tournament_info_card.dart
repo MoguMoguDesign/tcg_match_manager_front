@@ -53,7 +53,7 @@ class TournamentInfoCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [AppColors.userPrimaryAlpha, Colors.transparent],
+                  colors: [AppColors.userPrimaryAlpha, AppColors.transparent],
                 ),
               ),
             ),

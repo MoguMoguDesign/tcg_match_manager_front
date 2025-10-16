@@ -41,65 +41,65 @@ class PlayerContainer extends StatelessWidget {
     return SizedBox(
       height: 57, // VSContainerと高さを統一
       child: DecoratedBox(
-      decoration: BoxDecoration(color: colors.backgroundColor),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // プレイヤー名
-                Text(
-                  playerName,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: colors.textColor,
-                    fontSize: 14,
+        decoration: BoxDecoration(color: colors.backgroundColor),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // プレイヤー名
+                  Text(
+                    playerName,
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: colors.textColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  // スコア
+                  Text(
+                    score,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: colors.textColor,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // WIN ラベル（勝利時のみ）
+            if (showWinLabel)
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Text(
+                  'WIN',
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: colors.winLabelColor,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 2),
-                // スコア
-                Text(
-                  score,
-                  style: AppTextStyles.bodySmall.copyWith(
-                    color: colors.textColor,
-                    fontSize: 12,
+              ),
+            // LOSE ラベル（敗北時のみ）
+            if (showLoseLabel)
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Text(
+                  'LOSE',
+                  style: AppTextStyles.headlineLarge.copyWith(
+                    color: colors.loseLabelColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
-          ),
-          // WIN ラベル（勝利時のみ）
-          if (showWinLabel)
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: Text(
-                'WIN',
-                style: AppTextStyles.headlineLarge.copyWith(
-                  color: colors.winLabelColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
               ),
-            ),
-          // LOSE ラベル（敗北時のみ）
-          if (showLoseLabel)
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: Text(
-                'LOSE',
-                style: AppTextStyles.headlineLarge.copyWith(
-                  color: colors.loseLabelColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }

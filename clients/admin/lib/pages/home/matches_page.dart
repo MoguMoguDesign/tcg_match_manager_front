@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,7 +39,7 @@ class _MatchesPageState extends State<MatchesPage> {
             // ヘッダー部分
             SliverToBoxAdapter(
               child: ColoredBox(
-                color: Colors.white,
+                color: AppColors.white,
                 child: Column(
                   children: [
                     // ユーザー情報とトーナメント情報
@@ -63,7 +64,7 @@ class _MatchesPageState extends State<MatchesPage> {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: AppColors.white),
       child: Row(
         children: [
           // 戻るボタン
@@ -231,7 +232,7 @@ class _MatchesPageState extends State<MatchesPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),
@@ -354,104 +355,106 @@ class _MatchesContentState extends State<MatchesContent> {
       color: AppColors.backgroundLight,
       child: CustomScrollView(
         slivers: [
-          // 対戦表ヘッダー
-          SliverToBoxAdapter(
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      // const Text(
-                      //   '対戦表',
-                      //   style: TextStyle(
-                      //     fontSize: 24,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: AppColors.textBlack,
-                      //   ),
-                      // ),
-                      const Spacer(),
-                      // 右側のアクションボタン
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 192,
-                            height: 56,
-                            child: CommonConfirmButton(
-                              text: 'ラウンド取り消し',
-                              style: ConfirmButtonStyle.alertOutlined,
-                              onPressed: _showCancelRoundDialog,
+          SliverList.list(
+            children: [
+              // 対戦表ヘッダー
+              Container(
+                color: AppColors.white,
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // const Text(
+                        //   '対戦表',
+                        //   style: TextStyle(
+                        //     fontSize: 24,
+                        //     fontWeight: FontWeight.bold,
+                        //     color: AppColors.textBlack,
+                        //   ),
+                        // ),
+                        const Spacer(),
+                        // 右側のアクションボタン
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 192,
+                              height: 56,
+                              child: CommonConfirmButton(
+                                text: 'ラウンド取り消し',
+                                style: ConfirmButtonStyle.alertOutlined,
+                                onPressed: _showCancelRoundDialog,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          SizedBox(
-                            width: 192,
-                            height: 56,
-                            child: CommonConfirmButton(
-                              text: 'ラウンドを進める',
-                              style: ConfirmButtonStyle.adminFilled,
-                              onPressed: _showAdvanceRoundDialog,
+                            const SizedBox(width: 16),
+                            SizedBox(
+                              width: 192,
+                              height: 56,
+                              child: CommonConfirmButton(
+                                text: 'ラウンドを進める',
+                                style: ConfirmButtonStyle.adminFilled,
+                                onPressed: _showAdvanceRoundDialog,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  // ナビゲーションボタン行
-                  Row(
-                    children: [
-                      CommonSmallButton(
-                        text: '前のラウンド',
-                        style: SmallButtonStyle.adminOutlinedWithArrowLeft,
-                        isEnabled: widget.currentRound > 0,
-                        onPressed: _gotoPreviousRound,
-                      ),
-                      const Spacer(),
-                      // 現在のラウンド表示
-                      if (widget.currentRound > 0)
-                        Text(
-                          'ラウンド${widget.currentRound}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textBlack,
-                          ),
-                        )
-                      else
-                        const Text(
-                          '準備中',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textGray,
-                          ),
+                          ],
                         ),
-                      const Spacer(),
-                      CommonSmallButton(
-                        text: widget.currentRound == 4 ? '最終順位を表示' : '次のラウンド',
-                        style: widget.currentRound == 4
-                            ? SmallButtonStyle.admin
-                            : SmallButtonStyle.adminOutlinedWithArrowRight,
-                        isEnabled:
-                            widget.currentRound < _getRounds().length ||
-                            widget.currentRound == 4,
-                        onPressed: widget.currentRound == 4
-                            ? _showFinalRanking
-                            : _gotoNextRound,
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    // ナビゲーションボタン行
+                    Row(
+                      children: [
+                        CommonSmallButton(
+                          text: '前のラウンド',
+                          style: SmallButtonStyle.adminOutlinedWithArrowLeft,
+                          isEnabled: widget.currentRound > 0,
+                          onPressed: _gotoPreviousRound,
+                        ),
+                        const Spacer(),
+                        // 現在のラウンド表示
+                        if (widget.currentRound > 0)
+                          Text(
+                            'ラウンド${widget.currentRound}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textBlack,
+                            ),
+                          )
+                        else
+                          const Text(
+                            '準備中',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textGray,
+                            ),
+                          ),
+                        const Spacer(),
+                        CommonSmallButton(
+                          text: widget.currentRound == 4 ? '最終順位を表示' : '次のラウンド',
+                          style: widget.currentRound == 4
+                              ? SmallButtonStyle.admin
+                              : SmallButtonStyle.adminOutlinedWithArrowRight,
+                          isEnabled:
+                              widget.currentRound < _getRounds().length ||
+                              widget.currentRound == 4,
+                          onPressed: widget.currentRound == 4
+                              ? _showFinalRanking
+                              : _gotoNextRound,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+              // 対戦リスト
+              _buildMatchesList(),
+              // フッター
+              _buildFooter(),
+            ],
           ),
-          // 対戦リスト
-          SliverToBoxAdapter(child: _buildMatchesList()),
-          // フッター
-          SliverToBoxAdapter(child: _buildFooter()),
         ],
       ),
     );
@@ -464,7 +467,7 @@ class _MatchesContentState extends State<MatchesContent> {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -487,7 +490,7 @@ class _MatchesContentState extends State<MatchesContent> {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -507,7 +510,7 @@ class _MatchesContentState extends State<MatchesContent> {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -523,7 +526,7 @@ class _MatchesContentState extends State<MatchesContent> {
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),
@@ -671,7 +674,7 @@ class _MatchesContentState extends State<MatchesContent> {
 
   Widget _buildFooter() {
     return Container(
-      color: Colors.white,
+      color: AppColors.white,
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
@@ -846,7 +849,7 @@ class _MatchesContentState extends State<MatchesContent> {
         roundNumber: 1,
         name: 'ラウンド1',
         matches: _getMatchesForRound(1),
-        startedAt: DateTime.now().subtract(const Duration(hours: 2)),
+        startedAt: clock.now().subtract(const Duration(hours: 2)),
       ),
       AdminRoundData(
         id: 'round_2',
@@ -893,7 +896,7 @@ class _MatchesContentState extends State<MatchesContent> {
             ? AdminMatchResult.player1Win
             : AdminMatchResult.pending,
         finishedAt: roundNumber == 1 && index < 4
-            ? DateTime.now().subtract(Duration(minutes: 30 - index * 5))
+            ? clock.now().subtract(Duration(minutes: 30 - index * 5))
             : null,
       );
     });
@@ -905,7 +908,7 @@ class _MatchesContentState extends State<MatchesContent> {
         id: 'participant_$index',
         name: 'プレイヤー名${index + 1}',
         tournamentId: widget.tournamentId,
-        registeredAt: DateTime.now().subtract(Duration(days: index)),
+        registeredAt: clock.now().subtract(Duration(days: index)),
       );
     });
   }

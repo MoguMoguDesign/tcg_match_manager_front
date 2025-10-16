@@ -48,7 +48,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -147,9 +147,9 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.transparent,
+                            AppColors.transparent,
                             AppColors.borderLight,
-                            Colors.transparent,
+                            AppColors.transparent,
                           ],
                         ),
                       ),
@@ -163,7 +163,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.black,
                           ),
                         ),
                         const SizedBox(height: 8),

@@ -55,11 +55,13 @@ void main() {
         final result = await client.postUri(uri, requestData);
 
         // DioHttpClient の postUri メソッドが正しい引数で呼び出されることを確認する。
-        verify(mockDioHttpClient.postUri<String>(
-          uri,
-          data: anyNamed('data'),
-          options: anyNamed('options'),
-        )).called(1);
+        verify(
+          mockDioHttpClient.postUri<String>(
+            uri,
+            data: anyNamed('data'),
+            options: anyNamed('options'),
+          ),
+        ).called(1);
 
         // 成功レスポンスが返されることを確認する。
         expect(result, isA<SuccessHttpResponse>());
@@ -84,11 +86,13 @@ void main() {
         );
 
         // DioHttpClient の postUri メソッドで DioException (404) が発生するスタブを用意する。
-        when(mockDioHttpClient.postUri<String>(
-          uri,
-          data: anyNamed('data'),
-          options: anyNamed('options'),
-        )).thenThrow(dioException);
+        when(
+          mockDioHttpClient.postUri<String>(
+            uri,
+            data: anyNamed('data'),
+            options: anyNamed('options'),
+          ),
+        ).thenThrow(dioException);
 
         // postUri を実行する。
         final result = await client.postUri(uri, requestData);
@@ -105,7 +109,7 @@ void main() {
 
       test(
         '予期しない DioException (ステータスコード: 500) が発生した場合、'
-            ' ErrorStatus.badResponse で HttpResponse.failure を返し、エラーログを出力する。',
+        ' ErrorStatus.badResponse で HttpResponse.failure を返し、エラーログを出力する。',
         () async {
           final uri = Uri.parse('https://example.com/api/error');
           final requestData = {'test': 'data'} as JsonMap;
@@ -121,11 +125,13 @@ void main() {
           );
 
           // DioHttpClient の postUri メソッドで DioException (500) が発生するスタブを用意する。
-          when(mockDioHttpClient.postUri<String>(
-            uri,
-            data: anyNamed('data'),
-            options: anyNamed('options'),
-          )).thenThrow(dioException);
+          when(
+            mockDioHttpClient.postUri<String>(
+              uri,
+              data: anyNamed('data'),
+              options: anyNamed('options'),
+            ),
+          ).thenThrow(dioException);
 
           // postUri を実行する。
           final result = await client.postUri(uri, requestData);
@@ -148,11 +154,13 @@ void main() {
         final testException = Exception('Unexpected error');
 
         // DioHttpClient の postUri メソッドで一般的な Exception が発生するスタブを用意する。
-        when(mockDioHttpClient.postUri<String>(
-          uri,
-          data: anyNamed('data'),
-          options: anyNamed('options'),
-        )).thenThrow(testException);
+        when(
+          mockDioHttpClient.postUri<String>(
+            uri,
+            data: anyNamed('data'),
+            options: anyNamed('options'),
+          ),
+        ).thenThrow(testException);
 
         // postUri を実行する。
         final result = await client.postUri(uri, requestData);

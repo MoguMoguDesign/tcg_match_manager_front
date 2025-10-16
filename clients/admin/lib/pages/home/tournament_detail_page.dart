@@ -54,23 +54,21 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           // ヘッダー（戻る + トーナメントカード + ラウンド進行ボタン）
           Container(
             padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Row(
               children: [
                 // 戻るボタン
                 const TournamentBackButton(),
                 const SizedBox(width: 24),
                 // トーナメントカード（横に配置）
-                Expanded(
-                  child: TournamentHeaderCard(tournament: tournament),
-                ),
+                Expanded(child: TournamentHeaderCard(tournament: tournament)),
               ],
             ),
           ),
 
           // タブバー
           DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: TabBar(
@@ -127,7 +125,6 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
     );
   }
 
-
   /// 大会編集ダイアログを表示
   Future<void> _showEditTournamentDialog() async {
     if (!mounted) {
@@ -167,17 +164,13 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.timeline,
-            color: AppColors.adminPrimary,
-            size: 24,
-          ),
+          const Icon(Icons.timeline, color: AppColors.adminPrimary, size: 24),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -196,16 +189,16 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                   _currentRound == 0
                       ? '準備中 - トーナメント開始待ち'
                       : _currentRound == 4
-                          ? '最終ラウンド完了 - 結果表示可能'
-                          : 'ラウンド$_currentRound進行中',
+                      ? '最終ラウンド完了 - 結果表示可能'
+                      : 'ラウンド$_currentRound進行中',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: _currentRound == 0
                         ? AppColors.textGray
                         : _currentRound == 4
-                            ? AppColors.successActive
-                            : AppColors.adminPrimary,
+                        ? AppColors.successActive
+                        : AppColors.adminPrimary,
                   ),
                 ),
               ],
@@ -279,7 +272,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -322,7 +315,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -382,7 +375,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -421,7 +414,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(58, 68, 251, 0.04),
+                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -461,7 +454,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           if (tournament.notes.isNotEmpty) ...[
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(58, 68, 251, 0.04),
+                color: AppColors.adminPrimary.withValues(alpha: 0.04),
                 borderRadius: BorderRadius.circular(16),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -546,7 +539,6 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
   }
 }
 
-
 /// トーナメント詳細データクラス
 class TournamentDetailData {
   /// トーナメント詳細データのコンストラクタ
@@ -623,10 +615,7 @@ extension _TournamentDetailPageStateExtension on _TournamentDetailPageState {
           SizedBox(height: 16),
           Text(
             '最終ラウンド完了後に結果が表示されます',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textGray,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textGray),
           ),
         ],
       ),

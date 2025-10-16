@@ -41,7 +41,7 @@ class _TournamentListPageState extends State<TournamentListPage>
           // タイトルと新規作成ボタンのセクション
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: AppColors.white),
             child: Row(
               children: [
                 const Text(
@@ -68,7 +68,7 @@ class _TournamentListPageState extends State<TournamentListPage>
           // タブバー
           DecoratedBox(
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               border: Border(bottom: BorderSide(color: AppColors.borderLight)),
             ),
             child: Padding(
@@ -298,7 +298,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -309,28 +309,28 @@ class _TournamentListPageState extends State<TournamentListPage>
                       const Icon(
                         Icons.calendar_today,
                         size: 16,
-                        color: Colors.white70,
+                        color: AppColors.white70,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         tournament.date,
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Colors.white70,
+                          color: AppColors.white70,
                         ),
                       ),
                       const SizedBox(width: 20),
                       const Icon(
                         Icons.people,
                         size: 16,
-                        color: Colors.white70,
+                        color: AppColors.white70,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         '${tournament.participants}',
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Colors.white70,
+                          color: AppColors.white70,
                         ),
                       ),
                       if (tournament.gameType != null) ...[
@@ -339,7 +339,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                           tournament.gameType!,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.white70,
+                            color: AppColors.white70,
                           ),
                         ),
                       ],

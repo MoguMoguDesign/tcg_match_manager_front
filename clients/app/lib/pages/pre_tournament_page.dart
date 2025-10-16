@@ -56,7 +56,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
       appBar: AppBar(
         centerTitle: true,
         title: const Text('開始待機'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         foregroundColor: AppColors.white,
         elevation: 0,
       ),

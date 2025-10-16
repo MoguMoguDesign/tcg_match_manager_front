@@ -1,4 +1,0 @@
-[submodule "docs"]
-	path = docs
-	url = https://github.com/MoguMoguDesign/tcg_match_manager_docs
-	ignore = dirty

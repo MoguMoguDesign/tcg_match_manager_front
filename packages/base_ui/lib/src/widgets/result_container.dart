@@ -57,10 +57,7 @@ class ResultContainer extends StatelessWidget {
         // MatchList with Header
         Column(
           children: [
-            MatchListHeader(
-              roundNumber: roundNumber,
-              maxRounds: maxRounds,
-            ),
+            MatchListHeader(roundNumber: roundNumber, maxRounds: maxRounds),
             const SizedBox(height: 16),
             MatchList(
               matches: matches,

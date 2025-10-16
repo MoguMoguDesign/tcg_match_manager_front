@@ -31,10 +31,8 @@ class AdminScaffold extends StatelessWidget {
             height: 80,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: AppColors.borderLight),
-              ),
+              color: AppColors.white,
+              border: Border(bottom: BorderSide(color: AppColors.borderLight)),
             ),
             child: Row(
               children: [
@@ -77,10 +75,7 @@ class AdminScaffold extends StatelessWidget {
                     }
                   },
                   itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: 'logout',
-                      child: Text('ログアウト'),
-                    ),
+                    const PopupMenuItem(value: 'logout', child: Text('ログアウト')),
                   ],
                 ),
               ],

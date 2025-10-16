@@ -81,9 +81,7 @@ class RankingRow extends StatelessWidget {
             child: ClipPath(
               clipper: _RankingRowClipper(),
               child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: style.backgroundColor,
-                ),
+                decoration: BoxDecoration(color: style.backgroundColor),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -194,7 +192,7 @@ _ResolvedStyle _resolveStyle(RankingRowType type) {
       );
     case RankingRowType.other:
       return const _ResolvedStyle(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         textColor: AppColors.white,
         subTextColor: AppColors.white,
       );

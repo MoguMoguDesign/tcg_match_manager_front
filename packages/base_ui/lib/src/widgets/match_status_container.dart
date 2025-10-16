@@ -32,9 +32,7 @@ class MatchStatusContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: statusInfo.backgroundColor,
         borderRadius: BorderRadius.circular(4),
-        border: showBorder ? Border.all(
-          color: statusInfo.borderColor,
-        ) : null,
+        border: showBorder ? Border.all(color: statusInfo.borderColor) : null,
       ),
       child: Text(
         statusInfo.label,
@@ -51,14 +49,14 @@ class MatchStatusContainer extends StatelessWidget {
       case MatchStatus.playing:
         return const _MatchStatusInfo(
           label: '対戦中',
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.transparent,
           textColor: AppColors.userPrimary,
           borderColor: AppColors.userPrimary,
         );
       case MatchStatus.finished:
         return const _MatchStatusInfo(
           label: '終了',
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.transparent,
           textColor: AppColors.white,
           borderColor: AppColors.white,
         );

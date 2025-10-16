@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 
 /// 大会新規作成ダイアログ
@@ -35,14 +36,14 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       child: Stack(
         children: [
           // 背景オーバーレイ
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black.withValues(alpha: 0.2),
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            color: AppColors.black.withValues(alpha: 0.2),
           ),
 
           // ダイアログ本体
@@ -51,7 +52,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
               width: 719,
               constraints: const BoxConstraints(maxHeight: 800),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -241,21 +242,17 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                       horizontal: 13,
                                       vertical: 16,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          _dateController.text.isEmpty
-                                              ? 'YYYY/MM/DD'
-                                              : _dateController.text,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: _dateController.text.isEmpty
-                                                ? AppColors.grayDark
-                                                : AppColors.textBlack,
-                                          ),
-                                        ),
-                                      ],
+                                    child: Text(
+                                      _dateController.text.isEmpty
+                                          ? 'YYYY/MM/DD'
+                                          : _dateController.text,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: _dateController.text.isEmpty
+                                            ? AppColors.grayDark
+                                            : AppColors.textBlack,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -338,194 +335,19 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                             const SizedBox(height: 32),
 
                             // 最大ラウンド
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '最大ラウンド*',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-
-                                // ラジオボタン
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _isMaxRoundsEnabled = false;
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: !_isMaxRoundsEnabled
-                                                    ? AppColors.adminPrimary
-                                                    : AppColors.borderDisabled,
-                                                width: 2,
-                                              ),
-                                            ),
-                                            child: !_isMaxRoundsEnabled
-                                                ? Center(
-                                                    child: Container(
-                                                      width: 12,
-                                                      height: 12,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: AppColors
-                                                                .adminPrimary,
-                                                          ),
-                                                    ),
-                                                  )
-                                                : null,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          const Text(
-                                            '勝者が1人に決まるまで',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.textBlack,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _isMaxRoundsEnabled = true;
-                                            });
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: _isMaxRoundsEnabled
-                                                        ? AppColors.adminPrimary
-                                                        : AppColors
-                                                              .borderDisabled,
-                                                    width: 2,
-                                                  ),
-                                                ),
-                                                child: _isMaxRoundsEnabled
-                                                    ? Center(
-                                                        child: Container(
-                                                          width: 12,
-                                                          height: 12,
-                                                          decoration:
-                                                              // ネスト対応。
-                                                              // ignore: lines_longer_than_80_chars
-                                                              const BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                  58,
-                                                                  68,
-                                                                  251,
-                                                                  1,
-                                                                ),
-                                                              ),
-                                                        ),
-                                                      )
-                                                    : null,
-                                              ),
-                                              const SizedBox(width: 8),
-                                              const Text(
-                                                '最大ラウンド数を決める',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.textBlack,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 9),
-                                        Container(
-                                          width: 342,
-                                          height: 56,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.grayLight,
-                                            borderRadius: BorderRadius.circular(
-                                              40,
-                                            ),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 13,
-                                            vertical: 16,
-                                          ),
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton<String>(
-                                              value: _selectedRounds,
-                                              icon: Transform.rotate(
-                                                angle: 1.5708, // 90度回転
-                                                child: const Icon(
-                                                  Icons.keyboard_arrow_right,
-                                                  size: 24,
-                                                  color: AppColors.textBlack,
-                                                ),
-                                              ),
-                                              isExpanded: true,
-                                              items:
-                                                  const [
-                                                    '3ラウンド',
-                                                    '4ラウンド',
-                                                    '5ラウンド（推奨）',
-                                                    '6ラウンド',
-                                                    '7ラウンド',
-                                                  ].map((item) {
-                                                    return DropdownMenuItem<
-                                                      String
-                                                    >(
-                                                      value: item,
-                                                      child: Text(
-                                                        item,
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: AppColors
-                                                              .textBlack,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _selectedRounds = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            _MaxRoundsSelector(
+                              isEnabled: _isMaxRoundsEnabled,
+                              selectedRounds: _selectedRounds,
+                              onToggle: (value) {
+                                setState(() {
+                                  _isMaxRoundsEnabled = value;
+                                });
+                              },
+                              onRoundsChanged: (value) {
+                                setState(() {
+                                  _selectedRounds = value!;
+                                });
+                              },
                             ),
                             const SizedBox(height: 32),
 
@@ -677,7 +499,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                           width: 192,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
                               color: AppColors.textBlack,
@@ -738,7 +560,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: AppColors.white,
                               ),
                             ),
                           ),
@@ -758,9 +580,9 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
   Future<void> _selectDate(BuildContext context) async {
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: clock.now(),
+      firstDate: clock.now(),
+      lastDate: clock.now().add(const Duration(days: 365)),
     );
     if (date != null) {
       _dateController.text =
@@ -773,5 +595,164 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('トーナメントを作成しました')));
+  }
+}
+
+/// 最大ラウンド選択ウィジェット
+class _MaxRoundsSelector extends StatelessWidget {
+  const _MaxRoundsSelector({
+    required this.isEnabled,
+    required this.selectedRounds,
+    required this.onToggle,
+    required this.onRoundsChanged,
+  });
+
+  final bool isEnabled;
+  final String selectedRounds;
+  final ValueChanged<bool> onToggle;
+  final ValueChanged<String?> onRoundsChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '最大ラウンド*',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textBlack,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Column(
+          children: [
+            _CustomRadioButton(
+              isSelected: !isEnabled,
+              label: '勝者が1人に決まるまで',
+              onTap: () => onToggle(false),
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _CustomRadioButton(
+                  isSelected: isEnabled,
+                  label: '最大ラウンド数を決める',
+                  onTap: () => onToggle(true),
+                ),
+                const SizedBox(height: 9),
+                Container(
+                  width: 342,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: AppColors.grayLight,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 13,
+                    vertical: 16,
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: selectedRounds,
+                      icon: Transform.rotate(
+                        angle: 1.5708,
+                        child: const Icon(
+                          Icons.keyboard_arrow_right,
+                          size: 24,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
+                      isExpanded: true,
+                      items:
+                          const [
+                            '3ラウンド',
+                            '4ラウンド',
+                            '5ラウンド（推奨）',
+                            '6ラウンド',
+                            '7ラウンド',
+                          ].map((item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textBlack,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: onRoundsChanged,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// カスタムラジオボタン
+class _CustomRadioButton extends StatelessWidget {
+  const _CustomRadioButton({
+    required this.isSelected,
+    required this.label,
+    required this.onTap,
+  });
+
+  final bool isSelected;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.adminPrimary
+                    : AppColors.borderDisabled,
+                width: 2,
+              ),
+            ),
+            child: isSelected
+                ? Center(
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.adminPrimary,
+                      ),
+                    ),
+                  )
+                : null,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textBlack,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

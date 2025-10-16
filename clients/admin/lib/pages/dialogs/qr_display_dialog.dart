@@ -29,7 +29,7 @@ class QRDisplayDialog extends StatelessWidget {
         Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.black.withValues(alpha: 0.2),
+          color: AppColors.black.withValues(alpha: 0.2),
         ),
         // ダイアログ本体
         Center(
@@ -37,7 +37,7 @@ class QRDisplayDialog extends StatelessWidget {
             width: 450,
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 48),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(24),
             ),
             child: Column(
@@ -62,13 +62,13 @@ class QRDisplayDialog extends StatelessWidget {
                   width: 288,
                   height: 288,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(0),
                   ),
                   child: QrImageView(
                     data: participationUrl,
                     size: 288,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                     dataModuleStyle: const QrDataModuleStyle(
                       color: AppColors.textBlack,
                     ),
@@ -85,15 +85,15 @@ class QRDisplayDialog extends StatelessWidget {
                     style:
                         ElevatedButton.styleFrom(
                           backgroundColor: AppColors.adminPrimary,
-                          foregroundColor: Colors.white,
+                          foregroundColor: AppColors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                           ),
                           elevation: 0,
-                          shadowColor: Colors.transparent,
+                          shadowColor: AppColors.transparent,
                         ).copyWith(
                           overlayColor: WidgetStateProperty.all(
-                            Colors.white.withValues(alpha: 0.1),
+                            AppColors.white.withValues(alpha: 0.1),
                           ),
                         ),
                     child: const Text(

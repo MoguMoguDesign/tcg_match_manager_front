@@ -27,11 +27,7 @@ class HttpClient {
       final response = await _dioHttpClient.postUri<String>(
         uri,
         data: jsonEncode(data),
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        options: Options(headers: {'Content-Type': 'application/json'}),
       );
 
       return HttpResponse.success(

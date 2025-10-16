@@ -78,7 +78,7 @@ class FigmaTextField extends StatelessWidget {
                 : AppColors.gray.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(40),
             border: Border.all(
-              color: hasError ? Colors.red : AppColors.whiteAlpha,
+              color: hasError ? AppColors.red : AppColors.whiteAlpha,
               width: hasError ? 2 : 1,
             ),
           ),
@@ -131,7 +131,7 @@ class FigmaTextField extends StatelessWidget {
             child: Text(
               errorText!,
               style: AppTextStyles.bodySmall.copyWith(
-                color: Colors.red,
+                color: AppColors.red,
                 fontSize: 12,
               ),
             ),

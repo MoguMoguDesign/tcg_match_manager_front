@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-18760&t=whDUBuHITxOChCST-4
 class UserDeleteDialog extends StatelessWidget {
   /// ユーザー削除確認ダイアログのコンストラクタ
-  const UserDeleteDialog({
-    required this.userName,
-    super.key,
-  });
+  const UserDeleteDialog({required this.userName, super.key});
 
   /// 削除対象のユーザー名
   final String userName;
@@ -17,9 +14,7 @@ class UserDeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Container(
         width: 480,
         padding: const EdgeInsets.all(32),
@@ -92,8 +87,6 @@ Future<bool?> showUserDeleteDialog(
 }) async {
   return showDialog<bool>(
     context: context,
-    builder: (context) => UserDeleteDialog(
-      userName: userName,
-    ),
+    builder: (context) => UserDeleteDialog(userName: userName),
   );
 }

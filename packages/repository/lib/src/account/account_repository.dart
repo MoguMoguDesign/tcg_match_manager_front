@@ -44,11 +44,11 @@ class AccountRepository {
       'password': password,
       'api_version': _apiVersion,
     };
-    
+
     // URL を生成する。
-    final uri = Uri.parse(baseUrl).replace(
-      path: '${Uri.parse(baseUrl).path}api/v1/auth/login',
-    );
+    final uri = Uri.parse(
+      baseUrl,
+    ).replace(path: '${Uri.parse(baseUrl).path}api/v1/auth/login');
 
     final response = await _httpClient.postUri(uri, requestBody);
 

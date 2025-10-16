@@ -27,7 +27,7 @@ class TournamentFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColors.white,
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [

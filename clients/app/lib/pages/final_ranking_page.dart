@@ -22,11 +22,11 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
 
     // 背景テーマは Svg 背景へ統一。
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('最終順位'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         foregroundColor: AppColors.white,
         elevation: 0,
         toolbarHeight: 0,
@@ -35,8 +35,7 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
         assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
-          child: Column(
-            children: [
+          child:
               // メインコンテンツ
               Expanded(
                 child: SingleChildScrollView(
@@ -117,8 +116,6 @@ class _FinalRankingPageState extends State<FinalRankingPage> {
                   ),
                 ),
               ),
-            ],
-          ),
         ),
       ),
       // フローティングボタン（共通ボタンへ置換）
