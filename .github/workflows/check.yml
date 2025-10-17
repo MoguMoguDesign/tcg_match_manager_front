@@ -19,6 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/bootstrap_project
+      - name: Setup .env files
+        run: cp clients/admin/assets/.env.example clients/admin/assets/.env
       - run: melos run analyze
       - run: melos run custom_lint
       - name: Formatting check
