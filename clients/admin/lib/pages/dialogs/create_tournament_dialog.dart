@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,9 +50,9 @@ class _CreateTournamentDialogState
         children: [
           // 背景オーバーレイ
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black.withValues(alpha: 0.2),
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.2),
           ),
 
           // ダイアログ本体
@@ -60,7 +61,7 @@ class _CreateTournamentDialogState
               width: 719,
               constraints: const BoxConstraints(maxHeight: 800),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -250,21 +251,20 @@ class _CreateTournamentDialogState
                                       horizontal: 13,
                                       vertical: 16,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          _dateController.text.isEmpty
-                                              ? 'YYYY/MM/DD'
-                                              : _dateController.text,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: _dateController.text.isEmpty
-                                                ? AppColors.grayDark
-                                                : AppColors.textBlack,
-                                          ),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        _dateController.text.isEmpty
+                                            ? 'YYYY/MM/DD'
+                                            : _dateController.text,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: _dateController.text.isEmpty
+                                              ? AppColors.grayDark
+                                              : AppColors.textBlack,
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -674,7 +674,7 @@ class _CreateTournamentDialogState
                           width: 192,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
                               color: AppColors.textBlack,
@@ -735,7 +735,7 @@ class _CreateTournamentDialogState
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: AppColors.white,
                               ),
                             ),
                           ),
@@ -755,9 +755,9 @@ class _CreateTournamentDialogState
   Future<void> _selectDate(BuildContext context) async {
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: clock.now(),
+      firstDate: clock.now(),
+      lastDate: clock.now().add(const Duration(days: 365)),
     );
     if (date != null) {
       _dateController.text =

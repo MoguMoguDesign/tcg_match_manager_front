@@ -263,13 +263,13 @@ class AdminLoginPage extends HookConsumerWidget {
                             margin: const EdgeInsets.only(bottom: 16),
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade50,
+                              color: Theme.of(context).colorScheme.errorContainer,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               errorMessage.value!,
                               style: TextStyle(
-                                color: Colors.red.shade700,
+                                color: Theme.of(context).colorScheme.error,
                                 fontSize: 14,
                               ),
                             ),

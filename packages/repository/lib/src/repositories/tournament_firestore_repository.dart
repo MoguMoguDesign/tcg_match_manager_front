@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -53,7 +54,7 @@ class TournamentFirestoreRepository implements TournamentRepository {
     if (timestamp is String) {
       return timestamp;
     }
-    return DateTime.now().toIso8601String();
+    return clock.now().toIso8601String();
   }
 
   /// FirestoreドキュメントをTournamentModelに変換する。
@@ -81,13 +82,13 @@ class TournamentFirestoreRepository implements TournamentRepository {
       if (modelData.containsKey('createdAt')) {
         modelData['createdAt'] = _timestampToString(modelData['createdAt']);
       } else {
-        modelData['createdAt'] = DateTime.now().toIso8601String();
+        modelData['createdAt'] = clock.now().toIso8601String();
       }
 
       if (modelData.containsKey('updatedAt')) {
         modelData['updatedAt'] = _timestampToString(modelData['updatedAt']);
       } else {
-        modelData['updatedAt'] = DateTime.now().toIso8601String();
+        modelData['updatedAt'] = clock.now().toIso8601String();
       }
 
       return TournamentModel.fromJson(modelData);

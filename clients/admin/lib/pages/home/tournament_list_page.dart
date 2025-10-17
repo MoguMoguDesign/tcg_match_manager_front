@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -483,7 +484,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
     // 現在時刻と比較してステータスを決定
     var status = defaultStatus;
     try {
-      final now = DateTime.now();
+      final now = clock.now();
       if (tournament.startDate != null && tournament.endDate != null) {
         final startDate = DateTime.parse(tournament.startDate!);
         final endDate = DateTime.parse(tournament.endDate!);
