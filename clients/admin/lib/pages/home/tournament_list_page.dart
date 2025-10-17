@@ -200,7 +200,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
         tournaments.first.status == TournamentStatus.ongoing) {
       final tournament = tournaments.first;
       return ColoredBox(
-        color: AppColors.grayLight,
+        color: AppColors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
           child: Align(
@@ -215,7 +215,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
     if (tournaments.isNotEmpty &&
         tournaments.first.status == TournamentStatus.upcoming) {
       return ColoredBox(
-        color: AppColors.grayLight,
+        color: AppColors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
           child: Column(
@@ -269,7 +269,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
 
     // その他（開催後）は開催前と同じレイアウト（1行目4個、2行目2個）
     return ColoredBox(
-      color: AppColors.grayLight,
+      color: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
         child: Column(
