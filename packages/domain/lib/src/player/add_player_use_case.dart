@@ -20,9 +20,8 @@ class AddPlayerUseCase {
   /// [AddPlayerUseCase] を生成する。
   ///
   /// [playerRepository] は、プレイヤーに関する通信を行うためのリポジトリ。
-  const AddPlayerUseCase({
-    required PlayerRepository playerRepository,
-  }) : _playerRepository = playerRepository;
+  const AddPlayerUseCase({required PlayerRepository playerRepository})
+    : _playerRepository = playerRepository;
 
   final PlayerRepository _playerRepository;
 

@@ -148,10 +148,7 @@ void main() {
 
         final json = request.toJson();
 
-        expect(json, {
-          'name': 'テスト大会',
-          'date': '2025-10-01T10:00:00Z',
-        });
+        expect(json, {'name': 'テスト大会', 'date': '2025-10-01T10:00:00Z'});
       });
 
       test('全てのフィールドが指定されている場合、全てのフィールドを含むMapを返す', () {

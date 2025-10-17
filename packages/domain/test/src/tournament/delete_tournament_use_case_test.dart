@@ -17,8 +17,7 @@ void main() {
   });
 
   group('deleteTournamentUseCaseProvider のテスト。', () {
-    test('deleteTournamentUseCaseProvider が DeleteTournamentUseCase を返す。',
-        () {
+    test('deleteTournamentUseCaseProvider が DeleteTournamentUseCase を返す。', () {
       final container = ProviderContainer(
         overrides: [
           tournamentRepositoryProvider.overrideWithValue(mockRepository),
@@ -37,9 +36,7 @@ void main() {
     late DeleteTournamentUseCase useCase;
 
     setUp(() {
-      useCase = DeleteTournamentUseCase(
-        tournamentRepository: mockRepository,
-      );
+      useCase = DeleteTournamentUseCase(tournamentRepository: mockRepository);
     });
 
     group('invoke', () {
@@ -58,12 +55,9 @@ void main() {
         verify(mockRepository.deleteTournament(tournamentId)).called(1);
       });
 
-      test('INVALID_ARGUMENT エラーの場合、FailureStatusException をスローする',
-          () async {
+      test('INVALID_ARGUMENT エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'INVALID_ARGUMENT',
             message: '不正なIDです',
@@ -83,12 +77,9 @@ void main() {
         );
       });
 
-      test('NOT_FOUND エラーの場合、FailureStatusException をスローする',
-          () async {
+      test('NOT_FOUND エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'NOT_FOUND',
             message: 'トーナメントが見つかりません',
@@ -110,9 +101,7 @@ void main() {
 
       test('CONFLICT エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'CONFLICT',
             message: '競合が発生しました',
@@ -132,43 +121,13 @@ void main() {
         );
       });
 
-      test(
-        'TOURNAMENT_HAS_ACTIVE_MATCHES エラーの場合、 '
-        'FailureStatusException をスローする',
-        () async {
-          // Arrange
-          when(
-            mockRepository.deleteTournament(tournamentId),
-          ).thenThrow(
-            const repository.AdminApiException(
-              code: 'TOURNAMENT_HAS_ACTIVE_MATCHES',
-              message: 'アクティブなマッチがあります',
-            ),
-          );
-
-          // Act & Assert
-          expect(
-            () => useCase.invoke(id: tournamentId),
-            throwsA(
-              isA<FailureStatusException>().having(
-                (e) => e.message,
-                'message',
-                '削除できません: アクティブなマッチがあります',
-              ),
-            ),
-          );
-        },
-      );
-
-      test('BUSINESS_RULE_VIOLATION エラーの場合、FailureStatusException をスローする',
-          () async {
+      test('TOURNAMENT_HAS_ACTIVE_MATCHES エラーの場合、 '
+          'FailureStatusException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
-            code: 'BUSINESS_RULE_VIOLATION',
-            message: 'ビジネスルール違反',
+            code: 'TOURNAMENT_HAS_ACTIVE_MATCHES',
+            message: 'アクティブなマッチがあります',
           ),
         );
 
@@ -179,18 +138,40 @@ void main() {
             isA<FailureStatusException>().having(
               (e) => e.message,
               'message',
-              '削除できません: ビジネスルール違反',
+              '削除できません: アクティブなマッチがあります',
             ),
           ),
         );
       });
 
-      test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test(
+        'BUSINESS_RULE_VIOLATION エラーの場合、FailureStatusException をスローする',
+        () async {
+          // Arrange
+          when(mockRepository.deleteTournament(tournamentId)).thenThrow(
+            const repository.AdminApiException(
+              code: 'BUSINESS_RULE_VIOLATION',
+              message: 'ビジネスルール違反',
+            ),
+          );
+
+          // Act & Assert
+          expect(
+            () => useCase.invoke(id: tournamentId),
+            throwsA(
+              isA<FailureStatusException>().having(
+                (e) => e.message,
+                'message',
+                '削除できません: ビジネスルール違反',
+              ),
+            ),
+          );
+        },
+      );
+
+      test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'UNAUTHENTICATED',
             message: '認証エラー',
@@ -208,12 +189,9 @@ void main() {
         );
       });
 
-      test('AUTH_ERROR エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('AUTH_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'AUTH_ERROR',
             message: '認証エラー',
@@ -231,12 +209,9 @@ void main() {
         );
       });
 
-      test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'NETWORK_ERROR',
             message: 'ネットワークエラー',
@@ -249,10 +224,10 @@ void main() {
           throwsA(
             isA<GeneralFailureException>()
                 .having(
-              (e) => e.reason,
-              'reason',
-              GeneralFailureReason.noConnectionError,
-            )
+                  (e) => e.reason,
+                  'reason',
+                  GeneralFailureReason.noConnectionError,
+                )
                 .having((e) => e.errorCode, 'errorCode', 'NETWORK_ERROR'),
           ),
         );
@@ -260,9 +235,7 @@ void main() {
 
       test('その他のエラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.deleteTournament(tournamentId),
-        ).thenThrow(
+        when(mockRepository.deleteTournament(tournamentId)).thenThrow(
           const repository.AdminApiException(
             code: 'UNKNOWN_ERROR',
             message: '不明なエラー',

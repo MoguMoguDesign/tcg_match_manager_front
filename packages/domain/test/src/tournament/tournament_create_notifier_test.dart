@@ -28,16 +28,13 @@ void main() {
   });
 
   group('tournamentCreateNotifierProvider のテスト。', () {
-    test(
-      'tournamentCreateNotifierProvider が '
-      'TournamentCreateNotifier を返す。',
-      () {
-        expect(
-          container.read(tournamentCreateNotifierProvider.notifier),
-          isA<TournamentCreateNotifier>(),
-        );
-      },
-    );
+    test('tournamentCreateNotifierProvider が '
+        'TournamentCreateNotifier を返す。', () {
+      expect(
+        container.read(tournamentCreateNotifierProvider.notifier),
+        isA<TournamentCreateNotifier>(),
+      );
+    });
   });
 
   group('TournamentCreateNotifier のテスト。', () {
@@ -59,9 +56,7 @@ void main() {
       const testStartDate = '2025-10-01T10:00:00Z';
       const testEndDate = '2025-10-01T18:00:00Z';
 
-      test(
-        'トーナメントの作成に成功した場合、state が success になる。',
-        () async {
+      test('トーナメントの作成に成功した場合、state が success になる。', () async {
         const testTournament = Tournament(
           id: 'test-id',
           title: testTitle,
@@ -115,9 +110,7 @@ void main() {
         ).called(1);
       });
 
-      test(
-        'creating 状態の間、state が creating になる。',
-        () async {
+      test('creating 状態の間、state が creating になる。', () async {
         const testTournament = Tournament(
           id: 'test-id',
           title: testTitle,
@@ -130,9 +123,7 @@ void main() {
         );
 
         // createTournament メソッドが正常に完了するスタブを用意する。
-        when(
-          mockCreateTournamentUseCase.call(any),
-        ).thenAnswer((_) async {
+        when(mockCreateTournamentUseCase.call(any)).thenAnswer((_) async {
           // creating 状態を確認する。
           final state = container.read(tournamentCreateNotifierProvider);
           expect(state.state, TournamentCreateState.creating);
@@ -153,9 +144,7 @@ void main() {
         );
       });
 
-      test(
-        'FailureStatusException が発生した場合、state が error になる。',
-        () async {
+      test('FailureStatusException が発生した場合、state が error になる。', () async {
         const testErrorMessage = '入力エラー';
 
         // FailureStatusException がスローされるスタブを用意する。
@@ -183,152 +172,127 @@ void main() {
         expect(state.errorMessage, testErrorMessage);
       });
 
-      test(
-        'GeneralFailureException (other) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockCreateTournamentUseCase.call(any),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.other,
-              errorCode: 'AUTH_ERROR',
-            ),
-          );
+      test('GeneralFailureException (other) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockCreateTournamentUseCase.call(any)).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.other,
+            errorCode: 'AUTH_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentCreateNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentCreateNotifierProvider.notifier,
+        );
 
-          // createTournament メソッドを実行する。
-          await notifier.createTournament(
-            title: testTitle,
-            description: testDescription,
-            venue: 'テスト会場',
-            startDate: testStartDate,
-            endDate: testEndDate,
-          );
+        // createTournament メソッドを実行する。
+        await notifier.createTournament(
+          title: testTitle,
+          description: testDescription,
+          venue: 'テスト会場',
+          startDate: testStartDate,
+          endDate: testEndDate,
+        );
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentCreateNotifierProvider);
-          expect(state.state, TournamentCreateState.error);
-          expect(state.tournament, isNull);
-          expect(
-            state.errorMessage,
-            '認証に失敗しました。再度ログインしてください。',
-          );
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentCreateNotifierProvider);
+        expect(state.state, TournamentCreateState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, '認証に失敗しました。再度ログインしてください。');
+      });
 
-      test(
-        'GeneralFailureException (noConnectionError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockCreateTournamentUseCase.call(any),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.noConnectionError,
-              errorCode: 'NETWORK_ERROR',
-            ),
-          );
+      test('GeneralFailureException (noConnectionError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockCreateTournamentUseCase.call(any)).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: 'NETWORK_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentCreateNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentCreateNotifierProvider.notifier,
+        );
 
-          // createTournament メソッドを実行する。
-          await notifier.createTournament(
-            title: testTitle,
-            description: testDescription,
-            venue: 'テスト会場',
-            startDate: testStartDate,
-            endDate: testEndDate,
-          );
+        // createTournament メソッドを実行する。
+        await notifier.createTournament(
+          title: testTitle,
+          description: testDescription,
+          venue: 'テスト会場',
+          startDate: testStartDate,
+          endDate: testEndDate,
+        );
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentCreateNotifierProvider);
-          expect(state.state, TournamentCreateState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'ネットワークに接続できません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentCreateNotifierProvider);
+        expect(state.state, TournamentCreateState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'ネットワークに接続できません。');
+      });
 
-      test(
-        'GeneralFailureException (serverUrlNotFoundError) '
-        'が発生した場合、 state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockCreateTournamentUseCase.call(any),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.serverUrlNotFoundError,
-              errorCode: 'NOT_FOUND',
-            ),
-          );
+      test('GeneralFailureException (serverUrlNotFoundError) '
+          'が発生した場合、 state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockCreateTournamentUseCase.call(any)).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.serverUrlNotFoundError,
+            errorCode: 'NOT_FOUND',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentCreateNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentCreateNotifierProvider.notifier,
+        );
 
-          // createTournament メソッドを実行する。
-          await notifier.createTournament(
-            title: testTitle,
-            description: testDescription,
-            venue: 'テスト会場',
-            startDate: testStartDate,
-            endDate: testEndDate,
-          );
+        // createTournament メソッドを実行する。
+        await notifier.createTournament(
+          title: testTitle,
+          description: testDescription,
+          venue: 'テスト会場',
+          startDate: testStartDate,
+          endDate: testEndDate,
+        );
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentCreateNotifierProvider);
-          expect(state.state, TournamentCreateState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'サーバーURLが見つかりません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentCreateNotifierProvider);
+        expect(state.state, TournamentCreateState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'サーバーURLが見つかりません。');
+      });
 
-      test(
-        'GeneralFailureException (badResponse) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockCreateTournamentUseCase.call(any),
-          ).thenThrow(
-            const GeneralFailureException.badResponse(
-              errorCode: 'BAD_RESPONSE',
-              statusCode: 500,
-            ),
-          );
+      test('GeneralFailureException (badResponse) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockCreateTournamentUseCase.call(any)).thenThrow(
+          const GeneralFailureException.badResponse(
+            errorCode: 'BAD_RESPONSE',
+            statusCode: 500,
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentCreateNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentCreateNotifierProvider.notifier,
+        );
 
-          // createTournament メソッドを実行する。
-          await notifier.createTournament(
-            title: testTitle,
-            description: testDescription,
-            venue: 'テスト会場',
-            startDate: testStartDate,
-            endDate: testEndDate,
-          );
+        // createTournament メソッドを実行する。
+        await notifier.createTournament(
+          title: testTitle,
+          description: testDescription,
+          venue: 'テスト会場',
+          startDate: testStartDate,
+          endDate: testEndDate,
+        );
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentCreateNotifierProvider);
-          expect(state.state, TournamentCreateState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, '不正なレスポンスです。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentCreateNotifierProvider);
+        expect(state.state, TournamentCreateState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, '不正なレスポンスです。');
+      });
 
-      test(
-        '予期しない例外が発生した場合、state が error になる。',
-        () async {
+      test('予期しない例外が発生した場合、state が error になる。', () async {
         // 予期しない例外がスローされるスタブを用意する。
         when(
           mockCreateTournamentUseCase.call(any),
@@ -357,9 +321,7 @@ void main() {
 
     group('copyWith のテスト。', () {
       test('copyWith で state に null を渡すと現在の state を保持する', () {
-        const data = TournamentCreateData(
-          state: TournamentCreateState.success,
-        );
+        const data = TournamentCreateData(state: TournamentCreateState.success);
 
         final copied = data.copyWith(
           tournament: const Tournament(
@@ -380,9 +342,7 @@ void main() {
     });
 
     group('reset メソッドのテスト。', () {
-      test(
-        'reset を呼ぶと state が初期状態に戻る。',
-        () async {
+      test('reset を呼ぶと state が初期状態に戻る。', () async {
         const testTitle = 'テスト大会';
         const testDescription = 'テスト大会の説明';
         const testStartDate = '2025-10-01T10:00:00Z';

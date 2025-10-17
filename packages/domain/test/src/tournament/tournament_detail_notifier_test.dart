@@ -204,59 +204,53 @@ void main() {
         },
       );
 
-      test(
-        'GeneralFailureException (noConnectionError) が発生した場合、 '
-        'state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.noConnectionError,
-              errorCode: 'NETWORK_ERROR',
-            ),
-          );
+      test('GeneralFailureException (noConnectionError) が発生した場合、 '
+          'state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: 'NETWORK_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentDetailNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentDetailNotifierProvider.notifier,
+        );
 
-          // loadTournament メソッドを実行する。
-          await notifier.loadTournament(testId);
+        // loadTournament メソッドを実行する。
+        await notifier.loadTournament(testId);
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentDetailNotifierProvider);
-          expect(state.state, TournamentDetailState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'ネットワークに接続できません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentDetailNotifierProvider);
+        expect(state.state, TournamentDetailState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'ネットワークに接続できません。');
+      });
 
-      test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、 '
-        'state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.serverUrlNotFoundError,
-              errorCode: 'NOT_FOUND',
-            ),
-          );
+      test('GeneralFailureException (serverUrlNotFoundError) が発生した場合、 '
+          'state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.serverUrlNotFoundError,
+            errorCode: 'NOT_FOUND',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentDetailNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentDetailNotifierProvider.notifier,
+        );
 
-          // loadTournament メソッドを実行する。
-          await notifier.loadTournament(testId);
+        // loadTournament メソッドを実行する。
+        await notifier.loadTournament(testId);
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentDetailNotifierProvider);
-          expect(state.state, TournamentDetailState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'サーバーURLが見つかりません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentDetailNotifierProvider);
+        expect(state.state, TournamentDetailState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'サーバーURLが見つかりません。');
+      });
 
       test(
         'GeneralFailureException (badResponse) が発生した場合、state が error になる。',

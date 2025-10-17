@@ -47,10 +47,7 @@ void main() {
         when(mockAuth.currentUser).thenReturn(null);
 
         // Act & Assert
-        expect(
-          () => repository.getTournaments(),
-          throwsA(isA<Exception>()),
-        );
+        expect(() => repository.getTournaments(), throwsA(isA<Exception>()));
       });
 
       test('トーナメント一覧を正しく取得できる。', () async {
@@ -63,19 +60,21 @@ void main() {
         final mockQuerySnapshot = MockQuerySnapshot<Map<String, dynamic>>();
         final mockDoc = MockQueryDocumentSnapshot<Map<String, dynamic>>();
 
-        when(mockCollection.where('adminUid', isEqualTo: uid))
-            .thenReturn(mockQuery);
-        when(mockQuery.orderBy('createdAt', descending: true))
-            .thenReturn(mockQuery);
+        when(
+          mockCollection.where('adminUid', isEqualTo: uid),
+        ).thenReturn(mockQuery);
+        when(
+          mockQuery.orderBy('createdAt', descending: true),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockDoc]);
 
         when(mockDoc.id).thenReturn('tournament-id');
         when(mockDoc.data()).thenReturn({
-          'name': 'Test Tournament',  // maps to title
-          'overview': 'Test Description',  // maps to description
+          'name': 'Test Tournament', // maps to title
+          'overview': 'Test Description', // maps to description
           'venue': 'Test Venue',
-          'date': '2025-01-01T00:00:00Z',  // maps to startDate
+          'date': '2025-01-01T00:00:00Z', // maps to startDate
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
           'adminUid': uid,
@@ -97,27 +96,23 @@ void main() {
         when(mockUser.uid).thenReturn(uid);
 
         final mockQuery = MockQuery<Map<String, dynamic>>();
-        when(mockCollection.where('adminUid', isEqualTo: uid))
-            .thenReturn(mockQuery);
-        when(mockQuery.orderBy('createdAt', descending: true))
-            .thenReturn(mockQuery);
+        when(
+          mockCollection.where('adminUid', isEqualTo: uid),
+        ).thenReturn(mockQuery);
+        when(
+          mockQuery.orderBy('createdAt', descending: true),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenThrow(Exception('Firestore error'));
 
         // Act & Assert
-        expect(
-          () => repository.getTournaments(),
-          throwsA(isA<Exception>()),
-        );
+        expect(() => repository.getTournaments(), throwsA(isA<Exception>()));
       });
     });
 
     group('getTournament のテスト。', () {
       test('IDが空の場合、例外がスローされる。', () async {
         // Act & Assert
-        expect(
-          () => repository.getTournament(''),
-          throwsA(isA<Exception>()),
-        );
+        expect(() => repository.getTournament(''), throwsA(isA<Exception>()));
       });
 
       test('トーナメントを正しく取得できる。', () async {
@@ -278,8 +273,8 @@ void main() {
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
           'adminUid': 'test-uid',
-          'createdAt': 12345,  // int型（不明な型）
-          'updatedAt': 67890,  // int型（不明な型）
+          'createdAt': 12345, // int型（不明な型）
+          'updatedAt': 67890, // int型（不明な型）
         });
 
         // Act

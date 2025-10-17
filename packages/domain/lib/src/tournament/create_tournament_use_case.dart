@@ -6,8 +6,7 @@ import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain.dart';
-import 'create_tournament_request.dart'
-    as domain;
+import 'create_tournament_request.dart' as domain;
 
 part 'create_tournament_use_case.g.dart';
 
@@ -44,7 +43,8 @@ class CreateTournamentUseCase {
       _validateRequest(request);
 
       // ラウンド数の決定（自動計算 or 手動指定）
-      final maxRounds = request.maxRounds ??
+      final maxRounds =
+          request.maxRounds ??
           _calculateRecommendedRounds(request.expectedPlayers);
 
       // Repositoryレイヤー用のリクエストに変換

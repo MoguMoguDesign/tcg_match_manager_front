@@ -75,10 +75,7 @@ class PlayerListNotifier extends _$PlayerListNotifier {
         tournamentId: tournamentId,
         status: status,
       );
-      state = state.copyWith(
-        state: PlayerListState.loaded,
-        players: players,
-      );
+      state = state.copyWith(state: PlayerListState.loaded, players: players);
     } on FailureStatusException catch (e) {
       state = state.copyWith(
         state: PlayerListState.error,

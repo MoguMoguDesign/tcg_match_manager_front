@@ -42,10 +42,7 @@ void main() {
         // Assert
         expect(result, equals(expectedUser));
         verify(
-          mockRepository.signInWithEmail(
-            email: email,
-            password: password,
-          ),
+          mockRepository.signInWithEmail(email: email, password: password),
         ).called(1);
       });
 

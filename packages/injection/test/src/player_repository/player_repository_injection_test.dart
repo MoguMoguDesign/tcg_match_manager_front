@@ -16,10 +16,7 @@ void main() {
 
     test('プロバイダーの読み取りで例外がスローされる。', () {
       // adminApiClientProviderに依存しており、Firebase未初期化のため例外がスローされる
-      expect(
-        () => container.read(playerRepositoryProvider),
-        throwsA(anything),
-      );
+      expect(() => container.read(playerRepositoryProvider), throwsA(anything));
     });
   });
 }

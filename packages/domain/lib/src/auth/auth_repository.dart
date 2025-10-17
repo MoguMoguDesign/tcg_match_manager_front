@@ -62,10 +62,7 @@ abstract interface class AuthRepository {
 /// 認証処理で発生する例外
 class AuthException implements Exception {
   /// [AuthException]のコンストラクタ。
-  const AuthException({
-    required this.code,
-    required this.message,
-  });
+  const AuthException({required this.code, required this.message});
 
   /// エラーコード
   final String code;

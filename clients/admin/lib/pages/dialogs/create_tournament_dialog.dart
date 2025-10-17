@@ -823,9 +823,7 @@ class _CreateTournamentDialogState
       // ラウンド数を数値に変換（手動指定時のみ）
       final maxRounds = _isMaxRoundsEnabled
           ? int.parse(
-              _selectedRounds
-                  .replaceAll('ラウンド（推奨）', '')
-                  .replaceAll('ラウンド', ''),
+              _selectedRounds.replaceAll('ラウンド（推奨）', '').replaceAll('ラウンド', ''),
             )
           : null;
 
@@ -890,9 +888,7 @@ class _CreateTournamentDialogState
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(
-          SnackBar(content: Text('予期しないエラーが発生しました: $e')),
-        );
+        ).showSnackBar(SnackBar(content: Text('予期しないエラーが発生しました: $e')));
       }
     }
   }

@@ -59,16 +59,8 @@ void main() {
       when(mockUser.getIdToken()).thenAnswer((_) async => testToken);
 
       // HTTPレスポンスのモック設定
-      when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'test'}),
-          200,
-        ),
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+        (_) async => http.Response(jsonEncode({'data': 'test'}), 200),
       );
 
       final response = await client.get('/test');
@@ -91,16 +83,8 @@ void main() {
       when(mockFirebaseAuth.currentUser).thenReturn(mockUser);
       when(mockUser.getIdToken()).thenAnswer((_) async => testToken);
 
-      when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'test'}),
-          200,
-        ),
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+        (_) async => http.Response(jsonEncode({'data': 'test'}), 200),
       );
 
       final response = await client.get(
@@ -122,13 +106,8 @@ void main() {
       when(mockUser.getIdToken()).thenAnswer((_) async => testToken);
 
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('', 200),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('', 200));
 
       final response = await client.get('/test');
 
@@ -148,16 +127,10 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'created'}),
-          201,
-        ),
+        (_) async => http.Response(jsonEncode({'data': 'created'}), 201),
       );
 
-      final response = await client.post(
-        '/test',
-        body: {'field': 'value'},
-      );
+      final response = await client.post('/test', body: {'field': 'value'});
 
       expect(response, {'data': 'created'});
       verify(
@@ -183,10 +156,7 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'created'}),
-          201,
-        ),
+        (_) async => http.Response(jsonEncode({'data': 'created'}), 201),
       );
 
       final response = await client.post('/test');
@@ -205,16 +175,10 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'created'}),
-          201,
-        ),
+        (_) async => http.Response(jsonEncode({'data': 'created'}), 201),
       );
 
-      await client.post(
-        '/test',
-        queryParameters: {'key': 'value'},
-      );
+      await client.post('/test', queryParameters: {'key': 'value'});
 
       verify(
         mockHttpClient.post(
@@ -238,10 +202,7 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'updated'}),
-          200,
-        ),
+        (_) async => http.Response(jsonEncode({'data': 'updated'}), 200),
       );
 
       final response = await client.patch(
@@ -273,10 +234,7 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'updated'}),
-          200,
-        ),
+        (_) async => http.Response(jsonEncode({'data': 'updated'}), 200),
       );
 
       final response = await client.patch('/test');
@@ -290,16 +248,8 @@ void main() {
       when(mockFirebaseAuth.currentUser).thenReturn(mockUser);
       when(mockUser.getIdToken()).thenAnswer((_) async => testToken);
 
-      when(
-        mockHttpClient.delete(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'deleted'}),
-          200,
-        ),
+      when(mockHttpClient.delete(any, headers: anyNamed('headers'))).thenAnswer(
+        (_) async => http.Response(jsonEncode({'data': 'deleted'}), 200),
       );
 
       final response = await client.delete('/test');
@@ -320,22 +270,11 @@ void main() {
       when(mockFirebaseAuth.currentUser).thenReturn(mockUser);
       when(mockUser.getIdToken()).thenAnswer((_) async => testToken);
 
-      when(
-        mockHttpClient.delete(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'deleted'}),
-          200,
-        ),
+      when(mockHttpClient.delete(any, headers: anyNamed('headers'))).thenAnswer(
+        (_) async => http.Response(jsonEncode({'data': 'deleted'}), 200),
       );
 
-      await client.delete(
-        '/test',
-        queryParameters: {'key': 'value'},
-      );
+      await client.delete('/test', queryParameters: {'key': 'value'});
 
       verify(
         mockHttpClient.delete(
@@ -355,11 +294,7 @@ void main() {
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'UNAUTHENTICATED')
-              .having(
-                (e) => e.message,
-                'message',
-                '管理者としてログインしてください',
-              ),
+              .having((e) => e.message, 'message', '管理者としてログインしてください'),
         ),
       );
     });
@@ -373,11 +308,7 @@ void main() {
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'AUTH_ERROR')
-              .having(
-                (e) => e.message,
-                'message',
-                'IDトークンの取得に失敗しました',
-              ),
+              .having((e) => e.message, 'message', 'IDトークンの取得に失敗しました'),
         ),
       );
     });
@@ -409,37 +340,23 @@ void main() {
 
     test('400 Bad Request エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Invalid request', 400),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Invalid request', 400));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'INVALID_ARGUMENT')
-              .having(
-                (e) => e.message,
-                'message',
-                '入力内容に問題があります',
-              ),
+              .having((e) => e.message, 'message', '入力内容に問題があります'),
         ),
       );
     });
 
     test('401 Unauthorized エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Unauthorized', 401),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Unauthorized', 401));
 
       expect(
         () => client.get('/test'),
@@ -453,133 +370,83 @@ void main() {
 
     test('403 Forbidden エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Forbidden', 403),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Forbidden', 403));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'FORBIDDEN')
-              .having(
-                (e) => e.message,
-                'message',
-                'アクセス権限がありません',
-              ),
+              .having((e) => e.message, 'message', 'アクセス権限がありません'),
         ),
       );
     });
 
     test('404 Not Found エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Not found', 404),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Not found', 404));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'NOT_FOUND')
-              .having(
-                (e) => e.message,
-                'message',
-                '指定されたリソースが見つかりません',
-              ),
+              .having((e) => e.message, 'message', '指定されたリソースが見つかりません'),
         ),
       );
     });
 
     test('409 Conflict エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Conflict', 409),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Conflict', 409));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'CONFLICT')
-              .having(
-                (e) => e.message,
-                'message',
-                '処理を実行できません（競合状態）',
-              ),
+              .having((e) => e.message, 'message', '処理を実行できません（競合状態）'),
         ),
       );
     });
 
     test('429 Too Many Requests エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Too many requests', 429),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Too many requests', 429));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'TOO_MANY_REQUESTS')
-              .having(
-                (e) => e.message,
-                'message',
-                'リクエスト回数が上限に達しました',
-              ),
+              .having((e) => e.message, 'message', 'リクエスト回数が上限に達しました'),
         ),
       );
     });
 
     test('500 Internal Server Error エラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Internal error', 500),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Internal error', 500));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'INTERNAL_ERROR')
-              .having(
-                (e) => e.message,
-                'message',
-                'サーバー内部エラーが発生しました',
-              ),
+              .having((e) => e.message, 'message', 'サーバー内部エラーが発生しました'),
         ),
       );
     });
 
     test('その他のHTTPエラーを処理できる', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('Unknown error', 418),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('Unknown error', 418));
 
       expect(
         () => client.get('/test'),
@@ -599,29 +466,16 @@ void main() {
       });
 
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(errorBody, 400),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response(errorBody, 400));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'CUSTOM_ERROR')
-              .having(
-                (e) => e.message,
-                'message',
-                'Custom error message',
-              )
-              .having(
-                (e) => e.details,
-                'details',
-                {'field': 'error_detail'},
-              ),
+              .having((e) => e.message, 'message', 'Custom error message')
+              .having((e) => e.details, 'details', {'field': 'error_detail'}),
         ),
       );
     });
@@ -635,34 +489,22 @@ void main() {
 
     test('レスポンスのJSON解析に失敗した場合、AdminApiExceptionをスローする', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response('invalid json', 200),
-      );
+        mockHttpClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response('invalid json', 200));
 
       expect(
         () => client.get('/test'),
         throwsA(
           isA<AdminApiException>()
               .having((e) => e.code, 'code', 'RESPONSE_PARSE_ERROR')
-              .having(
-                (e) => e.message,
-                'message',
-                'レスポンスの解析に失敗しました',
-              ),
+              .having((e) => e.message, 'message', 'レスポンスの解析に失敗しました'),
         ),
       );
     });
 
     test('ネットワークエラーが発生した場合、AdminApiExceptionをスローする', () async {
       when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
+        mockHttpClient.get(any, headers: anyNamed('headers')),
       ).thenThrow(Exception('Network error'));
 
       expect(
@@ -695,16 +537,8 @@ void main() {
     setUp(() {
       when(mockFirebaseAuth.currentUser).thenReturn(mockUser);
       when(mockUser.getIdToken()).thenAnswer((_) async => testToken);
-      when(
-        mockHttpClient.get(
-          any,
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'data': 'test'}),
-          200,
-        ),
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+        (_) async => http.Response(jsonEncode({'data': 'test'}), 200),
       );
     });
 

@@ -17,9 +17,7 @@ Future<void> main() async {
   await dotenv.load();
 
   // Firebase を初期化する
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // 環境変数からAdmin API URLを取得
   final adminApiUrl = dotenv.env['ADMIN_API_URL'];
@@ -35,8 +33,9 @@ Future<void> main() async {
         // Admin API BaseURLのプロバイダーをオーバーライド
         injection.adminApiBaseUrlProvider.overrideWith((ref) => adminApiUrl),
         // TournamentRepositoryのプロバイダーをオーバーライド
-        injection.tournamentRepositoryProvider
-            .overrideWith((ref) => injection.getTournamentRepository()),
+        injection.tournamentRepositoryProvider.overrideWith(
+          (ref) => injection.getTournamentRepository(),
+        ),
       ],
       child: const MyApp(),
     ),

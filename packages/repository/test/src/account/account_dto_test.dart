@@ -103,9 +103,7 @@ void main() {
       });
 
       test('STATUS が 1 の場合、isFailureStatus が true になる', () {
-        final json = {
-          'STATUS': 1,
-        };
+        final json = {'STATUS': 1};
 
         final dto = AccountDto.fromJson(json);
 
@@ -113,9 +111,7 @@ void main() {
       });
 
       test('STATUS が文字列 "0" の場合、isFailureStatus が false になる', () {
-        final json = {
-          'STATUS': '0',
-        };
+        final json = {'STATUS': '0'};
 
         final dto = AccountDto.fromJson(json);
 
@@ -123,9 +119,7 @@ void main() {
       });
 
       test('STATUS が文字列 "1" の場合、isFailureStatus が true になる', () {
-        final json = {
-          'STATUS': '1',
-        };
+        final json = {'STATUS': '1'};
 
         final dto = AccountDto.fromJson(json);
 
@@ -143,10 +137,7 @@ void main() {
       });
 
       test('message を更新できる', () {
-        const dto = AccountDto(
-          isFailureStatus: false,
-          message: 'Old message',
-        );
+        const dto = AccountDto(isFailureStatus: false, message: 'Old message');
 
         final updated = dto.copyWith(message: 'New message');
 
@@ -174,10 +165,7 @@ void main() {
       test('toJson を呼ぶと UnimplementedError がスローされる', () {
         const dto = AccountDto(isFailureStatus: false);
 
-        expect(
-          () => dto.toJson(),
-          throwsA(isA<UnimplementedError>()),
-        );
+        expect(() => dto.toJson(), throwsA(isA<UnimplementedError>()));
       });
     });
 
@@ -200,15 +188,9 @@ void main() {
       });
 
       test('異なる値を持つインスタンスは等しくない', () {
-        const dto1 = AccountDto(
-          isFailureStatus: false,
-          userId: 'user-123',
-        );
+        const dto1 = AccountDto(isFailureStatus: false, userId: 'user-123');
 
-        const dto2 = AccountDto(
-          isFailureStatus: false,
-          userId: 'user-456',
-        );
+        const dto2 = AccountDto(isFailureStatus: false, userId: 'user-456');
 
         expect(dto1, isNot(equals(dto2)));
       });

@@ -204,18 +204,19 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                             fontSize: 14,
                             color: AppColors.textBlack,
                           ),
-                          items: [
-                            'Pokemon Card',
-                            '遊戯王',
-                            'デュエルマスターズ',
-                            'ヴァンガード',
-                            'その他',
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                          items:
+                              [
+                                'Pokemon Card',
+                                '遊戯王',
+                                'デュエルマスターズ',
+                                'ヴァンガード',
+                                'その他',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                           onChanged: (String? newValue) {
                             if (newValue != null) {
                               setState(() {
@@ -820,10 +821,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
           message = '不正なレスポンスです。';
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: AppColors.error,
-        ),
+        SnackBar(content: Text(message), backgroundColor: AppColors.error),
       );
     } on Exception catch (e) {
       if (!mounted) {

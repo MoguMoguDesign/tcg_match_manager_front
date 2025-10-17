@@ -176,59 +176,53 @@ void main() {
         },
       );
 
-      test(
-        'GeneralFailureException (noConnectionError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.noConnectionError,
-              errorCode: 'NETWORK_ERROR',
-            ),
-          );
+      test('GeneralFailureException (noConnectionError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: 'NETWORK_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentEditNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentEditNotifierProvider.notifier,
+        );
 
-          // loadTournament メソッドを実行する。
-          await notifier.loadTournament(testId);
+        // loadTournament メソッドを実行する。
+        await notifier.loadTournament(testId);
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentEditNotifierProvider);
-          expect(state.state, TournamentEditState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'ネットワークに接続できません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentEditNotifierProvider);
+        expect(state.state, TournamentEditState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'ネットワークに接続できません。');
+      });
 
-      test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.serverUrlNotFoundError,
-              errorCode: 'NOT_FOUND',
-            ),
-          );
+      test('GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockGetTournamentUseCase.invoke(id: anyNamed('id'))).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.serverUrlNotFoundError,
+            errorCode: 'NOT_FOUND',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentEditNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentEditNotifierProvider.notifier,
+        );
 
-          // loadTournament メソッドを実行する。
-          await notifier.loadTournament(testId);
+        // loadTournament メソッドを実行する。
+        await notifier.loadTournament(testId);
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentEditNotifierProvider);
-          expect(state.state, TournamentEditState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'サーバーURLが見つかりません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentEditNotifierProvider);
+        expect(state.state, TournamentEditState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'サーバーURLが見つかりません。');
+      });
 
       test(
         'GeneralFailureException (badResponse) が発生した場合、state が error になる。',
@@ -428,10 +422,7 @@ void main() {
 
         // UseCase の invoke メソッドが正しい引数で呼び出されることを確認する。
         verify(
-          mockUpdateTournamentUseCase.invoke(
-            id: testId,
-            name: testName,
-          ),
+          mockUpdateTournamentUseCase.invoke(id: testId, name: testName),
         ).called(1);
       });
 
@@ -513,91 +504,85 @@ void main() {
         },
       );
 
-      test(
-        'GeneralFailureException (noConnectionError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockUpdateTournamentUseCase.invoke(
-              id: anyNamed('id'),
-              name: anyNamed('name'),
-              overview: anyNamed('overview'),
-              category: anyNamed('category'),
-              date: anyNamed('date'),
-              remarks: anyNamed('remarks'),
-            ),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.noConnectionError,
-              errorCode: 'NETWORK_ERROR',
-            ),
-          );
+      test('GeneralFailureException (noConnectionError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(
+          mockUpdateTournamentUseCase.invoke(
+            id: anyNamed('id'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
+          ),
+        ).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: 'NETWORK_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentEditNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentEditNotifierProvider.notifier,
+        );
 
-          // updateTournament メソッドを実行する。
-          await notifier.updateTournament(
-            id: testId,
-            name: testName,
-            overview: testOverview,
-            category: testCategory,
-            date: testDate,
-            remarks: testRemarks,
-          );
+        // updateTournament メソッドを実行する。
+        await notifier.updateTournament(
+          id: testId,
+          name: testName,
+          overview: testOverview,
+          category: testCategory,
+          date: testDate,
+          remarks: testRemarks,
+        );
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentEditNotifierProvider);
-          expect(state.state, TournamentEditState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'ネットワークに接続できません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentEditNotifierProvider);
+        expect(state.state, TournamentEditState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'ネットワークに接続できません。');
+      });
 
-      test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockUpdateTournamentUseCase.invoke(
-              id: anyNamed('id'),
-              name: anyNamed('name'),
-              overview: anyNamed('overview'),
-              category: anyNamed('category'),
-              date: anyNamed('date'),
-              remarks: anyNamed('remarks'),
-            ),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.serverUrlNotFoundError,
-              errorCode: 'NOT_FOUND',
-            ),
-          );
+      test('GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(
+          mockUpdateTournamentUseCase.invoke(
+            id: anyNamed('id'),
+            name: anyNamed('name'),
+            overview: anyNamed('overview'),
+            category: anyNamed('category'),
+            date: anyNamed('date'),
+            remarks: anyNamed('remarks'),
+          ),
+        ).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.serverUrlNotFoundError,
+            errorCode: 'NOT_FOUND',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentEditNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentEditNotifierProvider.notifier,
+        );
 
-          // updateTournament メソッドを実行する。
-          await notifier.updateTournament(
-            id: testId,
-            name: testName,
-            overview: testOverview,
-            category: testCategory,
-            date: testDate,
-            remarks: testRemarks,
-          );
+        // updateTournament メソッドを実行する。
+        await notifier.updateTournament(
+          id: testId,
+          name: testName,
+          overview: testOverview,
+          category: testCategory,
+          date: testDate,
+          remarks: testRemarks,
+        );
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentEditNotifierProvider);
-          expect(state.state, TournamentEditState.error);
-          expect(state.tournament, isNull);
-          expect(state.errorMessage, 'サーバーURLが見つかりません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentEditNotifierProvider);
+        expect(state.state, TournamentEditState.error);
+        expect(state.tournament, isNull);
+        expect(state.errorMessage, 'サーバーURLが見つかりません。');
+      });
 
       test(
         'GeneralFailureException (badResponse) が発生した場合、state が error になる。',
@@ -678,9 +663,7 @@ void main() {
 
     group('copyWith のテスト。', () {
       test('copyWith で state に null を渡すと現在の state を保持する', () {
-        const data = TournamentEditData(
-          state: TournamentEditState.loaded,
-        );
+        const data = TournamentEditData(state: TournamentEditState.loaded);
 
         final copied = data.copyWith(
           tournament: const Tournament(

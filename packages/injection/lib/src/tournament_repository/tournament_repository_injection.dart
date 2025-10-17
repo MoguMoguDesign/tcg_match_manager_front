@@ -10,9 +10,7 @@ part 'tournament_repository_injection.g.dart';
 /// [TournamentRepository] を提供する。
 @riverpod
 TournamentRepository tournamentRepository(Ref ref) {
-  throw UnimplementedError(
-    'tournamentRepositoryProvider は上書きされる必要があります。',
-  );
+  throw UnimplementedError('tournamentRepositoryProvider は上書きされる必要があります。');
 }
 
 /// [TournamentRepository] を取得する。

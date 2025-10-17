@@ -33,10 +33,7 @@ void main() {
 
     test('プロバイダーが UnimplementedError をスローする。', () {
       // Firebase未初期化のためUnimplementedErrorまたは例外がスローされる
-      expect(
-        () => container.read(adminApiClientProvider),
-        throwsA(anything),
-      );
+      expect(() => container.read(adminApiClientProvider), throwsA(anything));
     });
   });
 
@@ -45,10 +42,7 @@ void main() {
 
     test('FirebaseAuth.instanceを呼び出すと例外がスローされる。', () {
       // Firebase未初期化のため例外がスローされる
-      expect(
-        () => getAdminApiClient(baseUrl: testBaseUrl),
-        throwsA(anything),
-      );
+      expect(() => getAdminApiClient(baseUrl: testBaseUrl), throwsA(anything));
     });
   });
 }

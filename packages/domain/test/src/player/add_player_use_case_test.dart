@@ -83,10 +83,8 @@ void main() {
       ).called(1);
     });
 
-    test(
-      'AdminApiException (INVALID_RESPONSE) が発生した場合、 '
-      'FailureStatusExceptionをスローする。',
-      () async {
+    test('AdminApiException (INVALID_RESPONSE) が発生した場合、 '
+        'FailureStatusExceptionをスローする。', () async {
       const testErrorMessage = '無効なレスポンス';
 
       // AdminApiException をスローするスタブを用意する。
@@ -114,10 +112,8 @@ void main() {
       );
     });
 
-    test(
-      'AdminApiException (PARSE_ERROR) が発生した場合、 '
-      'FailureStatusExceptionをスローする。',
-      () async {
+    test('AdminApiException (PARSE_ERROR) が発生した場合、 '
+        'FailureStatusExceptionをスローする。', () async {
       const testErrorMessage = 'パースエラー';
 
       // AdminApiException をスローするスタブを用意する。
@@ -127,10 +123,7 @@ void main() {
           request: anyNamed('request'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'PARSE_ERROR',
-          message: testErrorMessage,
-        ),
+        const AdminApiException(code: 'PARSE_ERROR', message: testErrorMessage),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
@@ -145,10 +138,8 @@ void main() {
       );
     });
 
-    test(
-      'AdminApiException (UNAUTHENTICATED) が発生した場合、 '
-      'GeneralFailureExceptionをスローする。',
-      () async {
+    test('AdminApiException (UNAUTHENTICATED) が発生した場合、 '
+        'GeneralFailureExceptionをスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(
@@ -156,10 +147,7 @@ void main() {
           request: anyNamed('request'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'UNAUTHENTICATED',
-          message: '認証が必要です',
-        ),
+        const AdminApiException(code: 'UNAUTHENTICATED', message: '認証が必要です'),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
@@ -174,10 +162,8 @@ void main() {
       );
     });
 
-    test(
-      'AdminApiException (AUTH_ERROR) が発生した場合、 '
-      'GeneralFailureExceptionをスローする。',
-      () async {
+    test('AdminApiException (AUTH_ERROR) が発生した場合、 '
+        'GeneralFailureExceptionをスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(
@@ -185,10 +171,7 @@ void main() {
           request: anyNamed('request'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'AUTH_ERROR',
-          message: '認証エラー',
-        ),
+        const AdminApiException(code: 'AUTH_ERROR', message: '認証エラー'),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
@@ -203,10 +186,8 @@ void main() {
       );
     });
 
-    test(
-      'AdminApiException (NETWORK_ERROR) が発生した場合、 '
-      'GeneralFailureException(noConnectionError)をスローする。',
-      () async {
+    test('AdminApiException (NETWORK_ERROR) が発生した場合、 '
+        'GeneralFailureException(noConnectionError)をスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(
@@ -214,10 +195,7 @@ void main() {
           request: anyNamed('request'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'NETWORK_ERROR',
-          message: 'ネットワークエラー',
-        ),
+        const AdminApiException(code: 'NETWORK_ERROR', message: 'ネットワークエラー'),
       );
 
       // invoke メソッドを実行する。
@@ -234,10 +212,8 @@ void main() {
       }
     });
 
-    test(
-      'AdminApiException (その他) が発生した場合、 '
-      'GeneralFailureExceptionをスローする。',
-      () async {
+    test('AdminApiException (その他) が発生した場合、 '
+        'GeneralFailureExceptionをスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.addPlayer(
@@ -245,10 +221,7 @@ void main() {
           request: anyNamed('request'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'UNKNOWN_ERROR',
-          message: '不明なエラー',
-        ),
+        const AdminApiException(code: 'UNKNOWN_ERROR', message: '不明なエラー'),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。

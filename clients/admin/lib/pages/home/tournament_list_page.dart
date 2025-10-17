@@ -56,85 +56,87 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
             // タイトルと新規作成ボタンのセクション
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: const BoxDecoration(color: AppColors.white),
-            child: Row(
-              children: [
-                const Text(
-                  'トーナメント一覧',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textBlack,
+              decoration: const BoxDecoration(color: AppColors.white),
+              child: Row(
+                children: [
+                  const Text(
+                    'トーナメント一覧',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textBlack,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 192,
-                  height: 56,
-                  child: CommonConfirmButton(
-                    text: '大会作成',
-                    style: ConfirmButtonStyle.adminFilled,
-                    onPressed: () => _showCreateTournamentDialog(context),
+                  const Spacer(),
+                  SizedBox(
+                    width: 192,
+                    height: 56,
+                    child: CommonConfirmButton(
+                      text: '大会作成',
+                      style: ConfirmButtonStyle.adminFilled,
+                      onPressed: () => _showCreateTournamentDialog(context),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          // タブバー
-          DecoratedBox(
-            decoration: const BoxDecoration(
-              color: AppColors.white,
-              border: Border(bottom: BorderSide(color: AppColors.borderLight)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 64),
-              child: SizedBox(
-                width: double.infinity,
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.adminPrimary,
-                  unselectedLabelColor: AppColors.gray,
-                  indicatorColor: AppColors.adminPrimary,
-                  indicatorWeight: 3,
-                  labelStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            // タブバー
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                border: Border(
+                  bottom: BorderSide(color: AppColors.borderLight),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 64),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TabBar(
+                    controller: _tabController,
+                    labelColor: AppColors.adminPrimary,
+                    unselectedLabelColor: AppColors.gray,
+                    indicatorColor: AppColors.adminPrimary,
+                    indicatorWeight: 3,
+                    labelStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: const [
+                      Tab(text: '開催前'),
+                      Tab(text: '開催中'),
+                      Tab(text: '開催後'),
+                    ],
                   ),
-                  unselectedLabelStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(text: '開催前'),
-                    Tab(text: '開催中'),
-                    Tab(text: '開催後'),
-                  ],
                 ),
               ),
             ),
-          ),
-          // タブビュー
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildTournamentList(
-                  tournamentListData,
-                  TournamentStatus.upcoming,
-                ),
-                _buildTournamentList(
-                  tournamentListData,
-                  TournamentStatus.ongoing,
-                ),
-                _buildTournamentList(
-                  tournamentListData,
-                  TournamentStatus.completed,
-                ),
-              ],
+            // タブビュー
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTournamentList(
+                    tournamentListData,
+                    TournamentStatus.upcoming,
+                  ),
+                  _buildTournamentList(
+                    tournamentListData,
+                    TournamentStatus.ongoing,
+                  ),
+                  _buildTournamentList(
+                    tournamentListData,
+                    TournamentStatus.completed,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );

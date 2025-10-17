@@ -16,9 +16,7 @@ void main() {
     mockGetPlayersUseCase = MockGetPlayersUseCase();
     container = ProviderContainer(
       overrides: [
-        getPlayersUseCaseProvider.overrideWithValue(
-          mockGetPlayersUseCase,
-        ),
+        getPlayersUseCaseProvider.overrideWithValue(mockGetPlayersUseCase),
       ],
     );
   });
@@ -114,9 +112,7 @@ void main() {
           ),
         ).thenAnswer((_) async => testPlayers);
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // 初期 state を確認する。
         var state = container.read(playerListNotifierProvider);
@@ -133,9 +129,7 @@ void main() {
 
         // UseCase の invoke メソッドが呼び出されることを確認する。
         verify(
-          mockGetPlayersUseCase.invoke(
-            tournamentId: testTournamentId,
-          ),
+          mockGetPlayersUseCase.invoke(tournamentId: testTournamentId),
         ).called(1);
       });
 
@@ -163,9 +157,7 @@ void main() {
           return testPlayers;
         });
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // loadPlayers メソッドを実行する。
         await notifier.loadPlayers(tournamentId: testTournamentId);
@@ -190,9 +182,7 @@ void main() {
           ),
         ).thenAnswer((_) async => testPlayers);
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // loadPlayers メソッドを実行する。
         await notifier.loadPlayers(
@@ -223,9 +213,7 @@ void main() {
           ),
         ).thenAnswer((_) async => []);
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // loadPlayers メソッドを実行する。
         await notifier.loadPlayers(tournamentId: testTournamentId);
@@ -248,9 +236,7 @@ void main() {
           ),
         ).thenThrow(const FailureStatusException(testErrorMessage));
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // loadPlayers メソッドを実行する。
         await notifier.loadPlayers(tournamentId: testTournamentId);
@@ -278,9 +264,7 @@ void main() {
             ),
           );
 
-          final notifier = container.read(
-            playerListNotifierProvider.notifier,
-          );
+          final notifier = container.read(playerListNotifierProvider.notifier);
 
           // loadPlayers メソッドを実行する。
           await notifier.loadPlayers(tournamentId: testTournamentId);
@@ -293,69 +277,59 @@ void main() {
         },
       );
 
-      test(
-        'GeneralFailureException (noConnectionError) が発生した場合、 '
-        'state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockGetPlayersUseCase.invoke(
-              tournamentId: anyNamed('tournamentId'),
-              status: anyNamed('status'),
-            ),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.noConnectionError,
-              errorCode: 'NETWORK_ERROR',
-            ),
-          );
+      test('GeneralFailureException (noConnectionError) が発生した場合、 '
+          'state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(
+          mockGetPlayersUseCase.invoke(
+            tournamentId: anyNamed('tournamentId'),
+            status: anyNamed('status'),
+          ),
+        ).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: 'NETWORK_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            playerListNotifierProvider.notifier,
-          );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
-          // loadPlayers メソッドを実行する。
-          await notifier.loadPlayers(tournamentId: testTournamentId);
+        // loadPlayers メソッドを実行する。
+        await notifier.loadPlayers(tournamentId: testTournamentId);
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(playerListNotifierProvider);
-          expect(state.state, PlayerListState.error);
-          expect(state.players, isEmpty);
-          expect(state.errorMessage, 'ネットワークに接続できません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(playerListNotifierProvider);
+        expect(state.state, PlayerListState.error);
+        expect(state.players, isEmpty);
+        expect(state.errorMessage, 'ネットワークに接続できません。');
+      });
 
-      test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、 '
-        'state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(
-            mockGetPlayersUseCase.invoke(
-              tournamentId: anyNamed('tournamentId'),
-              status: anyNamed('status'),
-            ),
-          ).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.serverUrlNotFoundError,
-              errorCode: 'NOT_FOUND',
-            ),
-          );
+      test('GeneralFailureException (serverUrlNotFoundError) が発生した場合、 '
+          'state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(
+          mockGetPlayersUseCase.invoke(
+            tournamentId: anyNamed('tournamentId'),
+            status: anyNamed('status'),
+          ),
+        ).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.serverUrlNotFoundError,
+            errorCode: 'NOT_FOUND',
+          ),
+        );
 
-          final notifier = container.read(
-            playerListNotifierProvider.notifier,
-          );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
-          // loadPlayers メソッドを実行する。
-          await notifier.loadPlayers(tournamentId: testTournamentId);
+        // loadPlayers メソッドを実行する。
+        await notifier.loadPlayers(tournamentId: testTournamentId);
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(playerListNotifierProvider);
-          expect(state.state, PlayerListState.error);
-          expect(state.players, isEmpty);
-          expect(state.errorMessage, 'サーバーURLが見つかりません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(playerListNotifierProvider);
+        expect(state.state, PlayerListState.error);
+        expect(state.players, isEmpty);
+        expect(state.errorMessage, 'サーバーURLが見つかりません。');
+      });
 
       test(
         'GeneralFailureException (badResponse) が発生した場合、state が error になる。',
@@ -373,9 +347,7 @@ void main() {
             ),
           );
 
-          final notifier = container.read(
-            playerListNotifierProvider.notifier,
-          );
+          final notifier = container.read(playerListNotifierProvider.notifier);
 
           // loadPlayers メソッドを実行する。
           await notifier.loadPlayers(tournamentId: testTournamentId);
@@ -397,9 +369,7 @@ void main() {
           ),
         ).thenThrow(Exception('予期しないエラー'));
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // loadPlayers メソッドを実行する。
         await notifier.loadPlayers(tournamentId: testTournamentId);
@@ -434,9 +404,7 @@ void main() {
           ),
         ).thenAnswer((_) async => testPlayers);
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // refreshPlayers メソッドを実行する。
         await notifier.refreshPlayers(tournamentId: testTournamentId);
@@ -448,9 +416,7 @@ void main() {
 
         // UseCase の invoke メソッドが呼び出されることを確認する。
         verify(
-          mockGetPlayersUseCase.invoke(
-            tournamentId: testTournamentId,
-          ),
+          mockGetPlayersUseCase.invoke(tournamentId: testTournamentId),
         ).called(1);
       });
 
@@ -473,9 +439,7 @@ void main() {
           ),
         ).thenAnswer((_) async => testPlayers);
 
-        final notifier = container.read(
-          playerListNotifierProvider.notifier,
-        );
+        final notifier = container.read(playerListNotifierProvider.notifier);
 
         // refreshPlayers メソッドを実行する。
         await notifier.refreshPlayers(

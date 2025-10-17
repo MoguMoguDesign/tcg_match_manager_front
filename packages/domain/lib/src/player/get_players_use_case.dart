@@ -20,9 +20,8 @@ class GetPlayersUseCase {
   /// [GetPlayersUseCase] を生成する。
   ///
   /// [playerRepository] は、プレイヤーに関する通信を行うためのリポジトリ。
-  const GetPlayersUseCase({
-    required PlayerRepository playerRepository,
-  }) : _playerRepository = playerRepository;
+  const GetPlayersUseCase({required PlayerRepository playerRepository})
+    : _playerRepository = playerRepository;
 
   final PlayerRepository _playerRepository;
 

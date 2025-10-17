@@ -7,9 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 /// FirebaseAuthenticationを使用した認証リポジトリの実装
 class FirebaseAuthRepository implements AuthRepository {
   /// [FirebaseAuthRepository]のコンストラクタ。
-  FirebaseAuthRepository({
-    firebase_auth.FirebaseAuth? firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
+  FirebaseAuthRepository({firebase_auth.FirebaseAuth? firebaseAuth})
+    : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
 

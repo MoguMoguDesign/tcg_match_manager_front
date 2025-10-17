@@ -9,10 +9,7 @@ import 'package:riverpod/riverpod.dart';
 import 'tournament_repository_injection_test.mocks.dart';
 
 // FirebaseFirestore と FirebaseAuth のモッククラスを生成する。
-@GenerateNiceMocks([
-  MockSpec<FirebaseFirestore>(),
-  MockSpec<FirebaseAuth>(),
-])
+@GenerateNiceMocks([MockSpec<FirebaseFirestore>(), MockSpec<FirebaseAuth>()])
 void main() {
   group('tournamentRepositoryProvider のテスト。', () {
     late ProviderContainer container;
@@ -44,10 +41,7 @@ void main() {
 
     test('firestore と auth が null の場合、例外がスローされる。', () {
       // Firebase未初期化のため例外がスローされる
-      expect(
-        getTournamentRepository,
-        throwsA(anything),
-      );
+      expect(getTournamentRepository, throwsA(anything));
     });
 
     test('firestore のみモックを渡した場合、例外がスローされる。', () {
@@ -60,23 +54,17 @@ void main() {
 
     test('auth のみモックを渡した場合、例外がスローされる。', () {
       // firestore が null のため FirebaseFirestore.instance にアクセスして例外がスローされる
-      expect(
-        () => getTournamentRepository(auth: mockAuth),
-        throwsA(anything),
-      );
+      expect(() => getTournamentRepository(auth: mockAuth), throwsA(anything));
     });
 
-    test(
-      'モックの FirebaseFirestore と FirebaseAuth を渡した場合、 '
-      'TournamentRepository を生成する。',
-      () {
-        final repository = getTournamentRepository(
-          firestore: mockFirestore,
-          auth: mockAuth,
-        );
-        expect(repository, isA<TournamentRepository>());
-        expect(repository, isA<TournamentFirestoreRepository>());
-      },
-    );
+    test('モックの FirebaseFirestore と FirebaseAuth を渡した場合、 '
+        'TournamentRepository を生成する。', () {
+      final repository = getTournamentRepository(
+        firestore: mockFirestore,
+        auth: mockAuth,
+      );
+      expect(repository, isA<TournamentRepository>());
+      expect(repository, isA<TournamentFirestoreRepository>());
+    });
   });
 }

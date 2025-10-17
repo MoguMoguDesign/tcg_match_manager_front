@@ -196,59 +196,53 @@ void main() {
         },
       );
 
-      test(
-        'GeneralFailureException (noConnectionError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(mockGetTournamentsUseCase.invoke()).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.noConnectionError,
-              errorCode: 'NETWORK_ERROR',
-            ),
-          );
+      test('GeneralFailureException (noConnectionError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockGetTournamentsUseCase.invoke()).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.noConnectionError,
+            errorCode: 'NETWORK_ERROR',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentListNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentListNotifierProvider.notifier,
+        );
 
-          // loadTournaments メソッドを実行する。
-          await notifier.loadTournaments();
+        // loadTournaments メソッドを実行する。
+        await notifier.loadTournaments();
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentListNotifierProvider);
-          expect(state.state, TournamentListState.error);
-          expect(state.tournaments, isEmpty);
-          expect(state.errorMessage, 'ネットワークに接続できません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentListNotifierProvider);
+        expect(state.state, TournamentListState.error);
+        expect(state.tournaments, isEmpty);
+        expect(state.errorMessage, 'ネットワークに接続できません。');
+      });
 
-      test(
-        'GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
-        ' state が error になる。',
-        () async {
-          // GeneralFailureException がスローされるスタブを用意する。
-          when(mockGetTournamentsUseCase.invoke()).thenThrow(
-            const GeneralFailureException(
-              reason: GeneralFailureReason.serverUrlNotFoundError,
-              errorCode: 'NOT_FOUND',
-            ),
-          );
+      test('GeneralFailureException (serverUrlNotFoundError) が発生した場合、'
+          ' state が error になる。', () async {
+        // GeneralFailureException がスローされるスタブを用意する。
+        when(mockGetTournamentsUseCase.invoke()).thenThrow(
+          const GeneralFailureException(
+            reason: GeneralFailureReason.serverUrlNotFoundError,
+            errorCode: 'NOT_FOUND',
+          ),
+        );
 
-          final notifier = container.read(
-            tournamentListNotifierProvider.notifier,
-          );
+        final notifier = container.read(
+          tournamentListNotifierProvider.notifier,
+        );
 
-          // loadTournaments メソッドを実行する。
-          await notifier.loadTournaments();
+        // loadTournaments メソッドを実行する。
+        await notifier.loadTournaments();
 
-          // state が error に更新されていることを確認する。
-          final state = container.read(tournamentListNotifierProvider);
-          expect(state.state, TournamentListState.error);
-          expect(state.tournaments, isEmpty);
-          expect(state.errorMessage, 'サーバーURLが見つかりません。');
-        },
-      );
+        // state が error に更新されていることを確認する。
+        final state = container.read(tournamentListNotifierProvider);
+        expect(state.state, TournamentListState.error);
+        expect(state.tournaments, isEmpty);
+        expect(state.errorMessage, 'サーバーURLが見つかりません。');
+      });
 
       test(
         'GeneralFailureException (badResponse) が発生した場合、state が error になる。',
@@ -299,9 +293,7 @@ void main() {
 
     group('copyWith のテスト。', () {
       test('copyWith で state に null を渡すと現在の state を保持する', () {
-        const data = TournamentListData(
-          state: TournamentListState.loaded,
-        );
+        const data = TournamentListData(state: TournamentListState.loaded);
 
         final copied = data.copyWith(
           tournaments: [

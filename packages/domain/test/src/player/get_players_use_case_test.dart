@@ -65,9 +65,7 @@ void main() {
       ).thenAnswer((_) async => testPlayerModels);
 
       // invoke メソッドを実行する。
-      final result = await useCase.invoke(
-        tournamentId: testTournamentId,
-      );
+      final result = await useCase.invoke(tournamentId: testTournamentId);
 
       // 結果を確認する。
       expect(result, isA<List<Player>>());
@@ -79,9 +77,7 @@ void main() {
 
       // Repository の getPlayers が呼び出されることを確認する。
       verify(
-        mockPlayerRepository.getPlayers(
-          tournamentId: testTournamentId,
-        ),
+        mockPlayerRepository.getPlayers(tournamentId: testTournamentId),
       ).called(1);
     });
 
@@ -133,19 +129,15 @@ void main() {
       ).thenAnswer((_) async => []);
 
       // invoke メソッドを実行する。
-      final result = await useCase.invoke(
-        tournamentId: testTournamentId,
-      );
+      final result = await useCase.invoke(tournamentId: testTournamentId);
 
       // 結果を確認する。
       expect(result, isA<List<Player>>());
       expect(result, isEmpty);
     });
 
-    test(
-      'AdminApiException (INVALID_RESPONSE) が発生した場合、 '
-      'FailureStatusExceptionをスローする。',
-      () async {
+    test('AdminApiException (INVALID_RESPONSE) が発生した場合、 '
+        'FailureStatusExceptionをスローする。', () async {
       const testErrorMessage = '無効なレスポンス';
 
       // AdminApiException をスローするスタブを用意する。
@@ -163,17 +155,13 @@ void main() {
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
       expect(
-        () => useCase.invoke(
-          tournamentId: testTournamentId,
-        ),
+        () => useCase.invoke(tournamentId: testTournamentId),
         throwsA(isA<FailureStatusException>()),
       );
     });
 
-    test(
-      'AdminApiException (PARSE_ERROR) が発生した場合、 '
-      'FailureStatusExceptionをスローする。',
-      () async {
+    test('AdminApiException (PARSE_ERROR) が発生した場合、 '
+        'FailureStatusExceptionをスローする。', () async {
       const testErrorMessage = 'パースエラー';
 
       // AdminApiException をスローするスタブを用意する。
@@ -183,25 +171,18 @@ void main() {
           status: anyNamed('status'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'PARSE_ERROR',
-          message: testErrorMessage,
-        ),
+        const AdminApiException(code: 'PARSE_ERROR', message: testErrorMessage),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
       expect(
-        () => useCase.invoke(
-          tournamentId: testTournamentId,
-        ),
+        () => useCase.invoke(tournamentId: testTournamentId),
         throwsA(isA<FailureStatusException>()),
       );
     });
 
-    test(
-      'AdminApiException (UNAUTHENTICATED) が発生した場合、 '
-      'GeneralFailureExceptionをスローする。',
-      () async {
+    test('AdminApiException (UNAUTHENTICATED) が発生した場合、 '
+        'GeneralFailureExceptionをスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(
@@ -209,25 +190,18 @@ void main() {
           status: anyNamed('status'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'UNAUTHENTICATED',
-          message: '未認証',
-        ),
+        const AdminApiException(code: 'UNAUTHENTICATED', message: '未認証'),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
       expect(
-        () => useCase.invoke(
-          tournamentId: testTournamentId,
-        ),
+        () => useCase.invoke(tournamentId: testTournamentId),
         throwsA(isA<GeneralFailureException>()),
       );
     });
 
-    test(
-      'AdminApiException (AUTH_ERROR) が発生した場合、 '
-      'GeneralFailureExceptionをスローする。',
-      () async {
+    test('AdminApiException (AUTH_ERROR) が発生した場合、 '
+        'GeneralFailureExceptionをスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(
@@ -235,25 +209,18 @@ void main() {
           status: anyNamed('status'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'AUTH_ERROR',
-          message: '認証エラー',
-        ),
+        const AdminApiException(code: 'AUTH_ERROR', message: '認証エラー'),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
       expect(
-        () => useCase.invoke(
-          tournamentId: testTournamentId,
-        ),
+        () => useCase.invoke(tournamentId: testTournamentId),
         throwsA(isA<GeneralFailureException>()),
       );
     });
 
-    test(
-      'AdminApiException (NETWORK_ERROR) が発生した場合、 '
-      'GeneralFailureException(noConnectionError)をスローする。',
-      () async {
+    test('AdminApiException (NETWORK_ERROR) が発生した場合、 '
+        'GeneralFailureException(noConnectionError)をスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(
@@ -261,27 +228,20 @@ void main() {
           status: anyNamed('status'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'NETWORK_ERROR',
-          message: 'ネットワークエラー',
-        ),
+        const AdminApiException(code: 'NETWORK_ERROR', message: 'ネットワークエラー'),
       );
 
       // invoke メソッドを実行する。
       try {
-        await useCase.invoke(
-          tournamentId: testTournamentId,
-        );
+        await useCase.invoke(tournamentId: testTournamentId);
         fail('例外がスローされるべき');
       } on GeneralFailureException catch (e) {
         expect(e.reason, GeneralFailureReason.noConnectionError);
       }
     });
 
-    test(
-      'AdminApiException (その他) が発生した場合、 '
-      'GeneralFailureExceptionをスローする。',
-      () async {
+    test('AdminApiException (その他) が発生した場合、 '
+        'GeneralFailureExceptionをスローする。', () async {
       // AdminApiException をスローするスタブを用意する。
       when(
         mockPlayerRepository.getPlayers(
@@ -289,17 +249,12 @@ void main() {
           status: anyNamed('status'),
         ),
       ).thenThrow(
-        const AdminApiException(
-          code: 'SERVER_ERROR',
-          message: 'サーバーエラー',
-        ),
+        const AdminApiException(code: 'SERVER_ERROR', message: 'サーバーエラー'),
       );
 
       // invoke メソッドを実行し、例外がスローされることを確認する。
       expect(
-        () => useCase.invoke(
-          tournamentId: testTournamentId,
-        ),
+        () => useCase.invoke(tournamentId: testTournamentId),
         throwsA(isA<GeneralFailureException>()),
       );
     });

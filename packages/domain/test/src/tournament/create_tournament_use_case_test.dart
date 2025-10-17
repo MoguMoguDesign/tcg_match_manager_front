@@ -17,8 +17,7 @@ void main() {
   });
 
   group('createTournamentUseCaseProvider のテスト。', () {
-    test('createTournamentUseCaseProvider が CreateTournamentUseCase を返す。',
-        () {
+    test('createTournamentUseCaseProvider が CreateTournamentUseCase を返す。', () {
       final container = ProviderContainer(
         overrides: [
           tournamentRepositoryProvider.overrideWithValue(mockRepository),
@@ -37,9 +36,7 @@ void main() {
     late CreateTournamentUseCase useCase;
 
     setUp(() {
-      useCase = CreateTournamentUseCase(
-        tournamentRepository: mockRepository,
-      );
+      useCase = CreateTournamentUseCase(tournamentRepository: mockRepository);
     });
 
     group('call', () {
@@ -103,9 +100,9 @@ void main() {
         await useCase.call(requestWithoutMaxRounds);
 
         // Assert
-        final captured = verify(
-          mockRepository.createTournament(captureAny),
-        ).captured.single as repository.CreateTournamentRequest;
+        final captured =
+            verify(mockRepository.createTournament(captureAny)).captured.single
+                as repository.CreateTournamentRequest;
 
         // expectedPlayers=8 の場合、ceil(log2(8))=3 になる
         expect(captured.maxRounds, 3);
@@ -312,39 +309,33 @@ void main() {
         );
       });
 
-      test(
-        'ラウンド数未指定かつ予定参加者数未指定の場合、ArgumentError がスローされる',
-        () async {
-          // Arrange
-          const invalidRequest = CreateTournamentRequest(
-            title: 'テスト大会',
-            description: 'テスト説明',
-            venue: 'テスト会場',
-            startDate: '2024-12-01T10:00:00Z',
-            endDate: '2024-12-01T18:00:00Z',
-            drawPoints: 1,
-          );
-
-          // Act & Assert
-          expect(
-            () => useCase.call(invalidRequest),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                'ラウンド数を自動計算する場合、予定参加者数の入力が必要です',
-              ),
-            ),
-          );
-        },
-      );
-
-      test('INVALID_ARGUMENT エラーの場合、FailureStatusException をスローする',
-          () async {
+      test('ラウンド数未指定かつ予定参加者数未指定の場合、ArgumentError がスローされる', () async {
         // Arrange
-        when(
-          mockRepository.createTournament(any),
-        ).thenThrow(
+        const invalidRequest = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          venue: 'テスト会場',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          drawPoints: 1,
+        );
+
+        // Act & Assert
+        expect(
+          () => useCase.call(invalidRequest),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              'ラウンド数を自動計算する場合、予定参加者数の入力が必要です',
+            ),
+          ),
+        );
+      });
+
+      test('INVALID_ARGUMENT エラーの場合、FailureStatusException をスローする', () async {
+        // Arrange
+        when(mockRepository.createTournament(any)).thenThrow(
           const repository.AdminApiException(
             code: 'INVALID_ARGUMENT',
             message: '不正な引数です',
@@ -364,12 +355,9 @@ void main() {
         );
       });
 
-      test('PARSE_ERROR エラーの場合、FailureStatusException をスローする',
-          () async {
+      test('PARSE_ERROR エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.createTournament(any),
-        ).thenThrow(
+        when(mockRepository.createTournament(any)).thenThrow(
           const repository.AdminApiException(
             code: 'PARSE_ERROR',
             message: 'パースエラー',
@@ -389,12 +377,9 @@ void main() {
         );
       });
 
-      test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.createTournament(any),
-        ).thenThrow(
+        when(mockRepository.createTournament(any)).thenThrow(
           const repository.AdminApiException(
             code: 'UNAUTHENTICATED',
             message: '認証エラー',
@@ -412,12 +397,9 @@ void main() {
         );
       });
 
-      test('AUTH_ERROR エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('AUTH_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.createTournament(any),
-        ).thenThrow(
+        when(mockRepository.createTournament(any)).thenThrow(
           const repository.AdminApiException(
             code: 'AUTH_ERROR',
             message: '認証エラー',
@@ -435,12 +417,9 @@ void main() {
         );
       });
 
-      test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.createTournament(any),
-        ).thenThrow(
+        when(mockRepository.createTournament(any)).thenThrow(
           const repository.AdminApiException(
             code: 'NETWORK_ERROR',
             message: 'ネットワークエラー',
@@ -453,10 +432,10 @@ void main() {
           throwsA(
             isA<GeneralFailureException>()
                 .having(
-              (e) => e.reason,
-              'reason',
-              GeneralFailureReason.noConnectionError,
-            )
+                  (e) => e.reason,
+                  'reason',
+                  GeneralFailureReason.noConnectionError,
+                )
                 .having((e) => e.errorCode, 'errorCode', 'NETWORK_ERROR'),
           ),
         );
@@ -464,9 +443,7 @@ void main() {
 
       test('その他のエラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(
-          mockRepository.createTournament(any),
-        ).thenThrow(
+        when(mockRepository.createTournament(any)).thenThrow(
           const repository.AdminApiException(
             code: 'UNKNOWN_ERROR',
             message: '不明なエラー',

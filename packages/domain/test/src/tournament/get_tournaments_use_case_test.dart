@@ -36,9 +36,7 @@ void main() {
     late GetTournamentsUseCase useCase;
 
     setUp(() {
-      useCase = GetTournamentsUseCase(
-        tournamentRepository: mockRepository,
-      );
+      useCase = GetTournamentsUseCase(tournamentRepository: mockRepository);
     });
 
     group('invoke', () {
@@ -66,8 +64,9 @@ void main() {
 
       test('トーナメント一覧取得が成功する場合', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenAnswer((_) async => [mockModel1, mockModel2]);
+        when(
+          mockRepository.getTournaments(),
+        ).thenAnswer((_) async => [mockModel1, mockModel2]);
 
         // Act
         final result = await useCase.invoke();
@@ -83,8 +82,7 @@ void main() {
 
       test('空のリストが返される場合', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenAnswer((_) async => []);
+        when(mockRepository.getTournaments()).thenAnswer((_) async => []);
 
         // Act
         final result = await useCase.invoke();
@@ -96,8 +94,9 @@ void main() {
 
       test('複数件のトーナメントが正しく変換される', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenAnswer((_) async => [mockModel1, mockModel2]);
+        when(
+          mockRepository.getTournaments(),
+        ).thenAnswer((_) async => [mockModel1, mockModel2]);
 
         // Act
         final result = await useCase.invoke();
@@ -110,11 +109,9 @@ void main() {
         expect(result[1].title, mockModel2.title);
       });
 
-      test('INVALID_RESPONSE エラーの場合、FailureStatusException をスローする',
-          () async {
+      test('INVALID_RESPONSE エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenThrow(
+        when(mockRepository.getTournaments()).thenThrow(
           const AdminApiException(
             code: 'INVALID_RESPONSE',
             message: '不正なレスポンス',
@@ -125,41 +122,38 @@ void main() {
         expect(
           () => useCase.invoke(),
           throwsA(
-            isA<FailureStatusException>()
-                .having((e) => e.message, 'message', '不正なレスポンス'),
+            isA<FailureStatusException>().having(
+              (e) => e.message,
+              'message',
+              '不正なレスポンス',
+            ),
           ),
         );
       });
 
       test('PARSE_ERROR エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenThrow(
-          const AdminApiException(
-            code: 'PARSE_ERROR',
-            message: 'パースエラー',
-          ),
+        when(mockRepository.getTournaments()).thenThrow(
+          const AdminApiException(code: 'PARSE_ERROR', message: 'パースエラー'),
         );
 
         // Act & Assert
         expect(
           () => useCase.invoke(),
           throwsA(
-            isA<FailureStatusException>()
-                .having((e) => e.message, 'message', 'パースエラー'),
+            isA<FailureStatusException>().having(
+              (e) => e.message,
+              'message',
+              'パースエラー',
+            ),
           ),
         );
       });
 
-      test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenThrow(
-          const AdminApiException(
-            code: 'UNAUTHENTICATED',
-            message: '認証エラー',
-          ),
+        when(mockRepository.getTournaments()).thenThrow(
+          const AdminApiException(code: 'UNAUTHENTICATED', message: '認証エラー'),
         );
 
         // Act & Assert
@@ -175,12 +169,8 @@ void main() {
 
       test('AUTH_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenThrow(
-          const AdminApiException(
-            code: 'AUTH_ERROR',
-            message: '認証エラー',
-          ),
+        when(mockRepository.getTournaments()).thenThrow(
+          const AdminApiException(code: 'AUTH_ERROR', message: '認証エラー'),
         );
 
         // Act & Assert
@@ -194,15 +184,10 @@ void main() {
         );
       });
 
-      test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする',
-          () async {
+      test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenThrow(
-          const AdminApiException(
-            code: 'NETWORK_ERROR',
-            message: 'ネットワークエラー',
-          ),
+        when(mockRepository.getTournaments()).thenThrow(
+          const AdminApiException(code: 'NETWORK_ERROR', message: 'ネットワークエラー'),
         );
 
         // Act & Assert
@@ -211,10 +196,10 @@ void main() {
           throwsA(
             isA<GeneralFailureException>()
                 .having(
-              (e) => e.reason,
-              'reason',
-              GeneralFailureReason.noConnectionError,
-            )
+                  (e) => e.reason,
+                  'reason',
+                  GeneralFailureReason.noConnectionError,
+                )
                 .having((e) => e.errorCode, 'errorCode', 'NETWORK_ERROR'),
           ),
         );
@@ -222,12 +207,8 @@ void main() {
 
       test('その他のエラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
-        when(mockRepository.getTournaments())
-            .thenThrow(
-          const AdminApiException(
-            code: 'UNKNOWN_ERROR',
-            message: '不明なエラー',
-          ),
+        when(mockRepository.getTournaments()).thenThrow(
+          const AdminApiException(code: 'UNKNOWN_ERROR', message: '不明なエラー'),
         );
 
         // Act & Assert

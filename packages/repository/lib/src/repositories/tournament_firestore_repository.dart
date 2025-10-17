@@ -17,8 +17,8 @@ class TournamentFirestoreRepository implements TournamentRepository {
   const TournamentFirestoreRepository({
     required FirebaseFirestore firestore,
     required FirebaseAuth auth,
-  })  : _firestore = firestore,
-        _auth = auth;
+  }) : _firestore = firestore,
+       _auth = auth;
 
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
@@ -63,9 +63,7 @@ class TournamentFirestoreRepository implements TournamentRepository {
   ///
   /// Returns: TournamentModel
   /// Throws: [AdminApiException] 変換に失敗した場合
-  TournamentModel _documentToModel(
-    DocumentSnapshot<Map<String, dynamic>> doc,
-  ) {
+  TournamentModel _documentToModel(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data();
     if (data == null) {
       throw const AdminApiException(

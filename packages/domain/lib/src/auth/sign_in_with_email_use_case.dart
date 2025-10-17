@@ -31,9 +31,6 @@ class SignInWithEmailUseCase {
     }
 
     // サインイン実行
-    return _repository.signInWithEmail(
-      email: email.trim(),
-      password: password,
-    );
+    return _repository.signInWithEmail(email: email.trim(), password: password);
   }
 }

@@ -37,6 +37,7 @@ class AdminScaffold extends HookConsumerWidget {
         context.goNamed('login');
       }
     }
+
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Column(

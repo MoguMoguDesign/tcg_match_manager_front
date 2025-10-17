@@ -16,10 +16,7 @@ void main() {
 
     test('プロバイダーの読み取りで例外がスローされる。', () {
       // FirebaseAuthRepository内でFirebase未初期化のため例外がスローされる
-      expect(
-        () => container.read(authRepositoryProvider),
-        throwsA(anything),
-      );
+      expect(() => container.read(authRepositoryProvider), throwsA(anything));
     });
   });
 }
