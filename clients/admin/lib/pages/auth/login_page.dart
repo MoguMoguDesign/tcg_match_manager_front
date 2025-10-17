@@ -24,36 +24,33 @@ class AdminLoginPage extends HookConsumerWidget {
     final authNotifier = ref.read(authNotifierProvider.notifier);
 
     // 認証状態の変更を監視
-    ref.listen<AsyncValue<AuthUser?>>(
-      authNotifierProvider,
-      (previous, next) {
-        // ローディング中は何もしない
-        if (next.isLoading) {
-          return;
-        }
+    ref.listen<AsyncValue<AuthUser?>>(authNotifierProvider, (previous, next) {
+      // ローディング中は何もしない
+      if (next.isLoading) {
+        return;
+      }
 
-        // エラーがある場合
-        if (next.hasError) {
-          isLoading.value = false;
-          final error = next.error;
-          if (error is AuthException) {
-            errorMessage.value = error.message;
-          } else {
-            errorMessage.value = 'ログインに失敗しました';
-          }
-          return;
+      // エラーがある場合
+      if (next.hasError) {
+        isLoading.value = false;
+        final error = next.error;
+        if (error is AuthException) {
+          errorMessage.value = error.message;
+        } else {
+          errorMessage.value = 'ログインに失敗しました';
         }
+        return;
+      }
 
-        // 成功した場合（ユーザーが存在する）
-        if (next.hasValue && next.value != null) {
-          isLoading.value = false;
-          errorMessage.value = null;
-          if (context.mounted) {
-            context.goNamed('tournaments');
-          }
+      // 成功した場合（ユーザーが存在する）
+      if (next.hasValue && next.value != null) {
+        isLoading.value = false;
+        errorMessage.value = null;
+        if (context.mounted) {
+          context.goNamed('tournaments');
         }
-      },
-    );
+      }
+    });
 
     Future<void> handleSignIn() async {
       if (isLoading.value) {
@@ -78,10 +75,7 @@ class AdminLoginPage extends HookConsumerWidget {
       isLoading.value = true;
 
       // 認証処理を実行（結果はref.listenで処理される）
-      await authNotifier.signInWithEmail(
-        email: email,
-        password: password,
-      );
+      await authNotifier.signInWithEmail(email: email, password: password);
     }
 
     Future<void> handleGoogleSignIn() async {
@@ -263,7 +257,9 @@ class AdminLoginPage extends HookConsumerWidget {
                             margin: const EdgeInsets.only(bottom: 16),
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.errorContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.errorContainer,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -287,8 +283,9 @@ class AdminLoginPage extends HookConsumerWidget {
                         CommonConfirmButton(
                           text: 'Googleアカウントでログイン',
                           style: ConfirmButtonStyle.adminOutlined,
-                          onPressed:
-                              isLoading.value ? () {} : handleGoogleSignIn,
+                          onPressed: isLoading.value
+                              ? () {}
+                              : handleGoogleSignIn,
                         ),
                       ],
                     ),
