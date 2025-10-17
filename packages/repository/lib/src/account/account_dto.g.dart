@@ -20,7 +20,6 @@ _AccountDto _$AccountDtoFromJson(Map<String, dynamic> json) => _AccountDto(
   expiresAt: (json['expiresAt'] as num?)?.toInt() ?? 0,
 );
 
-// coverage:ignore-start
 Map<String, dynamic> _$AccountDtoToJson(_AccountDto instance) =>
     <String, dynamic>{
       'STATUS': flexibleBoolConverter.toJson(instance.isFailureStatus),
@@ -35,4 +34,3 @@ Map<String, dynamic> _$AccountDtoToJson(_AccountDto instance) =>
       'refreshToken': instance.refreshToken,
       'expiresAt': instance.expiresAt,
     };
-// coverage:ignore-end

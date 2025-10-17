@@ -7,7 +7,7 @@ part of 'tournament_repository_injection.dart';
 // **************************************************************************
 
 String _$tournamentRepositoryHash() =>
-    r'1e1536f6e4deb40930b6b2461d767914fe8556db';
+    r'8b806b981d53aeccf45bfd177a90c5e68b2aac02';
 
 /// [TournamentRepository] を提供する。
 ///

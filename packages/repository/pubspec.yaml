@@ -8,6 +8,7 @@ environment:
 resolution: workspace
 
 dependencies:
+  cloud_firestore: ^5.0.0
   domain:
     path: ../domain
   firebase_auth: ^5.3.2

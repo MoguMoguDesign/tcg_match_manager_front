@@ -133,7 +133,7 @@ void main() {
       });
 
       test(
-        'TOURNAMENT_HAS_ACTIVE_MATCHES エラーの場合、'
+        'TOURNAMENT_HAS_ACTIVE_MATCHES エラーの場合、 '
         'FailureStatusException をスローする',
         () async {
           // Arrange

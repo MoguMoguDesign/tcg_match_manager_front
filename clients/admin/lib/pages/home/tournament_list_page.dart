@@ -56,15 +56,18 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
             decoration: const BoxDecoration(color: AppColors.white),
             child: Row(
               children: [
-                const Text(
-                  'トーナメント一覧',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textBlack,
+                const Flexible(
+                  child: Text(
+                    'トーナメント一覧',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textBlack,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 16),
                 SizedBox(
                   width: 192,
                   height: 56,

@@ -5,7 +5,7 @@ void main() {
   group('TournamentModel のテスト', () {
     group('コンストラクタのテスト', () {
       test('必須フィールドのみでインスタンスを作成できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',
@@ -32,7 +32,7 @@ void main() {
       });
 
       test('全てのフィールドを指定してインスタンスを作成できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           description: 'テスト大会の説明',
@@ -136,7 +136,7 @@ void main() {
 
     group('toJson のテスト', () {
       test('必須フィールドのみのインスタンスをJSONに変換できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',
@@ -155,7 +155,7 @@ void main() {
       });
 
       test('全てのフィールドを持つインスタンスをJSONに変換できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           description: 'テスト大会の説明',
@@ -199,7 +199,7 @@ void main() {
 
     group('copyWith のテスト', () {
       test('id を更新できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',
@@ -213,7 +213,7 @@ void main() {
       });
 
       test('title を更新できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',
@@ -227,7 +227,7 @@ void main() {
       });
 
       test('複数のフィールドを同時に更新できる', () {
-        final model = TournamentModel(
+        const model = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',
@@ -249,7 +249,7 @@ void main() {
 
     group('equality のテスト', () {
       test('同じ値を持つインスタンスは等しい', () {
-        final model1 = TournamentModel(
+        const model1 = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           description: 'テスト大会の説明',
@@ -258,7 +258,7 @@ void main() {
           updatedAt: '2025-10-01T10:00:00Z',
         );
 
-        final model2 = TournamentModel(
+        const model2 = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           description: 'テスト大会の説明',
@@ -272,14 +272,14 @@ void main() {
       });
 
       test('異なる値を持つインスタンスは等しくない', () {
-        final model1 = TournamentModel(
+        const model1 = TournamentModel(
           id: 'tournament-123',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',
           updatedAt: '2025-10-01T10:00:00Z',
         );
 
-        final model2 = TournamentModel(
+        const model2 = TournamentModel(
           id: 'tournament-456',
           title: 'テスト大会',
           createdAt: '2025-10-01T10:00:00Z',

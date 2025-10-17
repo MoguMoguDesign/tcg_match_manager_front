@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:injection/injection.dart';
-import 'package:repository/repository.dart';
 import 'package:riverpod/riverpod.dart';
 
 void main() {

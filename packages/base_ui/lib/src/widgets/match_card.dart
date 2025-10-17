@@ -31,10 +31,12 @@
 //           // テーブル番号とステータス
 //           Column(
 //             children: [
-//               Text('${match.tableNumber}卓', style: AppTextStyles.labelMedium),
+//               Text('${match.tableNumber}卓',
+//                style: AppTextStyles.labelMedium),
 //               const SizedBox(height: 3),
 //               Container(
-//                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+//                 padding: const EdgeInsets.
+//                            symmetric(horizontal: 8, vertical: 2),
 //                 decoration: BoxDecoration(
 //                   borderRadius: BorderRadius.circular(4),
 //                   border: Border.all(
@@ -75,7 +77,8 @@
 //                     gradient: LinearGradient(
 //                       begin: Alignment.topCenter,
 //                       end: Alignment.bottomCenter,
-//                       colors: [AppColors.userPrimary, AppColors.adminPrimary],
+//                       colors:
+//                        [AppColors.userPrimary, AppColors.adminPrimary],
 //                     ),
 //                   ),
 //                   child: Center(
