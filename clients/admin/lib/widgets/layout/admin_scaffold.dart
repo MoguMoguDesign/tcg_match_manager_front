@@ -38,6 +38,7 @@ class AdminScaffold extends HookConsumerWidget {
       }
     }
     return Scaffold(
+      backgroundColor: AppColors.white,
       body: Column(
         children: [
           // ヘッダー
