@@ -26,10 +26,11 @@ AdminApiClient adminApiClient(Ref ref) {
 ///
 /// [baseUrl] 管理者APIのベースURL
 AdminApiClient getAdminApiClient({required String baseUrl}) {
+  // coverage:ignore-start
   return AdminApiClient(
-    // coverage:ignore-line
     baseUrl: baseUrl,
     httpClient: http.Client(),
     firebaseAuth: FirebaseAuth.instance,
   );
+  // coverage:ignore-end
 }

@@ -4,24 +4,26 @@
 /// パーシャル更新をサポートするため、全フィールドがオプショナル。
 class UpdateTournamentRequest {
   /// [UpdateTournamentRequest]のコンストラクタ。
+  // coverage:ignore-start
   const UpdateTournamentRequest({
-    // coverage:ignore-line
     this.name,
     this.overview,
     this.category,
     this.date,
     this.remarks,
   });
+  // coverage:ignore-end
 
   /// 全フィールド必須のファクトリコンストラクタ。
+  // coverage:ignore-start
   const UpdateTournamentRequest.full({
-    // coverage:ignore-line
     required this.name,
     required this.overview,
     required this.category,
     required this.date,
     required this.remarks,
   });
+  // coverage:ignore-end
 
   /// トーナメント名（オプショナル）。
   final String? name;
