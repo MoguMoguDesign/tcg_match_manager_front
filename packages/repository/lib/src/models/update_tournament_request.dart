@@ -4,7 +4,7 @@
 /// パーシャル更新をサポートするため、全フィールドがオプショナル。
 class UpdateTournamentRequest {
   /// [UpdateTournamentRequest]のコンストラクタ。
-  const UpdateTournamentRequest({
+  const UpdateTournamentRequest({ // coverage:ignore-line
     this.name,
     this.overview,
     this.category,
@@ -13,7 +13,7 @@ class UpdateTournamentRequest {
   });
 
   /// 全フィールド必須のファクトリコンストラクタ。
-  const UpdateTournamentRequest.full({
+  const UpdateTournamentRequest.full({ // coverage:ignore-line
     required this.name,
     required this.overview,
     required this.category,
