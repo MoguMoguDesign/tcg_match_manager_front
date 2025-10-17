@@ -75,16 +75,27 @@ class TournamentFirestoreRepository implements TournamentRepository {
     }
 
     try {
-      // Timestampフィールドを文字列に変換
-      final modelData = Map<String, dynamic>.from(data);
+      // Timestampフィールドを文字列に変換し、nullフィールドを除外
+      final modelData = <String, dynamic>{};
+
+      // IDを追加
       modelData['id'] = doc.id;
 
+      // データをコピーし、nullではない値のみを追加
+      data.forEach((key, value) {
+        if (value != null) {
+          modelData[key] = value;
+        }
+      });
+
+      // createdAtの処理
       if (modelData.containsKey('createdAt')) {
         modelData['createdAt'] = _timestampToString(modelData['createdAt']);
       } else {
         modelData['createdAt'] = clock.now().toIso8601String();
       }
 
+      // updatedAtの処理
       if (modelData.containsKey('updatedAt')) {
         modelData['updatedAt'] = _timestampToString(modelData['updatedAt']);
       } else {
