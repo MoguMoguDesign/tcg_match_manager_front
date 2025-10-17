@@ -34,6 +34,9 @@ Future<void> main() async {
         authRepositoryProvider.overrideWith(injection.authRepository),
         // Admin API BaseURLのプロバイダーをオーバーライド
         injection.adminApiBaseUrlProvider.overrideWith((ref) => adminApiUrl),
+        // TournamentRepositoryのプロバイダーをオーバーライド
+        injection.tournamentRepositoryProvider
+            .overrideWith((ref) => injection.getTournamentRepository()),
       ],
       child: const MyApp(),
     ),
