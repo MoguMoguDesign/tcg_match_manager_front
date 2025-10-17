@@ -49,26 +49,25 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
     final tournamentListData = ref.watch(tournamentListNotifierProvider);
 
     return AdminScaffold(
-      body: Column(
-        children: [
-          // タイトルと新規作成ボタンのセクション
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 100),
+        child: Column(
+          children: [
+            // タイトルと新規作成ボタンのセクション
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: const BoxDecoration(color: AppColors.white),
             child: Row(
               children: [
-                const Flexible(
-                  child: Text(
-                    'トーナメント一覧',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textBlack,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                const Text(
+                  'トーナメント一覧',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textBlack,
                   ),
                 ),
-                const SizedBox(width: 16),
+                const Spacer(),
                 SizedBox(
                   width: 192,
                   height: 56,
@@ -136,6 +135,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
             ),
           ),
         ],
+        ),
       ),
     );
   }
@@ -146,9 +146,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
   ) {
     // ローディング状態
     if (tournamentListData.state == TournamentListState.loading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     // エラー状態
@@ -511,9 +509,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
       participants: 0,
       status: status,
       // 実際のラウンド情報は今後取得予定
-      round: status == TournamentStatus.ongoing
-          ? 'ラウンド1'
-          : null,
+      round: status == TournamentStatus.ongoing ? 'ラウンド1' : null,
       // ゲーム種別は今後取得予定
       gameType: 'ポケカ',
     );
