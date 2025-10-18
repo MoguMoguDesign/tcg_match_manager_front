@@ -94,7 +94,7 @@ class AppDropdownField extends StatelessWidget {
         border: Border.all(color: AppColors.whiteAlpha),
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(40),

@@ -1,18 +1,23 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 大会新規作成ダイアログ
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-4453&t=whDUBuHITxOChCST-4
-class CreateTournamentDialog extends StatefulWidget {
+class CreateTournamentDialog extends ConsumerStatefulWidget {
   /// 大会新規作成ダイアログのコンストラクタ
   const CreateTournamentDialog({super.key});
 
   @override
-  State<CreateTournamentDialog> createState() => _CreateTournamentDialogState();
+  ConsumerState<CreateTournamentDialog> createState() =>
+      _CreateTournamentDialogState();
 }
 
-class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
+class _CreateTournamentDialogState
+    extends ConsumerState<CreateTournamentDialog> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _dateController = TextEditingController();
@@ -22,6 +27,11 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
   String _selectedRounds = '5ラウンド（推奨）';
   String _selectedDrawHandling = '選択してください';
   bool _isMaxRoundsEnabled = true;
+
+  static const _circleDecoration = BoxDecoration(
+    shape: BoxShape.circle,
+    color: AppColors.adminPrimary,
+  );
 
   @override
   void dispose() {
@@ -40,9 +50,9 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
         children: [
           // 背景オーバーレイ
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black.withValues(alpha: 0.2),
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.2),
           ),
 
           // ダイアログ本体
@@ -51,7 +61,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
               width: 719,
               constraints: const BoxConstraints(maxHeight: 800),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -241,21 +251,20 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                       horizontal: 13,
                                       vertical: 16,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          _dateController.text.isEmpty
-                                              ? 'YYYY/MM/DD'
-                                              : _dateController.text,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: _dateController.text.isEmpty
-                                                ? AppColors.grayDark
-                                                : AppColors.textBlack,
-                                          ),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        _dateController.text.isEmpty
+                                            ? 'YYYY/MM/DD'
+                                            : _dateController.text,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: _dateController.text.isEmpty
+                                              ? AppColors.grayDark
+                                              : AppColors.textBlack,
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -434,19 +443,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                                                           width: 12,
                                                           height: 12,
                                                           decoration:
-                                                              // ネスト対応。
-                                                              // ignore: lines_longer_than_80_chars
-                                                              const BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                  58,
-                                                                  68,
-                                                                  251,
-                                                                  1,
-                                                                ),
-                                                              ),
+                                                              _circleDecoration,
                                                         ),
                                                       )
                                                     : null,
@@ -677,7 +674,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                           width: 192,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
                               color: AppColors.textBlack,
@@ -738,7 +735,7 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: AppColors.white,
                               ),
                             ),
                           ),
@@ -758,9 +755,9 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
   Future<void> _selectDate(BuildContext context) async {
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: clock.now(),
+      firstDate: clock.now(),
+      lastDate: clock.now().add(const Duration(days: 365)),
     );
     if (date != null) {
       _dateController.text =
@@ -768,10 +765,131 @@ class _CreateTournamentDialogState extends State<CreateTournamentDialog> {
     }
   }
 
-  void _createTournament() {
-    Navigator.of(context).pop();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('トーナメントを作成しました')));
+  Future<void> _createTournament() async {
+    // 入力検証
+    if (_titleController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('タイトルを入力してください')));
+      return;
+    }
+
+    if (_descriptionController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('大会概要を入力してください')));
+      return;
+    }
+
+    if (_dateController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('開催日を選択してください')));
+      return;
+    }
+
+    if (_selectedParticipants == '選択してください') {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('参加者上限を選択してください')));
+      return;
+    }
+
+    if (_selectedDrawHandling == '選択してください') {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('引き分け処理を選択してください')));
+      return;
+    }
+
+    try {
+      // ISO 8601 形式の日時文字列を作成
+      // YYYY/MM/DD → YYYY-MM-DD に変換
+      final parts = _dateController.text.split('/');
+      if (parts.length != 3) {
+        throw const FormatException('日付の形式が正しくありません');
+      }
+      final year = parts[0].padLeft(4, '0');
+      final month = parts[1].padLeft(2, '0');
+      final day = parts[2].padLeft(2, '0');
+      final startDate = '$year-$month-${day}T09:00:00Z';
+      final endDate = '$year-$month-${day}T18:00:00Z';
+
+      // 参加者上限を数値に変換
+      final expectedPlayers = int.parse(
+        _selectedParticipants.replaceAll('人', ''),
+      );
+
+      // ラウンド数を数値に変換（手動指定時のみ）
+      final maxRounds = _isMaxRoundsEnabled
+          ? int.parse(
+              _selectedRounds.replaceAll('ラウンド（推奨）', '').replaceAll('ラウンド', ''),
+            )
+          : null;
+
+      // 引き分け処理を得点に変換
+      // 両者勝利 = 1点、両者敗北 = 0点、延長戦 = 0点（延長戦は通常の試合として扱う）
+      final drawPoints = _selectedDrawHandling == '両者勝利' ? 1 : 0;
+
+      // 会場は仮で「オンライン開催」を設定（将来的に入力フィールド追加予定）
+      const venue = 'オンライン開催';
+
+      final createUseCase = ref.read(createTournamentUseCaseProvider);
+
+      await createUseCase.call(
+        CreateTournamentRequest(
+          title: _titleController.text.trim(),
+          description: _descriptionController.text.trim(),
+          venue: venue,
+          startDate: startDate,
+          endDate: endDate,
+          maxRounds: maxRounds,
+          drawPoints: drawPoints,
+          expectedPlayers: expectedPlayers,
+        ),
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('トーナメントを作成しました')));
+      }
+    } on FormatException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('入力エラー: ${e.message}')));
+      }
+    } on FailureStatusException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('エラー: ${e.message}')));
+      }
+    } on GeneralFailureException catch (e) {
+      if (mounted) {
+        String message;
+        switch (e.reason) {
+          case GeneralFailureReason.other:
+            message = '認証に失敗しました。再度ログインしてください。';
+          case GeneralFailureReason.noConnectionError:
+            message = 'ネットワークに接続できません。';
+          case GeneralFailureReason.serverUrlNotFoundError:
+            message = 'サーバーURLが見つかりません。';
+          case GeneralFailureReason.badResponse:
+            message = '不正なレスポンスです。';
+        }
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('予期しないエラーが発生しました: $e')));
+      }
+    }
   }
 }

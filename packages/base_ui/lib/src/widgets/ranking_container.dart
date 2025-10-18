@@ -20,47 +20,43 @@ class RankingContainer extends StatelessWidget {
   /// 現在のユーザーID（このIDの行をcurrentUserとして表示）。
   final String? currentUserId;
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ランキングリスト
-          ...rankings.asMap().entries.map((entry) {
-            final index = entry.key;
-            final ranking = entry.value;
-            final isCurrentUser = currentUserId != null &&
-                                ranking.userId == currentUserId;
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ランキングリスト
+        ...rankings.asMap().entries.map((entry) {
+          final index = entry.key;
+          final ranking = entry.value;
+          final isCurrentUser =
+              currentUserId != null && ranking.userId == currentUserId;
 
-            return Column(
-              children: [
-                // 順位間の区切り線（最初の要素以外）
-                if (index > 0) ...[
-                  const SizedBox(height: 8),
-                  Container(
-                    height: 1,
-                    color: AppColors.borderLight,
-                  ),
-                  const SizedBox(height: 8),
-                ],
-                RankingRow(
-                    leftLabel: ranking.playerName,
-                    rightValue: ranking.score,
-                    type: isCurrentUser
-                        ? RankingRowType.currentUser
-                        : RankingRowType.other,
-                    rankNumber: ranking.rank,
-                    metaLeft: ranking.metaLeft,
-                    metaRight: ranking.metaRight,
-                  ),
+          return Column(
+            children: [
+              // 順位間の区切り線（最初の要素以外）
+              if (index > 0) ...[
+                const SizedBox(height: 8),
+                Container(height: 1, color: AppColors.borderLight),
+                const SizedBox(height: 8),
               ],
-            );
-          }),
+              RankingRow(
+                leftLabel: ranking.playerName,
+                rightValue: ranking.score,
+                type: isCurrentUser
+                    ? RankingRowType.currentUser
+                    : RankingRowType.other,
+                rankNumber: ranking.rank,
+                metaLeft: ranking.metaLeft,
+                metaRight: ranking.metaRight,
+              ),
+            ],
+          );
+        }),
 
-          const SizedBox(height: 16),
-        ],
-      );
+        const SizedBox(height: 16),
+      ],
+    );
   }
 }
 

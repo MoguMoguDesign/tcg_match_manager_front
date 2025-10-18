@@ -1,32 +1,95 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// 管理者ログイン画面
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=96-271&t=whDUBuHITxOChCST-4
-class AdminLoginPage extends StatefulWidget {
+class AdminLoginPage extends HookConsumerWidget {
   /// 管理者ログイン画面のコンストラクタ
   const AdminLoginPage({super.key});
 
   @override
-  State<AdminLoginPage> createState() => _AdminLoginPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final emailController = useTextEditingController();
+    final passwordController = useTextEditingController();
+    final isPasswordVisible = useState(false);
+    final isLoading = useState(false);
+    final errorMessage = useState<String?>(null);
 
-class _AdminLoginPageState extends State<AdminLoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+    // 認証Notifier取得
+    final authNotifier = ref.read(authNotifierProvider.notifier);
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+    // 認証状態の変更を監視
+    ref.listen<AsyncValue<AuthUser?>>(authNotifierProvider, (previous, next) {
+      // ローディング中は何もしない
+      if (next.isLoading) {
+        return;
+      }
 
-  @override
-  Widget build(BuildContext context) {
+      // エラーがある場合
+      if (next.hasError) {
+        isLoading.value = false;
+        final error = next.error;
+        if (error is AuthException) {
+          errorMessage.value = error.message;
+        } else {
+          errorMessage.value = 'ログインに失敗しました';
+        }
+        return;
+      }
+
+      // 成功した場合（ユーザーが存在する）
+      if (next.hasValue && next.value != null) {
+        isLoading.value = false;
+        errorMessage.value = null;
+        if (context.mounted) {
+          context.goNamed('tournaments');
+        }
+      }
+    });
+
+    Future<void> handleSignIn() async {
+      if (isLoading.value) {
+        return;
+      }
+
+      // 入力バリデーション
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+
+      if (email.isEmpty) {
+        errorMessage.value = 'メールアドレスを入力してください';
+        return;
+      }
+
+      if (password.isEmpty) {
+        errorMessage.value = 'パスワードを入力してください';
+        return;
+      }
+
+      errorMessage.value = null;
+      isLoading.value = true;
+
+      // 認証処理を実行（結果はref.listenで処理される）
+      await authNotifier.signInWithEmail(email: email, password: password);
+    }
+
+    Future<void> handleGoogleSignIn() async {
+      if (isLoading.value) {
+        return;
+      }
+
+      errorMessage.value = null;
+      isLoading.value = true;
+
+      // 認証処理を実行（結果はref.listenで処理される）
+      await authNotifier.signInWithGoogle();
+    }
+
     return Scaffold(
       body: DecoratedBox(
         decoration: const BoxDecoration(
@@ -51,7 +114,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -113,7 +176,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextField(
-                            controller: _emailController,
+                            controller: emailController,
+                            enabled: !isLoading.value,
+                            keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
@@ -142,8 +207,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextField(
-                            controller: _passwordController,
-                            obscureText: !_isPasswordVisible,
+                            controller: passwordController,
+                            enabled: !isLoading.value,
+                            obscureText: !isPasswordVisible.value,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.symmetric(
@@ -152,15 +218,14 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isPasswordVisible
+                                  isPasswordVisible.value
                                       ? Icons.visibility
                                       : Icons.visibility_off,
                                   color: AppColors.grayDark,
                                 ),
                                 onPressed: () {
-                                  setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
-                                  });
+                                  isPasswordVisible.value =
+                                      !isPasswordVisible.value;
                                 },
                               ),
                             ),
@@ -186,13 +251,31 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           ),
                         ),
 
+                        // エラーメッセージ表示
+                        if (errorMessage.value != null)
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 16),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.errorContainer,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              errorMessage.value!,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+
                         // ログインボタン
                         CommonConfirmButton(
-                          text: 'ログイン',
+                          text: isLoading.value ? 'ログイン中...' : 'ログイン',
                           style: ConfirmButtonStyle.adminFilled,
-                          onPressed: () {
-                            context.goNamed('tournaments');
-                          },
+                          onPressed: isLoading.value ? () {} : handleSignIn,
                         ),
                         const SizedBox(height: 16),
 
@@ -200,9 +283,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                         CommonConfirmButton(
                           text: 'Googleアカウントでログイン',
                           style: ConfirmButtonStyle.adminOutlined,
-                          onPressed: () {
-                            // Google ログイン処理は未実装。
-                          },
+                          onPressed: isLoading.value
+                              ? () {}
+                              : handleGoogleSignIn,
                         ),
                       ],
                     ),
@@ -215,9 +298,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.transparent,
+                            AppColors.transparent,
                             AppColors.borderLight,
-                            Colors.transparent,
+                            AppColors.transparent,
                           ],
                         ),
                       ),
@@ -231,7 +314,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.black,
                           ),
                         ),
                         const SizedBox(height: 8),

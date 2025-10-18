@@ -44,7 +44,7 @@ class TournamentTabNavigation extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.textBlack : Colors.transparent,
+          color: isSelected ? AppColors.textBlack : AppColors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? AppColors.textBlack : AppColors.borderGray,
@@ -56,7 +56,7 @@ class TournamentTabNavigation extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: isSelected ? Colors.white : AppColors.textGray,
+            color: isSelected ? AppColors.white : AppColors.textGray,
           ),
         ),
       ),

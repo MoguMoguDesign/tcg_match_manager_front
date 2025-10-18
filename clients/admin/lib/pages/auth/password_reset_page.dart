@@ -48,7 +48,7 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -64,14 +64,13 @@ class _AdminPasswordResetPageState extends State<AdminPasswordResetPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // 戻るボタン
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => context.pop(),
-                          icon: const Icon(Icons.arrow_back),
-                          color: AppColors.textBlack,
-                        ),
-                      ],
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () => context.pop(),
+                        icon: const Icon(Icons.arrow_back),
+                        color: AppColors.textBlack,
+                      ),
                     ),
 
                     // ロゴ

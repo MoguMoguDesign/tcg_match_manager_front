@@ -16,8 +16,9 @@ class FinalRankingPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Notifier とセッション情報を取得する。
-    final standingListNotifier =
-        ref.read(domain.standingListNotifierProvider.notifier);
+    final standingListNotifier = ref.read(
+      domain.standingListNotifierProvider.notifier,
+    );
     final standingListState = ref.watch(domain.standingListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
 
@@ -36,21 +37,18 @@ class FinalRankingPage extends HookConsumerWidget {
     }
 
     // 初回ロード時に最終順位を取得する。
-    useEffect(
-      () {
-        unawaited(fetchStandings());
-        return null;
-      },
-      [],
-    );
+    useEffect(() {
+      unawaited(fetchStandings());
+      return null;
+    }, []);
 
     // 背景テーマは Svg 背景へ統一。
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('最終順位'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         foregroundColor: AppColors.white,
         elevation: 0,
         toolbarHeight: 0,
@@ -166,15 +164,11 @@ class FinalRankingPage extends HookConsumerWidget {
                 ],
               );
             },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, _) => Center(
               child: Text(
                 'エラーが発生しました: $error',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: Colors.red,
-                ),
+                style: AppTextStyles.bodyMedium.copyWith(color: Colors.red),
               ),
             ),
           ),

@@ -94,7 +94,7 @@ class CommonSmallButton extends StatelessWidget {
         border: visual.border,
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isEnabled ? onPressed : null,
           borderRadius: BorderRadius.circular(_radius),
@@ -204,9 +204,7 @@ class CommonSmallButton extends StatelessWidget {
       case SmallButtonStyle.adminOutlinedWithArrowLeft:
         return _VisualStyle(
           backgroundColor: AppColors.white,
-          textColor: isEnabled
-              ? AppColors.textBlack
-              : AppColors.gray,
+          textColor: isEnabled ? AppColors.textBlack : AppColors.gray,
           border: Border.all(
             color: isEnabled
                 ? AppColors.textBlack
@@ -217,9 +215,7 @@ class CommonSmallButton extends StatelessWidget {
       case SmallButtonStyle.adminOutlinedWithArrowRight:
         return _VisualStyle(
           backgroundColor: AppColors.white,
-          textColor: isEnabled
-              ? AppColors.textBlack
-              : AppColors.gray,
+          textColor: isEnabled ? AppColors.textBlack : AppColors.gray,
           border: Border.all(
             color: isEnabled
                 ? AppColors.textBlack
@@ -230,9 +226,7 @@ class CommonSmallButton extends StatelessWidget {
       case SmallButtonStyle.whiteOutlined:
         return _VisualStyle(
           backgroundColor: AppColors.white,
-          textColor: isEnabled
-              ? AppColors.textBlack
-              : AppColors.gray,
+          textColor: isEnabled ? AppColors.textBlack : AppColors.gray,
           border: Border.all(
             color: isEnabled
                 ? AppColors.textBlack

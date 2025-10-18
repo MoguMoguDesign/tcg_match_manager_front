@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
+import 'package:clock/clock.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/layout/admin_scaffold.dart';
@@ -9,15 +14,15 @@ import '../dialogs/create_tournament_dialog.dart';
 /// トーナメント一覧（ホーム）画面
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=96-331&t=whDUBuHITxOChCST-4
-class TournamentListPage extends StatefulWidget {
+class TournamentListPage extends ConsumerStatefulWidget {
   /// トーナメント一覧画面のコンストラクタ
   const TournamentListPage({super.key});
 
   @override
-  State<TournamentListPage> createState() => _TournamentListPageState();
+  ConsumerState<TournamentListPage> createState() => _TournamentListPageState();
 }
 
-class _TournamentListPageState extends State<TournamentListPage>
+class _TournamentListPageState extends ConsumerState<TournamentListPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
@@ -25,6 +30,12 @@ class _TournamentListPageState extends State<TournamentListPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    // 初期化時にトーナメント一覧を読み込む
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref.read(tournamentListNotifierProvider.notifier).loadTournaments(),
+      );
+    });
   }
 
   @override
@@ -35,87 +46,148 @@ class _TournamentListPageState extends State<TournamentListPage>
 
   @override
   Widget build(BuildContext context) {
+    final tournamentListData = ref.watch(tournamentListNotifierProvider);
+
     return AdminScaffold(
-      body: Column(
-        children: [
-          // タイトルと新規作成ボタンのセクション
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: const BoxDecoration(color: Colors.white),
-            child: Row(
-              children: [
-                const Text(
-                  'トーナメント一覧',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textBlack,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 100),
+        child: Column(
+          children: [
+            // タイトルと新規作成ボタンのセクション
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              decoration: const BoxDecoration(color: AppColors.white),
+              child: Row(
+                children: [
+                  const Text(
+                    'トーナメント一覧',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textBlack,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 192,
-                  height: 56,
-                  child: CommonConfirmButton(
-                    text: '大会作成',
-                    style: ConfirmButtonStyle.adminFilled,
-                    onPressed: () => _showCreateTournamentDialog(context),
+                  const Spacer(),
+                  SizedBox(
+                    width: 192,
+                    height: 56,
+                    child: CommonConfirmButton(
+                      text: '大会作成',
+                      style: ConfirmButtonStyle.adminFilled,
+                      onPressed: () => _showCreateTournamentDialog(context),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          // タブバー
-          DecoratedBox(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(bottom: BorderSide(color: AppColors.borderLight)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 64),
-              child: SizedBox(
-                width: double.infinity,
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.adminPrimary,
-                  unselectedLabelColor: AppColors.gray,
-                  indicatorColor: AppColors.adminPrimary,
-                  indicatorWeight: 3,
-                  labelStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            // タブバー
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                border: Border(
+                  bottom: BorderSide(color: AppColors.borderLight),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 64),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TabBar(
+                    controller: _tabController,
+                    labelColor: AppColors.adminPrimary,
+                    unselectedLabelColor: AppColors.gray,
+                    indicatorColor: AppColors.adminPrimary,
+                    indicatorWeight: 3,
+                    labelStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: const [
+                      Tab(text: '開催前'),
+                      Tab(text: '開催中'),
+                      Tab(text: '開催後'),
+                    ],
                   ),
-                  unselectedLabelStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(text: '開催前'),
-                    Tab(text: '開催中'),
-                    Tab(text: '開催後'),
-                  ],
                 ),
               ),
             ),
-          ),
-          // タブビュー
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildTournamentList(_getUpcomingTournaments()),
-                _buildTournamentList(_getOngoingTournaments()),
-                _buildTournamentList(_getCompletedTournaments()),
-              ],
+            // タブビュー
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTournamentList(
+                    tournamentListData,
+                    TournamentStatus.upcoming,
+                  ),
+                  _buildTournamentList(
+                    tournamentListData,
+                    TournamentStatus.ongoing,
+                  ),
+                  _buildTournamentList(
+                    tournamentListData,
+                    TournamentStatus.completed,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildTournamentList(List<TournamentData> tournaments) {
+  Widget _buildTournamentList(
+    TournamentListData tournamentListData,
+    TournamentStatus statusFilter,
+  ) {
+    // ローディング状態
+    if (tournamentListData.state == TournamentListState.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // エラー状態
+    if (tournamentListData.state == TournamentListState.error) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'エラーが発生しました',
+              style: TextStyle(fontSize: 16, color: AppColors.grayDark),
+            ),
+            if (tournamentListData.errorMessage != null)
+              Text(
+                tournamentListData.errorMessage!,
+                style: const TextStyle(fontSize: 14, color: AppColors.grayDark),
+              ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                unawaited(
+                  ref
+                      .read(tournamentListNotifierProvider.notifier)
+                      .refreshTournaments(),
+                );
+              },
+              child: const Text('再試行'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Domain層のTournamentをUI用のTournamentDataに変換
+    final tournaments = tournamentListData.tournaments
+        .map((tournament) => _convertToTournamentData(tournament, statusFilter))
+        .where((tournament) => tournament.status == statusFilter)
+        .toList();
+
     if (tournaments.isEmpty) {
       return const Center(
         child: Text(
@@ -130,7 +202,7 @@ class _TournamentListPageState extends State<TournamentListPage>
         tournaments.first.status == TournamentStatus.ongoing) {
       final tournament = tournaments.first;
       return ColoredBox(
-        color: AppColors.grayLight,
+        color: AppColors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
           child: Align(
@@ -145,7 +217,7 @@ class _TournamentListPageState extends State<TournamentListPage>
     if (tournaments.isNotEmpty &&
         tournaments.first.status == TournamentStatus.upcoming) {
       return ColoredBox(
-        color: AppColors.grayLight,
+        color: AppColors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
           child: Column(
@@ -199,7 +271,7 @@ class _TournamentListPageState extends State<TournamentListPage>
 
     // その他（開催後）は開催前と同じレイアウト（1行目4個、2行目2個）
     return ColoredBox(
-      color: AppColors.grayLight,
+      color: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
         child: Column(
@@ -298,7 +370,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -309,28 +381,28 @@ class _TournamentListPageState extends State<TournamentListPage>
                       const Icon(
                         Icons.calendar_today,
                         size: 16,
-                        color: Colors.white70,
+                        color: AppColors.white70,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         tournament.date,
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Colors.white70,
+                          color: AppColors.white70,
                         ),
                       ),
                       const SizedBox(width: 20),
                       const Icon(
                         Icons.people,
                         size: 16,
-                        color: Colors.white70,
+                        color: AppColors.white70,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         '${tournament.participants}',
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Colors.white70,
+                          color: AppColors.white70,
                         ),
                       ),
                       if (tournament.gameType != null) ...[
@@ -339,7 +411,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                           tournament.gameType!,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.white70,
+                            color: AppColors.white70,
                           ),
                         ),
                       ],
@@ -387,47 +459,62 @@ class _TournamentListPageState extends State<TournamentListPage>
       context: context,
       builder: (context) => const CreateTournamentDialog(),
     );
+
+    // ダイアログが閉じられた後、トーナメント一覧を更新
+    unawaited(
+      ref.read(tournamentListNotifierProvider.notifier).refreshTournaments(),
+    );
   }
 
-  // ダミーデータ生成メソッド
-  List<TournamentData> _getOngoingTournaments() {
-    return [
-      const TournamentData(
-        id: '1',
-        title: 'トーナメントタイトル',
-        date: '2025/08/31',
-        participants: 32,
-        status: TournamentStatus.ongoing,
-        round: 'ラウンド3',
-        gameType: 'ポケカ',
-      ),
-    ];
-  }
+  // Domain層のTournamentをUI用のTournamentDataに変換
+  TournamentData _convertToTournamentData(
+    Tournament tournament,
+    TournamentStatus defaultStatus,
+  ) {
+    // 日付文字列をパース（ISO 8601形式からYYYY/MM/DD形式に変換）
+    String formatDate(String isoDate) {
+      try {
+        final dateTime = DateTime.parse(isoDate);
+        return '${dateTime.year}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
+      } on FormatException {
+        return isoDate; // パースに失敗した場合はそのまま返す
+      }
+    }
 
-  List<TournamentData> _getUpcomingTournaments() {
-    return List.generate(6, (index) {
-      return TournamentData(
-        id: 'upcoming_$index',
-        title: 'トーナメントタイトル',
-        date: '2025/08/31',
-        participants: 32,
-        status: TournamentStatus.upcoming,
-        gameType: 'ポケカ',
-      );
-    });
-  }
+    // 現在時刻と比較してステータスを決定
+    var status = defaultStatus;
+    try {
+      final now = clock.now();
+      if (tournament.startDate != null && tournament.endDate != null) {
+        final startDate = DateTime.parse(tournament.startDate!);
+        final endDate = DateTime.parse(tournament.endDate!);
 
-  List<TournamentData> _getCompletedTournaments() {
-    return List.generate(8, (index) {
-      return TournamentData(
-        id: 'completed_$index',
-        title: 'トーナメントタイトル',
-        date: '2025/08/31',
-        participants: 32,
-        status: TournamentStatus.completed,
-        gameType: 'ポケカ',
-      );
-    });
+        if (now.isBefore(startDate)) {
+          status = TournamentStatus.upcoming;
+        } else if (now.isAfter(endDate)) {
+          status = TournamentStatus.completed;
+        } else {
+          status = TournamentStatus.ongoing;
+        }
+      }
+    } on FormatException {
+      // 日付のパースに失敗した場合はデフォルトステータスを使用
+    }
+
+    return TournamentData(
+      id: tournament.id,
+      title: tournament.title,
+      date: tournament.startDate != null
+          ? formatDate(tournament.startDate!)
+          : '日付未設定',
+      // プレイヤー数は今後実装予定
+      participants: 0,
+      status: status,
+      // 実際のラウンド情報は今後取得予定
+      round: status == TournamentStatus.ongoing ? 'ラウンド1' : null,
+      // ゲーム種別は今後取得予定
+      gameType: 'ポケカ',
+    );
   }
 }
 

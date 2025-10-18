@@ -24,14 +24,14 @@ mixin _$AccountDto {
 /// 現状は初期値以外の値は返ってこない。
 @JsonKey(name: 'SUB') int get sub;/// レスポンスメッセージ。
 @JsonKey(name: 'MESSAGE') String get message;/// ユーザー ID。
-@JsonKey(name: 'user_id') String get userId;/// ユーザー名。
+@JsonKey(name: 'userId') String get userId;/// ユーザー名。
 @JsonKey(name: 'username') String get username;/// 表示名。
-@JsonKey(name: 'display_name') String get displayName;/// メールアドレス。
+@JsonKey(name: 'displayName') String get displayName;/// メールアドレス。
 @JsonKey(name: 'email') String get email;/// API バージョン。
-@JsonKey(name: 'api_version') int get apiVersion;/// アクセストークン。
-@JsonKey(name: 'access_token') String get accessToken;/// リフレッシュトークン。
-@JsonKey(name: 'refresh_token') String get refreshToken;/// トークンの有効期限（Unix timestamp）。
-@JsonKey(name: 'expires_at') int get expiresAt;
+@JsonKey(name: 'apiVersion') int get apiVersion;/// アクセストークン。
+@JsonKey(name: 'accessToken') String get accessToken;/// リフレッシュトークン。
+@JsonKey(name: 'refreshToken') String get refreshToken;/// トークンの有効期限（Unix timestamp）。
+@JsonKey(name: 'expiresAt') int get expiresAt;
 /// Create a copy of AccountDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -64,7 +64,7 @@ abstract mixin class $AccountDtoCopyWith<$Res>  {
   factory $AccountDtoCopyWith(AccountDto value, $Res Function(AccountDto) _then) = _$AccountDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'STATUS')@flexibleBoolConverter bool isFailureStatus,@JsonKey(name: 'SUB') int sub,@JsonKey(name: 'MESSAGE') String message,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'username') String username,@JsonKey(name: 'display_name') String displayName,@JsonKey(name: 'email') String email,@JsonKey(name: 'api_version') int apiVersion,@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken,@JsonKey(name: 'expires_at') int expiresAt
+@JsonKey(name: 'STATUS')@flexibleBoolConverter bool isFailureStatus,@JsonKey(name: 'SUB') int sub,@JsonKey(name: 'MESSAGE') String message,@JsonKey(name: 'userId') String userId,@JsonKey(name: 'username') String username,@JsonKey(name: 'displayName') String displayName,@JsonKey(name: 'email') String email,@JsonKey(name: 'apiVersion') int apiVersion,@JsonKey(name: 'accessToken') String accessToken,@JsonKey(name: 'refreshToken') String refreshToken,@JsonKey(name: 'expiresAt') int expiresAt
 });
 
 
@@ -105,7 +105,7 @@ as int,
 @JsonSerializable()
 
 class _AccountDto implements AccountDto {
-  const _AccountDto({@JsonKey(name: 'STATUS')@flexibleBoolConverter required this.isFailureStatus, @JsonKey(name: 'SUB') this.sub = 0, @JsonKey(name: 'MESSAGE') this.message = '', @JsonKey(name: 'user_id') this.userId = '', @JsonKey(name: 'username') this.username = '', @JsonKey(name: 'display_name') this.displayName = '', @JsonKey(name: 'email') this.email = '', @JsonKey(name: 'api_version') this.apiVersion = 1, @JsonKey(name: 'access_token') this.accessToken = '', @JsonKey(name: 'refresh_token') this.refreshToken = '', @JsonKey(name: 'expires_at') this.expiresAt = 0});
+  const _AccountDto({@JsonKey(name: 'STATUS')@flexibleBoolConverter required this.isFailureStatus, @JsonKey(name: 'SUB') this.sub = 0, @JsonKey(name: 'MESSAGE') this.message = '', @JsonKey(name: 'userId') this.userId = '', @JsonKey(name: 'username') this.username = '', @JsonKey(name: 'displayName') this.displayName = '', @JsonKey(name: 'email') this.email = '', @JsonKey(name: 'apiVersion') this.apiVersion = 1, @JsonKey(name: 'accessToken') this.accessToken = '', @JsonKey(name: 'refreshToken') this.refreshToken = '', @JsonKey(name: 'expiresAt') this.expiresAt = 0});
   factory _AccountDto.fromJson(Map<String, dynamic> json) => _$AccountDtoFromJson(json);
 
 /// 失敗状態かどうか。
@@ -119,21 +119,21 @@ class _AccountDto implements AccountDto {
 /// レスポンスメッセージ。
 @override@JsonKey(name: 'MESSAGE') final  String message;
 /// ユーザー ID。
-@override@JsonKey(name: 'user_id') final  String userId;
+@override@JsonKey(name: 'userId') final  String userId;
 /// ユーザー名。
 @override@JsonKey(name: 'username') final  String username;
 /// 表示名。
-@override@JsonKey(name: 'display_name') final  String displayName;
+@override@JsonKey(name: 'displayName') final  String displayName;
 /// メールアドレス。
 @override@JsonKey(name: 'email') final  String email;
 /// API バージョン。
-@override@JsonKey(name: 'api_version') final  int apiVersion;
+@override@JsonKey(name: 'apiVersion') final  int apiVersion;
 /// アクセストークン。
-@override@JsonKey(name: 'access_token') final  String accessToken;
+@override@JsonKey(name: 'accessToken') final  String accessToken;
 /// リフレッシュトークン。
-@override@JsonKey(name: 'refresh_token') final  String refreshToken;
+@override@JsonKey(name: 'refreshToken') final  String refreshToken;
 /// トークンの有効期限（Unix timestamp）。
-@override@JsonKey(name: 'expires_at') final  int expiresAt;
+@override@JsonKey(name: 'expiresAt') final  int expiresAt;
 
 /// Create a copy of AccountDto
 /// with the given fields replaced by the non-null parameter values.
@@ -168,7 +168,7 @@ abstract mixin class _$AccountDtoCopyWith<$Res> implements $AccountDtoCopyWith<$
   factory _$AccountDtoCopyWith(_AccountDto value, $Res Function(_AccountDto) _then) = __$AccountDtoCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'STATUS')@flexibleBoolConverter bool isFailureStatus,@JsonKey(name: 'SUB') int sub,@JsonKey(name: 'MESSAGE') String message,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'username') String username,@JsonKey(name: 'display_name') String displayName,@JsonKey(name: 'email') String email,@JsonKey(name: 'api_version') int apiVersion,@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken,@JsonKey(name: 'expires_at') int expiresAt
+@JsonKey(name: 'STATUS')@flexibleBoolConverter bool isFailureStatus,@JsonKey(name: 'SUB') int sub,@JsonKey(name: 'MESSAGE') String message,@JsonKey(name: 'userId') String userId,@JsonKey(name: 'username') String username,@JsonKey(name: 'displayName') String displayName,@JsonKey(name: 'email') String email,@JsonKey(name: 'apiVersion') int apiVersion,@JsonKey(name: 'accessToken') String accessToken,@JsonKey(name: 'refreshToken') String refreshToken,@JsonKey(name: 'expiresAt') int expiresAt
 });
 
 

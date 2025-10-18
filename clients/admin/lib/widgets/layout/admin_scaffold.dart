@@ -1,9 +1,11 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// 管理者アプリケーション用の共通レイアウト
-class AdminScaffold extends StatelessWidget {
+class AdminScaffold extends HookConsumerWidget {
   /// レイアウトのコンストラクタ
   const AdminScaffold({
     required this.body,
@@ -22,8 +24,22 @@ class AdminScaffold extends StatelessWidget {
   final List<Widget>? actions;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 認証Notifier取得
+    final authNotifier = ref.read(authNotifierProvider.notifier);
+
+    Future<void> handleLogout() async {
+      // サインアウト処理を実行
+      await authNotifier.signOut();
+
+      // ログイン画面に遷移
+      if (context.mounted) {
+        context.goNamed('login');
+      }
+    }
+
     return Scaffold(
+      backgroundColor: AppColors.white,
       body: Column(
         children: [
           // ヘッダー
@@ -31,10 +47,8 @@ class AdminScaffold extends StatelessWidget {
             height: 80,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: AppColors.borderLight),
-              ),
+              color: AppColors.white,
+              border: Border(bottom: BorderSide(color: AppColors.borderLight)),
             ),
             child: Row(
               children: [
@@ -71,16 +85,13 @@ class AdminScaffold extends StatelessWidget {
                       ),
                     ],
                   ),
-                  onSelected: (value) {
+                  onSelected: (value) async {
                     if (value == 'logout') {
-                      context.goNamed('login');
+                      await handleLogout();
                     }
                   },
                   itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: 'logout',
-                      child: Text('ログアウト'),
-                    ),
+                    const PopupMenuItem(value: 'logout', child: Text('ログアウト')),
                   ],
                 ),
               ],

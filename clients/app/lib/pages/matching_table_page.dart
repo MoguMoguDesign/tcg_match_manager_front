@@ -121,18 +121,17 @@ class MatchingTablePage extends HookConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('マッチング表'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         foregroundColor: AppColors.white,
         elevation: 0,
         toolbarHeight: 0,
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       body: SvgBackground(
         assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
           top: false,
-          child: Column(
-            children: [
+          child:
               // メインコンテンツ
               Expanded(
                 child: Padding(
@@ -255,8 +254,6 @@ class MatchingTablePage extends HookConsumerWidget {
                   ),
                 ),
               ),
-            ],
-          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

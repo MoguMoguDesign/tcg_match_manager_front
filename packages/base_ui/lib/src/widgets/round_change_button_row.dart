@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
 import 'common_small_button.dart';
 
 /// ラウンド変更ボタン行を表示するウィジェット。
@@ -55,7 +56,7 @@ class RoundChangeButtonRow extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 12),
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: _buildActions(),
     );
   }

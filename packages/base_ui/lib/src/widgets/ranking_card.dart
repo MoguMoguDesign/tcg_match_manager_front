@@ -11,10 +11,7 @@ class RankingCard extends StatelessWidget {
   /// [RankingCard] のコンストラクタ。
   ///
   /// [player] は表示するランキングプレイヤー情報。
-  const RankingCard({
-    super.key,
-    required this.player,
-  });
+  const RankingCard({super.key, required this.player});
 
   /// 表示するランキングプレイヤー情報。
   final RankingPlayer player;
@@ -29,10 +26,7 @@ class RankingCard extends StatelessWidget {
           Container(
             width: 40,
             alignment: Alignment.centerLeft,
-            child: Text(
-              '${player.rank}位',
-              style: AppTextStyles.labelMedium,
-            ),
+            child: Text('${player.rank}位', style: AppTextStyles.labelMedium),
           ),
           // グラデーション装飾
           Container(
@@ -42,10 +36,7 @@ class RankingCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.userPrimary,
-                  AppColors.adminPrimary,
-                ],
+                colors: [AppColors.userPrimary, AppColors.adminPrimary],
               ),
             ),
           ),
@@ -55,7 +46,7 @@ class RankingCard extends StatelessWidget {
               height: 57,
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: player.isCurrentPlayer 
+                color: player.isCurrentPlayer
                     ? AppColors.adminPrimary
                     : AppColors.textBlack,
                 borderRadius: const BorderRadius.only(

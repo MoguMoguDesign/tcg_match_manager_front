@@ -1,4 +1,4 @@
-[submodule "docs"]
-	path = docs
-	url = https://github.com/MoguMoguDesign/tcg_match_manager_docs
-	ignore = dirty
+[submodule "docs/specs"]
+	path = docs/specs
+	url = git@github.com:MoguMoguDesign/tcg_match_manager_docs.git
+	branch = main

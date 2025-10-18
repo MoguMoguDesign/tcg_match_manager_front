@@ -56,7 +56,7 @@ class ParticipantTable extends StatelessWidget {
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(48),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.borderGray),
         ),
@@ -72,7 +72,7 @@ class ParticipantTable extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderGray),
       ),

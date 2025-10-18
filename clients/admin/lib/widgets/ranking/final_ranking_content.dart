@@ -15,13 +15,10 @@ class FinalRankingContent extends StatelessWidget {
     return ColoredBox(
       color: AppColors.backgroundLight,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 64,
-          vertical: 24,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF1F3FF), // admin-card color
+            color: AppColors.backgroundBlue, // admin-card color
             borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.all(16),
@@ -64,13 +61,11 @@ class FinalRankingContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final ranking = rankings[index];
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.grey.withValues(alpha: 0.3),
+                            color: AppColors.grey.withValues(alpha: 0.3),
                           ),
                         ),
                       ),
@@ -122,8 +117,8 @@ class FinalRankingContent extends StatelessWidget {
                               ranking.rank == 1
                                   ? Icons.emoji_events
                                   : ranking.rank == 2
-                                      ? Icons.military_tech
-                                      : Icons.workspace_premium,
+                                  ? Icons.military_tech
+                                  : Icons.workspace_premium,
                               color: _getRankColor(ranking.rank),
                               size: 20,
                             ),
@@ -144,11 +139,11 @@ class FinalRankingContent extends StatelessWidget {
   Color _getRankColor(int rank) {
     switch (rank) {
       case 1:
-        return const Color(0xFFFFD700); // 金色
+        return AppColors.gold; // 金色
       case 2:
-        return const Color(0xFFC0C0C0); // 銀色
+        return AppColors.silver; // 銀色
       case 3:
-        return const Color(0xFFCD7F32); // 銅色
+        return AppColors.bronze; // 銅色
       default:
         return AppColors.textBlack;
     }

@@ -99,7 +99,7 @@ class AdminConfirmButton extends StatelessWidget {
         boxShadow: shadow,
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isEnabled ? onPressed : null,
           borderRadius: BorderRadius.circular(_radius),
@@ -119,7 +119,7 @@ class AdminConfirmButton extends StatelessWidget {
     final textWidget = Text(
       text,
       style: AppTextStyles.labelLarge.copyWith(
-        color: textColor, 
+        color: textColor,
         height: 1,
         fontSize: 16,
       ),
@@ -134,10 +134,7 @@ class AdminConfirmButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ButtonIcon(
-            type: buttonIconType,
-            color: textColor,
-          ),
+          ButtonIcon(type: buttonIconType, color: textColor),
           const SizedBox(width: 12),
           textWidget,
         ],

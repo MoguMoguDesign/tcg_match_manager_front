@@ -52,7 +52,7 @@ class AppButton extends StatelessWidget {
             : null,
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isEnabled ? onPressed : null,
           borderRadius: BorderRadius.circular(40),
@@ -105,7 +105,7 @@ class SmallButton extends StatelessWidget {
         border: Border.all(color: AppColors.userPrimary, width: 2),
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isEnabled ? onPressed : null,
           borderRadius: BorderRadius.circular(28),

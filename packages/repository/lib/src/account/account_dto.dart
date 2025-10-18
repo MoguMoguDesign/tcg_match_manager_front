@@ -29,28 +29,28 @@ abstract class AccountDto with _$AccountDto {
     @JsonKey(name: 'MESSAGE') @Default('') String message,
 
     /// ユーザー ID。
-    @JsonKey(name: 'user_id') @Default('') String userId,
+    @JsonKey(name: 'userId') @Default('') String userId,
 
     /// ユーザー名。
     @JsonKey(name: 'username') @Default('') String username,
 
     /// 表示名。
-    @JsonKey(name: 'display_name') @Default('') String displayName,
+    @JsonKey(name: 'displayName') @Default('') String displayName,
 
     /// メールアドレス。
     @JsonKey(name: 'email') @Default('') String email,
 
     /// API バージョン。
-    @JsonKey(name: 'api_version') @Default(1) int apiVersion,
+    @JsonKey(name: 'apiVersion') @Default(1) int apiVersion,
 
     /// アクセストークン。
-    @JsonKey(name: 'access_token') @Default('') String accessToken,
+    @JsonKey(name: 'accessToken') @Default('') String accessToken,
 
     /// リフレッシュトークン。
-    @JsonKey(name: 'refresh_token') @Default('') String refreshToken,
+    @JsonKey(name: 'refreshToken') @Default('') String refreshToken,
 
     /// トークンの有効期限（Unix timestamp）。
-    @JsonKey(name: 'expires_at') @Default(0) int expiresAt,
+    @JsonKey(name: 'expiresAt') @Default(0) int expiresAt,
   }) = _AccountDto;
 
   /// [JsonMap] から [AccountDto] インスタンスを生成する。

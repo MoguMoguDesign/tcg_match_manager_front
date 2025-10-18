@@ -41,9 +41,9 @@ class TournamentHeaderCard extends StatelessWidget {
               stops: [0.0, 0.8, 1.0],
             ),
             borderRadius: BorderRadius.circular(16),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color.fromRGBO(58, 68, 251, 0.1),
+                color: AppColors.adminPrimary.withValues(alpha: 0.1),
                 blurRadius: 20,
               ),
             ],
@@ -60,7 +60,7 @@ class TournamentHeaderCard extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -77,7 +77,7 @@ class TournamentHeaderCard extends StatelessWidget {
                           const Icon(
                             Icons.access_time,
                             size: 16,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                           const SizedBox(width: 8),
                           Flexible(
@@ -85,7 +85,7 @@ class TournamentHeaderCard extends StatelessWidget {
                               tournament.date,
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.white,
+                                color: AppColors.white,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -98,13 +98,17 @@ class TournamentHeaderCard extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.person, size: 18, color: Colors.white),
+                        const Icon(
+                          Icons.person,
+                          size: 18,
+                          color: AppColors.white,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           tournament.maxParticipants.toString(),
                           style: const TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                         ),
                       ],
@@ -117,14 +121,14 @@ class TournamentHeaderCard extends StatelessWidget {
                         const Icon(
                           Icons.category_outlined,
                           size: 16,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           tournament.gameType,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                         ),
                       ],
