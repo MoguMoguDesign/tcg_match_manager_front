@@ -5,6 +5,7 @@ import 'pages/component_test_page.dart';
 import 'pages/final_ranking_page.dart';
 import 'pages/login_list_page.dart';
 import 'pages/login_page.dart';
+// import 'pages/match_result_input_page.dart';
 import 'pages/matching_table_page.dart';
 import 'pages/pre_tournament_page.dart';
 import 'pages/registration_page.dart';
@@ -44,6 +45,29 @@ final GoRouter appRouter = GoRouter(
       name: AppRoutes.resultEntry,
       builder: (context, state) => const ResultEntryPage(),
     ),
+    // GoRoute(
+    //   path: '/match-result-input/:tournamentId',
+    //   name: AppRoutes.matchResultInput,
+    //   builder: (context, state) {
+    //     final tournamentId = state.pathParameters['tournamentId']!;
+    //     final roundNumber = state.uri.queryParameters['roundNumber'];
+    //     return MatchResultInputPage(
+    //       tournamentId: tournamentId,
+    //       roundNumber:
+    //           roundNumber != null ? int.tryParse(roundNumber) : null,
+    //     );
+    //   },
+    // ),
+    // GoRoute(
+    //   path: '/match-generation',
+    //   name: AppRoutes.matchGeneration,
+    //   builder: (context, state) => const MatchGenerationPage(),
+    // ),
+    // GoRoute(
+    //   path: '/match-publish',
+    //   name: AppRoutes.matchPublish,
+    //   builder: (context, state) => const MatchPublishPage(),
+    // ),
     GoRoute(
       path: '/final-ranking',
       name: AppRoutes.finalRanking,
@@ -77,8 +101,17 @@ class AppRoutes {
   /// マッチングテーブルページ。
   static const String matchingTable = 'matching-table';
 
+  /// マッチ生成ページ。
+  static const String matchGeneration = 'match-generation';
+
+  /// マッチ公開ページ。
+  static const String matchPublish = 'match-publish';
+
   /// 結果入力ページ。
   static const String resultEntry = 'result-entry';
+
+  /// マッチ結果入力ページ。
+  static const String matchResultInput = 'match-result-input';
 
   /// 最終ランキングページ。
   static const String finalRanking = 'final-ranking';
@@ -104,8 +137,35 @@ extension AppNavigator on BuildContext {
   /// マッチングテーブルページに遷移する。
   void goToMatchingTable() => goNamed(AppRoutes.matchingTable);
 
+  /// マッチ生成ページに遷移する。
+  void goToMatchGeneration() => goNamed(AppRoutes.matchGeneration);
+
+  /// マッチ公開ページに遷移する。
+  void goToMatchPublish() => goNamed(AppRoutes.matchPublish);
+
   /// 結果入力ページに遷移する。
   void goToResultEntry() => goNamed(AppRoutes.resultEntry);
+
+  /// マッチ結果入力ページに遷移する。
+  void goToMatchResultInput({required String tournamentId, int? roundNumber}) {
+    final queryParams = <String, String>{};
+    if (roundNumber != null) {
+      queryParams['roundNumber'] = roundNumber.toString();
+    }
+
+    if (queryParams.isNotEmpty) {
+      goNamed(
+        AppRoutes.matchResultInput,
+        pathParameters: {'tournamentId': tournamentId},
+        queryParameters: queryParams,
+      );
+    } else {
+      goNamed(
+        AppRoutes.matchResultInput,
+        pathParameters: {'tournamentId': tournamentId},
+      );
+    }
+  }
 
   /// 最終ランキングページに遷移する。
   void goToFinalRanking() => goNamed(AppRoutes.finalRanking);

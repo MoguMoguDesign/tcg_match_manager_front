@@ -23,6 +23,8 @@ dependencies:
   hooks_riverpod: ^2.6.1
   injection:
     path: ../../packages/injection
+  repository:
+    path: ../../packages/repository
   util:
     path: ../../packages/util
 

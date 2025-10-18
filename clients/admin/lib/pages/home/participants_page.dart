@@ -1,6 +1,10 @@
-import 'package:base_ui/base_ui.dart' as base_ui;
+import 'dart:async';
+
+import 'package:base_ui/base_ui.dart';
 import 'package:clock/clock.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../models/participant_data.dart';
@@ -13,7 +17,7 @@ import '../dialogs/user_delete_dialog.dart';
 /// 参加者一覧画面
 ///
 /// Figmaデザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-5245&t=whDUBuHITxOChCST-4
-class ParticipantsPage extends StatefulWidget {
+class ParticipantsPage extends ConsumerStatefulWidget {
   /// 参加者一覧画面のコンストラクタ
   const ParticipantsPage({required this.tournamentId, super.key});
 
@@ -21,10 +25,10 @@ class ParticipantsPage extends StatefulWidget {
   final String tournamentId;
 
   @override
-  State<ParticipantsPage> createState() => _ParticipantsPageState();
+  ConsumerState<ParticipantsPage> createState() => _ParticipantsPageState();
 }
 
-class _ParticipantsPageState extends State<ParticipantsPage> {
+class _ParticipantsPageState extends ConsumerState<ParticipantsPage> {
   final List<ParticipantData> _participants = [];
   final Map<String, bool> _participantStatus = {}; // true: 参加中, false: ドロップ
   final Map<String, TextEditingController> _nameControllers = {};
@@ -33,6 +37,14 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
   void initState() {
     super.initState();
     _initializeParticipants();
+    // 初期化時にプレイヤー一覧を読み込む
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref
+            .read(playerListNotifierProvider.notifier)
+            .loadPlayers(tournamentId: widget.tournamentId),
+      );
+    });
   }
 
   void _initializeParticipants() {
@@ -55,6 +67,8 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final playerListData = ref.watch(playerListNotifierProvider);
+
     return AdminScaffold(
       title: '参加者一覧',
       actions: [
@@ -62,7 +76,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
         IconButton(
           onPressed: () => _handleBack(context),
           icon: const Icon(Icons.arrow_back),
-          color: base_ui.AppColors.textBlack,
+          color: AppColors.textBlack,
         ),
         const Spacer(),
       ],
@@ -71,7 +85,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
           SliverList.list(
             children: [
               Container(
-                color: base_ui.AppColors.white,
+                color: AppColors.white,
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
@@ -80,8 +94,8 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                       children: [
                         Text(
                           '参加者一覧',
-                          style: base_ui.AppTextStyles.headlineLarge.copyWith(
-                            color: base_ui.AppColors.textBlack,
+                          style: AppTextStyles.headlineLarge.copyWith(
+                            color: AppColors.textBlack,
                             fontSize: 32,
                             fontWeight: FontWeight.w600,
                           ),
@@ -95,21 +109,21 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                             icon: const Icon(
                               Icons.qr_code,
                               size: 20,
-                              color: base_ui.AppColors.textBlack,
+                              color: AppColors.textBlack,
                             ),
                             label: const Text(
                               'QRコード表示',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: base_ui.AppColors.textBlack,
+                                color: AppColors.textBlack,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: base_ui.AppColors.white,
+                              backgroundColor: AppColors.white,
                               elevation: 0,
                               side: const BorderSide(
-                                color: base_ui.AppColors.textBlack,
+                                color: AppColors.textBlack,
                                 width: 2,
                               ),
                               shape: RoundedRectangleBorder(
@@ -126,9 +140,9 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                         SizedBox(
                           width: 240,
                           height: 56,
-                          child: base_ui.CommonConfirmButton(
+                          child: CommonConfirmButton(
                             text: 'ラウンド作成(大会開始)',
-                            style: base_ui.ConfirmButtonStyle.adminFilled,
+                            style: ConfirmButtonStyle.adminFilled,
                             onPressed: _createRound,
                           ),
                         ),
@@ -139,7 +153,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                 ),
               ),
               // 参加者リスト
-              _buildParticipantsList(),
+              _buildParticipantsList(playerListData),
               // フッター
               _buildFooter(),
             ],
@@ -149,14 +163,53 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     );
   }
 
-  Widget _buildParticipantsList() {
-    final participants = _getParticipants();
+  Widget _buildParticipantsList(PlayerListData playerListData) {
+    // ローディング状態
+    if (playerListData.state == PlayerListState.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // エラー状態
+    if (playerListData.state == PlayerListState.error) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'エラーが発生しました',
+              style: TextStyle(fontSize: 16, color: AppColors.grayDark),
+            ),
+            if (playerListData.errorMessage != null)
+              Text(
+                playerListData.errorMessage!,
+                style: const TextStyle(fontSize: 14, color: AppColors.grayDark),
+              ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                unawaited(
+                  ref
+                      .read(playerListNotifierProvider.notifier)
+                      .refreshPlayers(tournamentId: widget.tournamentId),
+                );
+              },
+              child: const Text('再試行'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Domain層のPlayerをUI用のParticipantDataに変換
+    final participants = playerListData.players
+        .map(_convertToParticipantData)
+        .toList();
 
     if (participants.isEmpty) {
       return const Center(
         child: Text(
           '参加者がいません',
-          style: TextStyle(fontSize: 16, color: base_ui.AppColors.grayDark),
+          style: TextStyle(fontSize: 16, color: AppColors.grayDark),
         ),
       );
     }
@@ -170,7 +223,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: const BoxDecoration(
-              color: base_ui.AppColors.backgroundField,
+              color: AppColors.backgroundField,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
@@ -185,7 +238,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
+                      color: AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -195,7 +248,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
+                      color: AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -206,7 +259,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
+                      color: AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -218,7 +271,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: base_ui.AppColors.textBlack,
+                      color: AppColors.textBlack,
                     ),
                   ),
                 ),
@@ -237,7 +290,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: base_ui.AppColors.borderLight,
+                        color: AppColors.borderLight,
                         width: index == participants.length - 1 ? 0 : 1,
                       ),
                     ),
@@ -250,7 +303,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                           '${index + 1}',
                           style: const TextStyle(
                             fontSize: 16,
-                            color: base_ui.AppColors.grayDark,
+                            color: AppColors.grayDark,
                           ),
                         ),
                       ),
@@ -259,7 +312,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                           participant.name,
                           style: const TextStyle(
                             fontSize: 16,
-                            color: base_ui.AppColors.textBlack,
+                            color: AppColors.textBlack,
                           ),
                         ),
                       ),
@@ -271,7 +324,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                               : '-',
                           style: const TextStyle(
                             fontSize: 14,
-                            color: base_ui.AppColors.grayDark,
+                            color: AppColors.grayDark,
                           ),
                         ),
                       ),
@@ -282,7 +335,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
                             onPressed: () => _showDeleteDialog(participant),
                             icon: const Icon(
                               Icons.delete,
-                              color: base_ui.AppColors.alart,
+                              color: AppColors.alart,
                               size: 20,
                             ),
                             tooltip: '削除',
@@ -297,6 +350,17 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
           ),
         ],
       ),
+    );
+  }
+
+  // Domain層のPlayerをUI用のParticipantDataに変換
+  ParticipantData _convertToParticipantData(Player player) {
+    return ParticipantData(
+      id: player.playerId,
+      name: player.name,
+      tournamentId: widget.tournamentId,
+      // 現在のPlayerモデルには登録日時がないため、仮にclock.nowを使用
+      registeredAt: clock.now(),
     );
   }
 
@@ -322,14 +386,14 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${participant.name}を削除しました'),
-        backgroundColor: base_ui.AppColors.success,
+        backgroundColor: AppColors.success,
       ),
     );
   }
 
   Widget _buildFooter() {
     return Container(
-      color: base_ui.AppColors.white,
+      color: AppColors.white,
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
@@ -339,10 +403,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
               Spacer(),
               Text(
                 '最大人数: 32人',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: base_ui.AppColors.textGray,
-                ),
+                style: TextStyle(fontSize: 14, color: AppColors.textGray),
               ),
             ],
           ),
@@ -352,9 +413,9 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
             child: SizedBox(
               width: 192,
               height: 56,
-              child: base_ui.CommonConfirmButton(
+              child: CommonConfirmButton(
                 text: '変更を反映',
-                style: base_ui.ConfirmButtonStyle.adminFilled,
+                style: ConfirmButtonStyle.adminFilled,
                 onPressed: _applyChanges,
               ),
             ),
@@ -369,7 +430,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ラウンドを作成しました'),
-        backgroundColor: base_ui.AppColors.success,
+        backgroundColor: AppColors.success,
       ),
     );
 
@@ -398,7 +459,7 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('変更を反映しました'),
-        backgroundColor: base_ui.AppColors.success,
+        backgroundColor: AppColors.success,
       ),
     );
   }
@@ -477,60 +538,55 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
         SliverList.list(
           children: [
             Container(
-              color: base_ui.AppColors.white,
+              color: AppColors.white,
               padding: const EdgeInsets.all(24),
-              child: Column(
+              // ヘッダーとボタン
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  // ヘッダーとボタン
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                      width: 192,
-                      height: 56,
-                      child: ElevatedButton.icon(
-                        onPressed: _showQRCode,
-                        icon: const Icon(
-                          Icons.qr_code,
-                          size: 20,
-                          color: base_ui.AppColors.textBlack,
+                  SizedBox(
+                    width: 192,
+                    height: 56,
+                    child: ElevatedButton.icon(
+                      onPressed: _showQRCode,
+                      icon: const Icon(
+                        Icons.qr_code,
+                        size: 20,
+                        color: AppColors.textBlack,
+                      ),
+                      label: const Text(
+                        'QRコード表示',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textBlack,
                         ),
-                        label: const Text(
-                          'QRコード表示',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: base_ui.AppColors.textBlack,
-                          ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.white,
+                        elevation: 0,
+                        side: const BorderSide(
+                          color: AppColors.textBlack,
+                          width: 2,
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: base_ui.AppColors.white,
-                          elevation: 0,
-                          side: const BorderSide(
-                            color: base_ui.AppColors.textBlack,
-                            width: 2,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(28),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                      width: 240,
-                      height: 56,
-                      child: base_ui.CommonConfirmButton(
-                        text: 'ラウンド作成(大会開始)',
-                        style: base_ui.ConfirmButtonStyle.adminFilled,
-                        onPressed: _createRound,
-                      ),
+                  SizedBox(
+                    width: 240,
+                    height: 56,
+                    child: CommonConfirmButton(
+                      text: 'ラウンド作成(大会開始)',
+                      style: ConfirmButtonStyle.adminFilled,
+                      onPressed: _createRound,
                     ),
                   ),
                 ],
@@ -582,7 +638,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${participant.name}を削除しました'),
-        backgroundColor: base_ui.AppColors.success,
+        backgroundColor: AppColors.success,
       ),
     );
   }
@@ -592,7 +648,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ラウンドを作成しました'),
-        backgroundColor: base_ui.AppColors.success,
+        backgroundColor: AppColors.success,
       ),
     );
 
@@ -621,7 +677,7 @@ class _ParticipantsContentState extends State<ParticipantsContent> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('変更を反映しました'),
-        backgroundColor: base_ui.AppColors.success,
+        backgroundColor: AppColors.success,
       ),
     );
   }

@@ -4,11 +4,11 @@
 /// トーナメント情報を表すデータクラス。
 ///
 /// トーナメントのタイトル、開催日、参加者数の情報を保持する。
-class Tournament {
-  /// [Tournament]のコンストラクタ。
+class MockTournament {
+  /// [MockTournament]のコンストラクタ。
   ///
   /// [title]、[date]、[participantCount]はすべて必須パラメータ。
-  const Tournament({
+  const MockTournament({
     required this.title,
     required this.date,
     required this.participantCount,
@@ -27,12 +27,12 @@ class Tournament {
 /// プレイヤー情報を表すデータクラス。
 ///
 /// プレイヤーの名前、現在のスコア、現在のユーザーかどうかの情報を保持する。
-class Player {
-  /// [Player]のコンストラクタ。
+class MockPlayer {
+  /// [MockPlayer]のコンストラクタ。
   ///
   /// [name]と[score]は必須パラメータ。
   /// [isCurrentPlayer]はオプションでデフォルトは`false`。
-  const Player({
+  const MockPlayer({
     required this.name,
     required this.score,
     this.isCurrentPlayer = false,
@@ -68,16 +68,16 @@ class Match {
   final int tableNumber;
 
   /// 1人目のプレイヤー。
-  final Player player1;
+  final MockPlayer player1;
 
   /// 2人目のプレイヤー。
-  final Player player2;
+  final MockPlayer player2;
 
   /// 対戦の現在の状況。
   final MatchStatus status;
 
   /// 対戦の勝者（試合が完了している場合のみ）。
-  final Player? winner;
+  final MockPlayer? winner;
 }
 
 /// 対戦の状況を表す列挙型。
@@ -94,7 +94,7 @@ enum MatchStatus {
 /// UI開発とテスト用に、トーナメント、プレイヤー、対戦のサンプルデータを定義する。
 class MockData {
   /// サンプルのトーナメント情報。
-  static const Tournament tournament = Tournament(
+  static const MockTournament tournament = MockTournament(
     title: 'トーナメントタイトル',
     date: '2025/08/31',
     participantCount: 32,
@@ -102,15 +102,15 @@ class MockData {
 
   /// サンプルのプレイヤー一覧。
   /// 現在のユーザーを含む8名のプレイヤーデータ。
-  static const List<Player> players = [
-    Player(name: 'プレイヤー1', score: 0),
-    Player(name: 'プレイヤー2', score: 0),
-    Player(name: 'プレイヤー自身', score: 0, isCurrentPlayer: true),
-    Player(name: 'プレイヤー4', score: 0),
-    Player(name: 'プレイヤー5', score: 0),
-    Player(name: 'プレイヤー6', score: 0),
-    Player(name: 'プレイヤー7', score: 0),
-    Player(name: 'プレイヤー8', score: 0),
+  static const List<MockPlayer> players = [
+    MockPlayer(name: 'プレイヤー1', score: 0),
+    MockPlayer(name: 'プレイヤー2', score: 0),
+    MockPlayer(name: 'プレイヤー自身', score: 0, isCurrentPlayer: true),
+    MockPlayer(name: 'プレイヤー4', score: 0),
+    MockPlayer(name: 'プレイヤー5', score: 0),
+    MockPlayer(name: 'プレイヤー6', score: 0),
+    MockPlayer(name: 'プレイヤー7', score: 0),
+    MockPlayer(name: 'プレイヤー8', score: 0),
   ];
 
   /// 指定されたラウンドの対戦データを取得する。

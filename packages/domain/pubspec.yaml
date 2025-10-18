@@ -10,6 +10,8 @@ resolution: workspace
 dependencies:
   encrypt: ^5.0.3
   freezed_annotation: ^3.0.0
+  injection:
+    path: ../injection
   repository:
     path: ../repository
   riverpod: ^2.6.1

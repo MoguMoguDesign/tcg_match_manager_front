@@ -1,0 +1,4 @@
+[submodule "docs/specs"]
+	path = docs/specs
+	url = git@github.com:MoguMoguDesign/tcg_match_manager_docs.git
+	branch = main
