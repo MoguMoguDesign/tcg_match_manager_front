@@ -72,6 +72,3 @@ packages/*/coverage/
 # 環境変数ファイル
 .env
 **/.env
-
-# Firebase オプションファイルはバージョン管理しない。
-/clients/admin/lib/firebase_options.dart
