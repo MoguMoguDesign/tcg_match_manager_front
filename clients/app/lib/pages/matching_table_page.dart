@@ -26,6 +26,10 @@ class MatchingTablePage extends HookConsumerWidget {
         ref.read(domain.matchListNotifierProvider.notifier);
     final matchListState = ref.watch(domain.matchListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
+    final tournamentDetailNotifier =
+        ref.read(domain.tournamentDetailNotifierProvider.notifier);
+    final tournamentDetailState =
+        ref.watch(domain.tournamentDetailNotifierProvider);
 
     /// マッチリストを取得する。
     Future<void> fetchMatches() async {
@@ -42,9 +46,15 @@ class MatchingTablePage extends HookConsumerWidget {
       );
     }
 
-    // 初回ロード時にマッチリストを取得する。
+    // 初回ロード時にトーナメント情報とマッチリストを取得する。
     useEffect(
       () {
+        final session = sessionState;
+        // TODO(user): tournamentId は QR コードスキャンまたは
+        // ルートパラメータから取得する。
+        unawaited(
+          tournamentDetailNotifier.loadTournament(session.tournamentId),
+        );
         unawaited(fetchMatches());
         return null;
       },
@@ -139,12 +149,42 @@ class MatchingTablePage extends HookConsumerWidget {
                   child: Column(
                     children: [
                       // トーナメント情報
-                      TournamentInfoCard(
-                        title: domain.MockData.tournament.title,
-                        date: domain.MockData.tournament.date,
-                        participantCount:
-                            domain.MockData.tournament.participantCount,
-                      ),
+                      if (tournamentDetailState.state ==
+                          domain.TournamentDetailState.loaded)
+                        TournamentInfoCard(
+                          title: tournamentDetailState.tournament!.title,
+                          date: tournamentDetailState.tournament!.startDate ??
+                              '',
+                          participantCount:
+                              tournamentDetailState.tournament!.playerCount ??
+                                  0,
+                        )
+                      else if (tournamentDetailState.state ==
+                          domain.TournamentDetailState.loading)
+                        const SizedBox(
+                          height: 100,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      else if (tournamentDetailState.state ==
+                          domain.TournamentDetailState.error)
+                        Container(
+                          height: 100,
+                          padding: const EdgeInsets.all(16),
+                          child: Center(
+                            child: Text(
+                              tournamentDetailState.errorMessage ??
+                                  'エラーが発生しました',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: Colors.red,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      else
+                        const SizedBox(height: 100),
                       const SizedBox(height: 32),
                       // ラウンドナビゲーション
                       if (currentRound.value >= 4)
