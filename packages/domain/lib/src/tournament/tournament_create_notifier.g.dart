@@ -7,7 +7,7 @@ part of 'tournament_create_notifier.dart';
 // **************************************************************************
 
 String _$tournamentCreateNotifierHash() =>
-    r'879a5b494507a905cfb37f8229e90d55a446e6ff';
+    r'2b684826c921b5c7029ae1b2a5edcd20be89848c';
 
 /// [TournamentCreateData] を管理する Notifier。
 ///

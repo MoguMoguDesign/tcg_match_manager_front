@@ -25,6 +25,21 @@ class RegistrationPage extends HookConsumerWidget {
     final registerPlayerUseCase = ref.read(registerPlayerUseCaseProvider);
     final playerSessionNotifier =
         ref.read(playerSessionNotifierProvider.notifier);
+    final tournamentDetailNotifier =
+        ref.read(tournamentDetailNotifierProvider.notifier);
+    final tournamentDetailState = ref.watch(tournamentDetailNotifierProvider);
+
+    // 初回ロード時にトーナメント情報を取得する。
+    useEffect(
+      () {
+        // TODO(user): tournamentId は QR コードスキャンまたは
+        // ルートパラメータから取得する。
+        const tournamentId = 'tournament-001';
+        unawaited(tournamentDetailNotifier.loadTournament(tournamentId));
+        return null;
+      },
+      [],
+    );
 
     /// プレイヤー登録処理を実行する。
     Future<void> handleRegister() async {
@@ -142,12 +157,41 @@ class RegistrationPage extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 59),
-                // トーナメント情報カード（TODO: API から取得）
-                TournamentInfoCard(
-                  title: MockData.tournament.title,
-                  date: MockData.tournament.date,
-                  participantCount: MockData.tournament.participantCount,
-                ),
+                // トーナメント情報カード
+                if (tournamentDetailState.state ==
+                    TournamentDetailState.loaded)
+                  TournamentInfoCard(
+                    title: tournamentDetailState.tournament!.title,
+                    date: tournamentDetailState.tournament!.startDate ?? '',
+                    participantCount:
+                        tournamentDetailState.tournament!.playerCount ?? 0,
+                  )
+                else if (tournamentDetailState.state ==
+                    TournamentDetailState.loading)
+                  const SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                else if (tournamentDetailState.state ==
+                    TournamentDetailState.error)
+                  Container(
+                    height: 100,
+                    padding: const EdgeInsets.all(16),
+                    child: Center(
+                      child: Text(
+                        tournamentDetailState.errorMessage ??
+                            'エラーが発生しました',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: Colors.red,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox(height: 100),
                 const SizedBox(height: 32),
                 // 入力フォーム
                 Column(

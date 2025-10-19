@@ -1,8 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// 将来の実装のため、テストカバレッジから除外する。
-// coverage:ignore-file
-
 part of 'auth_notifier.dart';
 
 // **************************************************************************
