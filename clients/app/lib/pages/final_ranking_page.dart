@@ -21,6 +21,10 @@ class FinalRankingPage extends HookConsumerWidget {
     );
     final standingListState = ref.watch(domain.standingListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
+    final tournamentDetailNotifier =
+        ref.read(domain.tournamentDetailNotifierProvider.notifier);
+    final tournamentDetailState =
+        ref.watch(domain.tournamentDetailNotifierProvider);
 
     /// 最終順位を取得する。
     Future<void> fetchStandings() async {
@@ -36,8 +40,14 @@ class FinalRankingPage extends HookConsumerWidget {
       );
     }
 
-    // 初回ロード時に最終順位を取得する。
+    // 初回ロード時にトーナメント情報と最終順位を取得する。
     useEffect(() {
+      final session = sessionState;
+      // TODO(user): tournamentId は QR コードスキャンまたは
+      // ルートパラメータから取得する。
+      unawaited(
+        tournamentDetailNotifier.loadTournament(session.tournamentId),
+      );
       unawaited(fetchStandings());
       return null;
     }, []);
@@ -84,12 +94,43 @@ class FinalRankingPage extends HookConsumerWidget {
                       child: Column(
                         children: [
                           // トーナメント情報
-                          TournamentInfoCard(
-                            title: domain.MockData.tournament.title,
-                            date: domain.MockData.tournament.date,
-                            participantCount:
-                                domain.MockData.tournament.participantCount,
-                          ),
+                          if (tournamentDetailState.state ==
+                              domain.TournamentDetailState.loaded)
+                            TournamentInfoCard(
+                              title: tournamentDetailState.tournament!.title,
+                              date:
+                                  tournamentDetailState.tournament!.startDate ??
+                                      '',
+                              participantCount: tournamentDetailState
+                                      .tournament!.playerCount ??
+                                  0,
+                            )
+                          else if (tournamentDetailState.state ==
+                              domain.TournamentDetailState.loading)
+                            const SizedBox(
+                              height: 100,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          else if (tournamentDetailState.state ==
+                              domain.TournamentDetailState.error)
+                            Container(
+                              height: 100,
+                              padding: const EdgeInsets.all(16),
+                              child: Center(
+                                child: Text(
+                                  tournamentDetailState.errorMessage ??
+                                      'エラーが発生しました',
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          else
+                            const SizedBox(height: 100),
                           const SizedBox(height: 32),
                           // 最終順位タイトル
                           Text(
@@ -121,7 +162,9 @@ class FinalRankingPage extends HookConsumerWidget {
                                 metaLeft:
                                     '累計得点 ${currentPlayerRanking.matchPoints}点',
                                 metaRight:
-                                    'OMW% ${currentPlayerRanking.omwPercentage.toStringAsFixed(2)}%', // ignore: lines_longer_than_80_chars
+                                    // OMW%の表示フォーマットのため、80文字制限を無視する。
+                                    // ignore: lines_longer_than_80_chars
+                                    'OMW% ${currentPlayerRanking.omwPercentage.toStringAsFixed(2)}%',
                               ),
                             ],
                           ),
@@ -150,7 +193,9 @@ class FinalRankingPage extends HookConsumerWidget {
                                         metaLeft:
                                             '累計得点 ${ranking.matchPoints}点',
                                         metaRight:
-                                            'OMW% ${ranking.omwPercentage.toStringAsFixed(2)}%', // ignore: lines_longer_than_80_chars
+                                            // OMW%の表示フォーマットのため、80文字制限を無視する。
+                                            // ignore: lines_longer_than_80_chars
+                                            'OMW% ${ranking.omwPercentage.toStringAsFixed(2)}%',
                                       ),
                                     )
                                     .toList(),
