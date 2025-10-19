@@ -1,27 +1,45 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../router.dart';
 
 /// ログインリストページを表示する。
 ///
 /// 参加者のニックネームを選択し、トーナメントに復帰する導線を提供する。
-class LoginListPage extends StatefulWidget {
+class LoginListPage extends ConsumerStatefulWidget {
   /// [LoginListPage] のコンストラクタ。
   const LoginListPage({super.key});
 
   @override
-  State<LoginListPage> createState() => _LoginListPageState();
+  ConsumerState<LoginListPage> createState() => _LoginListPageState();
 }
 
-class _LoginListPageState extends State<LoginListPage> {
+class _LoginListPageState extends ConsumerState<LoginListPage> {
   String? selectedPlayer;
 
   // 旧ボトムシート UI は DropdownSelectField に置換済みのため削除。
 
   @override
+  void initState() {
+    super.initState();
+    // トーナメント情報を取得する。
+    // TODO(user): tournamentId は QR コードスキャンまたは
+    // ルートパラメータから取得する。
+    const tournamentId = 'tournament-001';
+    unawaited(
+      ref
+          .read(tournamentDetailNotifierProvider.notifier)
+          .loadTournament(tournamentId),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final tournamentDetailState = ref.watch(tournamentDetailNotifierProvider);
     return Scaffold(
       body: SvgBackground(
         assetPath: 'packages/base_ui/assets/images/login_background.svg',
@@ -50,11 +68,42 @@ class _LoginListPageState extends State<LoginListPage> {
                       ),
                       const SizedBox(height: 59),
                       // トーナメント情報カード
-                      TournamentInfoCard(
-                        title: MockData.tournament.title,
-                        date: MockData.tournament.date,
-                        participantCount: MockData.tournament.participantCount,
-                      ),
+                      if (tournamentDetailState.state ==
+                          TournamentDetailState.loaded)
+                        TournamentInfoCard(
+                          title: tournamentDetailState.tournament!.title,
+                          date:
+                              tournamentDetailState.tournament!.startDate ?? '',
+                          participantCount:
+                              tournamentDetailState.tournament!.playerCount ??
+                                  0,
+                        )
+                      else if (tournamentDetailState.state ==
+                          TournamentDetailState.loading)
+                        const SizedBox(
+                          height: 100,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      else if (tournamentDetailState.state ==
+                          TournamentDetailState.error)
+                        Container(
+                          height: 100,
+                          padding: const EdgeInsets.all(16),
+                          child: Center(
+                            child: Text(
+                              tournamentDetailState.errorMessage ??
+                                  'エラーが発生しました',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: Colors.red,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      else
+                        const SizedBox(height: 100),
                       const SizedBox(height: 32),
                       // 選択フォーム（共通コンポーネントへ置換）
                       Column(
