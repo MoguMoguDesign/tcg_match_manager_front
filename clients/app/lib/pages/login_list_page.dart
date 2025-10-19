@@ -20,13 +20,16 @@ class LoginListPage extends ConsumerStatefulWidget {
 
 class _LoginListPageState extends ConsumerState<LoginListPage> {
   String? selectedPlayer;
+  List<Player> players = [];
+  bool isLoadingPlayers = false;
+  String? playersError;
 
   // 旧ボトムシート UI は DropdownSelectField に置換済みのため削除。
 
   @override
   void initState() {
     super.initState();
-    // トーナメント情報を取得する。
+    // トーナメント情報とプレイヤーリストを取得する。
     // TODO(user): tournamentId は QR コードスキャンまたは
     // ルートパラメータから取得する。
     const tournamentId = 'tournament-001';
@@ -35,6 +38,36 @@ class _LoginListPageState extends ConsumerState<LoginListPage> {
           .read(tournamentDetailNotifierProvider.notifier)
           .loadTournament(tournamentId),
     );
+    unawaited(_loadPlayers(tournamentId));
+  }
+
+  /// プレイヤーリストを取得する。
+  Future<void> _loadPlayers(String tournamentId) async {
+    setState(() {
+      isLoadingPlayers = true;
+      playersError = null;
+    });
+
+    try {
+      final getRegisteredPlayersUseCase =
+          ref.read(getRegisteredPlayersUseCaseProvider);
+      final result =
+          await getRegisteredPlayersUseCase.invoke(tournamentId: tournamentId);
+      setState(() {
+        players = result;
+        isLoadingPlayers = false;
+      });
+    } on GeneralFailureException catch (e) {
+      setState(() {
+        playersError = 'プレイヤーリストの取得に失敗しました: ${e.reason.name}';
+        isLoadingPlayers = false;
+      });
+    } on Exception catch (e) {
+      setState(() {
+        playersError = 'プレイヤーリストの取得に失敗しました: $e';
+        isLoadingPlayers = false;
+      });
+    }
   }
 
   @override
@@ -120,15 +153,27 @@ class _LoginListPageState extends ConsumerState<LoginListPage> {
                             style: AppTextStyles.labelMedium,
                           ),
                           const SizedBox(height: 9),
-                          DropdownSelectField<String>(
-                            hintText: selectedPlayer ?? 'リストから選択',
-                            items: MockData.players.map((p) => p.name).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedPlayer = value;
-                              });
-                            },
-                          ),
+                          if (isLoadingPlayers)
+                            const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          else if (playersError != null)
+                            Text(
+                              playersError!,
+                              style: AppTextStyles.bodySmall.copyWith(
+                                color: Colors.red,
+                              ),
+                            )
+                          else
+                            DropdownSelectField<String>(
+                              hintText: selectedPlayer ?? 'リストから選択',
+                              items: players.map((p) => p.name).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedPlayer = value;
+                                });
+                              },
+                            ),
                           const SizedBox(height: 16),
                           CommonConfirmButton(
                             text: 'トーナメントに復帰する',

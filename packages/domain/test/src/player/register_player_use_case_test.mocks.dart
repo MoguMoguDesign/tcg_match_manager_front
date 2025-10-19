@@ -7,6 +7,7 @@ import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:repository/src/models/player_model.dart' as _i8;
 import 'package:repository/src/player/player_registration_repository.dart'
     as _i2;
 import 'package:repository/src/player/player_registration_request.dart' as _i6;
@@ -77,4 +78,32 @@ class MockPlayerRegistrationRepository extends _i1.Mock
                 ),
           )
           as _i3.Future<_i4.RepositoryResult<_i5.PlayerRegistrationResponse>>);
+
+  @override
+  _i3.Future<_i4.RepositoryResult<List<_i8.PlayerModel>>>
+  getPlayersFromFirestore({required String? tournamentId}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getPlayersFromFirestore, [], {
+              #tournamentId: tournamentId,
+            }),
+            returnValue:
+                _i3.Future<_i4.RepositoryResult<List<_i8.PlayerModel>>>.value(
+                  _i7.dummyValue<_i4.RepositoryResult<List<_i8.PlayerModel>>>(
+                    this,
+                    Invocation.method(#getPlayersFromFirestore, [], {
+                      #tournamentId: tournamentId,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i3.Future<_i4.RepositoryResult<List<_i8.PlayerModel>>>.value(
+                  _i7.dummyValue<_i4.RepositoryResult<List<_i8.PlayerModel>>>(
+                    this,
+                    Invocation.method(#getPlayersFromFirestore, [], {
+                      #tournamentId: tournamentId,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.RepositoryResult<List<_i8.PlayerModel>>>);
 }

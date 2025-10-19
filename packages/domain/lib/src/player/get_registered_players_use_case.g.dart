@@ -1,32 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'player_registration_repository.dart';
+part of 'get_registered_players_use_case.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$playerRegistrationRepositoryHash() =>
-    r'd24fbddbf7451f01624e85f04d226e48291c318b';
+String _$getRegisteredPlayersUseCaseHash() =>
+    r'23935e5af0385b99e290597912ee275b0da99f4f';
 
-/// [PlayerRegistrationRepository] を提供する。
+/// [GetRegisteredPlayersUseCase] を提供する。
 ///
-/// Copied from [playerRegistrationRepository].
-@ProviderFor(playerRegistrationRepository)
-final playerRegistrationRepositoryProvider =
-    AutoDisposeProvider<PlayerRegistrationRepository>.internal(
-      playerRegistrationRepository,
-      name: r'playerRegistrationRepositoryProvider',
+/// Copied from [getRegisteredPlayersUseCase].
+@ProviderFor(getRegisteredPlayersUseCase)
+final getRegisteredPlayersUseCaseProvider =
+    AutoDisposeProvider<GetRegisteredPlayersUseCase>.internal(
+      getRegisteredPlayersUseCase,
+      name: r'getRegisteredPlayersUseCaseProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$playerRegistrationRepositoryHash,
+          : _$getRegisteredPlayersUseCaseHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef PlayerRegistrationRepositoryRef =
-    AutoDisposeProviderRef<PlayerRegistrationRepository>;
+typedef GetRegisteredPlayersUseCaseRef =
+    AutoDisposeProviderRef<GetRegisteredPlayersUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
