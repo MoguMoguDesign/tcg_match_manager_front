@@ -12,7 +12,12 @@ import '../router.dart';
 /// 参加者のニックネームを選択し、トーナメントに復帰する導線を提供する。
 class LoginListPage extends ConsumerStatefulWidget {
   /// [LoginListPage] のコンストラクタ。
-  const LoginListPage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const LoginListPage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
   ConsumerState<LoginListPage> createState() => _LoginListPageState();
@@ -30,9 +35,7 @@ class _LoginListPageState extends ConsumerState<LoginListPage> {
   void initState() {
     super.initState();
     // トーナメント情報とプレイヤーリストを取得する。
-    // TODO(user): tournamentId は QR コードスキャンまたは
-    // ルートパラメータから取得する。
-    const tournamentId = 'tournament-001';
+    final tournamentId = widget.tournamentId ?? 'tournament-001';
     unawaited(
       ref
           .read(tournamentDetailNotifierProvider.notifier)
@@ -49,10 +52,12 @@ class _LoginListPageState extends ConsumerState<LoginListPage> {
     });
 
     try {
-      final getRegisteredPlayersUseCase =
-          ref.read(getRegisteredPlayersUseCaseProvider);
-      final result =
-          await getRegisteredPlayersUseCase.invoke(tournamentId: tournamentId);
+      final getRegisteredPlayersUseCase = ref.read(
+        getRegisteredPlayersUseCaseProvider,
+      );
+      final result = await getRegisteredPlayersUseCase.invoke(
+        tournamentId: tournamentId,
+      );
       setState(() {
         players = result;
         isLoadingPlayers = false;
@@ -109,15 +114,13 @@ class _LoginListPageState extends ConsumerState<LoginListPage> {
                               tournamentDetailState.tournament!.startDate ?? '',
                           participantCount:
                               tournamentDetailState.tournament!.playerCount ??
-                                  0,
+                              0,
                         )
                       else if (tournamentDetailState.state ==
                           TournamentDetailState.loading)
                         const SizedBox(
                           height: 100,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
+                          child: Center(child: CircularProgressIndicator()),
                         )
                       else if (tournamentDetailState.state ==
                           TournamentDetailState.error)
@@ -154,9 +157,7 @@ class _LoginListPageState extends ConsumerState<LoginListPage> {
                           ),
                           const SizedBox(height: 9),
                           if (isLoadingPlayers)
-                            const Center(
-                              child: CircularProgressIndicator(),
-                            )
+                            const Center(child: CircularProgressIndicator())
                           else if (playersError != null)
                             Text(
                               playersError!,

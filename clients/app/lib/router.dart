@@ -29,27 +29,42 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/registration',
       name: AppRoutes.registration,
-      builder: (context, state) => const RegistrationPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return RegistrationPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/login-list',
       name: AppRoutes.loginList,
-      builder: (context, state) => const LoginListPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return LoginListPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/pre-tournament',
       name: AppRoutes.preTournament,
-      builder: (context, state) => const PreTournamentPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return PreTournamentPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/matching-table',
       name: AppRoutes.matchingTable,
-      builder: (context, state) => const MatchingTablePage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return MatchingTablePage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/result-entry',
       name: AppRoutes.resultEntry,
-      builder: (context, state) => const ResultEntryPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return ResultEntryPage(tournamentId: tournamentId);
+      },
     ),
     // GoRoute(
     //   path: '/match-result-input/:tournamentId',
@@ -77,7 +92,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/final-ranking',
       name: AppRoutes.finalRanking,
-      builder: (context, state) => const FinalRankingPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return FinalRankingPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/component-test',

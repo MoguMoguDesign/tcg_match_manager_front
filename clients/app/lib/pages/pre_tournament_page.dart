@@ -11,7 +11,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 /// トーナメント開始のカウントダウンと参加者情報を表示する。
 class PreTournamentPage extends ConsumerStatefulWidget {
   /// [PreTournamentPage] のコンストラクタ。
-  const PreTournamentPage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const PreTournamentPage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
   ConsumerState<PreTournamentPage> createState() => _PreTournamentPageState();
@@ -35,9 +40,7 @@ class _PreTournamentPageState extends ConsumerState<PreTournamentPage>
     unawaited(_animationController.repeat(reverse: true));
 
     // トーナメント情報を取得する。
-    // TODO(user): tournamentId は QR コードスキャンまたは
-    // ルートパラメータから取得する。
-    const tournamentId = 'tournament-001';
+    final tournamentId = widget.tournamentId ?? 'tournament-001';
     unawaited(
       ref
           .read(tournamentDetailNotifierProvider.notifier)
@@ -97,8 +100,7 @@ class _PreTournamentPageState extends ConsumerState<PreTournamentPage>
                 ),
                 const SizedBox(height: 59),
                 // トーナメント情報カード
-                if (tournamentDetailState.state ==
-                    TournamentDetailState.loaded)
+                if (tournamentDetailState.state == TournamentDetailState.loaded)
                   TournamentInfoCard(
                     title: tournamentDetailState.tournament!.title,
                     date: tournamentDetailState.tournament!.startDate ?? '',
@@ -109,9 +111,7 @@ class _PreTournamentPageState extends ConsumerState<PreTournamentPage>
                     TournamentDetailState.loading)
                   const SizedBox(
                     height: 100,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: Center(child: CircularProgressIndicator()),
                   )
                 else if (tournamentDetailState.state ==
                     TournamentDetailState.error)
@@ -120,8 +120,7 @@ class _PreTournamentPageState extends ConsumerState<PreTournamentPage>
                     padding: const EdgeInsets.all(16),
                     child: Center(
                       child: Text(
-                        tournamentDetailState.errorMessage ??
-                            'エラーが発生しました',
+                        tournamentDetailState.errorMessage ?? 'エラーが発生しました',
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: Colors.red,
                         ),

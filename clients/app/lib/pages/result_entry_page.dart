@@ -14,17 +14,24 @@ import '../router.dart';
 /// 対戦の勝敗を入力し、次のラウンドへ進む操作を提供する。
 class ResultEntryPage extends HookConsumerWidget {
   /// [ResultEntryPage] のコンストラクタ。
-  const ResultEntryPage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const ResultEntryPage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
 
     // UseCase、Notifier、セッション情報を取得する。
-    final submitMatchResultUseCase =
-        ref.read(domain.submitMatchResultUseCaseProvider);
-    final matchListNotifier =
-        ref.read(domain.matchListNotifierProvider.notifier);
+    final submitMatchResultUseCase = ref.read(
+      domain.submitMatchResultUseCaseProvider,
+    );
+    final matchListNotifier = ref.read(
+      domain.matchListNotifierProvider.notifier,
+    );
     final matchListState = ref.watch(domain.matchListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
 
@@ -122,6 +129,7 @@ class ResultEntryPage extends HookConsumerWidget {
         isLoading.value = false;
       }
     }
+
     /// 確認ダイアログを表示する。
     void showConfirmDialog({
       required String resultLabel,
@@ -139,12 +147,7 @@ class ResultEntryPage extends HookConsumerWidget {
             if (!context.mounted) {
               return;
             }
-            unawaited(
-              submitResult(
-                resultType: resultType,
-                winnerId: winnerId,
-              ),
-            );
+            unawaited(submitResult(resultType: resultType, winnerId: winnerId));
           },
         ),
       );

@@ -15,21 +15,29 @@ import '../router.dart';
 /// 現在のラウンドの対戦表やラウンド移動の操作を提供する。
 class MatchingTablePage extends HookConsumerWidget {
   /// [MatchingTablePage] のコンストラクタ。
-  const MatchingTablePage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const MatchingTablePage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentRound = useState(1);
 
     // Notifier とセッション情報を取得する。
-    final matchListNotifier =
-        ref.read(domain.matchListNotifierProvider.notifier);
+    final matchListNotifier = ref.read(
+      domain.matchListNotifierProvider.notifier,
+    );
     final matchListState = ref.watch(domain.matchListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
-    final tournamentDetailNotifier =
-        ref.read(domain.tournamentDetailNotifierProvider.notifier);
-    final tournamentDetailState =
-        ref.watch(domain.tournamentDetailNotifierProvider);
+    final tournamentDetailNotifier = ref.read(
+      domain.tournamentDetailNotifierProvider.notifier,
+    );
+    final tournamentDetailState = ref.watch(
+      domain.tournamentDetailNotifierProvider,
+    );
 
     /// マッチリストを取得する。
     Future<void> fetchMatches() async {
@@ -47,19 +55,14 @@ class MatchingTablePage extends HookConsumerWidget {
     }
 
     // 初回ロード時にトーナメント情報とマッチリストを取得する。
-    useEffect(
-      () {
-        final session = sessionState;
-        // TODO(user): tournamentId は QR コードスキャンまたは
-        // ルートパラメータから取得する。
-        unawaited(
-          tournamentDetailNotifier.loadTournament(session.tournamentId),
-        );
-        unawaited(fetchMatches());
-        return null;
-      },
-      [currentRound.value],
-    );
+    useEffect(() {
+      final session = sessionState;
+      // TODO(user): tournamentId は QR コードスキャンまたは
+      // ルートパラメータから取得する。
+      unawaited(tournamentDetailNotifier.loadTournament(session.tournamentId));
+      unawaited(fetchMatches());
+      return null;
+    }, [currentRound.value]);
 
     /// 前のラウンドに移動する。
     void previousRound() {
@@ -153,19 +156,17 @@ class MatchingTablePage extends HookConsumerWidget {
                           domain.TournamentDetailState.loaded)
                         TournamentInfoCard(
                           title: tournamentDetailState.tournament!.title,
-                          date: tournamentDetailState.tournament!.startDate ??
-                              '',
+                          date:
+                              tournamentDetailState.tournament!.startDate ?? '',
                           participantCount:
                               tournamentDetailState.tournament!.playerCount ??
-                                  0,
+                              0,
                         )
                       else if (tournamentDetailState.state ==
                           domain.TournamentDetailState.loading)
                         const SizedBox(
                           height: 100,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
+                          child: Center(child: CircularProgressIndicator()),
                         )
                       else if (tournamentDetailState.state ==
                           domain.TournamentDetailState.error)
@@ -189,16 +190,18 @@ class MatchingTablePage extends HookConsumerWidget {
                       // ラウンドナビゲーション
                       if (currentRound.value >= 4)
                         RoundChangeButtonRow.last(
-                          onPressedPrev:
-                              currentRound.value > 1 ? previousRound : null,
+                          onPressedPrev: currentRound.value > 1
+                              ? previousRound
+                              : null,
                           onPressedShowFinal: () {
                             context.goToFinalRanking();
                           },
                         )
                       else
                         RoundChangeButtonRow.medium(
-                          onPressedPrev:
-                              currentRound.value > 1 ? previousRound : null,
+                          onPressedPrev: currentRound.value > 1
+                              ? previousRound
+                              : null,
                           onPressedNext: nextRound,
                         ),
                       const SizedBox(height: 16),

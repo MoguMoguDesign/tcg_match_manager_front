@@ -13,7 +13,12 @@ import '../router.dart';
 /// ニックネームの入力とトーナメントへの参加登録を行う。
 class RegistrationPage extends HookConsumerWidget {
   /// [RegistrationPage] のコンストラクタ。
-  const RegistrationPage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const RegistrationPage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,23 +28,20 @@ class RegistrationPage extends HookConsumerWidget {
 
     // UseCase と Notifier を取得する。
     final registerPlayerUseCase = ref.read(registerPlayerUseCaseProvider);
-    final playerSessionNotifier =
-        ref.read(playerSessionNotifierProvider.notifier);
-    final tournamentDetailNotifier =
-        ref.read(tournamentDetailNotifierProvider.notifier);
+    final playerSessionNotifier = ref.read(
+      playerSessionNotifierProvider.notifier,
+    );
+    final tournamentDetailNotifier = ref.read(
+      tournamentDetailNotifierProvider.notifier,
+    );
     final tournamentDetailState = ref.watch(tournamentDetailNotifierProvider);
 
     // 初回ロード時にトーナメント情報を取得する。
-    useEffect(
-      () {
-        // TODO(user): tournamentId は QR コードスキャンまたは
-        // ルートパラメータから取得する。
-        const tournamentId = 'tournament-001';
-        unawaited(tournamentDetailNotifier.loadTournament(tournamentId));
-        return null;
-      },
-      [],
-    );
+    useEffect(() {
+      final id = tournamentId ?? 'tournament-001';
+      unawaited(tournamentDetailNotifier.loadTournament(id));
+      return null;
+    }, [tournamentId]);
 
     /// プレイヤー登録処理を実行する。
     Future<void> handleRegister() async {
@@ -158,8 +160,7 @@ class RegistrationPage extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 59),
                 // トーナメント情報カード
-                if (tournamentDetailState.state ==
-                    TournamentDetailState.loaded)
+                if (tournamentDetailState.state == TournamentDetailState.loaded)
                   TournamentInfoCard(
                     title: tournamentDetailState.tournament!.title,
                     date: tournamentDetailState.tournament!.startDate ?? '',
@@ -170,9 +171,7 @@ class RegistrationPage extends HookConsumerWidget {
                     TournamentDetailState.loading)
                   const SizedBox(
                     height: 100,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: Center(child: CircularProgressIndicator()),
                   )
                 else if (tournamentDetailState.state ==
                     TournamentDetailState.error)
@@ -181,8 +180,7 @@ class RegistrationPage extends HookConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     child: Center(
                       child: Text(
-                        tournamentDetailState.errorMessage ??
-                            'エラーが発生しました',
+                        tournamentDetailState.errorMessage ?? 'エラーが発生しました',
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: Colors.red,
                         ),
@@ -218,8 +216,8 @@ class RegistrationPage extends HookConsumerWidget {
                       onPressed: () {
                         unawaited(handleRegister());
                       },
-                      isEnabled: nickname.value.trim().isNotEmpty &&
-                          !isLoading.value,
+                      isEnabled:
+                          nickname.value.trim().isNotEmpty && !isLoading.value,
                     ),
                   ],
                 ),

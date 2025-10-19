@@ -11,7 +11,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 /// トーナメント終了後の最終順位と各プレイヤーの戦績を表示する。
 class FinalRankingPage extends HookConsumerWidget {
   /// [FinalRankingPage] のコンストラクタ。
-  const FinalRankingPage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const FinalRankingPage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,10 +26,12 @@ class FinalRankingPage extends HookConsumerWidget {
     );
     final standingListState = ref.watch(domain.standingListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
-    final tournamentDetailNotifier =
-        ref.read(domain.tournamentDetailNotifierProvider.notifier);
-    final tournamentDetailState =
-        ref.watch(domain.tournamentDetailNotifierProvider);
+    final tournamentDetailNotifier = ref.read(
+      domain.tournamentDetailNotifierProvider.notifier,
+    );
+    final tournamentDetailState = ref.watch(
+      domain.tournamentDetailNotifierProvider,
+    );
 
     /// 最終順位を取得する。
     Future<void> fetchStandings() async {
@@ -45,9 +52,7 @@ class FinalRankingPage extends HookConsumerWidget {
       final session = sessionState;
       // TODO(user): tournamentId は QR コードスキャンまたは
       // ルートパラメータから取得する。
-      unawaited(
-        tournamentDetailNotifier.loadTournament(session.tournamentId),
-      );
+      unawaited(tournamentDetailNotifier.loadTournament(session.tournamentId));
       unawaited(fetchStandings());
       return null;
     }, []);
@@ -100,18 +105,18 @@ class FinalRankingPage extends HookConsumerWidget {
                               title: tournamentDetailState.tournament!.title,
                               date:
                                   tournamentDetailState.tournament!.startDate ??
-                                      '',
-                              participantCount: tournamentDetailState
-                                      .tournament!.playerCount ??
+                                  '',
+                              participantCount:
+                                  tournamentDetailState
+                                      .tournament!
+                                      .playerCount ??
                                   0,
                             )
                           else if (tournamentDetailState.state ==
                               domain.TournamentDetailState.loading)
                             const SizedBox(
                               height: 100,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                              child: Center(child: CircularProgressIndicator()),
                             )
                           else if (tournamentDetailState.state ==
                               domain.TournamentDetailState.error)
