@@ -25,6 +25,7 @@ class MatchingTablePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentRound = useState(1);
+    final isInitialized = useState(false);
 
     // Notifier とセッション情報を取得する。
     final matchListNotifier = ref.read(
@@ -43,7 +44,7 @@ class MatchingTablePage extends HookConsumerWidget {
     Future<void> fetchMatches() async {
       final session = sessionState;
 
-      // TODO(user): baseUrl と roundId は QR コードスキャンまたは
+      // TODO(user): baseUrl は QR コードスキャンまたは
       // ルートパラメータから取得する。
       const baseUrl = 'https://example.com/';
       await matchListNotifier.fetchMatches(
@@ -54,11 +55,23 @@ class MatchingTablePage extends HookConsumerWidget {
       );
     }
 
+    // トーナメント情報が読み込まれたら、現在のラウンドを設定する。
+    useEffect(() {
+      if (tournamentDetailState.state == domain.TournamentDetailState.loaded &&
+          !isInitialized.value) {
+        final tournamentCurrentRound =
+            tournamentDetailState.tournament?.currentRound ?? 1;
+        if (tournamentCurrentRound > 0) {
+          currentRound.value = tournamentCurrentRound;
+        }
+        isInitialized.value = true;
+      }
+      return null;
+    }, [tournamentDetailState.state]);
+
     // 初回ロード時にトーナメント情報とマッチリストを取得する。
     useEffect(() {
       final session = sessionState;
-      // TODO(user): tournamentId は QR コードスキャンまたは
-      // ルートパラメータから取得する。
       unawaited(tournamentDetailNotifier.loadTournament(session.tournamentId));
       unawaited(fetchMatches());
       return null;

@@ -34,6 +34,9 @@ class ResultEntryPage extends HookConsumerWidget {
     );
     final matchListState = ref.watch(domain.matchListNotifierProvider);
     final sessionState = ref.watch(domain.playerSessionNotifierProvider);
+    final tournamentDetailState = ref.watch(
+      domain.tournamentDetailNotifierProvider,
+    );
 
     // 自分のマッチを取得する。
     final myMatch = matchListState.value?.firstWhere(
@@ -54,13 +57,17 @@ class ResultEntryPage extends HookConsumerWidget {
       isLoading.value = true;
 
       try {
-        // TODO(user): baseUrl と roundId は QR コードスキャンまたは
+        // TODO(user): baseUrl は QR コードスキャンまたは
         // ルートパラメータから取得する。
         const baseUrl = 'https://example.com/';
+        final currentRound =
+            tournamentDetailState.tournament?.currentRound ?? 1;
+        final roundId = 'round-$currentRound';
+
         await submitMatchResultUseCase.invoke(
           baseUrl: baseUrl,
           tournamentId: session.tournamentId,
-          roundId: 'round-1',
+          roundId: roundId,
           matchId: myMatch.id,
           resultType: resultType,
           winnerId: winnerId ?? '',
@@ -71,7 +78,7 @@ class ResultEntryPage extends HookConsumerWidget {
         await matchListNotifier.fetchMatches(
           baseUrl: baseUrl,
           tournamentId: session.tournamentId,
-          roundId: 'round-1',
+          roundId: roundId,
           userId: session.userId,
         );
 
