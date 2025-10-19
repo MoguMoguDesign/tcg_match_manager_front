@@ -23,6 +23,7 @@ dependencies:
   hooks_riverpod: ^2.6.1
   injection:
     path: ../../packages/injection
+  mobile_scanner: ^7.1.2
   repository:
     path: ../../packages/repository
   util:
