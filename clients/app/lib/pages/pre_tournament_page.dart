@@ -93,15 +93,23 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                 // 待機メッセージとローディング
                 Column(
                   children: [
+                    // TODO(design): 正式なテキストカラーを確定後、色指定を見直す。
                     Text(
                       'トーナメント開始をお待ちください',
-                      style: AppTextStyles.labelMedium.copyWith(fontSize: 18),
+                      style: AppTextStyles.labelMedium.copyWith(
+                        fontSize: 18,
+                        color: AppColors.white,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
+                    // TODO(design): 正式なテキストカラーを確定後、色指定を見直す。
                     Text(
                       '管理者が大会を開始するまでお待ちください\n画面は自動で更新されます',
-                      style: AppTextStyles.bodyMedium.copyWith(fontSize: 14),
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        fontSize: 14,
+                        color: AppColors.white,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 40),

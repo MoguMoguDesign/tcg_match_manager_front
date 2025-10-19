@@ -73,12 +73,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // TODO(design): 正式なテキストカラーを確定後、色指定を見直す。
                     const Text(
                       '大会で表示するニックネームを入力してください',
                       style: AppTextStyles.labelMedium,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
+                    // TODO(design): 正式なテキストカラーを確定後、色指定を見直す。
                     const Text('ニックネーム', style: AppTextStyles.labelMedium),
                     const SizedBox(height: 9),
                     FigmaTextField(
@@ -103,6 +105,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 // 接続問題の場合
                 Column(
                   children: [
+                    // TODO(design): 正式なテキストカラーを確定後、色指定を見直す。
                     Text(
                       '接続が切れましたか？',
                       style: AppTextStyles.bodySmall.copyWith(fontSize: 12),
