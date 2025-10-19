@@ -320,11 +320,7 @@ class _TournamentListPageState extends State<TournamentListPage>
                         ),
                       ),
                       const SizedBox(width: 20),
-                      const Icon(
-                        Icons.people,
-                        size: 16,
-                        color: Colors.white70,
-                      ),
+                      const Icon(Icons.people, size: 16, color: Colors.white70),
                       const SizedBox(width: 4),
                       Text(
                         '${tournament.participants}',
