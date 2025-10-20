@@ -48,24 +48,31 @@ class PlayerContainer extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // プレイヤー名
                 Text(
                   playerName,
                   style: AppTextStyles.bodyMedium.copyWith(
                     color: colors.textColor,
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
+                    height: 1.2,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 1),
                 // スコア
                 Text(
                   score,
                   style: AppTextStyles.bodySmall.copyWith(
                     color: colors.textColor,
-                    fontSize: 12,
+                    fontSize: 11,
+                    height: 1.2,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -79,8 +86,9 @@ class PlayerContainer extends StatelessWidget {
                 'WIN',
                 style: AppTextStyles.headlineLarge.copyWith(
                   color: colors.winLabelColor,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  height: 1,
                 ),
               ),
             ),
@@ -93,8 +101,9 @@ class PlayerContainer extends StatelessWidget {
                 'LOSE',
                 style: AppTextStyles.headlineLarge.copyWith(
                   color: colors.loseLabelColor,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  height: 1,
                 ),
               ),
             ),

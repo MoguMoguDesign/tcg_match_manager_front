@@ -131,28 +131,28 @@ class ComponentTestPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              // 前のラウンド / 次のラウンド（アイコン付き）
+              // 前へ / 次へ（アイコン付き）
               Row(
                 children: [
                   CommonSmallButton.leadingIcon(
-                    text: '前のラウンド',
+                    text: '前へ',
                     icon: const Icon(Icons.chevron_left),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('CommonSmallButton: 前のラウンド'),
+                          content: Text('CommonSmallButton: 前へ'),
                         ),
                       );
                     },
                   ),
                   const SizedBox(width: 12),
                   CommonSmallButton.trailingIcon(
-                    text: '次のラウンド',
+                    text: '次へ',
                     icon: const Icon(Icons.chevron_right),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('CommonSmallButton: 次のラウンド'),
+                          content: Text('CommonSmallButton: 次へ'),
                         ),
                       );
                     },
@@ -740,7 +740,7 @@ class ComponentTestPage extends StatelessWidget {
                 onPressedNext: () {
                   ScaffoldMessenger.of(
                     context,
-                  ).showSnackBar(const SnackBar(content: Text('次のラウンド')));
+                  ).showSnackBar(const SnackBar(content: Text('次へ')));
                 },
                 onMatchTap: (match) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -887,12 +887,12 @@ class ComponentTestPage extends StatelessWidget {
                     RoundChangeButtonRow.first(
                       onPressedPrev: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('First: 前のラウンド')),
+                          const SnackBar(content: Text('First: 前へ')),
                         );
                       },
                       onPressedNext: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('First: 次のラウンド')),
+                          const SnackBar(content: Text('First: 次へ')),
                         );
                       },
                     ),
@@ -902,27 +902,27 @@ class ComponentTestPage extends StatelessWidget {
                     RoundChangeButtonRow.medium(
                       onPressedPrev: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Medium: 前のラウンド')),
+                          const SnackBar(content: Text('Medium: 前へ')),
                         );
                       },
                       onPressedNext: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Medium: 次のラウンド')),
+                          const SnackBar(content: Text('Medium: 次へ')),
                         );
                       },
                     ),
                     const SizedBox(height: 12),
 
-                    // Last round: 前 + 最終順位を表示
+                    // Last round: 前 + 最終順位
                     RoundChangeButtonRow.last(
                       onPressedPrev: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Last: 前のラウンド')),
+                          const SnackBar(content: Text('Last: 前へ')),
                         );
                       },
                       onPressedShowFinal: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Last: 最終順位を表示')),
+                          const SnackBar(content: Text('Last: 最終順位')),
                         );
                       },
                     ),

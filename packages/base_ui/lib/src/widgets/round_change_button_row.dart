@@ -10,7 +10,7 @@ import 'common_small_button.dart';
 class RoundChangeButtonRow extends StatelessWidget {
   /// 最初のラウンド用の構成を表示する。
   ///
-  /// 左: 「前のラウンド」（無効/半透明）。右: 「次のラウンド」。
+  /// 左: 「前へ」（無効/半透明）。右: 「次へ」。
   const RoundChangeButtonRow.first({
     super.key,
     this.onPressedPrev,
@@ -20,7 +20,7 @@ class RoundChangeButtonRow extends StatelessWidget {
 
   /// 中間ラウンド用の構成を表示する。
   ///
-  /// 左: 「前のラウンド」（無効/半透明）。右: 「次のラウンド」。
+  /// 左: 「前へ」（無効/半透明）。右: 「次へ」。
   const RoundChangeButtonRow.medium({
     super.key,
     this.onPressedPrev,
@@ -30,7 +30,7 @@ class RoundChangeButtonRow extends StatelessWidget {
 
   /// 最後のラウンド用の構成を表示する。
   ///
-  /// 左: 「前のラウンド」。右: 「最終順位を表示」。
+  /// 左: 「前へ」。右: 「最終順位」。
   const RoundChangeButtonRow.last({
     super.key,
     this.onPressedPrev,
@@ -41,13 +41,13 @@ class RoundChangeButtonRow extends StatelessWidget {
   /// 内部バリアント。
   final _Variant _variant;
 
-  /// 「前のラウンド」ボタンの押下時に呼び出すコールバック。
+  /// 「前へ」ボタンの押下時に呼び出すコールバック。
   final VoidCallback? onPressedPrev;
 
-  /// 「次のラウンド」ボタンの押下時に呼び出すコールバック。
+  /// 「次へ」ボタンの押下時に呼び出すコールバック。
   final VoidCallback? onPressedNext;
 
-  /// 「最終順位を表示」ボタンの押下時に呼び出すコールバック。
+  /// 「最終順位」ボタンの押下時に呼び出すコールバック。
   final VoidCallback? onPressedShowFinal;
 
   @override
@@ -73,7 +73,7 @@ class RoundChangeButtonRow extends StatelessWidget {
                 SizedBox(
                   width: buttonWidth,
                   child: CommonSmallButton.leadingIcon(
-                    text: '前のラウンド',
+                    text: '前へ',
                     icon: const Icon(Icons.chevron_left),
                     isEnabled: false,
                     onPressed: onPressedPrev ?? () {},
@@ -84,7 +84,7 @@ class RoundChangeButtonRow extends StatelessWidget {
                 SizedBox(
                   width: buttonWidth,
                   child: CommonSmallButton.trailingIcon(
-                    text: '次のラウンド',
+                    text: '次へ',
                     icon: const Icon(Icons.chevron_right),
                     onPressed: onPressedNext ?? () {},
                     style: SmallButtonStyle.neutralOutlined,
@@ -104,7 +104,7 @@ class RoundChangeButtonRow extends StatelessWidget {
                 SizedBox(
                   width: buttonWidth,
                   child: CommonSmallButton.leadingIcon(
-                    text: '前のラウンド',
+                    text: '前へ',
                     icon: const Icon(Icons.chevron_left),
                     isEnabled: false,
                     onPressed: onPressedPrev ?? () {},
@@ -115,7 +115,7 @@ class RoundChangeButtonRow extends StatelessWidget {
                 SizedBox(
                   width: buttonWidth,
                   child: CommonSmallButton.trailingIcon(
-                    text: '次のラウンド',
+                    text: '次へ',
                     icon: const Icon(Icons.chevron_right),
                     onPressed: onPressedNext ?? () {},
                     style: SmallButtonStyle.neutralOutlined,
@@ -135,7 +135,7 @@ class RoundChangeButtonRow extends StatelessWidget {
                 SizedBox(
                   width: buttonWidth,
                   child: CommonSmallButton.leadingIcon(
-                    text: '前のラウンド',
+                    text: '前へ',
                     icon: const Icon(Icons.chevron_left),
                     onPressed: onPressedPrev ?? () {},
                     style: SmallButtonStyle.neutralOutlined,
@@ -145,7 +145,7 @@ class RoundChangeButtonRow extends StatelessWidget {
                 SizedBox(
                   width: buttonWidth,
                   child: CommonSmallButton(
-                    text: '最終順位を表示',
+                    text: '最終順位',
                     onPressed: onPressedShowFinal ?? () {},
                     style: SmallButtonStyle.secondary,
                   ),

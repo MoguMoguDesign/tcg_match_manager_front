@@ -64,7 +64,7 @@ class _PreTournamentPageState extends State<PreTournamentPage>
         assetPath: 'packages/base_ui/assets/images/login_background.svg',
         child: SafeArea(
           top: false,
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [

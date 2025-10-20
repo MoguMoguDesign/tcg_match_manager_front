@@ -47,12 +47,13 @@ class LoginPage extends HookConsumerWidget {
 
     return CommonScaffold(
       appbarText: 'ログイン',
-      body: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             Center(child: Text('Login', style: textTheme.titleLarge)),
             const Gap(12),
             const Text('サーバー'),
@@ -161,6 +162,7 @@ class LoginPage extends HookConsumerWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
