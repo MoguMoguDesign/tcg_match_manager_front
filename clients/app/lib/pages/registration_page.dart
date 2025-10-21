@@ -88,6 +88,8 @@ class RegistrationPage extends HookConsumerWidget {
           final errorMessage = switch (e.reason) {
             GeneralFailureReason.noConnectionError => 'ネットワーク接続エラーが発生しました',
             GeneralFailureReason.serverUrlNotFoundError => 'サーバーが見つかりません',
+            GeneralFailureReason.sessionExpired =>
+              'セッションの有効期限が切れました。再度ログインしてください。',
             _ => '登録に失敗しました',
           };
 

@@ -103,6 +103,8 @@ class ResultEntryPage extends HookConsumerWidget {
               'ネットワーク接続エラーが発生しました',
             domain.GeneralFailureReason.serverUrlNotFoundError =>
               'サーバーが見つかりません',
+            domain.GeneralFailureReason.sessionExpired =>
+              'セッションの有効期限が切れました。再度ログインしてください。',
             _ => '結果の送信に失敗しました',
           };
 
