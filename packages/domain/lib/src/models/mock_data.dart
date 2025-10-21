@@ -105,7 +105,7 @@ class MockData {
   static const List<Player> players = [
     Player(name: 'プレイヤー1', score: 0),
     Player(name: 'プレイヤー2', score: 0),
-    Player(name: 'プレイヤー自身', score: 0, isCurrentPlayer: true),
+    Player(name: 'サトシ', score: 0, isCurrentPlayer: true),
     Player(name: 'プレイヤー4', score: 0),
     Player(name: 'プレイヤー5', score: 0),
     Player(name: 'プレイヤー6', score: 0),

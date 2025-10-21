@@ -139,9 +139,7 @@ class ComponentTestPage extends StatelessWidget {
                     icon: const Icon(Icons.chevron_left),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('CommonSmallButton: 前へ'),
-                        ),
+                        const SnackBar(content: Text('CommonSmallButton: 前へ')),
                       );
                     },
                   ),
@@ -151,9 +149,7 @@ class ComponentTestPage extends StatelessWidget {
                     icon: const Icon(Icons.chevron_right),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('CommonSmallButton: 次へ'),
-                        ),
+                        const SnackBar(content: Text('CommonSmallButton: 次へ')),
                       );
                     },
                   ),
@@ -947,7 +943,7 @@ class ComponentTestPage extends StatelessWidget {
 
                     // Current user style
                     const RankingRow(
-                      leftLabel: 'プレイヤー自身',
+                      leftLabel: 'サトシ',
                       rightValue: '3-1',
                       type: RankingRowType.currentUser,
                       rankNumber: 1,
@@ -973,7 +969,7 @@ class ComponentTestPage extends StatelessWidget {
                       rankings: [
                         RankingData(
                           userId: 'user1',
-                          playerName: 'プレイヤー自身',
+                          playerName: 'サトシ',
                           score: '3-1',
                           rank: 1,
                           metaLeft: '累計得点 12点',
