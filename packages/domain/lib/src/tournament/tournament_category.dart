@@ -1,6 +1,8 @@
 /// トーナメントカテゴリの定数定義。
 class TournamentCategory {
+  // coverage:ignore-start
   const TournamentCategory._();
+  // coverage:ignore-end
 
   /// ポケモンカード
   static const String pokemon = 'ポケモンカード';
