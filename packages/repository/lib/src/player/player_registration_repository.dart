@@ -14,10 +14,7 @@ part 'player_registration_repository.g.dart';
 /// [PlayerRegistrationRepository] を提供する。
 @riverpod
 PlayerRegistrationRepository playerRegistrationRepository(Ref ref) {
-  return PlayerRegistrationRepository(
-    httpClient: ref.watch(httpClientProvider),
-    firestore: ref.watch(firestoreProvider),
-  );
+  throw UnimplementedError('playerRegistrationRepositoryProvider は上書きされる必要があります。');
 }
 
 /// プレイヤー登録に関する通信を行うためのリポジトリ。
@@ -107,7 +104,7 @@ class PlayerRegistrationRepository {
     } catch (e) {
       return RepositoryResult.failure(
         e,
-        reason: FailureRepositoryResultReason.other,
+        reason: FailureRepositoryResultReason.unknown,
       );
     }
   }

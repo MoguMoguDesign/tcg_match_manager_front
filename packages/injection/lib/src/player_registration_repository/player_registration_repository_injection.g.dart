@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'player_registration_repository.dart';
+part of 'player_registration_repository_injection.dart';
 
 // **************************************************************************
 // RiverpodGenerator
