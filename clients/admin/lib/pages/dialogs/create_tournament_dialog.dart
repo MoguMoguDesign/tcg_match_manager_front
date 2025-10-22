@@ -406,8 +406,8 @@ class _CreateTournamentDialogState
                                             final useCase = ref.read(
                                               createTournamentUseCaseProvider,
                                             );
-                                            final recommendedRounds =
-                                                useCase.getRecommendedRounds(
+                                            final recommendedRounds = useCase
+                                                .getRecommendedRounds(
                                                   participants,
                                                 );
                                             _selectedRounds =
