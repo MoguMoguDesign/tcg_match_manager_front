@@ -43,6 +43,7 @@ void main() {
       const validRequest = CreateTournamentRequest(
         title: 'テスト大会',
         description: 'テスト説明',
+        category: 'ポケモンカード',
         venue: 'テスト会場',
         startDate: '2024-12-01T10:00:00Z',
         endDate: '2024-12-01T18:00:00Z',
@@ -55,6 +56,7 @@ void main() {
         id: 'tournament-123',
         title: 'テスト大会',
         description: 'テスト説明',
+        category: 'ポケモンカード',
         venue: 'テスト会場',
         startDate: '2024-12-01T10:00:00Z',
         endDate: '2024-12-01T18:00:00Z',
@@ -85,6 +87,7 @@ void main() {
         const requestWithoutMaxRounds = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -113,6 +116,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: '',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -138,6 +142,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: '',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -163,6 +168,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T18:00:00Z',
           endDate: '2024-12-01T10:00:00Z',
@@ -188,6 +194,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: 'invalid-date',
           endDate: '2024-12-01T18:00:00Z',
@@ -213,6 +220,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -238,6 +246,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -263,6 +272,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -289,6 +299,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
@@ -314,6 +325,7 @@ void main() {
         const invalidRequest = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',

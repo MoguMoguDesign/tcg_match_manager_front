@@ -51,6 +51,7 @@ class CreateTournamentUseCase {
       final repositoryRequest = repository.CreateTournamentRequest(
         title: request.title,
         description: request.description,
+        category: request.category,
         venue: request.venue,
         startDate: request.startDate,
         endDate: request.endDate,

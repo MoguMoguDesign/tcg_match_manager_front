@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:base_ui/base_ui.dart';
-import 'package:clock/clock.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -184,7 +183,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
 
     // Domain層のTournamentをUI用のTournamentDataに変換
     final tournaments = tournamentListData.tournaments
-        .map((tournament) => _convertToTournamentData(tournament, statusFilter))
+        .map(_convertToTournamentData)
         .where((tournament) => tournament.status == statusFilter)
         .toList();
 
@@ -467,10 +466,7 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
   }
 
   // Domain層のTournamentをUI用のTournamentDataに変換
-  TournamentData _convertToTournamentData(
-    Tournament tournament,
-    TournamentStatus defaultStatus,
-  ) {
+  TournamentData _convertToTournamentData(Tournament tournament) {
     // 日付文字列をパース（ISO 8601形式からYYYY/MM/DD形式に変換）
     String formatDate(String isoDate) {
       try {
@@ -481,25 +477,13 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
       }
     }
 
-    // 現在時刻と比較してステータスを決定
-    var status = defaultStatus;
-    try {
-      final now = clock.now();
-      if (tournament.startDate != null && tournament.endDate != null) {
-        final startDate = DateTime.parse(tournament.startDate!);
-        final endDate = DateTime.parse(tournament.endDate!);
-
-        if (now.isBefore(startDate)) {
-          status = TournamentStatus.upcoming;
-        } else if (now.isAfter(endDate)) {
-          status = TournamentStatus.completed;
-        } else {
-          status = TournamentStatus.ongoing;
-        }
-      }
-    } on FormatException {
-      // 日付のパースに失敗した場合はデフォルトステータスを使用
-    }
+    // Domain層のstatusフィールドを基準にステータスを決定
+    final status = switch (tournament.status) {
+      'PREPARING' => TournamentStatus.upcoming,
+      'IN_PROGRESS' => TournamentStatus.ongoing,
+      'COMPLETED' => TournamentStatus.completed,
+      _ => TournamentStatus.upcoming, // デフォルトは開催前
+    };
 
     return TournamentData(
       id: tournament.id,

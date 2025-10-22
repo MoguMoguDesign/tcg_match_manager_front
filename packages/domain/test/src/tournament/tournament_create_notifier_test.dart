@@ -85,6 +85,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -102,6 +103,7 @@ void main() {
             const CreateTournamentRequest(
               title: testTitle,
               description: testDescription,
+              category: 'ポケモンカード',
               venue: 'テスト会場',
               startDate: testStartDate,
               endDate: testEndDate,
@@ -138,6 +140,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -160,6 +163,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -190,6 +194,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -220,6 +225,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -250,6 +256,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -280,6 +287,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -306,6 +314,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
@@ -372,6 +381,7 @@ void main() {
         await notifier.createTournament(
           title: testTitle,
           description: testDescription,
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,

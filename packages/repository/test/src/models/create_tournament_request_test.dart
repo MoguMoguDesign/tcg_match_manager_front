@@ -8,6 +8,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -27,6 +28,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -39,6 +41,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -110,6 +113,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -129,6 +133,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -155,6 +160,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -173,6 +179,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -189,6 +196,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -205,6 +213,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -220,6 +229,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -235,6 +245,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -250,6 +261,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -265,6 +277,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -280,6 +293,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -303,6 +317,7 @@ void main() {
         const request1 = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -314,6 +329,7 @@ void main() {
         const request2 = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -330,6 +346,7 @@ void main() {
         const request1 = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -338,6 +355,7 @@ void main() {
         const request2 = CreateTournamentRequest(
           title: '別の大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
