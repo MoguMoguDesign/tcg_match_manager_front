@@ -70,17 +70,11 @@ void main() {
       });
 
       test('all リストに pokemon が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.pokemon),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.pokemon));
       });
 
       test('all リストに yugioh が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.yugioh),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.yugioh));
       });
 
       test('all リストに duelMasters が含まれる', () {
@@ -91,10 +85,7 @@ void main() {
       });
 
       test('all リストに onePiece が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.onePiece),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.onePiece));
       });
 
       test('all リストに weissSchwarz が含まれる', () {
@@ -112,10 +103,7 @@ void main() {
       });
 
       test('all リストに wixoss が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.wixoss),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.wixoss));
       });
 
       test('all リストに battleSpirits が含まれる', () {
@@ -126,24 +114,15 @@ void main() {
       });
 
       test('all リストに vanguard が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.vanguard),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.vanguard));
       });
 
       test('all リストに zx が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.zx),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.zx));
       });
 
       test('all リストに rebirth が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.rebirth),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.rebirth));
       });
 
       test('all リストに preciousMemories が含まれる', () {
@@ -154,10 +133,7 @@ void main() {
       });
 
       test('all リストに unionArena が含まれる', () {
-        expect(
-          TournamentCategory.all,
-          contains(TournamentCategory.unionArena),
-        );
+        expect(TournamentCategory.all, contains(TournamentCategory.unionArena));
       });
 
       test('all リストの要素順序が正しい', () {

@@ -424,8 +424,8 @@ class _CreateTournamentDialogState
                                             );
                                             final recommendedRounds =
                                                 _calculateRecommendedRounds(
-                                              participants,
-                                            );
+                                                  participants,
+                                                );
                                             _selectedRounds =
                                                 '$recommendedRoundsラウンド';
                                             // 最大ラウンド数を決める オプションを自動選択
@@ -949,10 +949,7 @@ class _CreateTournamentDialogState
                             width: 2,
                           ),
                         ),
-                        child: QrImageView(
-                          data: registrationUrl,
-                          size: 300,
-                        ),
+                        child: QrImageView(data: registrationUrl, size: 300),
                       ),
                       const SizedBox(height: 24),
                       const Text(
@@ -1129,9 +1126,7 @@ class _CreateTournamentDialogState
 
       // ラウンド数を数値に変換（手動指定時のみ）
       final maxRounds = _isMaxRoundsEnabled
-          ? int.parse(
-              _selectedRounds.replaceAll('ラウンド', ''),
-            )
+          ? int.parse(_selectedRounds.replaceAll('ラウンド', ''))
           : null;
 
       // 引き分け処理を得点に変換
