@@ -33,26 +33,6 @@ class _CreateTournamentDialogState
   String _selectedDrawHandling = '選択してください';
   bool _isMaxRoundsEnabled = true;
 
-  /// 参加人数に応じた推奨ラウンド数を計算する
-  ///
-  /// 参考: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-4453
-  int _calculateRecommendedRounds(int participants) {
-    switch (participants) {
-      case 8:
-        return 3;
-      case 16:
-        return 4;
-      case 24:
-        return 5;
-      case 32:
-        return 5;
-      case 64:
-        return 6;
-      default:
-        return 5; // デフォルトは5ラウンド
-    }
-  }
-
   static const _circleDecoration = BoxDecoration(
     shape: BoxShape.circle,
     color: AppColors.adminPrimary,
@@ -422,8 +402,12 @@ class _CreateTournamentDialogState
                                             final participants = int.parse(
                                               value.replaceAll('人', ''),
                                             );
+                                            // Domain層のUseCaseを使用してラウンド数を計算
+                                            final useCase = ref.read(
+                                              createTournamentUseCaseProvider,
+                                            );
                                             final recommendedRounds =
-                                                _calculateRecommendedRounds(
+                                                useCase.getRecommendedRounds(
                                                   participants,
                                                 );
                                             _selectedRounds =
