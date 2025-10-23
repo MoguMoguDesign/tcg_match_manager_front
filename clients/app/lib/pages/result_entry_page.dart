@@ -4,8 +4,6 @@ import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../router.dart';
-
 /// 試合結果入力ページを表示する。
 ///
 /// 対戦の勝敗を入力し、次のラウンドへ進む操作を提供する。
