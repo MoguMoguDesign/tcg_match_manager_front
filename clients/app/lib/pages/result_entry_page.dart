@@ -4,8 +4,6 @@ import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../router.dart';
-
 /// 試合結果入力ページを表示する。
 ///
 /// 対戦の勝敗を入力し、次のラウンドへ進む操作を提供する。
@@ -98,8 +96,8 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
               backgroundColor: AppColors.userPrimary,
             ),
           );
-          // 対戦表にリダイレクトする。
-          context.goToMatchingTable();
+          // 対戦表画面に戻る。
+          context.pop();
         },
       ),
     );
