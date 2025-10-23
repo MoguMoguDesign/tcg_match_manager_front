@@ -98,8 +98,8 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
               backgroundColor: AppColors.userPrimary,
             ),
           );
-          // 対戦表にリダイレクトする。
-          context.goToMatchingTable();
+          // 対戦表画面に戻る。
+          context.pop();
         },
       ),
     );
