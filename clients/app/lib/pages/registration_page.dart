@@ -30,7 +30,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       body: SvgBackground(
         assetPath: 'packages/base_ui/assets/images/login_background.svg',
         child: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
