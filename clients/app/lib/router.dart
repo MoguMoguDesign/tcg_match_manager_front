@@ -8,13 +8,19 @@ import 'pages/login_page.dart';
 // import 'pages/match_result_input_page.dart';
 import 'pages/matching_table_page.dart';
 import 'pages/pre_tournament_page.dart';
+import 'pages/qr_scan_page.dart';
 import 'pages/registration_page.dart';
 import 'pages/result_entry_page.dart';
 
 /// アプリケーション全体のルーティング設定を提供する。
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/registration',
+  initialLocation: '/qr-scan',
   routes: <RouteBase>[
+    GoRoute(
+      path: '/qr-scan',
+      name: AppRoutes.qrScan,
+      builder: (context, state) => const QRScanPage(),
+    ),
     GoRoute(
       path: '/login',
       name: AppRoutes.login,
@@ -23,27 +29,42 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/registration',
       name: AppRoutes.registration,
-      builder: (context, state) => const RegistrationPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return RegistrationPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/login-list',
       name: AppRoutes.loginList,
-      builder: (context, state) => const LoginListPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return LoginListPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/pre-tournament',
       name: AppRoutes.preTournament,
-      builder: (context, state) => const PreTournamentPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return PreTournamentPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/matching-table',
       name: AppRoutes.matchingTable,
-      builder: (context, state) => const MatchingTablePage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return MatchingTablePage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/result-entry',
       name: AppRoutes.resultEntry,
-      builder: (context, state) => const ResultEntryPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return ResultEntryPage(tournamentId: tournamentId);
+      },
     ),
     // GoRoute(
     //   path: '/match-result-input/:tournamentId',
@@ -71,7 +92,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/final-ranking',
       name: AppRoutes.finalRanking,
-      builder: (context, state) => const FinalRankingPage(),
+      builder: (context, state) {
+        final tournamentId = state.uri.queryParameters['tournamentId'];
+        return FinalRankingPage(tournamentId: tournamentId);
+      },
     ),
     GoRoute(
       path: '/component-test',
@@ -85,6 +109,9 @@ final GoRouter appRouter = GoRouter(
 /// タイプセーフなナビゲーションのために使用する。
 class AppRoutes {
   AppRoutes._();
+
+  /// QRコードスキャンページ。
+  static const String qrScan = 'qr-scan';
 
   /// ログインページ。
   static const String login = 'login';
@@ -122,11 +149,25 @@ class AppRoutes {
 
 /// タイプセーフなナビゲーションのための拡張メソッド。
 extension AppNavigator on BuildContext {
+  /// QRコードスキャンページに遷移する。
+  void goToQRScan() => goNamed(AppRoutes.qrScan);
+
   /// ログインページに遷移する。
   void goToLogin() => goNamed(AppRoutes.login);
 
   /// 登録ページに遷移する。
-  void goToRegistration() => goNamed(AppRoutes.registration);
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  void goToRegistration({String? tournamentId}) {
+    if (tournamentId != null) {
+      goNamed(
+        AppRoutes.registration,
+        queryParameters: {'tournamentId': tournamentId},
+      );
+    } else {
+      goNamed(AppRoutes.registration);
+    }
+  }
 
   /// ログインリストページに遷移する。
   void goToLoginList() => goNamed(AppRoutes.loginList);

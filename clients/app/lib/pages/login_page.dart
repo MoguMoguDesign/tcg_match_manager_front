@@ -145,6 +145,7 @@ class LoginPage extends HookConsumerWidget {
                           GeneralFailureReason.noConnectionError => 'ネットワーク接続を確認してください。',
                           GeneralFailureReason.serverUrlNotFoundError => 'サーバー URL が正しいかご確認ください。',
                           GeneralFailureReason.badResponse => 'エラーが発生しました。運営へお問い合わせください。',
+                          GeneralFailureReason.sessionExpired => 'セッションの有効期限が切れました。再度ログインしてください。',
                           GeneralFailureReason.other => 'エラーが発生しました。運営へお問い合わせください。',
                         }}''';
 

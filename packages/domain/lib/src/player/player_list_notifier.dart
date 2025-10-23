@@ -92,6 +92,8 @@ class PlayerListNotifier extends _$PlayerListNotifier {
           message = 'サーバーURLが見つかりません。';
         case GeneralFailureReason.badResponse:
           message = '不正なレスポンスです。';
+        case GeneralFailureReason.sessionExpired:
+          message = 'セッションの有効期限が切れました。再度ログインしてください。';
       }
       state = state.copyWith(
         state: PlayerListState.error,

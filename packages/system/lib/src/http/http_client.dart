@@ -14,6 +14,38 @@ class HttpClient {
 
   final DioHttpClient _dioHttpClient;
 
+  /// HTTP GET リクエストを行う。
+  ///
+  /// 返り値は [HttpResponse] であり、リクエストが成功した場合は [HttpResponse.success]
+  /// が返る。
+  ///
+  /// リクエストが失敗した場合は、利用する側で dio パッケージに直接依存して [DioException] を
+  /// 直接扱わないで済むように、[DioException] および [Exception] は内部でキャッチして、
+  /// [HttpResponse.failure] を返す。
+  Future<HttpResponse> getUri(Uri uri) async {
+    try {
+      final response = await _dioHttpClient.getUri<String>(
+        uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      final decodedData = jsonDecode(response.data!);
+      return HttpResponse.success(
+        jsonData: decodedData,
+        headers: response.headers.map,
+      );
+    } on DioException catch (e) {
+      return _httpResponseFromDioException(e);
+    } on Exception catch (e) {
+      Logger.logError('Unexpected error: $e');
+      return HttpResponse.failure(e: e, status: ErrorStatus.unknown);
+    }
+  }
+
   /// HTTP POST リクエストを行う。
   ///
   /// 返り値は [HttpResponse] であり、リクエストが成功した場合は [HttpResponse.success]
@@ -31,7 +63,7 @@ class HttpClient {
       );
 
       return HttpResponse.success(
-        jsonData: jsonDecode(response.data!) as JsonMap,
+        jsonData: jsonDecode(response.data!),
         headers: response.headers.map,
       );
     } on DioException catch (e) {

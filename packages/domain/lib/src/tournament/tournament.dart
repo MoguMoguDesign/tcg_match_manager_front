@@ -40,6 +40,9 @@ abstract class Tournament with _$Tournament {
     /// 予定参加者数（自動計算用）。
     int? expectedPlayers,
 
+    /// 実際のプレイヤー数。
+    int? playerCount,
+
     /// トーナメントステータス。
     @Default('PREPARING') String status,
 
@@ -70,6 +73,7 @@ abstract class Tournament with _$Tournament {
       drawPoints: model.drawPoints,
       maxRounds: model.maxRounds,
       expectedPlayers: model.expectedPlayers,
+      playerCount: model.playerCount,
       status: model.status,
       currentRound: model.currentRound,
       createdAt: model.createdAt,

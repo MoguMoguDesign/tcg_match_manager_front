@@ -46,4 +46,24 @@ class MockSharedPreferencesClient extends _i1.Mock
             returnValueForMissingStub: null,
           )
           as bool?);
+
+  @override
+  _i3.Future<void> setString({
+    required _i2.SharedPreferencesKey? key,
+    required String? value,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#setString, [], {#key: key, #value: value}),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  String? getString({required _i2.SharedPreferencesKey? key}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getString, [], {#key: key}),
+            returnValueForMissingStub: null,
+          )
+          as String?);
 }

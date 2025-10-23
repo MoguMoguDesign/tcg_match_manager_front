@@ -4,19 +4,25 @@ import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// トーナメント開始前の待機ページを表示する。
 ///
 /// トーナメント開始のカウントダウンと参加者情報を表示する。
-class PreTournamentPage extends StatefulWidget {
+class PreTournamentPage extends ConsumerStatefulWidget {
   /// [PreTournamentPage] のコンストラクタ。
-  const PreTournamentPage({super.key});
+  ///
+  /// - [tournamentId] は、トーナメントID。
+  const PreTournamentPage({super.key, this.tournamentId});
+
+  /// トーナメントID。
+  final String? tournamentId;
 
   @override
-  State<PreTournamentPage> createState() => _PreTournamentPageState();
+  ConsumerState<PreTournamentPage> createState() => _PreTournamentPageState();
 }
 
-class _PreTournamentPageState extends State<PreTournamentPage>
+class _PreTournamentPageState extends ConsumerState<PreTournamentPage>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -32,6 +38,14 @@ class _PreTournamentPageState extends State<PreTournamentPage>
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
     unawaited(_animationController.repeat(reverse: true));
+
+    // トーナメント情報を取得する。
+    final tournamentId = widget.tournamentId ?? 'tournament-001';
+    unawaited(
+      ref
+          .read(tournamentDetailNotifierProvider.notifier)
+          .loadTournament(tournamentId),
+    );
 
     // 5秒後に自動でマッチング表画面に遷移（モック用）
     unawaited(
@@ -51,6 +65,8 @@ class _PreTournamentPageState extends State<PreTournamentPage>
 
   @override
   Widget build(BuildContext context) {
+    final tournamentDetailState = ref.watch(tournamentDetailNotifierProvider);
+
     // 背景テーマは Svg 背景へ統一。
     return Scaffold(
       appBar: AppBar(
@@ -84,11 +100,36 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                 ),
                 const SizedBox(height: 59),
                 // トーナメント情報カード
-                TournamentInfoCard(
-                  title: MockData.tournament.title,
-                  date: MockData.tournament.date,
-                  participantCount: MockData.tournament.participantCount,
-                ),
+                if (tournamentDetailState.state == TournamentDetailState.loaded)
+                  TournamentInfoCard(
+                    title: tournamentDetailState.tournament!.title,
+                    date: tournamentDetailState.tournament!.startDate ?? '',
+                    participantCount:
+                        tournamentDetailState.tournament!.playerCount ?? 0,
+                  )
+                else if (tournamentDetailState.state ==
+                    TournamentDetailState.loading)
+                  const SizedBox(
+                    height: 100,
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else if (tournamentDetailState.state ==
+                    TournamentDetailState.error)
+                  Container(
+                    height: 100,
+                    padding: const EdgeInsets.all(16),
+                    child: Center(
+                      child: Text(
+                        tournamentDetailState.errorMessage ?? 'エラーが発生しました',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: Colors.red,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox(height: 100),
                 const Spacer(),
                 // 待機メッセージとローディング
                 Column(
@@ -147,35 +188,41 @@ class _PreTournamentPageState extends State<PreTournamentPage>
                     ),
                     const SizedBox(height: 24),
                     // 参加者数表示
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.textBlack.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: AppColors.whiteAlpha),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.people,
-                            color: AppColors.userPrimary,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            '参加者: ${MockData.tournament.participantCount}名',
-                            style: AppTextStyles.bodySmall.copyWith(
+                    if (tournamentDetailState.state ==
+                        TournamentDetailState.loaded)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.textBlack.withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppColors.whiteAlpha),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.people,
                               color: AppColors.userPrimary,
-                              fontSize: 14,
+                              size: 16,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            Text(
+                              '参加者: '
+                              // 参加者数表示フォーマットのため、80文字制限を無視する。
+                              // ignore: lines_longer_than_80_chars
+                              '${tournamentDetailState.tournament!.playerCount ?? 0}'
+                              '名',
+                              style: AppTextStyles.bodySmall.copyWith(
+                                color: AppColors.userPrimary,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 const Spacer(),

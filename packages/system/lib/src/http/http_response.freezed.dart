@@ -46,22 +46,13 @@ $HttpResponseCopyWith(HttpResponse _, $Res Function(HttpResponse) __);
 
 
 class SuccessHttpResponse implements HttpResponse {
-  const SuccessHttpResponse({required final  JsonMap jsonData, required final  Map<String, List<String>> headers}): _jsonData = jsonData,_headers = headers;
+  const SuccessHttpResponse({required this.jsonData, required final  Map<String, List<String>> headers}): _headers = headers;
   
 
 /// HTTP のレスポンスボディ。
 ///
-/// 実際のレスポンスボディは String 型だが、扱いやすいように JsonMap 型にデコードした形で格納する。
- final  JsonMap _jsonData;
-/// HTTP のレスポンスボディ。
-///
-/// 実際のレスポンスボディは String 型だが、扱いやすいように JsonMap 型にデコードした形で格納する。
- JsonMap get jsonData {
-  if (_jsonData is EqualUnmodifiableMapView) return _jsonData;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_jsonData);
-}
-
+/// 実際のレスポンスボディは String 型だが、扱いやすいように JsonMap 型または List<dynamic> 型にデコードした形で格納する。
+ final  dynamic jsonData;
 /// HTTP のレスポンスヘッダ。
  final  Map<String, List<String>> _headers;
 /// HTTP のレスポンスヘッダ。
@@ -82,12 +73,12 @@ $SuccessHttpResponseCopyWith<SuccessHttpResponse> get copyWith => _$SuccessHttpR
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessHttpResponse&&const DeepCollectionEquality().equals(other._jsonData, _jsonData)&&const DeepCollectionEquality().equals(other._headers, _headers));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessHttpResponse&&const DeepCollectionEquality().equals(other.jsonData, jsonData)&&const DeepCollectionEquality().equals(other._headers, _headers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_jsonData),const DeepCollectionEquality().hash(_headers));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(jsonData),const DeepCollectionEquality().hash(_headers));
 
 @override
 String toString() {
@@ -102,7 +93,7 @@ abstract mixin class $SuccessHttpResponseCopyWith<$Res> implements $HttpResponse
   factory $SuccessHttpResponseCopyWith(SuccessHttpResponse value, $Res Function(SuccessHttpResponse) _then) = _$SuccessHttpResponseCopyWithImpl;
 @useResult
 $Res call({
- JsonMap jsonData, Map<String, List<String>> headers
+ dynamic jsonData, Map<String, List<String>> headers
 });
 
 
@@ -119,10 +110,10 @@ class _$SuccessHttpResponseCopyWithImpl<$Res>
 
 /// Create a copy of HttpResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? jsonData = null,Object? headers = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? jsonData = freezed,Object? headers = null,}) {
   return _then(SuccessHttpResponse(
-jsonData: null == jsonData ? _self._jsonData : jsonData // ignore: cast_nullable_to_non_nullable
-as JsonMap,headers: null == headers ? _self._headers : headers // ignore: cast_nullable_to_non_nullable
+jsonData: freezed == jsonData ? _self.jsonData : jsonData // ignore: cast_nullable_to_non_nullable
+as dynamic,headers: null == headers ? _self._headers : headers // ignore: cast_nullable_to_non_nullable
 as Map<String, List<String>>,
   ));
 }
