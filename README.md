@@ -236,6 +236,27 @@ Pub workspaces について：https://zenn.dev/kosukesaigusa/articles/dart-pub-w
   - 真に共通的なコンポーネントのみを含む
   - アプリケーション固有の実装は含まない
 
+## Firebase / Firestore 設定
+
+本プロジェクトでは、Firestore Security Rules、インデックス設定、その他Firebase関連の設定ファイルは**バックエンドリポジトリ**で管理しています。
+
+- **管理場所**: バックエンドリポジトリ（Go API）
+- **対象ファイル**:
+  - `firestore.rules` - Firestore Security Rules
+  - `firestore.indexes.json` - Firestoreインデックス設定
+  - `firebase.json` - Firebase設定（プロジェクト、ロケーション等）
+  - `.firebaserc` - Firebaseプロジェクト識別子
+
+### 理由
+
+Firestore Security Rulesはデータアクセス制御であり、インフラ/バックエンドの責任範囲に属します。セキュリティ関連のコードをバックエンドで一元管理することで、以下のメリットがあります：
+
+- セキュリティルールとAPIコードの整合性を保ちやすい
+- CI/CDパイプラインでの一括デプロイが可能
+- 設定変更の責任範囲が明確
+
+詳細な設計方針については、`docs/specs/アーキテクチャ.md` の「3.4 HTTP API」セクションを参照してください。
+
 ## ドキュメント（docs サブモジュール）
 
 本リポジトリのルート直下に、設計ドキュメント群を格納したサブモジュール `docs/` を追加しています。

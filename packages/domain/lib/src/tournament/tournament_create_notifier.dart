@@ -67,6 +67,7 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
   ///
   /// [title]: トーナメントのタイトル
   /// [description]: トーナメントの説明
+  /// [category]: 大会カテゴリ
   /// [venue]: 開催会場
   /// [startDate]: 開始日時（ISO 8601 形式）
   /// [endDate]: 終了日時（ISO 8601 形式）
@@ -76,6 +77,7 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
   Future<void> createTournament({
     required String title,
     required String description,
+    required String category,
     required String venue,
     required String startDate,
     required String endDate,
@@ -89,6 +91,7 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
       final request = CreateTournamentRequest(
         title: title,
         description: description,
+        category: category,
         venue: venue,
         startDate: startDate,
         endDate: endDate,

@@ -8,6 +8,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -27,6 +28,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -39,6 +41,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -61,10 +64,11 @@ void main() {
     group('fromJson のテスト', () {
       test('JSON から正常にインスタンスを生成できる', () {
         final json = {
-          'title': 'テスト大会',
-          'description': 'テスト大会の説明',
+          'name': 'テスト大会',
+          'overview': 'テスト大会の説明',
+          'category': 'ポケモンカード',
           'venue': 'テスト会場',
-          'startDate': '2025-10-01T10:00:00Z',
+          'date': '2025-10-01T10:00:00Z',
           'endDate': '2025-10-01T18:00:00Z',
         };
 
@@ -72,6 +76,7 @@ void main() {
 
         expect(request.title, 'テスト大会');
         expect(request.description, 'テスト大会の説明');
+        expect(request.category, 'ポケモンカード');
         expect(request.venue, 'テスト会場');
         expect(request.startDate, '2025-10-01T10:00:00Z');
         expect(request.endDate, '2025-10-01T18:00:00Z');
@@ -82,13 +87,14 @@ void main() {
 
       test('全てのフィールドを含む JSON から正常にインスタンスを生成できる', () {
         final json = {
-          'title': 'テスト大会',
-          'description': 'テスト大会の説明',
+          'name': 'テスト大会',
+          'overview': 'テスト大会の説明',
+          'category': 'ポケモンカード',
           'venue': 'テスト会場',
-          'startDate': '2025-10-01T10:00:00Z',
+          'date': '2025-10-01T10:00:00Z',
           'endDate': '2025-10-01T18:00:00Z',
           'drawPoints': 1,
-          'maxRounds': 5,
+          'maxRound': 5,
           'expectedPlayers': 32,
         };
 
@@ -96,6 +102,7 @@ void main() {
 
         expect(request.title, 'テスト大会');
         expect(request.description, 'テスト大会の説明');
+        expect(request.category, 'ポケモンカード');
         expect(request.venue, 'テスト会場');
         expect(request.startDate, '2025-10-01T10:00:00Z');
         expect(request.endDate, '2025-10-01T18:00:00Z');
@@ -110,6 +117,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -117,10 +125,11 @@ void main() {
 
         final json = request.toJson();
 
-        expect(json['title'], 'テスト大会');
-        expect(json['description'], 'テスト大会の説明');
+        expect(json['name'], 'テスト大会');
+        expect(json['overview'], 'テスト大会の説明');
+        expect(json['category'], 'ポケモンカード');
         expect(json['venue'], 'テスト会場');
-        expect(json['startDate'], '2025-10-01T10:00:00Z');
+        expect(json['date'], '2025-10-01T10:00:00Z');
         expect(json['endDate'], '2025-10-01T18:00:00Z');
         expect(json['drawPoints'], 0);
       });
@@ -129,6 +138,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -139,13 +149,14 @@ void main() {
 
         final json = request.toJson();
 
-        expect(json['title'], 'テスト大会');
-        expect(json['description'], 'テスト大会の説明');
+        expect(json['name'], 'テスト大会');
+        expect(json['overview'], 'テスト大会の説明');
+        expect(json['category'], 'ポケモンカード');
         expect(json['venue'], 'テスト会場');
-        expect(json['startDate'], '2025-10-01T10:00:00Z');
+        expect(json['date'], '2025-10-01T10:00:00Z');
         expect(json['endDate'], '2025-10-01T18:00:00Z');
         expect(json['drawPoints'], 1);
-        expect(json['maxRounds'], 5);
+        expect(json['maxRound'], 5);
         expect(json['expectedPlayers'], 32);
       });
     });
@@ -155,6 +166,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -173,6 +185,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -189,6 +202,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -205,6 +219,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -220,6 +235,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -235,6 +251,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -250,6 +267,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -265,6 +283,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -280,6 +299,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -303,6 +323,7 @@ void main() {
         const request1 = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -314,6 +335,7 @@ void main() {
         const request2 = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -330,6 +352,7 @@ void main() {
         const request1 = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
@@ -338,6 +361,7 @@ void main() {
         const request2 = CreateTournamentRequest(
           title: '別の大会',
           description: 'テスト大会の説明',
+          category: 'ポケモンカード',
           venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',

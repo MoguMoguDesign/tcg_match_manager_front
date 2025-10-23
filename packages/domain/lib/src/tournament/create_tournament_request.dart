@@ -15,6 +15,9 @@ abstract class CreateTournamentRequest with _$CreateTournamentRequest {
     /// トーナメントの説明。
     required String description,
 
+    /// 大会カテゴリ。
+    required String category,
+
     /// 開催会場。
     required String venue,
 

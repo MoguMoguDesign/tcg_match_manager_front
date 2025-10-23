@@ -11,16 +11,19 @@ abstract class CreateTournamentRequest with _$CreateTournamentRequest {
   /// [CreateTournamentRequest] のコンストラクタ。
   const factory CreateTournamentRequest({
     /// 大会タイトル。
-    required String title,
+    @JsonKey(name: 'name') required String title,
 
     /// 大会の説明。
-    required String description,
+    @JsonKey(name: 'overview') required String description,
+
+    /// 大会カテゴリ。
+    required String category,
 
     /// 開催会場。
     required String venue,
 
     /// 大会開始日時（ISO 8601 形式）。
-    required String startDate,
+    @JsonKey(name: 'date') required String startDate,
 
     /// 大会終了日時（ISO 8601 形式）。
     required String endDate,
@@ -29,7 +32,7 @@ abstract class CreateTournamentRequest with _$CreateTournamentRequest {
     @Default(0) int drawPoints,
 
     /// ラウンド数（手動指定時、nullの場合は自動計算）。
-    int? maxRounds,
+    @JsonKey(name: 'maxRound') int? maxRounds,
 
     /// 予定参加者数（自動計算用）。
     int? expectedPlayers,
