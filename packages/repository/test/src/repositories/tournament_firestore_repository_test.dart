@@ -73,7 +73,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament', // maps to title
           'overview': 'Test Description', // maps to description
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z', // maps to startDate
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -128,7 +128,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -208,7 +208,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -238,7 +238,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -268,7 +268,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -348,7 +348,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -440,7 +440,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Updated Tournament',
           'overview': 'Test Description',
-          'tournamentMode': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,

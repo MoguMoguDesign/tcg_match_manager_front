@@ -139,33 +139,6 @@ void main() {
         );
       });
 
-      test('会場が空の場合、ArgumentError がスローされる', () async {
-        // Arrange
-        const invalidRequest = CreateTournamentRequest(
-          title: 'テスト大会',
-          description: 'テスト説明',
-          category: 'ポケモンカード',
-          startDate: '2024-12-01T10:00:00Z',
-          endDate: '2024-12-01T18:00:00Z',
-          startTime: '10:00',
-          endTime: '18:00',
-          drawPoints: 1,
-          expectedPlayers: 8,
-        );
-
-        // Act & Assert
-        expect(
-          () => useCase.call(invalidRequest),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              '開催会場は必須です',
-            ),
-          ),
-        );
-      });
-
       test('終了日時が開始日時より前の場合、ArgumentError がスローされる', () async {
         // Arrange
         const invalidRequest = CreateTournamentRequest(
