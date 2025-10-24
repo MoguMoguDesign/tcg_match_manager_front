@@ -24,13 +24,15 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
   late final TextEditingController _dateController;
-  late final TextEditingController _timeController;
   late final TextEditingController _notesController;
 
   late String _selectedCategory;
   late String _selectedParticipants;
   late String _selectedRounds;
   late String _selectedDrawHandling;
+  late String _selectedStartTime;
+  late String _selectedEndTime;
+  late bool _isMaxRoundsEnabled;
 
   @override
   void initState() {
@@ -43,13 +45,45 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
       text: tournament.description,
     );
     _dateController = TextEditingController(text: tournament.date);
-    _timeController = TextEditingController(text: tournament.time);
-    _notesController = TextEditingController(text: tournament.notes);
+    _notesController = TextEditingController(text: tournament.remarks);
 
-    _selectedCategory = tournament.category;
+    // カテゴリが空の場合、または有効なカテゴリでない場合はデフォルト値を使用する。
+    _selectedCategory =
+        tournament.category.isEmpty ||
+            !TournamentCategory.all.contains(tournament.category)
+        ? TournamentCategory.pokemon
+        : tournament.category;
     _selectedParticipants = '${tournament.maxParticipants}人';
-    _selectedRounds = tournament.maxRounds;
-    _selectedDrawHandling = tournament.drawHandling;
+
+    // 最大ラウンドの初期化
+    // '勝者が1人になるまで' または空の場合は、ELIMINATION モード
+    if (tournament.maxRounds.isEmpty || tournament.maxRounds == '勝者が1人になるまで') {
+      _isMaxRoundsEnabled = false;
+      _selectedRounds = '3ラウンド'; // デフォルト値（ドロップダウン用）
+    } else {
+      _isMaxRoundsEnabled = true;
+      _selectedRounds = tournament.maxRounds;
+    }
+
+    // 既存データの引き分け処理を新しい選択肢にマッピング
+    // 「あり」「両者勝利」「延長戦」→「引き分け」、「なし」→「両者敗北」
+    _selectedDrawHandling = switch (tournament.drawHandling) {
+      'あり' || '両者勝利' || '延長戦' => '引き分け',
+      'なし' => '両者敗北',
+      '引き分け' => '引き分け',
+      '両者敗北' => '両者敗北',
+      _ => '引き分け', // デフォルトは引き分け
+    };
+
+    // 時刻を開始時刻と終了時刻に分割（HH:MM-HH:MM形式を想定）
+    if (tournament.time.contains('-')) {
+      final timeParts = tournament.time.split('-');
+      _selectedStartTime = timeParts[0].trim();
+      _selectedEndTime = timeParts[1].trim();
+    } else {
+      _selectedStartTime = '09:00';
+      _selectedEndTime = '18:00';
+    }
   }
 
   @override
@@ -57,7 +91,6 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
     _titleController.dispose();
     _descriptionController.dispose();
     _dateController.dispose();
-    _timeController.dispose();
     _notesController.dispose();
     super.dispose();
   }
@@ -150,7 +183,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
 
                     // 大会の説明
                     _buildFormField(
@@ -179,7 +212,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
                     // 大会カテゴリ
                     _buildFormField(
@@ -204,19 +237,12 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                             fontSize: 14,
                             color: AppColors.textBlack,
                           ),
-                          items:
-                              [
-                                'Pokemon Card',
-                                '遊戯王',
-                                'デュエルマスターズ',
-                                'ヴァンガード',
-                                'その他',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                          items: TournamentCategory.all.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                           onChanged: (String? newValue) {
                             if (newValue != null) {
                               setState(() {
@@ -228,169 +254,393 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
-                    // 開催日時行
-                    Row(
-                      children: [
-                        // 開催日
-                        Expanded(
-                          child: _buildFormField(
-                            label: '開催日',
-                            isRequired: true,
-                            child: Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.grayLight,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: TextField(
-                                controller: _dateController,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 16,
-                                  ),
-                                  hintText: 'YYYY/MM/DD',
-                                ),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.textBlack,
-                                ),
-                              ),
+                    // 開催日
+                    _buildFormField(
+                      label: '開催日',
+                      isRequired: true,
+                      child: Container(
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppColors.grayLight,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: TextField(
+                          controller: _dateController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
                             ),
+                            hintText: 'YYYY/MM/DD',
+                          ),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textBlack,
                           ),
                         ),
-                        const SizedBox(width: 24),
-                        // 開催時間
-                        Expanded(
-                          child: _buildFormField(
-                            label: '開催時間',
-                            isRequired: true,
-                            child: Container(
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // 開催時間
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '開催時間*',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                        const SizedBox(height: 9),
+                        Row(
+                          children: [
+                            // 開始時刻
+                            Container(
+                              width: 166,
                               height: 56,
                               decoration: BoxDecoration(
                                 color: AppColors.grayLight,
-                                borderRadius: BorderRadius.circular(40),
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              child: TextField(
-                                controller: _timeController,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 16,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 13,
+                                vertical: 16,
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _selectedStartTime,
+                                  hint: const Text(
+                                    '開始時刻',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.grayDark,
+                                    ),
                                   ),
-                                  hintText: 'HH:MM-HH:MM',
-                                ),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.textBlack,
+                                  icon: Transform.rotate(
+                                    angle: 1.5708, // 90度回転
+                                    child: const Icon(
+                                      Icons.keyboard_arrow_right,
+                                      size: 24,
+                                      color: AppColors.textBlack,
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  items: _generateTimeOptions().map((item) {
+                                    return DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.textBlack,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedStartTime = value ?? '09:00';
+                                    });
+                                  },
                                 ),
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 10),
+                            const Text(
+                              '〜',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textBlack,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            // 終了時刻
+                            Container(
+                              width: 166,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: AppColors.grayLight,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 13,
+                                vertical: 16,
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _selectedEndTime,
+                                  hint: const Text(
+                                    '終了時刻',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.grayDark,
+                                    ),
+                                  ),
+                                  icon: Transform.rotate(
+                                    angle: 1.5708, // 90度回転
+                                    child: const Icon(
+                                      Icons.keyboard_arrow_right,
+                                      size: 24,
+                                      color: AppColors.textBlack,
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  items: _generateTimeOptions().map((item) {
+                                    return DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.textBlack,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedEndTime = value ?? '18:00';
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
-                    // 参加者上限行
-                    Row(
-                      children: [
-                        // 参加者上限
-                        Expanded(
-                          child: _buildFormField(
-                            label: '参加者上限',
-                            isRequired: true,
-                            child: Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.grayLight,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: DropdownButtonFormField<String>(
-                                initialValue: _selectedParticipants,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 16,
-                                  ),
-                                ),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.textBlack,
-                                ),
-                                items: ['8人', '16人', '32人', '64人'].map((
-                                  String value,
-                                ) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  if (newValue != null) {
-                                    setState(() {
-                                      _selectedParticipants = newValue;
-                                    });
-                                  }
-                                },
-                              ),
+                    // 参加者上限
+                    _buildFormField(
+                      label: '参加者上限',
+                      isRequired: true,
+                      child: Container(
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppColors.grayLight,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          initialValue: _selectedParticipants,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
                             ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textBlack,
+                          ),
+                          items: ['8人', '16人', '32人', '64人'].map((
+                            String value,
+                          ) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                _selectedParticipants = newValue;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // 最大ラウンド
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '最大ラウンド*',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textBlack,
                           ),
                         ),
-                        const SizedBox(width: 24),
-                        // 最大ラウンド
-                        Expanded(
-                          child: _buildFormField(
-                            label: '最大ラウンド',
-                            isRequired: true,
-                            child: Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.grayLight,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: DropdownButtonFormField<String>(
-                                initialValue: _selectedRounds,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 16,
+                        const SizedBox(height: 16),
+
+                        // ラジオボタン
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _isMaxRoundsEnabled = false;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: !_isMaxRoundsEnabled
+                                            ? AppColors.adminPrimary
+                                            : AppColors.borderDisabled,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: !_isMaxRoundsEnabled
+                                        ? Center(
+                                            child: Container(
+                                              width: 12,
+                                              height: 12,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColors.adminPrimary,
+                                              ),
+                                            ),
+                                          )
+                                        : null,
                                   ),
-                                ),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.textBlack,
-                                ),
-                                items: ['3ラウンド', '5ラウンド', '7ラウンド'].map((
-                                  String value,
-                                ) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  if (newValue != null) {
-                                    setState(() {
-                                      _selectedRounds = newValue;
-                                    });
-                                  }
-                                },
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    '勝者が1人に決まるまで',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.textBlack,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _isMaxRoundsEnabled = true;
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: _isMaxRoundsEnabled
+                                                ? AppColors.adminPrimary
+                                                : AppColors.borderDisabled,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: _isMaxRoundsEnabled
+                                            ? Center(
+                                                child: Container(
+                                                  width: 12,
+                                                  height: 12,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: AppColors
+                                                            .adminPrimary,
+                                                      ),
+                                                ),
+                                              )
+                                            : null,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        '最大ラウンド数を決める',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.textBlack,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 9),
+                                Container(
+                                  width: 342,
+                                  height: 56,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.grayLight,
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 13,
+                                    vertical: 16,
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      value: _selectedRounds,
+                                      icon: Transform.rotate(
+                                        angle: 1.5708, // 90度回転
+                                        child: const Icon(
+                                          Icons.keyboard_arrow_right,
+                                          size: 24,
+                                          color: AppColors.textBlack,
+                                        ),
+                                      ),
+                                      isExpanded: true,
+                                      items:
+                                          const [
+                                            '3ラウンド',
+                                            '4ラウンド',
+                                            '5ラウンド',
+                                            '6ラウンド',
+                                            '7ラウンド',
+                                          ].map((item) {
+                                            return DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: AppColors.textBlack,
+                                                ),
+                                              ),
+                                            );
+                                          }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedRounds = value!;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
                     // 引き分け処理
                     _buildFormField(
@@ -415,7 +665,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                             fontSize: 14,
                             color: AppColors.textBlack,
                           ),
-                          items: ['あり', 'なし'].map((String value) {
+                          items: ['引き分け', '両者敗北'].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -432,7 +682,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
                     // 備考
                     _buildFormField(
@@ -461,7 +711,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
                       ),
                     ),
 
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 32),
                   ],
                 ),
               ),
@@ -550,6 +800,18 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
     );
   }
 
+  /// 時刻の選択肢を生成する（09:00〜22:00まで30分刻み）
+  List<String> _generateTimeOptions() {
+    final times = <String>[];
+    for (var hour = 9; hour <= 22; hour++) {
+      times.add('${hour.toString().padLeft(2, '0')}:00');
+      if (hour < 22) {
+        times.add('${hour.toString().padLeft(2, '0')}:30');
+      }
+    }
+    return times;
+  }
+
   /// フォームフィールドのラベル付きレイアウトを構築
   Widget _buildFormField({
     required String label,
@@ -559,30 +821,15 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textBlack,
-              ),
-            ),
-            if (isRequired) ...[
-              const SizedBox(width: 4),
-              const Text(
-                '*',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.error,
-                ),
-              ),
-            ],
-          ],
+        Text(
+          isRequired ? '$label*' : label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textBlack,
+          ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 9),
         child,
       ],
     );
@@ -648,7 +895,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
       return;
     }
 
-    if (_timeController.text.isEmpty) {
+    if (_selectedStartTime.isEmpty || _selectedEndTime.isEmpty) {
       if (!mounted) {
         return;
       }
@@ -675,7 +922,7 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
       return;
     }
 
-    if (_selectedRounds.isEmpty) {
+    if (_isMaxRoundsEnabled && _selectedRounds.isEmpty) {
       if (!mounted) {
         return;
       }
@@ -711,80 +958,77 @@ class _EditTournamentDialogState extends ConsumerState<EditTournamentDialog> {
       final month = dateParts[1].padLeft(2, '0');
       final day = dateParts[2].padLeft(2, '0');
 
-      // 時刻を分割（HH:MM-HH:MM形式）- 開始時刻のみを使用
-      final timeParts = _timeController.text.split('-');
-      if (timeParts.length != 2) {
-        throw const FormatException('時刻の形式が正しくありません');
-      }
+      // 開始日と終了日（ISO 8601形式）
+      final startDate = '$year-$month-${day}T00:00:00Z';
+      final endDate = '$year-$month-${day}T23:59:59Z';
 
-      final startTimeParts = timeParts[0].trim().split(':');
+      // 引き分け処理を得点に変換（引き分け = 1点、両者敗北 = 0点）
+      final drawPoints = _selectedDrawHandling == '引き分け' ? 1 : 0;
 
-      if (startTimeParts.length != 2) {
-        throw const FormatException('時刻の形式が正しくありません');
-      }
+      // 最大ラウンド数（自動の場合はnull）
+      // "4ラウンド" -> 4 のように数値部分だけを抽出
+      final maxRounds = _isMaxRoundsEnabled && _selectedRounds.isNotEmpty
+          ? int.tryParse(_selectedRounds.replaceAll(RegExp('[^0-9]'), ''))
+          : null;
 
-      final startHour = startTimeParts[0].padLeft(2, '0');
-      final startMinute = startTimeParts[1].padLeft(2, '0');
-
-      // 開催日時（ISO 8601形式）
-      final date = '$year-$month-${day}T$startHour:$startMinute:00Z';
-
-      // トーナメント編集Notifierを取得
-      final notifier = ref.read(tournamentEditNotifierProvider.notifier);
+      // 参加者上限
+      // "32人" -> 32 のように数値部分だけを抽出
+      final expectedPlayers = int.tryParse(
+        _selectedParticipants.replaceAll(RegExp('[^0-9]'), ''),
+      );
 
       // トーナメントIDを取得
       final tournamentId = widget.tournament.id;
 
-      // デバッグログ
-      debugPrint('DEBUG: Tournament ID = $tournamentId');
-      debugPrint('DEBUG: Calling updateTournament with:');
-      debugPrint('  id: $tournamentId');
-      debugPrint('  name: ${_titleController.text.trim()}');
-      debugPrint('  overview: ${_descriptionController.text.trim()}');
-      debugPrint('  category: $_selectedCategory');
-      debugPrint('  date: $date');
-      final remarksValue = _notesController.text.trim().isNotEmpty
-          ? _notesController.text.trim()
-          : null;
-      debugPrint('  remarks: $remarksValue');
+      // 大会運営方式を決定
+      final tournamentMode = _isMaxRoundsEnabled
+          ? 'FIXED_ROUNDS'
+          : 'ELIMINATION';
 
-      // API呼び出し
-      await notifier.updateTournament(
+      // UseCaseを直接呼び出す（例外処理のため）
+      final updateUseCase = ref.read(updateTournamentUseCaseProvider);
+      await updateUseCase.invoke(
         id: tournamentId,
         name: _titleController.text.trim(),
         overview: _descriptionController.text.trim(),
         category: _selectedCategory,
-        date: date,
+        tournamentMode: tournamentMode,
+        startDate: startDate,
+        endDate: endDate,
+        startTime: _selectedStartTime,
+        endTime: _selectedEndTime,
+        drawPoints: drawPoints,
+        maxRounds: maxRounds,
+        expectedPlayers: expectedPlayers,
         remarks: _notesController.text.trim().isNotEmpty
             ? _notesController.text.trim()
             : null,
       );
 
-      // 状態を確認
-      final state = ref.read(tournamentEditNotifierProvider);
+      if (!mounted) {
+        return;
+      }
+
+      // トーナメント一覧を再読み込みする。
+      ref.invalidate(tournamentListNotifierProvider);
+
+      // トーナメント詳細を再取得（最新データをFirestoreから取得）
+      await ref
+          .read(tournamentDetailNotifierProvider.notifier)
+          .refreshTournament(widget.tournament.id);
 
       if (!mounted) {
         return;
       }
 
-      if (state.state == TournamentEditState.success) {
-        // 成功メッセージを表示してダイアログを閉じる
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('大会情報を更新しました'),
-            backgroundColor: AppColors.success,
-          ),
-        );
-        Navigator.of(context).pop();
-      } else if (state.state == TournamentEditState.error) {
-        // エラーメッセージを表示
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.errorMessage ?? '更新に失敗しました'),
-            backgroundColor: AppColors.error,
-          ),
-        );
-      }
+      // 成功メッセージを表示してダイアログを閉じる。
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('大会情報を更新しました'),
+          backgroundColor: AppColors.success,
+        ),
+      );
+      Navigator.of(context).pop();
     } on FormatException catch (e) {
       if (!mounted) {
         return;

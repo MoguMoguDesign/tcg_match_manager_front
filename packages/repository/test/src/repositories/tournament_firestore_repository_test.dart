@@ -73,7 +73,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament', // maps to title
           'overview': 'Test Description', // maps to description
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z', // maps to startDate
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -128,7 +128,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -208,7 +208,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -238,7 +238,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -268,7 +268,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -319,9 +319,10 @@ void main() {
           title: 'Test Tournament',
           description: 'Test Description',
           category: 'ポケモンカード',
-          venue: 'Test Venue',
           startDate: '2025-01-01T00:00:00Z',
           endDate: '2025-01-01T23:59:59Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // Act & Assert
@@ -347,7 +348,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Test Tournament',
           'overview': 'Test Description',
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,
@@ -358,9 +359,10 @@ void main() {
           title: 'Test Tournament',
           description: 'Test Description',
           category: 'ポケモンカード',
-          venue: 'Test Venue',
           startDate: '2025-01-01T00:00:00Z',
           endDate: '2025-01-01T23:59:59Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // Act
@@ -386,9 +388,10 @@ void main() {
           title: 'Test Tournament',
           description: 'Test Description',
           category: 'ポケモンカード',
-          venue: 'Test Venue',
           startDate: '2025-01-01T00:00:00Z',
           endDate: '2025-01-01T23:59:59Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // Act & Assert
@@ -437,7 +440,7 @@ void main() {
         when(mockDoc.data()).thenReturn({
           'name': 'Updated Tournament',
           'overview': 'Test Description',
-          'venue': 'Test Venue',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-01-01T00:00:00Z',
           'endDate': '2025-01-01T23:59:59Z',
           'drawPoints': 0,

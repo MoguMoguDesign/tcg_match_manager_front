@@ -52,9 +52,11 @@ class CreateTournamentUseCase {
         title: request.title,
         description: request.description,
         category: request.category,
-        venue: request.venue,
+        tournamentMode: request.tournamentMode,
         startDate: request.startDate,
         endDate: request.endDate,
+        startTime: request.startTime,
+        endTime: request.endTime,
         drawPoints: request.drawPoints,
         maxRounds: maxRounds,
         expectedPlayers: request.expectedPlayers,
@@ -108,11 +110,6 @@ class CreateTournamentUseCase {
       throw ArgumentError('大会タイトルは必須です');
     }
 
-    // 会場の検証
-    if (request.venue.trim().isEmpty) {
-      throw ArgumentError('開催会場は必須です');
-    }
-
     // 日時の検証
     try {
       final startDate = DateTime.parse(request.startDate);
@@ -123,6 +120,35 @@ class CreateTournamentUseCase {
       }
     } on FormatException {
       throw ArgumentError('日時の形式が正しくありません（ISO 8601形式が必要です）');
+    }
+
+    // 開催時刻の検証
+    if (request.startTime.trim().isEmpty) {
+      throw ArgumentError('開催開始時刻は必須です');
+    }
+    if (request.endTime.trim().isEmpty) {
+      throw ArgumentError('開催終了時刻は必須です');
+    }
+
+    // 時刻のフォーマット検証（HH:mm形式）
+    final timePattern = RegExp(r'^\d{2}:\d{2}$');
+    if (!timePattern.hasMatch(request.startTime)) {
+      throw ArgumentError('開催開始時刻の形式が正しくありません（HH:mm形式が必要です）');
+    }
+    if (!timePattern.hasMatch(request.endTime)) {
+      throw ArgumentError('開催終了時刻の形式が正しくありません（HH:mm形式が必要です）');
+    }
+
+    // 開催時刻の論理検証（開始時刻 < 終了時刻）
+    final startTimeParts = request.startTime.split(':');
+    final endTimeParts = request.endTime.split(':');
+    final startMinutes =
+        int.parse(startTimeParts[0]) * 60 + int.parse(startTimeParts[1]);
+    final endMinutes =
+        int.parse(endTimeParts[0]) * 60 + int.parse(endTimeParts[1]);
+
+    if (endMinutes <= startMinutes) {
+      throw ArgumentError('終了時刻は開始時刻より後である必要があります');
     }
 
     // 引き分け得点の検証

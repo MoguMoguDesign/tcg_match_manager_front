@@ -68,9 +68,11 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
   /// [title]: トーナメントのタイトル
   /// [description]: トーナメントの説明
   /// [category]: 大会カテゴリ
-  /// [venue]: 開催会場
+  /// [tournamentMode]: 大会運営方式
   /// [startDate]: 開始日時（ISO 8601 形式）
   /// [endDate]: 終了日時（ISO 8601 形式）
+  /// [startTime]: 開催開始時刻（HH:mm形式）
+  /// [endTime]: 開催終了時刻（HH:mm形式）
   /// [drawPoints]: 引き分け得点（オプション）
   /// [maxRounds]: ラウンド数（オプション、自動計算時はnull）
   /// [expectedPlayers]: 予定参加者数（オプション）
@@ -78,9 +80,11 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
     required String title,
     required String description,
     required String category,
-    required String venue,
+    String tournamentMode = 'FIXED_ROUNDS',
     required String startDate,
     required String endDate,
+    required String startTime,
+    required String endTime,
     int drawPoints = 0,
     int? maxRounds,
     int? expectedPlayers,
@@ -92,9 +96,11 @@ class TournamentCreateNotifier extends _$TournamentCreateNotifier {
         title: title,
         description: description,
         category: category,
-        venue: venue,
+        tournamentMode: tournamentMode,
         startDate: startDate,
         endDate: endDate,
+        startTime: startTime,
+        endTime: endTime,
         drawPoints: drawPoints,
         maxRounds: maxRounds,
         expectedPlayers: expectedPlayers,

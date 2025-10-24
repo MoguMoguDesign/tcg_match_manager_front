@@ -9,16 +9,19 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         expect(request.title, 'テスト大会');
         expect(request.description, 'テスト大会の説明');
-        expect(request.venue, 'テスト会場');
+        expect(request.tournamentMode, 'FIXED_ROUNDS');
         expect(request.startDate, '2025-10-01T10:00:00Z');
         expect(request.endDate, '2025-10-01T18:00:00Z');
+        expect(request.startTime, '10:00');
+        expect(request.endTime, '18:00');
         expect(request.drawPoints, 0);
         expect(request.maxRounds, isNull);
         expect(request.expectedPlayers, isNull);
@@ -29,9 +32,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         expect(request.drawPoints, 0);
@@ -42,9 +46,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           maxRounds: 5,
           expectedPlayers: 32,
@@ -52,9 +57,11 @@ void main() {
 
         expect(request.title, 'テスト大会');
         expect(request.description, 'テスト大会の説明');
-        expect(request.venue, 'テスト会場');
+        expect(request.tournamentMode, 'FIXED_ROUNDS');
         expect(request.startDate, '2025-10-01T10:00:00Z');
         expect(request.endDate, '2025-10-01T18:00:00Z');
+        expect(request.startTime, '10:00');
+        expect(request.endTime, '18:00');
         expect(request.drawPoints, 1);
         expect(request.maxRounds, 5);
         expect(request.expectedPlayers, 32);
@@ -67,9 +74,11 @@ void main() {
           'name': 'テスト大会',
           'overview': 'テスト大会の説明',
           'category': 'ポケモンカード',
-          'venue': 'テスト会場',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-10-01T10:00:00Z',
           'endDate': '2025-10-01T18:00:00Z',
+          'startTime': '10:00',
+          'endTime': '18:00',
         };
 
         final request = CreateTournamentRequest.fromJson(json);
@@ -77,9 +86,11 @@ void main() {
         expect(request.title, 'テスト大会');
         expect(request.description, 'テスト大会の説明');
         expect(request.category, 'ポケモンカード');
-        expect(request.venue, 'テスト会場');
+        expect(request.tournamentMode, 'FIXED_ROUNDS');
         expect(request.startDate, '2025-10-01T10:00:00Z');
         expect(request.endDate, '2025-10-01T18:00:00Z');
+        expect(request.startTime, '10:00');
+        expect(request.endTime, '18:00');
         expect(request.drawPoints, 0);
         expect(request.maxRounds, isNull);
         expect(request.expectedPlayers, isNull);
@@ -90,9 +101,11 @@ void main() {
           'name': 'テスト大会',
           'overview': 'テスト大会の説明',
           'category': 'ポケモンカード',
-          'venue': 'テスト会場',
+          'tournamentMode': 'FIXED_ROUNDS',
           'date': '2025-10-01T10:00:00Z',
           'endDate': '2025-10-01T18:00:00Z',
+          'startTime': '10:00',
+          'endTime': '18:00',
           'drawPoints': 1,
           'maxRound': 5,
           'expectedPlayers': 32,
@@ -103,9 +116,11 @@ void main() {
         expect(request.title, 'テスト大会');
         expect(request.description, 'テスト大会の説明');
         expect(request.category, 'ポケモンカード');
-        expect(request.venue, 'テスト会場');
+        expect(request.tournamentMode, 'FIXED_ROUNDS');
         expect(request.startDate, '2025-10-01T10:00:00Z');
         expect(request.endDate, '2025-10-01T18:00:00Z');
+        expect(request.startTime, '10:00');
+        expect(request.endTime, '18:00');
         expect(request.drawPoints, 1);
         expect(request.maxRounds, 5);
         expect(request.expectedPlayers, 32);
@@ -118,9 +133,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final json = request.toJson();
@@ -128,9 +144,11 @@ void main() {
         expect(json['name'], 'テスト大会');
         expect(json['overview'], 'テスト大会の説明');
         expect(json['category'], 'ポケモンカード');
-        expect(json['venue'], 'テスト会場');
+        expect(json['tournamentMode'], 'FIXED_ROUNDS');
         expect(json['date'], '2025-10-01T10:00:00Z');
         expect(json['endDate'], '2025-10-01T18:00:00Z');
+        expect(json['startTime'], '10:00');
+        expect(json['endTime'], '18:00');
         expect(json['drawPoints'], 0);
       });
 
@@ -139,9 +157,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           maxRounds: 5,
           expectedPlayers: 32,
@@ -152,9 +171,11 @@ void main() {
         expect(json['name'], 'テスト大会');
         expect(json['overview'], 'テスト大会の説明');
         expect(json['category'], 'ポケモンカード');
-        expect(json['venue'], 'テスト会場');
+        expect(json['tournamentMode'], 'FIXED_ROUNDS');
         expect(json['date'], '2025-10-01T10:00:00Z');
         expect(json['endDate'], '2025-10-01T18:00:00Z');
+        expect(json['startTime'], '10:00');
+        expect(json['endTime'], '18:00');
         expect(json['drawPoints'], 1);
         expect(json['maxRound'], 5);
         expect(json['expectedPlayers'], 32);
@@ -167,16 +188,17 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(title: '新しいタイトル');
 
         expect(updated.title, '新しいタイトル');
         expect(updated.description, 'テスト大会の説明');
-        expect(updated.venue, 'テスト会場');
+        expect(updated.tournamentMode, 'FIXED_ROUNDS');
         expect(updated.startDate, '2025-10-01T10:00:00Z');
         expect(updated.endDate, '2025-10-01T18:00:00Z');
       });
@@ -186,33 +208,35 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(description: '新しい説明');
 
         expect(updated.title, 'テスト大会');
         expect(updated.description, '新しい説明');
-        expect(updated.venue, 'テスト会場');
+        expect(updated.tournamentMode, 'FIXED_ROUNDS');
       });
 
-      test('venue のみを更新できる', () {
+      test('tournamentMode のみを更新できる', () {
         const request = CreateTournamentRequest(
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
-        final updated = request.copyWith(venue: '新しい会場');
+        final updated = request.copyWith(tournamentMode: 'ELIMINATION');
 
         expect(updated.title, 'テスト大会');
         expect(updated.description, 'テスト大会の説明');
-        expect(updated.venue, '新しい会場');
+        expect(updated.tournamentMode, 'ELIMINATION');
       });
 
       test('startDate のみを更新できる', () {
@@ -220,9 +244,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(startDate: '2025-10-02T10:00:00Z');
@@ -236,9 +261,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(endDate: '2025-10-02T18:00:00Z');
@@ -252,9 +278,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(drawPoints: 1);
@@ -268,9 +295,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(maxRounds: 5);
@@ -284,9 +312,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(expectedPlayers: 32);
@@ -300,9 +329,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         final updated = request.copyWith(
@@ -324,9 +354,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           maxRounds: 5,
           expectedPlayers: 32,
@@ -336,9 +367,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           maxRounds: 5,
           expectedPlayers: 32,
@@ -353,18 +385,20 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         const request2 = CreateTournamentRequest(
           title: '別の大会',
           description: 'テスト大会の説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         expect(request1, isNot(equals(request2)));

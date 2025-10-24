@@ -22,14 +22,20 @@ abstract class TournamentModel with _$TournamentModel {
     /// 大会カテゴリ。
     String? category,
 
-    /// 開催会場。
-    String? venue,
+    /// 大会運営方式（'FIXED_ROUNDS': 指定ラウンド方式 | 'ELIMINATION': 勝者が1人まで残る方式）。
+    @Default('FIXED_ROUNDS') String tournamentMode,
 
     /// 大会開始日時（ISO 8601 形式）。
     @JsonKey(name: 'date') String? startDate,
 
     /// 大会終了日時（ISO 8601 形式）。
     String? endDate,
+
+    /// 開催開始時刻（HH:mm形式）。
+    String? startTime,
+
+    /// 開催終了時刻（HH:mm形式）。
+    String? endTime,
 
     /// 引き分け得点（0点 or 1点）。
     @Default(0) int drawPoints,
@@ -39,6 +45,9 @@ abstract class TournamentModel with _$TournamentModel {
 
     /// 予定参加者数。
     int? expectedPlayers,
+
+    /// 備考。
+    String? remarks,
 
     /// トーナメントステータス。
     @Default('PREPARING') String status,

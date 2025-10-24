@@ -16,7 +16,7 @@ void main() {
         expect(model.title, 'テスト大会');
         expect(model.description, isNull);
         expect(model.category, isNull);
-        expect(model.venue, isNull);
+        expect(model.tournamentMode, 'FIXED_ROUNDS');
         expect(model.startDate, isNull);
         expect(model.endDate, isNull);
         expect(model.drawPoints, 0);
@@ -37,7 +37,6 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'テストカテゴリ',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
           drawPoints: 1,
@@ -56,7 +55,7 @@ void main() {
         expect(model.title, 'テスト大会');
         expect(model.description, 'テスト大会の説明');
         expect(model.category, 'テストカテゴリ');
-        expect(model.venue, 'テスト会場');
+        expect(model.tournamentMode, 'FIXED_ROUNDS');
         expect(model.startDate, '2025-10-01T10:00:00Z');
         expect(model.endDate, '2025-10-01T18:00:00Z');
         expect(model.drawPoints, 1);
@@ -97,7 +96,7 @@ void main() {
           'name': 'テスト大会',
           'overview': 'テスト大会の説明',
           'category': 'テストカテゴリ',
-          'venue': 'テスト会場',
+          'tournamentMode': 'テスト会場',
           'date': '2025-10-01T10:00:00Z',
           'endDate': '2025-10-01T18:00:00Z',
           'drawPoints': 1,
@@ -118,7 +117,7 @@ void main() {
         expect(model.title, 'テスト大会');
         expect(model.description, 'テスト大会の説明');
         expect(model.category, 'テストカテゴリ');
-        expect(model.venue, 'テスト会場');
+        expect(model.tournamentMode, 'テスト会場');
         expect(model.startDate, '2025-10-01T10:00:00Z');
         expect(model.endDate, '2025-10-01T18:00:00Z');
         expect(model.drawPoints, 1);
@@ -160,7 +159,6 @@ void main() {
           title: 'テスト大会',
           description: 'テスト大会の説明',
           category: 'テストカテゴリ',
-          venue: 'テスト会場',
           startDate: '2025-10-01T10:00:00Z',
           endDate: '2025-10-01T18:00:00Z',
           drawPoints: 1,
@@ -181,7 +179,7 @@ void main() {
         expect(json['name'], 'テスト大会');
         expect(json['overview'], 'テスト大会の説明');
         expect(json['category'], 'テストカテゴリ');
-        expect(json['venue'], 'テスト会場');
+        expect(json['tournamentMode'], 'FIXED_ROUNDS');
         expect(json['date'], '2025-10-01T10:00:00Z');
         expect(json['endDate'], '2025-10-01T18:00:00Z');
         expect(json['drawPoints'], 1);
