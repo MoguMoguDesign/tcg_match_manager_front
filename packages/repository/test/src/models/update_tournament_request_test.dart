@@ -172,8 +172,7 @@ void main() {
       });
 
       test('tournamentMode が指定されている場合、tournamentModeを含むMapを返す', () {
-        const request =
-            UpdateTournamentRequest(tournamentMode: 'ELIMINATION');
+        const request = UpdateTournamentRequest(tournamentMode: 'ELIMINATION');
 
         final json = request.toJson();
 
@@ -181,8 +180,9 @@ void main() {
       });
 
       test('startDate が指定されている場合、date として送信される', () {
-        const request =
-            UpdateTournamentRequest(startDate: '2025-10-01T10:00:00Z');
+        const request = UpdateTournamentRequest(
+          startDate: '2025-10-01T10:00:00Z',
+        );
 
         final json = request.toJson();
 
@@ -190,8 +190,9 @@ void main() {
       });
 
       test('endDate が指定されている場合、endDateを含むMapを返す', () {
-        const request =
-            UpdateTournamentRequest(endDate: '2025-10-01T18:00:00Z');
+        const request = UpdateTournamentRequest(
+          endDate: '2025-10-01T18:00:00Z',
+        );
 
         final json = request.toJson();
 
