@@ -318,6 +318,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'Test Tournament',
           description: 'Test Description',
+          category: 'ポケモンカード',
           venue: 'Test Venue',
           startDate: '2025-01-01T00:00:00Z',
           endDate: '2025-01-01T23:59:59Z',
@@ -356,6 +357,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'Test Tournament',
           description: 'Test Description',
+          category: 'ポケモンカード',
           venue: 'Test Venue',
           startDate: '2025-01-01T00:00:00Z',
           endDate: '2025-01-01T23:59:59Z',
@@ -383,6 +385,7 @@ void main() {
         const request = CreateTournamentRequest(
           title: 'Test Tournament',
           description: 'Test Description',
+          category: 'ポケモンカード',
           venue: 'Test Venue',
           startDate: '2025-01-01T00:00:00Z',
           endDate: '2025-01-01T23:59:59Z',

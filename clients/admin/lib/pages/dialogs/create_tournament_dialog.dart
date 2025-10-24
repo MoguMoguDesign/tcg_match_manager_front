@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
 import 'package:clock/clock.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 /// 大会新規作成ダイアログ
 ///
@@ -23,8 +27,9 @@ class _CreateTournamentDialogState
   final _dateController = TextEditingController();
   final _notesController = TextEditingController();
 
+  String? _selectedCategory;
   String _selectedParticipants = '選択してください';
-  String _selectedRounds = '5ラウンド（推奨）';
+  String _selectedRounds = '5ラウンド';
   String _selectedDrawHandling = '選択してください';
   bool _isMaxRoundsEnabled = true;
 
@@ -225,6 +230,59 @@ class _CreateTournamentDialogState
                             ),
                             const SizedBox(height: 32),
 
+                            // 大会カテゴリ
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  '大会カテゴリ*',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textBlack,
+                                  ),
+                                ),
+                                const SizedBox(height: 9),
+                                Container(
+                                  width: 342,
+                                  height: 56,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.grayLight,
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: DropdownButtonFormField<String>(
+                                    initialValue: _selectedCategory,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 16,
+                                      ),
+                                      hintText: '選択する',
+                                    ),
+                                    items: TournamentCategory.all
+                                        .map(
+                                          (category) => DropdownMenuItem(
+                                            value: category,
+                                            child: Text(category),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedCategory = value;
+                                      });
+                                    },
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: AppColors.textBlack,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 32),
+
                             // 開催日
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,6 +395,26 @@ class _CreateTournamentDialogState
                                         setState(() {
                                           _selectedParticipants =
                                               value ?? '選択してください';
+
+                                          // 参加人数に応じて推奨ラウンド数を自動設定
+                                          if (value != null &&
+                                              value != '選択してください') {
+                                            final participants = int.parse(
+                                              value.replaceAll('人', ''),
+                                            );
+                                            // Domain層のUseCaseを使用してラウンド数を計算
+                                            final useCase = ref.read(
+                                              createTournamentUseCaseProvider,
+                                            );
+                                            final recommendedRounds = useCase
+                                                .getRecommendedRounds(
+                                                  participants,
+                                                );
+                                            _selectedRounds =
+                                                '$recommendedRoundsラウンド';
+                                            // 最大ラウンド数を決める オプションを自動選択
+                                            _isMaxRoundsEnabled = true;
+                                          }
                                         });
                                       },
                                     ),
@@ -490,7 +568,7 @@ class _CreateTournamentDialogState
                                                   const [
                                                     '3ラウンド',
                                                     '4ラウンド',
-                                                    '5ラウンド（推奨）',
+                                                    '5ラウンド',
                                                     '6ラウンド',
                                                     '7ラウンド',
                                                   ].map((item) {
@@ -760,9 +838,212 @@ class _CreateTournamentDialogState
       lastDate: clock.now().add(const Duration(days: 365)),
     );
     if (date != null) {
-      _dateController.text =
-          '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
+      setState(() {
+        _dateController.text =
+            '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
+      });
     }
+  }
+
+  /// 参加登録用 URL を生成する。
+  ///
+  /// 注意: 現時点では仮の URL を使用しています。
+  /// 将来的には環境変数または設定から base URL を取得する必要があります。
+  String _generateRegistrationUrl(String tournamentId) {
+    // 現時点では仮の URL を使用
+    return 'https://example.com/tournaments/$tournamentId/register';
+  }
+
+  /// 大会作成成功ダイアログを表示する。
+  Future<void> _showSuccessDialog(
+    BuildContext context,
+    Tournament tournament,
+    String registrationUrl,
+  ) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          width: 600,
+          constraints: const BoxConstraints(maxHeight: 700),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // ヘッダー
+              Container(
+                padding: const EdgeInsets.fromLTRB(40, 48, 24, 32),
+                child: Row(
+                  children: [
+                    const Text(
+                      '大会を作成しました',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textBlack,
+                      ),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close),
+                      iconSize: 24,
+                      color: AppColors.textBlack,
+                    ),
+                  ],
+                ),
+              ),
+
+              // コンテンツ
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: [
+                      Text(
+                        '大会名: ${tournament.title}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      const Text(
+                        '参加登録用 QR コード',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: AppColors.grayLight,
+                            width: 2,
+                          ),
+                        ),
+                        child: QrImageView(data: registrationUrl, size: 300),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        '参加登録用 URL',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColors.grayLight,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: SelectableText(
+                          registrationUrl,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppColors.adminPrimary,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: TextButton.icon(
+                          onPressed: () {
+                            unawaited(
+                              Clipboard.setData(
+                                ClipboardData(text: registrationUrl),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('URL をコピーしました'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.copy,
+                            color: AppColors.white,
+                            size: 20,
+                          ),
+                          label: const Text(
+                            'URL をコピー',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
+                ),
+              ),
+
+              // フッター（閉じるボタン）
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 32,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: AppColors.adminPrimary,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                    ),
+                    child: const Text(
+                      '閉じる',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _createTournament() async {
@@ -778,6 +1059,13 @@ class _CreateTournamentDialogState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('大会概要を入力してください')));
+      return;
+    }
+
+    if (_selectedCategory == null || _selectedCategory!.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('大会カテゴリを選択してください')));
       return;
     }
 
@@ -822,9 +1110,7 @@ class _CreateTournamentDialogState
 
       // ラウンド数を数値に変換（手動指定時のみ）
       final maxRounds = _isMaxRoundsEnabled
-          ? int.parse(
-              _selectedRounds.replaceAll('ラウンド（推奨）', '').replaceAll('ラウンド', ''),
-            )
+          ? int.parse(_selectedRounds.replaceAll('ラウンド', ''))
           : null;
 
       // 引き分け処理を得点に変換
@@ -836,10 +1122,11 @@ class _CreateTournamentDialogState
 
       final createUseCase = ref.read(createTournamentUseCaseProvider);
 
-      await createUseCase.call(
+      final tournament = await createUseCase.call(
         CreateTournamentRequest(
           title: _titleController.text.trim(),
           description: _descriptionController.text.trim(),
+          category: _selectedCategory!,
           venue: venue,
           startDate: startDate,
           endDate: endDate,
@@ -850,10 +1137,11 @@ class _CreateTournamentDialogState
       );
 
       if (mounted) {
+        // 参加登録用 URL の生成
+        final registrationUrl = _generateRegistrationUrl(tournament.id);
+
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('トーナメントを作成しました')));
+        await _showSuccessDialog(context, tournament, registrationUrl);
       }
     } on FormatException catch (e) {
       if (mounted) {

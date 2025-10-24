@@ -4,6 +4,7 @@ export 'delete_tournament_use_case.dart';
 export 'get_tournament_use_case.dart';
 export 'get_tournaments_use_case.dart';
 export 'tournament.dart';
+export 'tournament_category.dart';
 export 'tournament_create_notifier.dart';
 export 'tournament_detail_notifier.dart';
 export 'tournament_edit_notifier.dart';

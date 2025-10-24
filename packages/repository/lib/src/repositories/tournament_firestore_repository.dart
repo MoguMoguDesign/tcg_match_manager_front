@@ -168,8 +168,13 @@ class TournamentFirestoreRepository implements TournamentRepository {
       final uid = _getCurrentUserUid();
       final docRef = _tournamentsCollection.doc();
 
+      // 設計書に準拠したフィールドマッピング
+      final requestJson = request.toJson();
       final tournamentData = {
-        ...request.toJson(),
+        ...requestJson,
+        'status': 'PREPARING', // 初期ステータス
+        'currentRound': 0,
+        'playerCount': 0,
         'adminUid': uid,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),

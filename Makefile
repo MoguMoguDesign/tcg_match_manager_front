@@ -57,3 +57,21 @@ run-both:
 clean-clients:
 	cd clients/app && fvm flutter clean
 	cd clients/admin && fvm flutter clean
+
+# Code quality checks
+.PHONY: check analyze custom_lint format
+
+# 全てのチェックを実行
+check: analyze custom_lint format
+
+# コード解析を実行
+analyze:
+	fvm dart run melos run analyze
+
+# カスタムLintを実行
+custom_lint:
+	fvm dart run melos run custom_lint
+
+# フォーマットを実行
+format:
+	fvm dart run melos run format

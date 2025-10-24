@@ -17,7 +17,8 @@ mixin _$CreateTournamentRequest {
 
 /// トーナメントタイトル。
  String get title;/// トーナメントの説明。
- String get description;/// 開催会場。
+ String get description;/// 大会カテゴリ。
+ String get category;/// 開催会場。
  String get venue;/// トーナメント開始日時（ISO 8601 形式）。
  String get startDate;/// トーナメント終了日時（ISO 8601 形式）。
  String get endDate;/// 引き分け得点（0点 or 1点）。
@@ -34,16 +35,16 @@ $CreateTournamentRequestCopyWith<CreateTournamentRequest> get copyWith => _$Crea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateTournamentRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.drawPoints, drawPoints) || other.drawPoints == drawPoints)&&(identical(other.maxRounds, maxRounds) || other.maxRounds == maxRounds)&&(identical(other.expectedPlayers, expectedPlayers) || other.expectedPlayers == expectedPlayers));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateTournamentRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.drawPoints, drawPoints) || other.drawPoints == drawPoints)&&(identical(other.maxRounds, maxRounds) || other.maxRounds == maxRounds)&&(identical(other.expectedPlayers, expectedPlayers) || other.expectedPlayers == expectedPlayers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,description,venue,startDate,endDate,drawPoints,maxRounds,expectedPlayers);
+int get hashCode => Object.hash(runtimeType,title,description,category,venue,startDate,endDate,drawPoints,maxRounds,expectedPlayers);
 
 @override
 String toString() {
-  return 'CreateTournamentRequest(title: $title, description: $description, venue: $venue, startDate: $startDate, endDate: $endDate, drawPoints: $drawPoints, maxRounds: $maxRounds, expectedPlayers: $expectedPlayers)';
+  return 'CreateTournamentRequest(title: $title, description: $description, category: $category, venue: $venue, startDate: $startDate, endDate: $endDate, drawPoints: $drawPoints, maxRounds: $maxRounds, expectedPlayers: $expectedPlayers)';
 }
 
 
@@ -54,7 +55,7 @@ abstract mixin class $CreateTournamentRequestCopyWith<$Res>  {
   factory $CreateTournamentRequestCopyWith(CreateTournamentRequest value, $Res Function(CreateTournamentRequest) _then) = _$CreateTournamentRequestCopyWithImpl;
 @useResult
 $Res call({
- String title, String description, String venue, String startDate, String endDate, int drawPoints, int? maxRounds, int? expectedPlayers
+ String title, String description, String category, String venue, String startDate, String endDate, int drawPoints, int? maxRounds, int? expectedPlayers
 });
 
 
@@ -71,10 +72,11 @@ class _$CreateTournamentRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateTournamentRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? venue = null,Object? startDate = null,Object? endDate = null,Object? drawPoints = null,Object? maxRounds = freezed,Object? expectedPlayers = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? category = null,Object? venue = null,Object? startDate = null,Object? endDate = null,Object? drawPoints = null,Object? maxRounds = freezed,Object? expectedPlayers = freezed,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as String,venue: null == venue ? _self.venue : venue // ignore: cast_nullable_to_non_nullable
 as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as String,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
@@ -92,13 +94,15 @@ as int?,
 
 
 class _CreateTournamentRequest implements CreateTournamentRequest {
-  const _CreateTournamentRequest({required this.title, required this.description, required this.venue, required this.startDate, required this.endDate, this.drawPoints = 0, this.maxRounds, this.expectedPlayers});
+  const _CreateTournamentRequest({required this.title, required this.description, required this.category, required this.venue, required this.startDate, required this.endDate, this.drawPoints = 0, this.maxRounds, this.expectedPlayers});
   
 
 /// トーナメントタイトル。
 @override final  String title;
 /// トーナメントの説明。
 @override final  String description;
+/// 大会カテゴリ。
+@override final  String category;
 /// 開催会場。
 @override final  String venue;
 /// トーナメント開始日時（ISO 8601 形式）。
@@ -122,16 +126,16 @@ _$CreateTournamentRequestCopyWith<_CreateTournamentRequest> get copyWith => __$C
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateTournamentRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.drawPoints, drawPoints) || other.drawPoints == drawPoints)&&(identical(other.maxRounds, maxRounds) || other.maxRounds == maxRounds)&&(identical(other.expectedPlayers, expectedPlayers) || other.expectedPlayers == expectedPlayers));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateTournamentRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.drawPoints, drawPoints) || other.drawPoints == drawPoints)&&(identical(other.maxRounds, maxRounds) || other.maxRounds == maxRounds)&&(identical(other.expectedPlayers, expectedPlayers) || other.expectedPlayers == expectedPlayers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,description,venue,startDate,endDate,drawPoints,maxRounds,expectedPlayers);
+int get hashCode => Object.hash(runtimeType,title,description,category,venue,startDate,endDate,drawPoints,maxRounds,expectedPlayers);
 
 @override
 String toString() {
-  return 'CreateTournamentRequest(title: $title, description: $description, venue: $venue, startDate: $startDate, endDate: $endDate, drawPoints: $drawPoints, maxRounds: $maxRounds, expectedPlayers: $expectedPlayers)';
+  return 'CreateTournamentRequest(title: $title, description: $description, category: $category, venue: $venue, startDate: $startDate, endDate: $endDate, drawPoints: $drawPoints, maxRounds: $maxRounds, expectedPlayers: $expectedPlayers)';
 }
 
 
@@ -142,7 +146,7 @@ abstract mixin class _$CreateTournamentRequestCopyWith<$Res> implements $CreateT
   factory _$CreateTournamentRequestCopyWith(_CreateTournamentRequest value, $Res Function(_CreateTournamentRequest) _then) = __$CreateTournamentRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String description, String venue, String startDate, String endDate, int drawPoints, int? maxRounds, int? expectedPlayers
+ String title, String description, String category, String venue, String startDate, String endDate, int drawPoints, int? maxRounds, int? expectedPlayers
 });
 
 
@@ -159,10 +163,11 @@ class __$CreateTournamentRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateTournamentRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? venue = null,Object? startDate = null,Object? endDate = null,Object? drawPoints = null,Object? maxRounds = freezed,Object? expectedPlayers = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? category = null,Object? venue = null,Object? startDate = null,Object? endDate = null,Object? drawPoints = null,Object? maxRounds = freezed,Object? expectedPlayers = freezed,}) {
   return _then(_CreateTournamentRequest(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as String,venue: null == venue ? _self.venue : venue // ignore: cast_nullable_to_non_nullable
 as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as String,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
