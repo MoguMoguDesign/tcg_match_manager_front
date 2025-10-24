@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:base_ui/base_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/tournament_display_data.dart';
 import '../../widgets/layout/admin_scaffold.dart';
@@ -13,7 +17,7 @@ import 'participants_page.dart';
 /// トーナメント詳細画面。
 ///
 /// Figma デザイン: https://www.figma.com/design/A4NEf0vCuJNuPfBMTEa4OO/%E3%83%9E%E3%83%81%E3%82%B5%E3%83%9D?node-id=512-13828&t=whDUBuHITxOChCST-4。
-class TournamentDetailPage extends StatefulWidget {
+class TournamentDetailPage extends ConsumerStatefulWidget {
   /// トーナメント詳細画面のコンストラクタ
   const TournamentDetailPage({required this.tournamentId, super.key});
 
@@ -21,10 +25,11 @@ class TournamentDetailPage extends StatefulWidget {
   final String tournamentId;
 
   @override
-  State<TournamentDetailPage> createState() => _TournamentDetailPageState();
+  ConsumerState<TournamentDetailPage> createState() =>
+      _TournamentDetailPageState();
 }
 
-class _TournamentDetailPageState extends State<TournamentDetailPage>
+class _TournamentDetailPageState extends ConsumerState<TournamentDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _currentRound = 0; // ラウンド状態を管理
@@ -33,6 +38,15 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+
+    // Firestore からトーナメントデータを読み込み
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref
+            .read(tournamentDetailNotifierProvider.notifier)
+            .loadTournament(widget.tournamentId),
+      );
+    });
   }
 
   @override
@@ -43,8 +57,41 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    // ダミーデータ
-    final tournament = _getTournamentDisplayData(widget.tournamentId);
+    // TournamentDetailNotifier からデータを取得
+    final tournamentDetailState = ref.watch(tournamentDetailNotifierProvider);
+
+    // ローディング中の表示
+    if (tournamentDetailState.state == TournamentDetailState.loading) {
+      return const AdminScaffold(
+        title: '',
+        actions: [],
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    // エラー時の表示
+    if (tournamentDetailState.state == TournamentDetailState.error) {
+      return AdminScaffold(
+        title: '',
+        actions: const [],
+        body: Center(
+          child: Text('エラー: ${tournamentDetailState.errorMessage ?? "不明なエラー"}'),
+        ),
+      );
+    }
+
+    // データがない場合
+    if (tournamentDetailState.tournament == null) {
+      return const AdminScaffold(
+        title: '',
+        actions: [],
+        body: Center(child: Text('データがありません')),
+      );
+    }
+
+    // Tournament から TournamentDisplayData に変換
+    final tournamentModel = tournamentDetailState.tournament!;
+    final tournament = _convertToDisplayData(tournamentModel);
 
     return AdminScaffold(
       title: '',
@@ -99,7 +146,7 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
               controller: _tabController,
               children: [
                 // 大会概要タブ
-                _buildOverviewTab(_getTournamentData(widget.tournamentId)),
+                _buildOverviewTab(_getTournamentData(tournamentModel)),
                 // 参加者一覧タブ
                 ParticipantsContent(tournamentId: widget.tournamentId),
                 // 対戦表タブ
@@ -131,24 +178,25 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
       return;
     }
 
-    final displayData = _getTournamentDisplayData(widget.tournamentId);
+    // 現在表示中のトーナメントデータを取得
+    final tournamentDetailState = ref.read(tournamentDetailNotifierProvider);
 
-    // TournamentDisplayData を TournamentDetailData に変換
-    final tournament = TournamentDetailData(
-      id: displayData.id,
-      title: displayData.title,
-      description: displayData.description ?? '',
-      category: 'Pokemon Card', // デフォルト値（実際にはAPIから取得すべき）
-      date: displayData.date,
-      time: displayData.time,
-      maxParticipants: displayData.maxParticipants,
-      currentParticipants: displayData.currentParticipants,
-      maxRounds: '5ラウンド', // デフォルト値
-      drawHandling: 'あり', // デフォルト値
-      notes: '', // デフォルト値
-      status: displayData.status,
-      currentRound: displayData.currentRound,
-    );
+    // データが取得できていない場合はエラーメッセージを表示
+    if (tournamentDetailState.tournament == null) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('トーナメントデータの取得に失敗しました'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    // Tournament を TournamentDetailData に変換
+    final tournament = _getTournamentData(tournamentDetailState.tournament!);
 
     if (!mounted) {
       return;
@@ -236,6 +284,8 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           const SizedBox(height: 16),
           // 大会の説明
           Container(
+            width: double.infinity,
+            constraints: const BoxConstraints(minHeight: 80),
             decoration: BoxDecoration(
               color: AppColors.backgroundBlue,
               borderRadius: BorderRadius.circular(16),
@@ -254,7 +304,9 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  tournament.description,
+                  tournament.description.isNotEmpty
+                      ? tournament.description
+                      : '-',
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.textBlack,
@@ -266,223 +318,260 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
           ),
           const SizedBox(height: 16),
 
-          // 4 カード（開催日 / 参加者上限 / 最大ラウンド / 引き分け処理）
-          Row(
-            children: [
-              // 開催日
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '開催日',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                      const SizedBox(height: 9),
-                      Text(
-                        tournament.date,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                      Text(
-                        tournament.time,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              // 参加者上限
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '参加者上限',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                      const SizedBox(height: 9),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const Icon(
-                            Icons.person,
-                            size: 20,
+          // 情報カード: 大会カテゴリ / 開催日 / 参加者上限 / 最大ラウンド / 引き分け処理
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                // 大会カテゴリ
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.adminPrimary.withValues(alpha: 0.04),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '大会カテゴリ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
                             color: AppColors.textBlack,
                           ),
-                          const SizedBox(width: 16),
-                          Text(
-                            '${tournament.maxParticipants}',
-                            style: const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700,
+                        ),
+                        const SizedBox(height: 9),
+                        Text(
+                          tournament.category,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // 開催日
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.adminPrimary.withValues(alpha: 0.04),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '開催日',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                        const SizedBox(height: 9),
+                        Text(
+                          tournament.date,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                        Text(
+                          tournament.time,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // 参加者上限
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.adminPrimary.withValues(alpha: 0.04),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '参加者上限',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                        const SizedBox(height: 9),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.person,
+                              size: 20,
                               color: AppColors.textBlack,
                             ),
-                          ),
-                          const SizedBox(width: 4),
-                          const Text(
-                            '人',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textBlack,
+                            const SizedBox(width: 16),
+                            Text(
+                              '${tournament.maxParticipants}',
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textBlack,
+                              ),
                             ),
+                            const SizedBox(width: 4),
+                            const Text(
+                              '人',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textBlack,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // 最大ラウンド
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.adminPrimary.withValues(alpha: 0.04),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '最大ラウンド',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(height: 9),
+                        Text(
+                          tournament.maxRounds.contains('なるまで')
+                              ? '勝者が一人に\nなるまで'
+                              : tournament.maxRounds,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              // 最大ラウンド
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '最大ラウンド',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
+                const SizedBox(width: 16),
+                // 引き分け処理
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.adminPrimary.withValues(alpha: 0.04),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '引き分け処理',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 9),
-                      Text(
-                        tournament.maxRounds.contains('なるまで')
-                            ? '勝者が一人に\nなるまで'
-                            : tournament.maxRounds,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                          height: 1.2,
+                        const SizedBox(height: 9),
+                        Text(
+                          tournament.drawHandling,
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              // 引き分け処理
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.adminPrimary.withValues(alpha: 0.04),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '引き分け処理',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                      const SizedBox(height: 9),
-                      Text(
-                        tournament.drawHandling,
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
 
           const SizedBox(height: 16),
 
           // 備考
-          if (tournament.notes.isNotEmpty) ...[
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.adminPrimary.withValues(alpha: 0.04),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '備考',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textBlack,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    tournament.notes,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textBlack,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
+          Container(
+            width: double.infinity,
+            constraints: const BoxConstraints(minHeight: 80),
+            decoration: BoxDecoration(
+              color: AppColors.adminPrimary.withValues(alpha: 0.04),
+              borderRadius: BorderRadius.circular(16),
             ),
-          ],
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '備考',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textBlack,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  tournament.remarks.isNotEmpty ? tournament.remarks : '-',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textBlack,
+                    height: 1.5,
+                  ),
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -494,51 +583,108 @@ class _TournamentDetailPageState extends State<TournamentDetailPage>
 
   // ヘッダー刷新に伴い、QR ダイアログ機能は削除した。
 
-  TournamentDisplayData _getTournamentDisplayData(String id) {
-    // ダミーデータ（開催中の例）
-    // 注: 実際のIDを使用してAPIから取得するように後で実装する
+  /// Tournament モデルから TournamentDisplayData に変換する。
+  TournamentDisplayData _convertToDisplayData(Tournament tournament) {
+    // ステータスを変換
+    TournamentStatus status;
+    if (tournament.isCompleted) {
+      status = TournamentStatus.completed;
+    } else if (tournament.isStarted) {
+      status = TournamentStatus.ongoing;
+    } else {
+      status = TournamentStatus.upcoming;
+    }
+
+    // 日付を ISO 8601 形式から YYYY/MM/DD 形式に変換
+    var formattedDate = '';
+    if (tournament.startDate != null) {
+      try {
+        final dateTime = DateTime.parse(tournament.startDate!);
+        final month = dateTime.month.toString().padLeft(2, '0');
+        final day = dateTime.day.toString().padLeft(2, '0');
+        formattedDate = '${dateTime.year}/$month/$day';
+      } on FormatException {
+        formattedDate = tournament.startDate ?? '';
+      }
+    }
+
+    // 時間を HH:mm-HH:mm 形式に変換
+    final startTime = tournament.startTime ?? '';
+    final endTime = tournament.endTime ?? '';
+    final timeRange = '$startTime-$endTime';
+
     return TournamentDisplayData(
-      id: id, // 実際の大会IDを使用
-      title: 'トーナメントタイトル',
-      description:
-          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
-          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
-          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
-          '200文字の大会概要200文字の大会概要',
-      date: '2025/08/31',
-      time: '19:00-21:00',
-      currentParticipants: 32,
-      maxParticipants: 32,
-      gameType: 'ポケカ',
-      status: TournamentStatus.ongoing, // 開催中
-      currentRound: 3, // 現在のラウンド
+      id: tournament.id,
+      title: tournament.title,
+      description: tournament.description,
+      date: formattedDate,
+      time: timeRange,
+      currentParticipants: tournament.expectedPlayers ?? 0,
+      maxParticipants: tournament.expectedPlayers ?? 0,
+      gameType: tournament.category ?? '',
+      status: status,
+      currentRound: tournament.currentRound > 0
+          ? tournament.currentRound
+          : null,
     );
   }
 
-  TournamentDetailData _getTournamentData(String id) {
-    // 既存のTournamentDetailDataも維持（大会概要タブで使用）
-    // 注: 実際のIDを使用してAPIから取得するように後で実装する
+  /// Tournament モデルから TournamentDetailData に変換する。
+  TournamentDetailData _getTournamentData(Tournament tournament) {
+    // ステータスを変換
+    TournamentStatus status;
+    if (tournament.isCompleted) {
+      status = TournamentStatus.completed;
+    } else if (tournament.isStarted) {
+      status = TournamentStatus.ongoing;
+    } else {
+      status = TournamentStatus.upcoming;
+    }
+
+    // 日付を ISO 8601 形式から YYYY/MM/DD 形式に変換
+    var formattedDate = '';
+    if (tournament.startDate != null) {
+      try {
+        final dateTime = DateTime.parse(tournament.startDate!);
+        final month = dateTime.month.toString().padLeft(2, '0');
+        final day = dateTime.day.toString().padLeft(2, '0');
+        formattedDate = '${dateTime.year}/$month/$day';
+      } on FormatException {
+        formattedDate = tournament.startDate ?? '';
+      }
+    }
+
+    // 時間を HH:mm-HH:mm 形式に変換
+    final startTime = tournament.startTime ?? '';
+    final endTime = tournament.endTime ?? '';
+    final timeRange = '$startTime-$endTime';
+
+    // 最大ラウンド数を文字列に変換（tournamentMode に基づく）
+    final maxRoundsStr = tournament.tournamentMode == 'ELIMINATION'
+        ? '勝者が1人になるまで'
+        : tournament.maxRounds != null
+        ? '${tournament.maxRounds}ラウンド'
+        : '勝者が1人になるまで';
+
+    // 引き分け処理を文字列に変換（0点 = 両者敗北、1点 = 引き分け）
+    final drawHandlingStr = tournament.drawPoints == 1 ? '引き分け' : '両者敗北';
+
     return TournamentDetailData(
-      id: id, // 実際の大会IDを使用
-      title: 'トーナメントタイトル',
-      description:
-          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
-          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
-          '200文字の大会概要200文字の大会概要200文字の大会概要200文字の大会概要'
-          '200文字の大会概要200文字の大会概要',
-      category: 'Pokemon Card', // カテゴリ
-      date: '2025/08/31',
-      time: '19:00-21:00',
-      maxParticipants: 32,
-      currentParticipants: 32,
-      maxRounds: '勝者が1人になるまで',
-      drawHandling: '両者敗北',
-      notes:
-          'テキストテキストテキストテキストテキストテキストテキストテキスト'
-          'テキストテキストテキストテキストテキストテキストテキストテキスト'
-          'テキストテキストテキストテキストテキスト',
-      status: TournamentStatus.ongoing, // 開催中
-      currentRound: 3, // 現在のラウンド
+      id: tournament.id,
+      title: tournament.title,
+      description: tournament.description ?? '',
+      category: tournament.category ?? '',
+      date: formattedDate,
+      time: timeRange,
+      maxParticipants: tournament.expectedPlayers ?? 0,
+      currentParticipants: tournament.expectedPlayers ?? 0,
+      maxRounds: maxRoundsStr,
+      drawHandling: drawHandlingStr,
+      remarks: tournament.remarks ?? '', // Firestoreのremarksフィールドを参照
+      status: status,
+      currentRound: tournament.currentRound > 0
+          ? tournament.currentRound
+          : null,
     );
   }
 }
@@ -557,7 +703,7 @@ class TournamentDetailData {
     required this.currentParticipants,
     required this.maxRounds,
     required this.drawHandling,
-    required this.notes,
+    required this.remarks,
     required this.status,
     this.currentRound,
   });
@@ -593,7 +739,7 @@ class TournamentDetailData {
   final String drawHandling;
 
   /// 備考
-  final String notes;
+  final String remarks;
 
   /// ステータス
   final TournamentStatus status;

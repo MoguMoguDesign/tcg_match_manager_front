@@ -45,7 +45,6 @@ void main() {
         id: tournamentId,
         title: '更新後大会',
         description: '更新後説明',
-        venue: '更新後会場',
         startDate: '2024-12-01T10:00:00Z',
         endDate: '2024-12-01T18:00:00Z',
         createdAt: '2024-12-01T09:00:00Z',
@@ -54,6 +53,11 @@ void main() {
 
       test('トーナメント更新が成功する場合（すべてのパラメータ指定）', () async {
         // Arrange
+        // ステータスチェック用のgetTournamentをスタブする。
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
+
         when(
           mockRepository.updateTournament(tournamentId, any),
         ).thenAnswer((_) async => mockModel);
@@ -72,11 +76,17 @@ void main() {
         expect(result, isA<Tournament>());
         expect(result.id, tournamentId);
         expect(result.title, '更新後大会');
+        verify(mockRepository.getTournament(tournamentId)).called(1);
         verify(mockRepository.updateTournament(tournamentId, any)).called(1);
       });
 
       test('トーナメント更新が成功する場合（一部のパラメータのみ指定）', () async {
         // Arrange
+        // ステータスチェック用のgetTournamentをスタブする。
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'IN_PROGRESS'));
+
         when(
           mockRepository.updateTournament(tournamentId, any),
         ).thenAnswer((_) async => mockModel);
@@ -87,6 +97,8 @@ void main() {
         // Assert
         expect(result, isA<Tournament>());
         expect(result.id, tournamentId);
+
+        verify(mockRepository.getTournament(tournamentId)).called(1);
 
         final captured =
             verify(
@@ -103,6 +115,11 @@ void main() {
 
       test('Tournament.fromModel 変換が正しく行われる', () async {
         // Arrange
+        // ステータスチェック用のgetTournamentをスタブする。
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
+
         when(
           mockRepository.updateTournament(tournamentId, any),
         ).thenAnswer((_) async => mockModel);
@@ -115,15 +132,60 @@ void main() {
         expect(result.id, mockModel.id);
         expect(result.title, mockModel.title);
         expect(result.description, mockModel.description);
-        expect(result.venue, mockModel.venue);
+        expect(result.tournamentMode, mockModel.tournamentMode);
         expect(result.startDate, mockModel.startDate);
         expect(result.endDate, mockModel.endDate);
         expect(result.createdAt, mockModel.createdAt);
         expect(result.updatedAt, mockModel.updatedAt);
       });
 
+      test('COMPLETED ステータスの場合、FailureStatusException をスローする', () async {
+        // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'COMPLETED'));
+
+        // Act & Assert
+        expect(
+          () => useCase.invoke(id: tournamentId, name: 'テスト'),
+          throwsA(
+            isA<FailureStatusException>().having(
+              (e) => e.message,
+              'message',
+              '完了済みの大会は更新できません',
+            ),
+          ),
+        );
+        verify(mockRepository.getTournament(tournamentId)).called(1);
+        verifyNever(mockRepository.updateTournament(any, any));
+      });
+
+      test('CANCELLED ステータスの場合、FailureStatusException をスローする', () async {
+        // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'CANCELLED'));
+
+        // Act & Assert
+        expect(
+          () => useCase.invoke(id: tournamentId, name: 'テスト'),
+          throwsA(
+            isA<FailureStatusException>().having(
+              (e) => e.message,
+              'message',
+              'キャンセル済みの大会は更新できません',
+            ),
+          ),
+        );
+        verify(mockRepository.getTournament(tournamentId)).called(1);
+        verifyNever(mockRepository.updateTournament(any, any));
+      });
+
       test('INVALID_ARGUMENT エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'INVALID_ARGUMENT',
@@ -146,6 +208,9 @@ void main() {
 
       test('PARSE_ERROR エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'PARSE_ERROR',
@@ -168,6 +233,9 @@ void main() {
 
       test('NOT_FOUND エラーの場合、FailureStatusException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'NOT_FOUND',
@@ -190,6 +258,9 @@ void main() {
 
       test('UNAUTHENTICATED エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'UNAUTHENTICATED',
@@ -210,6 +281,9 @@ void main() {
 
       test('AUTH_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'AUTH_ERROR',
@@ -230,6 +304,9 @@ void main() {
 
       test('NETWORK_ERROR エラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'NETWORK_ERROR',
@@ -254,6 +331,9 @@ void main() {
 
       test('その他のエラーの場合、GeneralFailureException をスローする', () async {
         // Arrange
+        when(
+          mockRepository.getTournament(tournamentId),
+        ).thenAnswer((_) async => mockModel.copyWith(status: 'PREPARING'));
         when(mockRepository.updateTournament(tournamentId, any)).thenThrow(
           const repository.AdminApiException(
             code: 'UNKNOWN_ERROR',

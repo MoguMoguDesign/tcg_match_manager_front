@@ -1,5 +1,9 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// toJson メソッドは FlexibleBoolConverter の toJson が
+// UnimplementedError をスローするため、テストカバレッジから除外する。
+// coverage:ignore-file
+
 part of 'account_dto.dart';
 
 // **************************************************************************

@@ -19,14 +19,20 @@ abstract class CreateTournamentRequest with _$CreateTournamentRequest {
     /// 大会カテゴリ。
     required String category,
 
-    /// 開催会場。
-    required String venue,
+    /// 大会運営方式（'FIXED_ROUNDS': 指定ラウンド方式 | 'ELIMINATION': 勝者が1人まで残る方式）。
+    @Default('FIXED_ROUNDS') String tournamentMode,
 
     /// 大会開始日時（ISO 8601 形式）。
     @JsonKey(name: 'date') required String startDate,
 
     /// 大会終了日時（ISO 8601 形式）。
     required String endDate,
+
+    /// 開催開始時刻（HH:mm形式）。
+    required String startTime,
+
+    /// 開催終了時刻（HH:mm形式）。
+    required String endTime,
 
     /// 引き分け得点（0点 or 1点）。
     @Default(0) int drawPoints,

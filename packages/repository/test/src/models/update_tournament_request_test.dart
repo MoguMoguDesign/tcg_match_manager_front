@@ -170,6 +170,73 @@ void main() {
           'remarks': '備考',
         });
       });
+
+      test('tournamentMode が指定されている場合、tournamentModeを含むMapを返す', () {
+        const request =
+            UpdateTournamentRequest(tournamentMode: 'ELIMINATION');
+
+        final json = request.toJson();
+
+        expect(json, {'tournamentMode': 'ELIMINATION'});
+      });
+
+      test('startDate が指定されている場合、date として送信される', () {
+        const request =
+            UpdateTournamentRequest(startDate: '2025-10-01T10:00:00Z');
+
+        final json = request.toJson();
+
+        expect(json, {'date': '2025-10-01T10:00:00Z'});
+      });
+
+      test('endDate が指定されている場合、endDateを含むMapを返す', () {
+        const request =
+            UpdateTournamentRequest(endDate: '2025-10-01T18:00:00Z');
+
+        final json = request.toJson();
+
+        expect(json, {'endDate': '2025-10-01T18:00:00Z'});
+      });
+
+      test('startTime が指定されている場合、startTimeを含むMapを返す', () {
+        const request = UpdateTournamentRequest(startTime: '10:00');
+
+        final json = request.toJson();
+
+        expect(json, {'startTime': '10:00'});
+      });
+
+      test('endTime が指定されている場合、endTimeを含むMapを返す', () {
+        const request = UpdateTournamentRequest(endTime: '18:00');
+
+        final json = request.toJson();
+
+        expect(json, {'endTime': '18:00'});
+      });
+
+      test('drawPoints が指定されている場合、drawPointsを含むMapを返す', () {
+        const request = UpdateTournamentRequest(drawPoints: 1);
+
+        final json = request.toJson();
+
+        expect(json, {'drawPoints': 1});
+      });
+
+      test('maxRounds が指定されている場合、maxRound として送信される', () {
+        const request = UpdateTournamentRequest(maxRounds: 5);
+
+        final json = request.toJson();
+
+        expect(json, {'maxRound': 5});
+      });
+
+      test('expectedPlayers が指定されている場合、expectedPlayersを含むMapを返す', () {
+        const request = UpdateTournamentRequest(expectedPlayers: 32);
+
+        final json = request.toJson();
+
+        expect(json, {'expectedPlayers': 32});
+      });
     });
   });
 }

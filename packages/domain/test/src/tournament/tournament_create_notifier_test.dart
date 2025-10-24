@@ -61,7 +61,6 @@ void main() {
           id: 'test-id',
           title: testTitle,
           description: testDescription,
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
           createdAt: '2025-10-01T09:00:00Z',
@@ -86,9 +85,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が success に更新されていることを確認する。
@@ -104,9 +104,10 @@ void main() {
               title: testTitle,
               description: testDescription,
               category: 'ポケモンカード',
-              venue: 'テスト会場',
               startDate: testStartDate,
               endDate: testEndDate,
+              startTime: '10:00',
+              endTime: '18:00',
             ),
           ),
         ).called(1);
@@ -117,7 +118,6 @@ void main() {
           id: 'test-id',
           title: testTitle,
           description: testDescription,
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
           createdAt: '2025-10-01T09:00:00Z',
@@ -141,9 +141,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
       });
 
@@ -164,9 +165,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が error に更新されていることを確認する。
@@ -195,9 +197,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が error に更新されていることを確認する。
@@ -226,9 +229,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が error に更新されていることを確認する。
@@ -257,9 +261,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が error に更新されていることを確認する。
@@ -288,9 +293,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が error に更新されていることを確認する。
@@ -315,9 +321,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が error に更新されていることを確認する。
@@ -337,7 +344,6 @@ void main() {
             id: 'test-id',
             title: 'Test Tournament',
             description: 'Test Description',
-            venue: 'Test Venue',
             startDate: '2025-10-01T10:00:00Z',
             endDate: '2025-10-01T18:00:00Z',
             createdAt: '2025-10-01T09:00:00Z',
@@ -361,7 +367,6 @@ void main() {
           id: 'test-id',
           title: testTitle,
           description: testDescription,
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
           createdAt: '2025-10-01T09:00:00Z',
@@ -382,9 +387,10 @@ void main() {
           title: testTitle,
           description: testDescription,
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: testStartDate,
           endDate: testEndDate,
+          startTime: '10:00',
+          endTime: '18:00',
         );
 
         // state が success になっていることを確認する。

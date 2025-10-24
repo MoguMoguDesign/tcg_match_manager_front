@@ -45,7 +45,6 @@ void main() {
         id: tournamentId,
         title: 'テスト大会',
         description: 'テスト説明',
-        venue: 'テスト会場',
         startDate: '2024-12-01T10:00:00Z',
         endDate: '2024-12-01T18:00:00Z',
         createdAt: '2024-12-01T09:00:00Z',
@@ -65,7 +64,7 @@ void main() {
         expect(result.id, tournamentId);
         expect(result.title, 'テスト大会');
         expect(result.description, 'テスト説明');
-        expect(result.venue, 'テスト会場');
+        expect(result.tournamentMode, 'FIXED_ROUNDS');
         verify(mockRepository.getTournament(tournamentId)).called(1);
       });
 
@@ -83,7 +82,7 @@ void main() {
         expect(result.id, mockModel.id);
         expect(result.title, mockModel.title);
         expect(result.description, mockModel.description);
-        expect(result.venue, mockModel.venue);
+        expect(result.tournamentMode, mockModel.tournamentMode);
         expect(result.startDate, mockModel.startDate);
         expect(result.endDate, mockModel.endDate);
         expect(result.createdAt, mockModel.createdAt);

@@ -162,11 +162,18 @@ void main() {
     });
 
     group('toJson のテスト', () {
-      test('toJson を呼ぶと UnimplementedError がスローされる', () {
-        const dto = AccountDto(isFailureStatus: false);
+      test(
+        'toJson は UnimplementedError をスローする'
+        '（現状の実装では利用を想定していない）',
+        () {
+          const dto = AccountDto(isFailureStatus: false);
 
-        expect(() => dto.toJson(), throwsA(isA<UnimplementedError>()));
-      });
+          expect(
+            () => dto.toJson(),
+            throwsA(isA<UnimplementedError>()),
+          );
+        },
+      );
     });
 
     group('equality のテスト', () {

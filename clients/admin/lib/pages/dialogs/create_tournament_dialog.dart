@@ -30,7 +30,9 @@ class _CreateTournamentDialogState
   String? _selectedCategory;
   String _selectedParticipants = '選択してください';
   String _selectedRounds = '5ラウンド';
-  String _selectedDrawHandling = '選択してください';
+  String _selectedDrawHandling = '引き分け';
+  String _selectedStartTime = '選択してください';
+  String _selectedEndTime = '選択してください';
   bool _isMaxRoundsEnabled = true;
 
   static const _circleDecoration = BoxDecoration(
@@ -50,255 +52,615 @@ class _CreateTournamentDialogState
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
-      child: Stack(
-        children: [
-          // 背景オーバーレイ
-          Container(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height,
-            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.2),
-          ),
-
-          // ダイアログ本体
-          Center(
-            child: Container(
-              width: 719,
-              constraints: const BoxConstraints(maxHeight: 800),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(24),
-              ),
+      backgroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      child: Container(
+        width: 719,
+        constraints: const BoxConstraints(maxHeight: 800),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ヘッダー
+            Container(
+              padding: const EdgeInsets.fromLTRB(40, 48, 24, 32),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ヘッダー
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(40, 48, 24, 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              '大会作成',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      const Text(
+                        '大会作成',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.close),
+                        iconSize: 24,
+                        color: AppColors.textBlack,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    '*マークのある項目は必須です',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textBlack,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // コンテンツ
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: SizedBox(
+                  width: 620,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // タイトル
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'タイトル*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayLight,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: TextField(
+                              controller: _titleController,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 16,
+                                ),
+                                hintText: '',
+                              ),
+                              style: const TextStyle(
+                                fontSize: 14,
                                 color: AppColors.textBlack,
                               ),
                             ),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              icon: const Icon(Icons.close),
-                              iconSize: 24,
+                          ),
+                          const SizedBox(height: 9),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ListenableBuilder(
+                              listenable: _titleController,
+                              builder: (context, child) {
+                                return Text(
+                                  '${_titleController.text.length}/50',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textBlack,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // 大会概要
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '大会概要*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                               color: AppColors.textBlack,
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          '*マークのある項目は必須です',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.textBlack,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // コンテンツ
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: SizedBox(
-                        width: 620,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // タイトル
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'タイトル*',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Container(
-                                  height: 56,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: TextField(
-                                    controller: _titleController,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 16,
-                                      ),
-                                      hintText: '',
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.textBlack,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: ListenableBuilder(
-                                    listenable: _titleController,
-                                    builder: (context, child) {
-                                      return Text(
-                                        '${_titleController.text.length}/50',
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.textBlack,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
+                          const SizedBox(height: 9),
+                          Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayLight,
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            const SizedBox(height: 16),
-
-                            // 大会概要
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '大会概要*',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: TextField(
-                                    controller: _descriptionController,
-                                    maxLines: null,
-                                    expands: true,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.all(16),
-                                      hintText: '',
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.textBlack,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: ListenableBuilder(
-                                    listenable: _descriptionController,
-                                    builder: (context, child) {
-                                      return Text(
-                                        '${_descriptionController.text.length}/200',
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.textBlack,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
+                            child: TextField(
+                              controller: _descriptionController,
+                              maxLines: null,
+                              expands: true,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.all(16),
+                                hintText: '',
+                              ),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.textBlack,
+                              ),
                             ),
-                            const SizedBox(height: 32),
-
-                            // 大会カテゴリ
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '大会カテゴリ*',
-                                  style: TextStyle(
+                          ),
+                          const SizedBox(height: 9),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ListenableBuilder(
+                              listenable: _descriptionController,
+                              builder: (context, child) {
+                                return Text(
+                                  '${_descriptionController.text.length}/200',
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.textBlack,
                                   ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // 大会カテゴリ
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '大会カテゴリ*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Container(
+                            width: 342,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayLight,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: DropdownButtonFormField<String>(
+                              initialValue: _selectedCategory,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 16,
                                 ),
-                                const SizedBox(height: 9),
-                                Container(
-                                  width: 342,
-                                  height: 56,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: DropdownButtonFormField<String>(
-                                    initialValue: _selectedCategory,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 16,
-                                      ),
-                                      hintText: '選択する',
+                                hintText: '選択する',
+                              ),
+                              items: TournamentCategory.all
+                                  .map(
+                                    (category) => DropdownMenuItem(
+                                      value: category,
+                                      child: Text(category),
                                     ),
-                                    items: TournamentCategory.all
-                                        .map(
-                                          (category) => DropdownMenuItem(
-                                            value: category,
-                                            child: Text(category),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCategory = value;
+                                });
+                              },
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.textBlack,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // 開催日
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '開催日*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          GestureDetector(
+                            onTap: () => _selectDate(context),
+                            child: Container(
+                              width: 342,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: AppColors.grayLight,
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 13,
+                                vertical: 16,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  _dateController.text.isEmpty
+                                      ? 'YYYY/MM/DD'
+                                      : _dateController.text,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: _dateController.text.isEmpty
+                                        ? AppColors.grayDark
+                                        : AppColors.textBlack,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // 開催時間
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '開催時間*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Row(
+                            children: [
+                              // 開始時刻
+                              Container(
+                                width: 166,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  color: AppColors.grayLight,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 13,
+                                  vertical: 16,
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    value: _selectedStartTime == '選択してください'
+                                        ? null
+                                        : _selectedStartTime,
+                                    hint: const Text(
+                                      '開始時刻',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.grayDark,
+                                      ),
+                                    ),
+                                    icon: Transform.rotate(
+                                      angle: 1.5708, // 90度回転
+                                      child: const Icon(
+                                        Icons.keyboard_arrow_right,
+                                        size: 24,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                    isExpanded: true,
+                                    items: _generateTimeOptions().map((item) {
+                                      return DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.textBlack,
                                           ),
-                                        )
-                                        .toList(),
+                                        ),
+                                      );
+                                    }).toList(),
                                     onChanged: (value) {
                                       setState(() {
-                                        _selectedCategory = value;
+                                        _selectedStartTime =
+                                            value ?? '選択してください';
                                       });
                                     },
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.textBlack,
-                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                '〜',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textBlack,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              // 終了時刻
+                              Container(
+                                width: 166,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  color: AppColors.grayLight,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 13,
+                                  vertical: 16,
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    value: _selectedEndTime == '選択してください'
+                                        ? null
+                                        : _selectedEndTime,
+                                    hint: const Text(
+                                      '終了時刻',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.grayDark,
+                                      ),
+                                    ),
+                                    icon: Transform.rotate(
+                                      angle: 1.5708, // 90度回転
+                                      child: const Icon(
+                                        Icons.keyboard_arrow_right,
+                                        size: 24,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                    isExpanded: true,
+                                    items: _generateTimeOptions().map((item) {
+                                      return DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.textBlack,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedEndTime = value ?? '選択してください';
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
 
-                            // 開催日
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '開催日*',
+                      // 参加者上限
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '参加者上限*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Container(
+                            width: 342,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayLight,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 13,
+                              vertical: 16,
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _selectedParticipants == '選択してください'
+                                    ? null
+                                    : _selectedParticipants,
+                                hint: const Text(
+                                  '選択してください',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
+                                    color: AppColors.grayDark,
+                                  ),
+                                ),
+                                icon: Transform.rotate(
+                                  angle: 1.5708, // 90度回転
+                                  child: const Icon(
+                                    Icons.keyboard_arrow_right,
+                                    size: 24,
                                     color: AppColors.textBlack,
                                   ),
                                 ),
-                                const SizedBox(height: 9),
-                                GestureDetector(
-                                  onTap: () => _selectDate(context),
-                                  child: Container(
+                                isExpanded: true,
+                                items: const ['8人', '16人', '32人', '64人'].map((
+                                  item,
+                                ) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedParticipants = value ?? '選択してください';
+
+                                    // 参加人数に応じて推奨ラウンド数を自動設定
+                                    if (value != null && value != '選択してください') {
+                                      final participants = int.parse(
+                                        value.replaceAll('人', ''),
+                                      );
+                                      // Domain層のUseCaseを使用してラウンド数を計算
+                                      final useCase = ref.read(
+                                        createTournamentUseCaseProvider,
+                                      );
+                                      final recommendedRounds = useCase
+                                          .getRecommendedRounds(participants);
+                                      _selectedRounds =
+                                          '$recommendedRoundsラウンド';
+                                      // 最大ラウンド数を決める オプションを自動選択
+                                      _isMaxRoundsEnabled = true;
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // 最大ラウンド
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '最大ラウンド*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // ラジオボタン
+                          Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _isMaxRoundsEnabled = false;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 24,
+                                      height: 24,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: !_isMaxRoundsEnabled
+                                              ? AppColors.adminPrimary
+                                              : AppColors.borderDisabled,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: !_isMaxRoundsEnabled
+                                          ? Center(
+                                              child: Container(
+                                                width: 12,
+                                                height: 12,
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: AppColors.adminPrimary,
+                                                ),
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      '勝者が1人に決まるまで',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _isMaxRoundsEnabled = true;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 24,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: _isMaxRoundsEnabled
+                                                  ? AppColors.adminPrimary
+                                                  : AppColors.borderDisabled,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: _isMaxRoundsEnabled
+                                              ? Center(
+                                                  child: Container(
+                                                    width: 12,
+                                                    height: 12,
+                                                    decoration:
+                                                        _circleDecoration,
+                                                  ),
+                                                )
+                                              : null,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Text(
+                                          '最大ラウンド数を決める',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.textBlack,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 9),
+                                  Container(
                                     width: 342,
                                     height: 56,
                                     decoration: BoxDecoration(
@@ -309,525 +671,264 @@ class _CreateTournamentDialogState
                                       horizontal: 13,
                                       vertical: 16,
                                     ),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        _dateController.text.isEmpty
-                                            ? 'YYYY/MM/DD'
-                                            : _dateController.text,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: _dateController.text.isEmpty
-                                              ? AppColors.grayDark
-                                              : AppColors.textBlack,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-
-                            // 参加者上限
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '参加者上限*',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Container(
-                                  width: 342,
-                                  height: 56,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 13,
-                                    vertical: 16,
-                                  ),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      value: _selectedParticipants == '選択してください'
-                                          ? null
-                                          : _selectedParticipants,
-                                      hint: const Text(
-                                        '選択してください',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.grayDark,
-                                        ),
-                                      ),
-                                      icon: Transform.rotate(
-                                        angle: 1.5708, // 90度回転
-                                        child: const Icon(
-                                          Icons.keyboard_arrow_right,
-                                          size: 24,
-                                          color: AppColors.textBlack,
-                                        ),
-                                      ),
-                                      isExpanded: true,
-                                      items: const ['8人', '16人', '32人', '64人']
-                                          .map((item) {
-                                            return DropdownMenuItem<String>(
-                                              value: item,
-                                              child: Text(
-                                                item,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.textBlack,
-                                                ),
-                                              ),
-                                            );
-                                          })
-                                          .toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedParticipants =
-                                              value ?? '選択してください';
-
-                                          // 参加人数に応じて推奨ラウンド数を自動設定
-                                          if (value != null &&
-                                              value != '選択してください') {
-                                            final participants = int.parse(
-                                              value.replaceAll('人', ''),
-                                            );
-                                            // Domain層のUseCaseを使用してラウンド数を計算
-                                            final useCase = ref.read(
-                                              createTournamentUseCaseProvider,
-                                            );
-                                            final recommendedRounds = useCase
-                                                .getRecommendedRounds(
-                                                  participants,
-                                                );
-                                            _selectedRounds =
-                                                '$recommendedRoundsラウンド';
-                                            // 最大ラウンド数を決める オプションを自動選択
-                                            _isMaxRoundsEnabled = true;
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-
-                            // 最大ラウンド
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '最大ラウンド*',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-
-                                // ラジオボタン
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _isMaxRoundsEnabled = false;
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: !_isMaxRoundsEnabled
-                                                    ? AppColors.adminPrimary
-                                                    : AppColors.borderDisabled,
-                                                width: 2,
-                                              ),
-                                            ),
-                                            child: !_isMaxRoundsEnabled
-                                                ? Center(
-                                                    child: Container(
-                                                      width: 12,
-                                                      height: 12,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: AppColors
-                                                                .adminPrimary,
-                                                          ),
-                                                    ),
-                                                  )
-                                                : null,
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        value: _selectedRounds,
+                                        icon: Transform.rotate(
+                                          angle: 1.5708, // 90度回転
+                                          child: const Icon(
+                                            Icons.keyboard_arrow_right,
+                                            size: 24,
+                                            color: AppColors.textBlack,
                                           ),
-                                          const SizedBox(width: 8),
-                                          const Text(
-                                            '勝者が1人に決まるまで',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.textBlack,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _isMaxRoundsEnabled = true;
-                                            });
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: _isMaxRoundsEnabled
-                                                        ? AppColors.adminPrimary
-                                                        : AppColors
-                                                              .borderDisabled,
-                                                    width: 2,
+                                        ),
+                                        isExpanded: true,
+                                        items:
+                                            const [
+                                              '3ラウンド',
+                                              '4ラウンド',
+                                              '5ラウンド',
+                                              '6ラウンド',
+                                              '7ラウンド',
+                                            ].map((item) {
+                                              return DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppColors.textBlack,
                                                   ),
                                                 ),
-                                                child: _isMaxRoundsEnabled
-                                                    ? Center(
-                                                        child: Container(
-                                                          width: 12,
-                                                          height: 12,
-                                                          decoration:
-                                                              _circleDecoration,
-                                                        ),
-                                                      )
-                                                    : null,
-                                              ),
-                                              const SizedBox(width: 8),
-                                              const Text(
-                                                '最大ラウンド数を決める',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.textBlack,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 9),
-                                        Container(
-                                          width: 342,
-                                          height: 56,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.grayLight,
-                                            borderRadius: BorderRadius.circular(
-                                              40,
-                                            ),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 13,
-                                            vertical: 16,
-                                          ),
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton<String>(
-                                              value: _selectedRounds,
-                                              icon: Transform.rotate(
-                                                angle: 1.5708, // 90度回転
-                                                child: const Icon(
-                                                  Icons.keyboard_arrow_right,
-                                                  size: 24,
-                                                  color: AppColors.textBlack,
-                                                ),
-                                              ),
-                                              isExpanded: true,
-                                              items:
-                                                  const [
-                                                    '3ラウンド',
-                                                    '4ラウンド',
-                                                    '5ラウンド',
-                                                    '6ラウンド',
-                                                    '7ラウンド',
-                                                  ].map((item) {
-                                                    return DropdownMenuItem<
-                                                      String
-                                                    >(
-                                                      value: item,
-                                                      child: Text(
-                                                        item,
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: AppColors
-                                                              .textBlack,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _selectedRounds = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-
-                            // 引き分け処理
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '引き分け処理*',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Container(
-                                  width: 342,
-                                  height: 56,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 13,
-                                    vertical: 16,
-                                  ),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      value: _selectedDrawHandling == '選択してください'
-                                          ? null
-                                          : _selectedDrawHandling,
-                                      hint: const Text(
-                                        '選択してください',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.grayDark,
-                                        ),
+                                              );
+                                            }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _selectedRounds = value!;
+                                          });
+                                        },
                                       ),
-                                      icon: Transform.rotate(
-                                        angle: 1.5708, // 90度回転
-                                        child: const Icon(
-                                          Icons.keyboard_arrow_right,
-                                          size: 24,
-                                          color: AppColors.textBlack,
-                                        ),
-                                      ),
-                                      isExpanded: true,
-                                      items: const ['両者敗北', '両者勝利', '延長戦'].map((
-                                        item,
-                                      ) {
-                                        return DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.textBlack,
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedDrawHandling =
-                                              value ?? '選択してください';
-                                        });
-                                      },
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-
-                            // 備考
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  '備考',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textBlack,
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayLight,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: TextField(
-                                    controller: _notesController,
-                                    maxLines: null,
-                                    expands: true,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.all(16),
-                                      hintText: '',
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.textBlack,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 9),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: ListenableBuilder(
-                                    listenable: _notesController,
-                                    builder: (context, child) {
-                                      return Text(
-                                        '${_notesController.text.length}/200',
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.textBlack,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // フッター（ボタン）
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 32,
-                    ),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        // キャンセルボタン
-                        Container(
-                          width: 192,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
-                            borderRadius: BorderRadius.circular(40),
-                            border: Border.all(
-                              color: AppColors.textBlack,
-                              width: 2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.adminPrimary.withValues(
-                                  alpha: 0.1,
-                                ),
-                                blurRadius: 20,
+                                ],
                               ),
                             ],
                           ),
-                          child: TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // 引き分け処理
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '引き分け処理*',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Container(
+                            width: 342,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayLight,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 13,
+                              vertical: 16,
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _selectedDrawHandling,
+                                icon: Transform.rotate(
+                                  angle: 1.5708, // 90度回転
+                                  child: const Icon(
+                                    Icons.keyboard_arrow_right,
+                                    size: 24,
+                                    color: AppColors.textBlack,
+                                  ),
+                                ),
+                                isExpanded: true,
+                                items: const ['引き分け', '両者敗北'].map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedDrawHandling = value ?? '引き分け';
+                                  });
+                                },
                               ),
                             ),
-                            child: const Text(
-                              'キャンセル',
-                              style: TextStyle(
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // 備考
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '備考',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayLight,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: TextField(
+                              controller: _notesController,
+                              maxLines: null,
+                              expands: true,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.all(16),
+                                hintText: '',
+                              ),
+                              style: const TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
                                 color: AppColors.textBlack,
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        // 大会を作成ボタン
-                        Container(
-                          width: 192,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            color: AppColors.adminPrimary,
-                            borderRadius: BorderRadius.circular(40),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.adminPrimary.withValues(
-                                  alpha: 0.1,
-                                ),
-                                blurRadius: 20,
-                              ),
-                            ],
-                          ),
-                          child: TextButton(
-                            onPressed: _createTournament,
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                            ),
-                            child: const Text(
-                              '大会を作成',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.white,
-                              ),
+                          const SizedBox(height: 9),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ListenableBuilder(
+                              listenable: _notesController,
+                              builder: (context, child) {
+                                return Text(
+                                  '${_notesController.text.length}/200',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textBlack,
+                                  ),
+                                );
+                              },
                             ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // フッター（ボタン）
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 32),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  // キャンセルボタン
+                  Container(
+                    width: 192,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(40),
+                      border: Border.all(color: AppColors.textBlack, width: 2),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.adminPrimary.withValues(alpha: 0.1),
+                          blurRadius: 20,
                         ),
                       ],
+                    ),
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                      child: const Text(
+                        'キャンセル',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  // 大会を作成ボタン
+                  Container(
+                    width: 192,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: AppColors.adminPrimary,
+                      borderRadius: BorderRadius.circular(40),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.adminPrimary.withValues(alpha: 0.1),
+                          blurRadius: 20,
+                        ),
+                      ],
+                    ),
+                    child: TextButton(
+                      onPressed: _createTournament,
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                      child: const Text(
+                        '大会を作成',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  /// 時刻の選択肢を生成する（09:00〜22:00まで30分刻み）
+  List<String> _generateTimeOptions() {
+    final times = <String>[];
+    for (var hour = 9; hour <= 22; hour++) {
+      times.add('${hour.toString().padLeft(2, '0')}:00');
+      if (hour < 22) {
+        times.add('${hour.toString().padLeft(2, '0')}:30');
+      }
+    }
+    return times;
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -1076,17 +1177,24 @@ class _CreateTournamentDialogState
       return;
     }
 
+    if (_selectedStartTime == '選択してください') {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('開催開始時刻を選択してください')));
+      return;
+    }
+
+    if (_selectedEndTime == '選択してください') {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('開催終了時刻を選択してください')));
+      return;
+    }
+
     if (_selectedParticipants == '選択してください') {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('参加者上限を選択してください')));
-      return;
-    }
-
-    if (_selectedDrawHandling == '選択してください') {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('引き分け処理を選択してください')));
       return;
     }
 
@@ -1114,11 +1222,8 @@ class _CreateTournamentDialogState
           : null;
 
       // 引き分け処理を得点に変換
-      // 両者勝利 = 1点、両者敗北 = 0点、延長戦 = 0点（延長戦は通常の試合として扱う）
-      final drawPoints = _selectedDrawHandling == '両者勝利' ? 1 : 0;
-
-      // 会場は仮で「オンライン開催」を設定（将来的に入力フィールド追加予定）
-      const venue = 'オンライン開催';
+      // 引き分け = 1点、両者敗北 = 0点
+      final drawPoints = _selectedDrawHandling == '引き分け' ? 1 : 0;
 
       final createUseCase = ref.read(createTournamentUseCaseProvider);
 
@@ -1127,9 +1232,10 @@ class _CreateTournamentDialogState
           title: _titleController.text.trim(),
           description: _descriptionController.text.trim(),
           category: _selectedCategory!,
-          venue: venue,
           startDate: startDate,
           endDate: endDate,
+          startTime: _selectedStartTime,
+          endTime: _selectedEndTime,
           maxRounds: maxRounds,
           drawPoints: drawPoints,
           expectedPlayers: expectedPlayers,

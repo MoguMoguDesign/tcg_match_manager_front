@@ -213,7 +213,7 @@ class _MatchesPageState extends State<MatchesPage> {
       currentParticipants: displayData.currentParticipants,
       maxRounds: '5ラウンド', // デフォルト値
       drawHandling: 'あり', // デフォルト値
-      notes: '', // デフォルト値
+      remarks: '', // デフォルト値
       status: displayData.status,
       currentRound: displayData.currentRound,
     );

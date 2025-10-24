@@ -11,7 +11,6 @@ void main() {
           title: 'テストトーナメント',
           description: 'テスト説明',
           category: 'TCG',
-          venue: 'テスト会場',
           startDate: '2024-01-01T00:00:00Z',
           endDate: '2024-01-31T23:59:59Z',
           drawPoints: 1,
@@ -27,7 +26,7 @@ void main() {
         expect(tournament.title, model.title);
         expect(tournament.description, model.description);
         expect(tournament.category, model.category);
-        expect(tournament.venue, model.venue);
+        expect(tournament.tournamentMode, model.tournamentMode);
         expect(tournament.startDate, model.startDate);
         expect(tournament.endDate, model.endDate);
         expect(tournament.drawPoints, model.drawPoints);

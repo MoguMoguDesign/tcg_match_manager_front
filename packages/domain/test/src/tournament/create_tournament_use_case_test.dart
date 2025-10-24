@@ -44,9 +44,10 @@ void main() {
         title: 'テスト大会',
         description: 'テスト説明',
         category: 'ポケモンカード',
-        venue: 'テスト会場',
         startDate: '2024-12-01T10:00:00Z',
         endDate: '2024-12-01T18:00:00Z',
+        startTime: '10:00',
+        endTime: '18:00',
         drawPoints: 1,
         maxRounds: 3,
         expectedPlayers: 8,
@@ -57,7 +58,6 @@ void main() {
         title: 'テスト大会',
         description: 'テスト説明',
         category: 'ポケモンカード',
-        venue: 'テスト会場',
         startDate: '2024-12-01T10:00:00Z',
         endDate: '2024-12-01T18:00:00Z',
         createdAt: '2024-12-01T09:00:00Z',
@@ -78,7 +78,7 @@ void main() {
         expect(result.id, 'tournament-123');
         expect(result.title, 'テスト大会');
         expect(result.description, 'テスト説明');
-        expect(result.venue, 'テスト会場');
+        expect(result.tournamentMode, 'FIXED_ROUNDS');
         verify(mockRepository.createTournament(any)).called(1);
       });
 
@@ -88,9 +88,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           expectedPlayers: 8,
         );
@@ -117,9 +118,10 @@ void main() {
           title: '',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           expectedPlayers: 8,
         );
@@ -143,9 +145,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: '',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           expectedPlayers: 8,
         );
@@ -169,9 +172,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T18:00:00Z',
           endDate: '2024-12-01T10:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           expectedPlayers: 8,
         );
@@ -195,9 +199,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: 'invalid-date',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           expectedPlayers: 8,
         );
@@ -221,9 +226,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: -1,
           expectedPlayers: 8,
         );
@@ -247,9 +253,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 2,
           expectedPlayers: 8,
         );
@@ -273,9 +280,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           maxRounds: 0,
           expectedPlayers: 8,
@@ -300,9 +308,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
           expectedPlayers: 1,
         );
@@ -326,9 +335,10 @@ void main() {
           title: 'テスト大会',
           description: 'テスト説明',
           category: 'ポケモンカード',
-          venue: 'テスト会場',
           startDate: '2024-12-01T10:00:00Z',
           endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18:00',
           drawPoints: 1,
         );
 
@@ -340,6 +350,141 @@ void main() {
               (e) => e.message,
               'message',
               'ラウンド数を自動計算する場合、予定参加者数の入力が必要です',
+            ),
+          ),
+        );
+      });
+
+      test('開催開始時刻が空の場合、ArgumentError がスローされる', () async {
+        // Arrange
+        const invalidRequest = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          category: 'ポケモンカード',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          startTime: '',
+          endTime: '18:00',
+          drawPoints: 1,
+          expectedPlayers: 8,
+        );
+
+        // Act & Assert
+        expect(
+          () => useCase.call(invalidRequest),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              '開催開始時刻は必須です',
+            ),
+          ),
+        );
+      });
+
+      test('開催終了時刻が空の場合、ArgumentError がスローされる', () async {
+        // Arrange
+        const invalidRequest = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          category: 'ポケモンカード',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '',
+          drawPoints: 1,
+          expectedPlayers: 8,
+        );
+
+        // Act & Assert
+        expect(
+          () => useCase.call(invalidRequest),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              '開催終了時刻は必須です',
+            ),
+          ),
+        );
+      });
+
+      test('開催開始時刻の形式が不正な場合、ArgumentError がスローされる', () async {
+        // Arrange
+        const invalidRequest = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          category: 'ポケモンカード',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          startTime: '10時00分',
+          endTime: '18:00',
+          drawPoints: 1,
+          expectedPlayers: 8,
+        );
+
+        // Act & Assert
+        expect(
+          () => useCase.call(invalidRequest),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              '開催開始時刻の形式が正しくありません（HH:mm形式が必要です）',
+            ),
+          ),
+        );
+      });
+
+      test('開催終了時刻の形式が不正な場合、ArgumentError がスローされる', () async {
+        // Arrange
+        const invalidRequest = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          category: 'ポケモンカード',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          startTime: '10:00',
+          endTime: '18時00分',
+          drawPoints: 1,
+          expectedPlayers: 8,
+        );
+
+        // Act & Assert
+        expect(
+          () => useCase.call(invalidRequest),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              '開催終了時刻の形式が正しくありません（HH:mm形式が必要です）',
+            ),
+          ),
+        );
+      });
+
+      test('終了時刻が開始時刻より前の場合、ArgumentError がスローされる', () async {
+        // Arrange
+        const invalidRequest = CreateTournamentRequest(
+          title: 'テスト大会',
+          description: 'テスト説明',
+          category: 'ポケモンカード',
+          startDate: '2024-12-01T10:00:00Z',
+          endDate: '2024-12-01T18:00:00Z',
+          startTime: '18:00',
+          endTime: '10:00',
+          drawPoints: 1,
+          expectedPlayers: 8,
+        );
+
+        // Act & Assert
+        expect(
+          () => useCase.call(invalidRequest),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              '終了時刻は開始時刻より後である必要があります',
             ),
           ),
         );

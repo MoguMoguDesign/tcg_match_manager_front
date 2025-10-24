@@ -22,14 +22,20 @@ abstract class Tournament with _$Tournament {
     /// カテゴリー。
     String? category,
 
-    /// 開催会場。
-    String? venue,
+    /// 大会運営方式（'FIXED_ROUNDS': 指定ラウンド方式 | 'ELIMINATION': 勝者が1人まで残る方式）。
+    @Default('FIXED_ROUNDS') String tournamentMode,
 
     /// トーナメント開始日時（ISO 8601 形式）。
     String? startDate,
 
     /// トーナメント終了日時（ISO 8601 形式）。
     String? endDate,
+
+    /// 開催開始時刻（HH:mm形式）。
+    String? startTime,
+
+    /// 開催終了時刻（HH:mm形式）。
+    String? endTime,
 
     /// 引き分け得点（0点 or 1点）。
     @Default(0) int drawPoints,
@@ -39,6 +45,9 @@ abstract class Tournament with _$Tournament {
 
     /// 予定参加者数（自動計算用）。
     int? expectedPlayers,
+
+    /// 備考。
+    String? remarks,
 
     /// トーナメントステータス。
     @Default('PREPARING') String status,
@@ -64,12 +73,15 @@ abstract class Tournament with _$Tournament {
       title: model.title,
       description: model.description,
       category: model.category,
-      venue: model.venue,
+      tournamentMode: model.tournamentMode,
       startDate: model.startDate,
       endDate: model.endDate,
+      startTime: model.startTime,
+      endTime: model.endTime,
       drawPoints: model.drawPoints,
       maxRounds: model.maxRounds,
       expectedPlayers: model.expectedPlayers,
+      remarks: model.remarks,
       status: model.status,
       currentRound: model.currentRound,
       createdAt: model.createdAt,
