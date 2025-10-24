@@ -164,6 +164,7 @@ void main() {
     group('toJson のテスト', () {
       test(
         'toJson は UnimplementedError をスローする'
+        ' '
         '（現状の実装では利用を想定していない）',
         () {
           const dto = AccountDto(isFailureStatus: false);
