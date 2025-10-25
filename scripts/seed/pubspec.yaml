@@ -1,0 +1,23 @@
+name: seed_test_data
+description: Firebase Firestore テストデータ投入スクリプト
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  # Firebase Firestore アクセス用。
+  firedart: ^0.9.8
+
+  # コマンドライン引数パース用。
+  args: ^2.4.0
+
+  # 環境変数読み込み用。
+  dotenv: ^4.0.0
+
+  # ロガー用。
+  logger: ^2.0.0
+
+  # UUID 生成用。
+  uuid: ^4.0.0

@@ -134,3 +134,12 @@ melos:
           - intl
           - arb_translate
           - grinder
+    seed:test-data:
+      description: "Firebase にテストデータを投入する。"
+      run: dart run scripts/seed/seed_test_data.dart
+    seed:emulator:
+      description: "エミュレータにテストデータを投入する。"
+      run: dart run scripts/seed/seed_test_data.dart --emulator
+    seed:clean:
+      description: "テストデータを削除する。"
+      run: dart run scripts/seed/clean_test_data.dart

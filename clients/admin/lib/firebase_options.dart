@@ -61,4 +61,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'tcg-match-manager-dev.firebasestorage.app',
     measurementId: 'G-3LX0B0JJVB',
   );
+
 }

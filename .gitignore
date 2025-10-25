@@ -72,3 +72,7 @@ packages/*/coverage/
 # 環境変数ファイル
 .env
 **/.env
+.env.seed
+
+# Firebase サービスアカウントキー（テストデータ投入用）
+serviceAccountKey.json
