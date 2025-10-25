@@ -35,9 +35,11 @@ class SeedConfig {
   ///
   /// [useEmulator] エミュレータを使用するかどうか（CLI オプションで上書き）。
   /// [datasets] 投入するデータセット（CLI オプションで上書き）。
+  /// [skipValidation] サービスアカウントキーの存在確認をスキップ（dry-run時）。
   static Future<SeedConfig> load({
     required bool useEmulator,
     required List<String> datasets,
+    bool skipValidation = false,
   }) async {
     // プロジェクトルートのパスを取得
     // pubspec.yaml が存在するディレクトリを探す
@@ -75,18 +77,20 @@ class SeedConfig {
       serviceAccountPath = p.join(projectRoot.path, serviceAccountPath);
     }
 
-    // サービスアカウントキーの存在確認
-    final keyFile = File(serviceAccountPath);
-    if (!await keyFile.exists()) {
-      throw Exception(
-        'サービスアカウントキーが見つかりません: $serviceAccountPath\n'
-        '\n'
-        '以下の手順で取得してください：\n'
-        '1. Firebase Console を開く\n'
-        '2. プロジェクト設定 > サービスアカウント\n'
-        '3. 新しい秘密鍵を生成\n'
-        '4. ダウンロードした JSON をプロジェクトルートに配置',
-      );
+    // サービスアカウントキーの存在確認（dry-run 時はスキップ）
+    if (!skipValidation) {
+      final keyFile = File(serviceAccountPath);
+      if (!await keyFile.exists()) {
+        throw Exception(
+          'サービスアカウントキーが見つかりません: $serviceAccountPath\n'
+          '\n'
+          '以下の手順で取得してください：\n'
+          '1. Firebase Console を開く\n'
+          '2. プロジェクト設定 > サービスアカウント\n'
+          '3. 新しい秘密鍵を生成\n'
+          '4. ダウンロードした JSON をプロジェクトルートに配置',
+        );
+      }
     }
 
     final emulatorHost = env['EMULATOR_HOST'];
@@ -103,14 +107,16 @@ class SeedConfig {
   /// プロジェクトルートディレクトリを検索する。
   ///
   /// 現在のディレクトリから親ディレクトリを遡って、
-  /// pubspec.yaml が存在するディレクトリを返す。
+  /// .env.seed.example が存在するディレクトリを返す。
+  /// （scripts/seed ディレクトリにも pubspec.yaml があるため、
+  /// より確実なマーカーファイルを使用）
   static Future<Directory> _findProjectRoot() async {
     var current = Directory.current;
 
     // 最大階層数まで遡る
     for (var i = 0; i < _maxParentLevels; i++) {
-      final pubspec = File('${current.path}/pubspec.yaml');
-      if (await pubspec.exists()) {
+      final envExample = File('${current.path}/.env.seed.example');
+      if (await envExample.exists()) {
         return current;
       }
 
@@ -123,7 +129,7 @@ class SeedConfig {
     }
 
     throw Exception(
-      'プロジェクトルート(pubspec.yaml が存在するディレクトリ)が見つかりません',
+      'プロジェクトルート(.env.seed.example が存在するディレクトリ)が見つかりません',
     );
   }
 }

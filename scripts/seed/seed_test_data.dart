@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 
 import 'config/datasets.dart';
 import 'config/seed_config.dart';
+import 'generators/dataset_factory.dart';
 
 /// テストデータ投入スクリプトのエントリーポイント。
 ///
@@ -55,11 +56,15 @@ Future<void> main(List<String> args) async {
 
   try {
     // 3. 設定読み込み
+    print('DEBUG: 設定読み込み開始...');
+    final isDryRun = results['dry-run'] as bool;
     final config = await SeedConfig.load(
       useEmulator: results['emulator'] as bool,
       datasets: _parseDatasets(results['dataset'] as String),
+      skipValidation: isDryRun, // dry-run時はサービスアカウントキー検証をスキップ
     );
 
+    print('DEBUG: 設定読み込み完了');
     logger.i('🔧 設定読み込み完了');
     logger.d('プロジェクト ID: ${config.projectId}');
     logger.d('データセット: ${config.datasets}');
@@ -71,33 +76,69 @@ Future<void> main(List<String> args) async {
       exit(0);
     }
 
-    // 5. ドライランチェック
-    if (results['dry-run'] as bool) {
+    // 5. データセットファクトリー初期化
+    final factory = DatasetFactory();
+
+    // 6. ドライランチェック
+    if (isDryRun) {
+      print('DEBUG: ドライランモード開始');
       logger.i('🔍 ドライランモード: 実際の書き込みは行いません');
+      logger.i('');
+
       for (final datasetId in config.datasets) {
         try {
+          print('DEBUG: データセット処理開始: $datasetId');
           final dataset = TestDataset.fromId(datasetId);
-          logger.i('  - ${dataset.displayName}');
+          print('DEBUG: データセット名: ${dataset.displayName}');
+          logger.i('📦 データセット: ${dataset.displayName}');
+
+          // データ生成（検証のため）
+          print('DEBUG: データ生成開始');
+          final data = factory.generate(datasetId);
+          print('DEBUG: データ生成完了');
+
+          // データ検証
+          print('DEBUG: データ検証開始');
+          final validation = data.validate();
+          print('DEBUG: 検証結果: ${validation.isValid}');
+          if (validation.isValid) {
+            print('  ✅ 検証成功');
+            print('  - プレイヤー数: ${data.players.length}');
+            print('  - ラウンド数: ${data.rounds.length}');
+            logger.i('  ✅ 検証成功');
+            logger.i('  - プレイヤー数: ${data.players.length}');
+            logger.i('  - ラウンド数: ${data.rounds.length}');
+          } else {
+            print('  ❌ 検証失敗: ${validation.errors}');
+            logger.e('  ❌ 検証失敗: ${validation.errors}');
+          }
+          logger.i('');
         } catch (e) {
-          logger.e('❌ 不明なデータセット: $datasetId');
+          print('DEBUG: エラー発生: $e');
+          logger.e('❌ エラー: $datasetId - $e');
+          logger.i('');
         }
       }
+
       logger.i('✅ ドライラン完了');
       exit(0);
     }
 
-    // TODO: 6. Firebase 初期化
-    // TODO: 7. データ生成と投入
+    // TODO: 7. Firebase 初期化
+    // TODO: 8. データ投入
 
     logger.i('');
     logger.i('📊 投入結果');
     logger.i('  成功: 0 (未実装)');
     logger.i('  失敗: 0 (未実装)');
     logger.i('');
-    logger.w('⚠️  データ生成と投入機能は Phase 2 以降で実装されます');
+    logger.w('⚠️  Firestore Writer 機能は Phase 3 で実装されます');
 
     exit(0);
   } catch (e, stackTrace) {
+    print('DEBUG: エラー発生');
+    print('ERROR: $e');
+    print('STACK: $stackTrace');
     logger.e('❌ エラーが発生しました', error: e, stackTrace: stackTrace);
     exit(1);
   }
