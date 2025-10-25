@@ -20,8 +20,6 @@ import 'config/seed_config.dart';
 /// dart run seed_test_data.dart --emulator
 /// ```
 Future<void> main(List<String> args) async {
-  print('🚀 テストデータ投入スクリプトを開始します...');
-
   // 1. コマンドライン引数のパース
   final parser = _buildArgParser();
   late final ArgResults results;
@@ -63,9 +61,7 @@ Future<void> main(List<String> args) async {
     );
 
     logger.i('🔧 設定読み込み完了');
-    print('🔧 設定読み込み完了');
     logger.d('プロジェクト ID: ${config.projectId}');
-    print('プロジェクト ID: ${config.projectId}');
     logger.d('データセット: ${config.datasets}');
     logger.d('エミュレータ使用: ${config.useEmulator}');
 

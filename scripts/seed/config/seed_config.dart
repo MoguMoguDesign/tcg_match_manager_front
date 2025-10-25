@@ -1,6 +1,10 @@
 import 'dart:io';
 
 import 'package:dotenv/dotenv.dart';
+import 'package:path/path.dart' as p;
+
+/// プロジェクトルート検索時の最大階層数。
+const _maxParentLevels = 10;
 
 /// テストデータ投入の設定を管理する。
 class SeedConfig {
@@ -67,8 +71,8 @@ class SeedConfig {
         env['SERVICE_ACCOUNT_KEY_PATH'] ?? './serviceAccountKey.json';
 
     // 相対パスの場合はプロジェクトルートからの絶対パスに変換
-    if (!serviceAccountPath.startsWith('/')) {
-      serviceAccountPath = '${projectRoot.path}/$serviceAccountPath';
+    if (!p.isAbsolute(serviceAccountPath)) {
+      serviceAccountPath = p.join(projectRoot.path, serviceAccountPath);
     }
 
     // サービスアカウントキーの存在確認
@@ -103,8 +107,8 @@ class SeedConfig {
   static Future<Directory> _findProjectRoot() async {
     var current = Directory.current;
 
-    // 最大 10 階層まで遡る
-    for (var i = 0; i < 10; i++) {
+    // 最大階層数まで遡る
+    for (var i = 0; i < _maxParentLevels; i++) {
       final pubspec = File('${current.path}/pubspec.yaml');
       if (await pubspec.exists()) {
         return current;
