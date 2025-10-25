@@ -6,6 +6,8 @@ import 'package:logger/logger.dart';
 import 'config/datasets.dart';
 import 'config/seed_config.dart';
 import 'generators/dataset_factory.dart';
+import 'utils/firebase_initializer.dart';
+import 'writer/firestore_writer.dart';
 
 /// テストデータ投入スクリプトのエントリーポイント。
 ///
@@ -124,17 +126,75 @@ Future<void> main(List<String> args) async {
       exit(0);
     }
 
-    // TODO: 7. Firebase 初期化
-    // TODO: 8. データ投入
+    // 7. Firebase 初期化
+    print('DEBUG: Firebase 初期化開始');
+    logger.i('🔥 Firebase 初期化中...');
 
+    final firestore = await FirebaseInitializer.initialize(
+      projectId: config.projectId,
+      serviceAccountPath: config.serviceAccountPath,
+      useEmulator: config.useEmulator,
+      emulatorHost: config.emulatorHost,
+    );
+
+    logger.i('✅ Firebase 初期化完了');
+
+    // 8. データ投入
+    logger.i('');
+    logger.i('📝 データ投入開始...');
+    logger.i('');
+
+    final writer = FirestoreWriter(
+      firestore: firestore,
+      logger: logger,
+      forceOverwrite: results['force'] as bool,
+    );
+
+    var successCount = 0;
+    var failureCount = 0;
+
+    for (final datasetId in config.datasets) {
+      try {
+        final dataset = TestDataset.fromId(datasetId);
+        logger.i('📦 データセット: ${dataset.displayName}');
+
+        // データ生成
+        final data = factory.generate(datasetId);
+
+        // データ書き込み
+        final result = await writer.writeTournament(data);
+
+        if (result.success) {
+          successCount++;
+        } else {
+          failureCount++;
+          if (result.error != null) {
+            logger.w('  ${result.error}');
+          }
+        }
+
+        logger.i('');
+      } catch (e) {
+        failureCount++;
+        logger.e('❌ エラー: $datasetId - $e');
+        logger.i('');
+      }
+    }
+
+    // 9. 結果サマリー
     logger.i('');
     logger.i('📊 投入結果');
-    logger.i('  成功: 0 (未実装)');
-    logger.i('  失敗: 0 (未実装)');
+    logger.i('  成功: $successCount');
+    logger.i('  失敗: $failureCount');
     logger.i('');
-    logger.w('⚠️  Firestore Writer 機能は Phase 3 で実装されます');
 
-    exit(0);
+    if (failureCount == 0) {
+      logger.i('✅ すべてのデータセットの投入に成功しました');
+    } else {
+      logger.w('⚠️  一部のデータセットの投入に失敗しました');
+    }
+
+    exit(failureCount == 0 ? 0 : 1);
   } catch (e, stackTrace) {
     print('DEBUG: エラー発生');
     print('ERROR: $e');
