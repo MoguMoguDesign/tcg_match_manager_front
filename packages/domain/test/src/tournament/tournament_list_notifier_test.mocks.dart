@@ -40,3 +40,18 @@ class MockGetTournamentsUseCase extends _i1.Mock
           )
           as _i3.Future<List<_i2.Tournament>>);
 }
+
+/// A class which mocks [DeleteTournamentUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleteTournamentUseCase extends _i1.Mock
+    implements _i2.DeleteTournamentUseCase {
+  @override
+  _i3.Future<void> invoke({required String? id}) =>
+      (super.noSuchMethod(
+            Invocation.method(#invoke, [], {#id: id}),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+}
