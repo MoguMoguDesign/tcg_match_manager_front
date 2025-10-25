@@ -41,7 +41,7 @@ class _LoginListPageState extends State<LoginListPage> {
                         width: 139,
                         alignment: Alignment.center,
                         child: Text(
-                          'マチサポ',
+                          'バトサポ',
                           style: AppTextStyles.headlineLarge.copyWith(
                             color: AppColors.white,
                             fontSize: 24,

@@ -92,12 +92,12 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('マッチング表'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         foregroundColor: AppColors.white,
         elevation: 0,
         toolbarHeight: 0,
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       body: SvgBackground(
         assetPath: 'packages/base_ui/assets/images/whole_background.svg',
         child: SafeArea(
@@ -106,107 +106,93 @@ class _MatchingTablePageState extends State<MatchingTablePage> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                    children: [
-                      // トーナメント情報
-                      TournamentInfoCard(
-                        title: domain.MockData.tournament.title,
-                        date: domain.MockData.tournament.date,
-                        participantCount:
-                            domain.MockData.tournament.participantCount,
-                      ),
-                      const SizedBox(height: 32),
-                      // ラウンドナビゲーション
-                      if (currentRound >= 4)
-                        RoundChangeButtonRow.last(
-                          onPressedPrev: currentRound > 1
-                              ? _previousRound
-                              : null,
-                          onPressedShowFinal: () {
-                            context.goToFinalRanking();
-                          },
-                        )
-                      else
-                        RoundChangeButtonRow.medium(
-                          onPressedPrev: currentRound > 1
-                              ? _previousRound
-                              : null,
-                          onPressedNext: _nextRound,
-                        ),
-                      const SizedBox(height: 16),
-                      // ラウンド情報
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.textBlack,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          children: [
-                            // ラウンドヘッダー
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
-                              decoration: const BoxDecoration(
-                                color: AppColors.userPrimaryAlpha,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'ラウンド$currentRound',
-                                  style: AppTextStyles.headlineLarge,
-                                ),
-                              ),
-                            ),
-                            // ラウンド詳細
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '対戦表',
-                                    style: AppTextStyles.labelMedium,
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    '最大6ラウンド',
-                                    style: AppTextStyles.bodySmall,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // マッチリスト（共通コンポーネント）
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: matches.isNotEmpty
-                                  ? MatchList(
-                                      matches: _toMatchData(matches),
-                                      showHeader: false,
-                                      onMatchTap: (matchData) {
-                                        context.goToResultEntry();
-                                      },
-                                    )
-                                  : const Center(
-                                      child: Text(
-                                        'このラウンドの対戦はありません',
-                                        style: AppTextStyles.bodyMedium,
-                                      ),
-                                    ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                children: [
+                  // トーナメント情報
+                  TournamentInfoCard(
+                    title: domain.MockData.tournament.title,
+                    date: domain.MockData.tournament.date,
+                    participantCount:
+                        domain.MockData.tournament.participantCount,
                   ),
-                ),
+                  const SizedBox(height: 32),
+                  // ラウンドナビゲーション
+                  if (currentRound >= 4)
+                    RoundChangeButtonRow.last(
+                      onPressedPrev: currentRound > 1 ? _previousRound : null,
+                      onPressedShowFinal: () {
+                        context.goToFinalRanking();
+                      },
+                    )
+                  else
+                    RoundChangeButtonRow.medium(
+                      onPressedPrev: currentRound > 1 ? _previousRound : null,
+                      onPressedNext: _nextRound,
+                    ),
+                  const SizedBox(height: 16),
+                  // ラウンド情報
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: AppColors.textBlack,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        // ラウンドヘッダー
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: const BoxDecoration(
+                            color: AppColors.userPrimaryAlpha,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'ラウンド$currentRound',
+                              style: AppTextStyles.headlineLarge,
+                            ),
+                          ),
+                        ),
+                        // ラウンド詳細
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          child: Row(
+                            children: [
+                              Text('対戦表', style: AppTextStyles.labelMedium),
+                              Spacer(),
+                              Text('最大6ラウンド', style: AppTextStyles.bodySmall),
+                            ],
+                          ),
+                        ),
+                        // マッチリスト（共通コンポーネント）
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: matches.isNotEmpty
+                              ? MatchList(
+                                  matches: _toMatchData(matches),
+                                  showHeader: false,
+                                  onMatchTap: (matchData) {
+                                    context.goToResultEntry();
+                                  },
+                                )
+                              : const Center(
+                                  child: Text(
+                                    'このラウンドの対戦はありません',
+                                    style: AppTextStyles.bodyMedium,
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -4,8 +4,6 @@ import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../router.dart';
-
 /// 試合結果入力ページを表示する。
 ///
 /// 対戦の勝敗を入力し、次のラウンドへ進む操作を提供する。
@@ -30,6 +28,7 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
         child: CommonScaffold(
           appbarText: '勝敗登録',
           enableHorizontalPadding: false,
+          enableScrollView: false,
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
@@ -54,7 +53,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                   children: [
                     CommonConfirmButton(
                       text: '勝利',
-                      width: 342,
                       onPressed: () {
                         _showConfirmDialog('勝利');
                       },
@@ -62,7 +60,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                     const SizedBox(height: 24),
                     CommonConfirmButton(
                       text: '引き分け(両者敗北)',
-                      width: 342,
                       style: ConfirmButtonStyle.userOutlined,
                       onPressed: () {
                         _showConfirmDialog('引き分け');

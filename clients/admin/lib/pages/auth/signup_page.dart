@@ -67,7 +67,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 24),
                       child: const Text(
-                        'マチサポ',
+                        'バトサポ',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
