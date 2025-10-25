@@ -125,6 +125,51 @@ ls -la ../../serviceAccountKey.json
 
 Firebase Console で、サービスアカウントに **Cloud Datastore User** ロールが付与されているか確認してください。
 
+## テスト実行
+
+このスクリプトには単体テストが実装されています。
+
+### 全テストの実行
+
+```bash
+# このディレクトリから実行
+dart test
+
+# または、特定のテストファイルのみ実行
+dart test test/config/datasets_test.dart
+dart test test/generators/dataset_factory_test.dart
+dart test test/generators/small_tournament_generator_test.dart
+dart test test/models/tournament_data_test.dart
+dart test test/writer/firestore_writer_test.dart
+```
+
+### テストカバレッジの確認
+
+```bash
+# カバレッジレポートを生成
+dart test --coverage=coverage
+
+# カバレッジレポートをフォーマット（要 lcov インストール）
+genhtml coverage/lcov.info -o coverage/html
+
+# ブラウザで確認
+open coverage/html/index.html
+```
+
+### 実装されているテスト
+
+| テストファイル | 対象 | テスト内容 |
+|---------------|------|-----------|
+| `test/config/datasets_test.dart` | `TestDataset` enum | データセット定義の動作確認 |
+| `test/generators/dataset_factory_test.dart` | `DatasetFactory` | データセット生成の動作確認 |
+| `test/generators/small_tournament_generator_test.dart` | `SmallTournamentGenerator` | 小規模トーナメントデータ生成の動作確認 |
+| `test/models/tournament_data_test.dart` | `TournamentData` | データモデルとバリデーションの動作確認 |
+| `test/writer/firestore_writer_test.dart` | `WriteResult` | 書き込み結果の動作確認 |
+
+### 統合テスト（今後実装予定）
+
+Firebase Emulator を使った統合テストは今後実装予定です。
+
 ## 詳細ドキュメント
 
 - [設計書](../../docs/テストデータ自動投入機能_設計書.md)
