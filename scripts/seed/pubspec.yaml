@@ -24,3 +24,7 @@ dependencies:
 
   # パス操作用（クロスプラットフォーム対応）。
   path: ^1.9.0
+
+dev_dependencies:
+  # テスト用。
+  test: ^1.24.0
