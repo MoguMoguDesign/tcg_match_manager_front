@@ -53,7 +53,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                   children: [
                     CommonConfirmButton(
                       text: '勝利',
-                      width: 342,
                       onPressed: () {
                         _showConfirmDialog('勝利');
                       },
@@ -61,7 +60,6 @@ class _ResultEntryPageState extends State<ResultEntryPage> {
                     const SizedBox(height: 24),
                     CommonConfirmButton(
                       text: '引き分け(両者敗北)',
-                      width: 342,
                       style: ConfirmButtonStyle.userOutlined,
                       onPressed: () {
                         _showConfirmDialog('引き分け');
