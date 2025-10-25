@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injection/injection.dart' as injection;
 
-import 'firebase_options.dart';
+import '../../../firebase_options.dart';
 import 'router.dart';
 
 /// Entry point of the application.
