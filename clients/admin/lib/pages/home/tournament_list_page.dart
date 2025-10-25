@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../widgets/layout/admin_scaffold.dart';
 import '../../widgets/tournament/tournament_card.dart';
 import '../dialogs/create_tournament_dialog.dart';
+import '../dialogs/delete_tournament_dialog.dart';
 
 /// トーナメント一覧（ホーム）画面
 ///
@@ -232,6 +233,8 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
                           onTap: () async {
                             context.go('/tournament/${tournaments[i].id}');
                           },
+                          onDelete: () =>
+                              _handleDeleteTournament(context, tournaments[i]),
                         ),
                       ),
                       if (i < 3 && i < tournaments.length - 1)
@@ -255,6 +258,10 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
                                     '/tournament/${tournaments[i + 4].id}',
                                   );
                                 },
+                                onDelete: () => _handleDeleteTournament(
+                                  context,
+                                  tournaments[i + 4],
+                                ),
                               )
                             : const SizedBox(),
                       ),
@@ -286,6 +293,8 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
                         onTap: () {
                           context.go('/tournament/${tournaments[i].id}');
                         },
+                        onDelete: () =>
+                            _handleDeleteTournament(context, tournaments[i]),
                       ),
                     ),
                     if (i < 3 && i < tournaments.length - 1)
@@ -309,6 +318,10 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
                                   '/tournament/${tournaments[i + 4].id}',
                                 );
                               },
+                              onDelete: () => _handleDeleteTournament(
+                                context,
+                                tournaments[i + 4],
+                              ),
                             )
                           : const SizedBox(),
                     ),
@@ -324,132 +337,159 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
 
   // 開催中トーナメント専用カード
   Widget _buildOngoingTournamentCard(TournamentData tournament) {
-    return InkWell(
-      onTap: () {
-        context.go('/tournament/${tournament.id}');
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        height: 140,
-        decoration: BoxDecoration(
+    return Stack(
+      children: [
+        InkWell(
+          onTap: () {
+            context.go('/tournament/${tournament.id}');
+          },
           borderRadius: BorderRadius.circular(16),
-          gradient: const LinearGradient(
-            colors: [AppColors.textBlack, AppColors.adminPrimary],
-          ),
-        ),
-        child: Stack(
-          children: [
-            // 下部の黄色い波線
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 6,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                  color: AppColors.warning,
-                ),
+          child: Container(
+            height: 140,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                colors: [AppColors.textBlack, AppColors.adminPrimary],
               ),
             ),
-
-            // メインコンテンツ
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // タイトル
-                  Text(
-                    tournament.title,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
+            child: Stack(
+              children: [
+                // 下部の黄色い波線
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                      color: AppColors.warning,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                ),
 
-                  // 日付と参加者数とカテゴリ
-                  Row(
+                // メインコンテンツ
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 36,
+                    vertical: 28,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.calendar_today,
-                        size: 16,
-                        color: AppColors.white70,
-                      ),
-                      const SizedBox(width: 4),
+                      // タイトル
                       Text(
-                        tournament.date,
+                        tournament.title,
                         style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.white70,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
                         ),
                       ),
-                      const SizedBox(width: 20),
-                      const Icon(
-                        Icons.people,
-                        size: 16,
-                        color: AppColors.white70,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${tournament.participants}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.white70,
-                        ),
-                      ),
-                      if (tournament.gameType != null) ...[
-                        const SizedBox(width: 20),
-                        Text(
-                          tournament.gameType!,
-                          style: const TextStyle(
-                            fontSize: 14,
+                      const SizedBox(height: 10),
+
+                      // 日付と参加者数とカテゴリ
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today,
+                            size: 16,
                             color: AppColors.white70,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 4),
+                          Text(
+                            tournament.date,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColors.white70,
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          const Icon(
+                            Icons.people,
+                            size: 16,
+                            color: AppColors.white70,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${tournament.participants}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColors.white70,
+                            ),
+                          ),
+                          if (tournament.gameType != null) ...[
+                            const SizedBox(width: 20),
+                            Text(
+                              tournament.gameType!,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.white70,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ),
 
-            // ラウンドラベル
-            if (tournament.round != null)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 5,
-                  ),
-                  decoration: const BoxDecoration(
-                    color: AppColors.userPrimary,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(10),
+                // ラウンドラベル
+                if (tournament.round != null)
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 5,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: AppColors.userPrimary,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(16),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        tournament.round!,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textBlack,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    tournament.round!,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textBlack,
-                    ),
-                  ),
+              ],
+            ),
+          ),
+        ),
+        // 削除ボタン
+        Positioned(
+          bottom: 8,
+          right: 8,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => _handleDeleteTournament(context, tournament),
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                child: const Icon(
+                  Icons.delete_outline,
+                  size: 20,
+                  color: AppColors.error,
                 ),
               ),
-          ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -463,6 +503,52 @@ class _TournamentListPageState extends ConsumerState<TournamentListPage>
     unawaited(
       ref.read(tournamentListNotifierProvider.notifier).refreshTournaments(),
     );
+  }
+
+  /// 削除ハンドラー
+  Future<void> _handleDeleteTournament(
+    BuildContext context,
+    TournamentData tournament,
+  ) async {
+    // 削除確認ダイアログを表示
+    final shouldDelete = await showDeleteTournamentDialog(
+      context,
+      tournamentTitle: tournament.title,
+    );
+
+    // キャンセルまたはダイアログ外タップの場合は何もしない
+    if (shouldDelete != true) {
+      return;
+    }
+
+    // 削除を実行
+    try {
+      await ref
+          .read(tournamentListNotifierProvider.notifier)
+          .deleteTournament(tournament.id);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('大会を削除しました'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+    } on Exception {
+      if (context.mounted) {
+        final errorMessage =
+            ref.read(tournamentListNotifierProvider).errorMessage ??
+            '大会の削除に失敗しました';
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    }
   }
 
   // Domain層のTournamentをUI用のTournamentDataに変換

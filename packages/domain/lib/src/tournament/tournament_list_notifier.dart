@@ -58,6 +58,10 @@ class TournamentListNotifier extends _$TournamentListNotifier {
   GetTournamentsUseCase get _getTournamentsUseCase =>
       ref.read(getTournamentsUseCaseProvider);
 
+  /// 削除 UseCase。
+  DeleteTournamentUseCase get _deleteTournamentUseCase =>
+      ref.read(deleteTournamentUseCaseProvider);
+
   @override
   TournamentListData build() {
     return const TournamentListData();
@@ -105,5 +109,47 @@ class TournamentListNotifier extends _$TournamentListNotifier {
   /// トーナメント一覧を更新する。
   Future<void> refreshTournaments() async {
     await loadTournaments();
+  }
+
+  /// 指定された ID のトーナメントを削除する。
+  ///
+  /// [id]: 削除するトーナメント ID
+  ///
+  /// 削除成功後、自動的にトーナメント一覧を更新する。
+  Future<void> deleteTournament(String id) async {
+    try {
+      await _deleteTournamentUseCase.invoke(id: id);
+      // 削除成功後、一覧を更新
+      await refreshTournaments();
+    } on FailureStatusException catch (e) {
+      state = state.copyWith(
+        state: TournamentListState.error,
+        errorMessage: e.message,
+      );
+      rethrow;
+    } on GeneralFailureException catch (e) {
+      String message;
+      switch (e.reason) {
+        case GeneralFailureReason.other:
+          message = '認証に失敗しました。再度ログインしてください。';
+        case GeneralFailureReason.noConnectionError:
+          message = 'ネットワークに接続できません。';
+        case GeneralFailureReason.serverUrlNotFoundError:
+          message = 'サーバーURLが見つかりません。';
+        case GeneralFailureReason.badResponse:
+          message = '不正なレスポンスです。';
+      }
+      state = state.copyWith(
+        state: TournamentListState.error,
+        errorMessage: message,
+      );
+      rethrow;
+    } on Exception {
+      state = state.copyWith(
+        state: TournamentListState.error,
+        errorMessage: '予期しないエラーが発生しました',
+      );
+      rethrow;
+    }
   }
 }
