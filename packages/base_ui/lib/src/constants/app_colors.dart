@@ -17,6 +17,14 @@ class AppColors {
   /// 背景やコンテナの基本色として使用される。
   static const Color white = Color(0xFFFFFFFF);
 
+  /// 純黒色。
+  /// テキストやアイコンの基本色として使用される。
+  static const Color black = Color(0xFF000000);
+
+  /// 透明色。
+  /// オーバーレイやダイアログの背景として使用される。
+  static const Color transparent = Color(0x00000000);
+
   /// アプリ全体の背景色（オフホワイト）。
   /// メイン背景として使用される。
   static const Color background = Color(0xFFFEFEFE);
@@ -65,6 +73,10 @@ class AppColors {
   /// 補助テキストや説明文で使用される。
   static const Color textGray = Color(0xFF6B7280);
 
+  /// Flutter デフォルトのグレー色。
+  /// 一般的なグレー表示に使用される。
+  static const Color grey = Color(0xFF9E9E9E);
+
   /// テキスト用の濃い青色。
   /// 主要なテキストコンテンツで使用される。
   static const Color textBlack = Color(0xFF000336);
@@ -80,6 +92,10 @@ class AppColors {
   /// 管理者用のプライマリカラー（青）。
   /// 管理者向け機能の UI 要素で使用される。
   static const Color adminPrimary = Color(0xFF3A44FB);
+
+  /// Flutter デフォルトの青色。
+  /// 一般的な青色表示に使用される。
+  static const Color blue = Color(0xFF2196F3);
 
   // ==========================================
   // 状態色系統（緑 → 黄 → 赤）
@@ -101,6 +117,10 @@ class AppColors {
   /// エラーメッセージや削除ボタンで使用される。
   static const Color error = Color(0xFFEF4444);
 
+  /// Flutter デフォルトの赤色。
+  /// 一般的な赤色表示に使用される。
+  static const Color red = Color(0xFFF44336);
+
   /// アラート用の赤色。
   /// 警告やエラー、重要なアクションボタンで使用される。
   static const Color alart = Color(0xFFFF4646);
@@ -113,6 +133,18 @@ class AppColors {
   /// VS コンテナやプレイヤーコンテナの敗北状態で使用される。
   static const Color loseNormal = Color(0xFFD4CAF0);
 
+  /// 金メダル色。
+  /// 1位のランキング表示で使用される。
+  static const Color gold = Color(0xFFFFD700);
+
+  /// 銀メダル色。
+  /// 2位のランキング表示で使用される。
+  static const Color silver = Color(0xFFC0C0C0);
+
+  /// 銅メダル色。
+  /// 3位のランキング表示で使用される。
+  static const Color bronze = Color(0xFFCD7F32);
+
   // ==========================================
   // 透明度版カラー
   // ==========================================
@@ -124,6 +156,10 @@ class AppColors {
   /// 白色の透明度版（透明度20%）。
   /// 薄いラベル背景として使用される。
   static const Color whiteLightAlpha = Color(0x33FFFFFF);
+
+  /// 白色の透明度版（透明度70%）。
+  /// オーバーレイや半透明背景として使用される。
+  static const Color white70 = Color(0xB3FFFFFF);
 
   /// ユーザープライマリカラーの透明度版（透明度20%）。
   /// オーバーレイや薄い背景として使用される。
