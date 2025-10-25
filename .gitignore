@@ -73,6 +73,3 @@ packages/*/coverage/
 .env
 **/.env
 
-# Firebase設定ファイル
-# FlutterFire CLIで生成されるため、バージョン管理しない
-**/firebase_options.dart
